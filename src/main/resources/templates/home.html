@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+<body>
+
+    <div th:insert="fragments/header :: header"></div>
+
+    <h1>Welcome to Kinkao Restaurant Service Website</h1>
+    <p th:text="|${greeting}, ${user}|"></p>
+</body>
+</html>
