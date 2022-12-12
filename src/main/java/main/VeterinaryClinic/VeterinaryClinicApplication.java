@@ -1,10 +1,9 @@
 package main.VeterinaryClinic;
 
-import main.VeterinaryClinic.Service.AccountService;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 
 @SpringBootApplication
 public class VeterinaryClinicApplication {
@@ -15,7 +14,7 @@ public class VeterinaryClinicApplication {
 //	@Bean
 //	ApplicationRunner applicationRunner(AccountService accountService){
 //		return args -> {
-//			accountService.create("firstService4", "t", "customer");
+//			accountService.create("first", "first");
 //		};
 //	}
 }
