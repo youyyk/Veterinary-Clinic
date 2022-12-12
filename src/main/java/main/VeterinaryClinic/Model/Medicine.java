@@ -125,4 +125,19 @@ public class Medicine {
     public void setSoftDeleted(boolean softDeleted) {
         this.softDeleted = softDeleted;
     }
+
+    @Override
+    public String toString() {
+        return "Medicine{" +
+                "medID=" + medID +
+                ", name='" + name + '\'' +
+                ", dose='" + dose + '\'' +
+                ", unit='" + unit + '\'' +
+                ", price=" + price +
+                ", description='" + description + '\'' +
+                ", softDeletedDate='" + softDeletedDate + '\'' +
+                ", softDeleted=" + softDeleted +
+                ", items=" + items +
+                '}';
+    }
 }

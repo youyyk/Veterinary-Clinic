@@ -3,7 +3,6 @@ package main.VeterinaryClinic.Model;
 import main.VeterinaryClinic.Service.ZService;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Entity
 @Table(name="Warehouse")
@@ -17,6 +16,8 @@ public class WareHouse {
     @ManyToOne()
     @JoinColumn(name="med_id")
     private Medicine medicine;
+
+//    private long medID = medicine.getMedID();
 
     @ManyToOne()
     @JoinColumn(name="tool_id")
@@ -32,36 +33,36 @@ public class WareHouse {
     @Column(name="created_date")
     private String createdDate;
     @Column(name="expired_date")
-    private String deletedDate;
+    private String expiredDate;
 
     public WareHouse() {
         super();
     }
 
-    public WareHouse(int amount, String type, double paidTotal,String deletedDate) {
+    public WareHouse(int amount, String type, double paidTotal,String expiredDate) {
         this.amount = amount;
         this.type = type;
         this.paidTotal = paidTotal;
         this.createdDate = ZService.getCurrentTime();
-        this.deletedDate = deletedDate;
+        this.expiredDate = expiredDate;
     }
 
-    public WareHouse(Medicine medicine, int amount, String type, double paidTotal,String deletedDate) {
+    public WareHouse(Medicine medicine, int amount, double paidTotal,String expiredDate) {
         this.medicine = medicine;
         this.amount = amount;
-        this.type = type;
+        this.type = "medicine";
         this.paidTotal = paidTotal;
         this.createdDate = ZService.getCurrentTime();
-        this.deletedDate = deletedDate;
+        this.expiredDate = expiredDate;
     }
 
-    public WareHouse(Tool tool, int amount, String type, double paidTotal,String deletedDate) {
+    public WareHouse(Tool tool, int amount, double paidTotal,String expiredDate) {
         this.tool = tool;
         this.amount = amount;
-        this.type = type;
+        this.type = "tool";
         this.paidTotal = paidTotal;
         this.createdDate = ZService.getCurrentTime();
-        this.deletedDate = deletedDate;
+        this.expiredDate = expiredDate;
     }
 
     public Long getItemID() {
@@ -105,12 +106,12 @@ public class WareHouse {
         this.createdDate = createdDate;
     }
 
-    public String getDeletedDate() {
-        return deletedDate;
+    public String getExpiredDate() {
+        return expiredDate;
     }
 
-    public void setDeletedDate(String deletedDate) {
-        this.deletedDate = deletedDate;
+    public void setExpiredDate(String expiredDate) {
+        this.expiredDate = expiredDate;
     }
 
     public Medicine getMedicine() {
@@ -119,5 +120,13 @@ public class WareHouse {
 
     public void setMedicine(Medicine medicine) {
         this.medicine = medicine;
+    }
+
+    public Tool getTool() {
+        return tool;
+    }
+
+    public void setTool(Tool tool) {
+        this.tool = tool;
     }
 }
