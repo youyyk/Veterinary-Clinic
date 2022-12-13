@@ -1,2 +1,2 @@
-Connect Relational Database between Medicine, Tool and Warehouse
-- Showing table of warehouse that related to medicine and tool in path "/warehouse"
+Create Database and Relational Database with 2 primary keys
+- Bill, Bill Medicine, Pet and Service

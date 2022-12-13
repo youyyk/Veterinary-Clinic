@@ -1,5 +1,6 @@
 package main.VeterinaryClinic.Model;
 
+import main.VeterinaryClinic.Model.Bill.BillMedicine;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -36,6 +37,10 @@ public class Medicine {
     @OneToMany(mappedBy = "medicine", fetch = FetchType.LAZY,
             cascade = CascadeType.ALL)
     private List<WareHouse> items;
+
+    @OneToMany(mappedBy = "medicine", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<BillMedicine> billMed;
 
 
     public Medicine() {

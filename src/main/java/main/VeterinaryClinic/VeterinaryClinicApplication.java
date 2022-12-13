@@ -1,13 +1,11 @@
 package main.VeterinaryClinic;
 
-import main.VeterinaryClinic.Model.Medicine;
-import main.VeterinaryClinic.Model.Tool;
-import main.VeterinaryClinic.Model.WareHouse;
+import main.VeterinaryClinic.Model.*;
+import main.VeterinaryClinic.Model.Bill.Bill;
+import main.VeterinaryClinic.Model.Bill.BillMedicine;
 import main.VeterinaryClinic.Repository.MedicineRepository;
 import main.VeterinaryClinic.Repository.WareHouseRepository;
-import main.VeterinaryClinic.Service.MedicineService;
-import main.VeterinaryClinic.Service.ToolService;
-import main.VeterinaryClinic.Service.WareHouseService;
+import main.VeterinaryClinic.Service.*;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -68,5 +66,41 @@ public class VeterinaryClinicApplication {
 //
 //		};
 //	}
+
+
+//	@Bean
+//	public CommandLineRunner mappingDemo(ServiceService serviceService){
+//		return args -> {
+//			Service serviceData = new Service("เปิดห้องผ่าตัด",300);
+//			serviceService.create(serviceData);
+//			serviceData = new Service("Doctor Fee",170);
+//			serviceService.create(serviceData);
+//
+//
+//		};
+//	}
+
+	@Bean
+	public CommandLineRunner mappingDemo(PetService petService,BillService billService,BillMedicineService billMedicineService,
+										 MedicineService medicineService,WareHouseService wareHouseService){
+		return args -> {
+			Pet pet = new Pet("มินิ","เมีย","2015/12/09",false,"สุนัข","ชิวาวา");
+			petService.create(pet);
+			Medicine medicine = new Medicine("Defensor","dose",85,"vaccine");
+			medicineService.create(medicine);
+			wareHouseService.create(new WareHouse(medicine, 100,8000,"2022/01/22"));
+			Bill bill = new Bill(pet,"2022/11/10","Cash",85);
+			billService.create(bill);
+			BillMedicine billMedicine = new BillMedicine(bill,medicine,1);
+			billMedicineService.create(billMedicine);
+
+			pet = new Pet("แทมมี่","ผู้","2021/08/12",false,"แมว","เปอร์เซีย");
+			petService.create(pet);
+
+
+
+
+		};
+	}
 
 }
