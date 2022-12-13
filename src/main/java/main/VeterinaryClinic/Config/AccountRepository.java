@@ -1,6 +1,6 @@
 package main.VeterinaryClinic.Config;
 
-import main.VeterinaryClinic.Model.User.Account;
+import main.VeterinaryClinic.Model.Account.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

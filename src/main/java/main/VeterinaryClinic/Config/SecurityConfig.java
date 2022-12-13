@@ -1,6 +1,6 @@
 package main.VeterinaryClinic.Config;
 
-import main.VeterinaryClinic.Service.AccountUserDetailService;
+import main.VeterinaryClinic.Service.Account.AccountUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

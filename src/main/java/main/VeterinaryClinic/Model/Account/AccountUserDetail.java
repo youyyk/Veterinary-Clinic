@@ -1,4 +1,4 @@
-package main.VeterinaryClinic.Model.User;
+package main.VeterinaryClinic.Model.Account;
 
 import main.VeterinaryClinic.Model.Role;
 import org.springframework.security.core.GrantedAuthority;

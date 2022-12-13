@@ -1,7 +1,7 @@
-package main.VeterinaryClinic.Service;
+package main.VeterinaryClinic.Service.Account;
 
-import main.VeterinaryClinic.Model.User.AccountUserDetail;
-import main.VeterinaryClinic.Model.User.Account;
+import main.VeterinaryClinic.Model.Account.AccountUserDetail;
+import main.VeterinaryClinic.Model.Account.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -21,14 +21,23 @@ public class AccountUserDetailService extends DefaultOAuth2UserService {
     }
 
     public Account loadUserByUsername(OAuth2User oAuth2User) throws UsernameNotFoundException {
+        String lineName = oAuth2User.getAttribute("displayName");
         String lineId = oAuth2User.getAttribute("userId");
+        String linePic = oAuth2User.getAttribute("pictureUrl");
         Account account = accountService.getByLineId(lineId);
         if (account != null) {
+            if (account.getLastName().isEmpty() || account.getLastName().isBlank()){
+                account.setFirstName(lineName);
+            }
+            account.setLineId(lineId);
+            account.setImg_path(linePic);
+            accountService.save(account);
+
             System.out.println("User Already");
             System.out.println(account);
         } else {
             System.out.println("User NOT Already");
-            account = accountService.create(oAuth2User.getAttribute("displayName"), lineId, oAuth2User.getAttribute("pictureUrl"));
+            account = accountService.create(lineName, lineId, linePic);
         }
         return account;
     }
