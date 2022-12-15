@@ -1,14 +1,16 @@
 package main.VeterinaryClinic.Model.Bill;
 
-import main.VeterinaryClinic.Model.Medicine;
-import main.VeterinaryClinic.Model.Pet;
-import main.VeterinaryClinic.Model.WareHouse;
+import lombok.Data;
+import main.VeterinaryClinic.Model.*;
+import main.VeterinaryClinic.Service.ZService;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name="Bill")
+@Data
 public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,110 +20,46 @@ public class Bill {
     @ManyToOne()
     @JoinColumn(name="pet_id")
     private Pet pet;
+    @Column(name="start_date")
+    private Date startDate;
 
-    @Column(name="date")
-    private String date;
+    @Column(name="end_date")
+    private Date endDate;
     @Column(name="pay_type")
     private String payType;
     @Column(name="total")
     private double total;
     @Column(name="paid_status")
     private boolean paidStatus;
-    @Column(name="soft_deleted_dated")
-    private String softDeletedDate;
-    @Column(name="soft_deleted")
-    private boolean softDeleted;
+
+    @Column(name="receive")
+    private double receive;
+
+    @Column(name="discount")
+    private double discount;
+
+    @Column(name="diagnosis")
+    private String diagnosis;
+
+
 
     @OneToMany(mappedBy = "bill", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<BillMedicine> items;
+    private List<BillMedicine> medUsed;
+
+    @OneToMany(mappedBy = "bill", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<BillTool> toolUsed;
+
+    @OneToMany(mappedBy = "bill", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<BillService> serviceUsed;
 
     public Bill() {super();}
 
-    public Bill(Pet pet, String date, String payType, double total) {
+    public Bill(Pet pet) {
         this.pet = pet;
-        this.date = date;
-        this.payType = payType;
-        this.total = total;
+        this.payType = null;
         this.paidStatus = false;
-        this.softDeleted = false;
-        this.softDeletedDate = "";
+        this.startDate = ZService.getCurrentTime();
+        this.endDate = null;
     }
 
-    public Long getBillID() {
-        return billID;
-    }
-
-    public void setBillID(Long billID) {
-        this.billID = billID;
-    }
-
-    public Pet getPet() {
-        return pet;
-    }
-
-    public void setPet(Pet pet) {
-        this.pet = pet;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getPayType() {
-        return payType;
-    }
-
-    public void setPayType(String payType) {
-        this.payType = payType;
-    }
-
-    public double getTotal() {
-        return total;
-    }
-
-    public void setTotal(double total) {
-        this.total = total;
-    }
-
-    public boolean isPaidStatus() {
-        return paidStatus;
-    }
-
-    public void setPaidStatus(boolean paidStatus) {
-        this.paidStatus = paidStatus;
-    }
-
-    public String getSoftDeletedDate() {
-        return softDeletedDate;
-    }
-
-    public void setSoftDeletedDate(String softDeletedDate) {
-        this.softDeletedDate = softDeletedDate;
-    }
-
-    public boolean isSoftDeleted() {
-        return softDeleted;
-    }
-
-    public void setSoftDeleted(boolean softDeleted) {
-        this.softDeleted = softDeleted;
-    }
-
-    @Override
-    public String toString() {
-        return "Bill{" +
-                "BillID=" + billID +
-                ", pet=" + pet +
-                ", date='" + date + '\'' +
-                ", payType='" + payType + '\'' +
-                ", total=" + total +
-                ", paidStatus=" + paidStatus +
-                ", softDeletedDate='" + softDeletedDate + '\'' +
-                ", softDeleted=" + softDeleted +
-                '}';
-    }
 }

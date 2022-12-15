@@ -1,4 +1,4 @@
-package main.VeterinaryClinic.Service;
+package main.VeterinaryClinic.Service.SubBill;
 
 import main.VeterinaryClinic.Model.Bill.Bill;
 import main.VeterinaryClinic.Model.Bill.BillMedicine;

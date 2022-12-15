@@ -1,9 +1,12 @@
 package main.VeterinaryClinic.Model;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name="Service")
+@Data
 public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,7 +16,7 @@ public class Service {
     private String name;
     @Column(name="price")
     private double price;
-    @Column(name="soft_deleted_dated")
+    @Column(name="soft_deleted_date")
     private String softDeletedDate;
     @Column(name="soft_deleted")
     private boolean softDeleted;
@@ -33,45 +36,6 @@ public class Service {
         this.softDeletedDate = "";
     }
 
-    public Long getServiceID() {
-        return serviceID;
-    }
-
-    public void setServiceID(Long serviceID) {
-        this.serviceID = serviceID;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public String getSoftDeletedDate() {
-        return softDeletedDate;
-    }
-
-    public void setSoftDeletedDate(String softDeletedDate) {
-        this.softDeletedDate = softDeletedDate;
-    }
-
-    public boolean isSoftDeleted() {
-        return softDeleted;
-    }
-
-    public void setSoftDeleted(boolean softDeleted) {
-        this.softDeleted = softDeleted;
-    }
 
     @Override
     public String toString() {

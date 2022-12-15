@@ -1,12 +1,17 @@
 package main.VeterinaryClinic.Model;
 
+import lombok.Data;
 import main.VeterinaryClinic.Model.Bill.Bill;
+import main.VeterinaryClinic.Service.ZService;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name="Pet")
+@Data
 public class Pet {
 
     @Id
@@ -18,19 +23,19 @@ public class Pet {
     @Column(name="gender")
     private String gender;
     @Column(name="date_of_birth")
-    private String doB;
+    private Date doB;
     @Column(name="sterilization")//ทำหมัน
     private boolean sterilization;
-    @Column(name="type")//พันธุ์
-    private String type;
+    @Column(name="pet_type")//ประเภทสัตว์ ex. หมา แมว
+    private String petType;
     @Column(name="breed")//พันธุ์
     private String breed;
     @Column(name="cure_history")
     private String cureHistory;
     @Column(name="remark")//allergic
     private String remark;
-    @Column(name="soft_deleted_dated")
-    private String softDeletedDate;
+    @Column(name="soft_deleted_date")
+    private Date softDeletedDate;
     @Column(name="soft_deleted")
     private boolean softDeleted;
 
@@ -38,115 +43,32 @@ public class Pet {
     @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Bill> items;
 
-
     public Pet() {super();}
 
-    public Pet(String name, String gender, String doB, boolean sterilization, String type, String breed) {
+    public Pet(String name, String gender, Date doB, boolean sterilization, String petType, String breed){
         this.name = name;
         this.gender = gender;
         this.doB = doB;
         this.sterilization = sterilization;
-        this.type = type;
+        this.petType = petType;
         this.breed = breed;
         this.cureHistory = "";
         this.remark = "";
         this.softDeleted = false;
-        this.softDeletedDate = "";
+        this.softDeletedDate = null;
     }
 
-    public Pet(String name, String gender, String doB, boolean sterilization, String type, String breed, String cureHistory, String remark) {
+    public Pet(String name, String gender, Date doB, boolean sterilization, String petType, String breed, String cureHistory, String remark){
         this.name = name;
         this.gender = gender;
         this.doB = doB;
         this.sterilization = sterilization;
-        this.type = type;
+        this.petType = petType;
         this.breed = breed;
         this.cureHistory = cureHistory;
         this.remark = remark;
         this.softDeleted = false;
-        this.softDeletedDate = "";
-    }
-
-
-
-    public Long getPetID() {
-        return petID;
-    }
-
-    public void setPetID(Long petID) {
-        this.petID = petID;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
-    public String getDoB() {
-        return doB;
-    }
-
-    public void setDoB(String doB) {
-        this.doB = doB;
-    }
-
-    public boolean isSterilization() {
-        return sterilization;
-    }
-
-    public void setSterilization(boolean sterilization) {
-        this.sterilization = sterilization;
-    }
-
-    public String getBreed() {
-        return breed;
-    }
-
-    public void setBreed(String breed) {
-        this.breed = breed;
-    }
-
-    public String getCureHistory() {
-        return cureHistory;
-    }
-
-    public void setCureHistory(String cureHistory) {
-        this.cureHistory = cureHistory;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public String getSoftDeletedDate() {
-        return softDeletedDate;
-    }
-
-    public void setSoftDeletedDate(String softDeletedDate) {
-        this.softDeletedDate = softDeletedDate;
-    }
-
-    public boolean isSoftDeleted() {
-        return softDeleted;
-    }
-
-    public void setSoftDeleted(boolean softDeleted) {
-        this.softDeleted = softDeleted;
+        this.softDeletedDate = null;
     }
 
     @Override

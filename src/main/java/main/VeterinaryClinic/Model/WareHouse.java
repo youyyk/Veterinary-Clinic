@@ -1,11 +1,14 @@
 package main.VeterinaryClinic.Model;
 
+import lombok.Data;
 import main.VeterinaryClinic.Service.ZService;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="Warehouse")
+@Data
 public class WareHouse {
 
     @Id
@@ -17,7 +20,6 @@ public class WareHouse {
     @JoinColumn(name="med_id")
     private Medicine medicine;
 
-//    private long medID = medicine.getMedID();
 
     @ManyToOne()
     @JoinColumn(name="tool_id")
@@ -31,15 +33,15 @@ public class WareHouse {
     @Column(name="paid_total") //ต้นทุน
     private double paidTotal;
     @Column(name="created_date")
-    private String createdDate;
+    private Date createdDate;
     @Column(name="expired_date")
-    private String expiredDate;
+    private Date expiredDate;
 
     public WareHouse() {
         super();
     }
 
-    public WareHouse(int amount, String type, double paidTotal,String expiredDate) {
+    public WareHouse(int amount, String type, double paidTotal,Date expiredDate) {
         this.amount = amount;
         this.type = type;
         this.paidTotal = paidTotal;
@@ -47,7 +49,7 @@ public class WareHouse {
         this.expiredDate = expiredDate;
     }
 
-    public WareHouse(Medicine medicine, int amount, double paidTotal,String expiredDate) {
+    public WareHouse(Medicine medicine, int amount, double paidTotal,Date expiredDate) {
         this.medicine = medicine;
         this.amount = amount;
         this.type = "medicine";
@@ -56,7 +58,7 @@ public class WareHouse {
         this.expiredDate = expiredDate;
     }
 
-    public WareHouse(Tool tool, int amount, double paidTotal,String expiredDate) {
+    public WareHouse(Tool tool, int amount, double paidTotal,Date expiredDate) {
         this.tool = tool;
         this.amount = amount;
         this.type = "tool";
@@ -65,68 +67,4 @@ public class WareHouse {
         this.expiredDate = expiredDate;
     }
 
-    public Long getItemID() {
-        return itemID;
-    }
-
-    public void setItemID(Long itemID) {
-        this.itemID = itemID;
-    }
-
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public double getPaidTotal() {
-        return paidTotal;
-    }
-
-    public void setPaidTotal(double paidTotal) {
-        this.paidTotal = paidTotal;
-    }
-
-    public String getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(String createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getExpiredDate() {
-        return expiredDate;
-    }
-
-    public void setExpiredDate(String expiredDate) {
-        this.expiredDate = expiredDate;
-    }
-
-    public Medicine getMedicine() {
-        return medicine;
-    }
-
-    public void setMedicine(Medicine medicine) {
-        this.medicine = medicine;
-    }
-
-    public Tool getTool() {
-        return tool;
-    }
-
-    public void setTool(Tool tool) {
-        this.tool = tool;
-    }
 }

@@ -1,2 +1,3 @@
-Create Database and Relational Database with 2 primary keys
-- Bill, Bill Medicine, Pet and Service
+- Collapse field in relational database with 2 primary keys
+- Create all database
+- Mocking data

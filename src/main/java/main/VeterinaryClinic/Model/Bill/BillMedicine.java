@@ -1,5 +1,6 @@
 package main.VeterinaryClinic.Model.Bill;
 
+import lombok.Data;
 import main.VeterinaryClinic.Model.Medicine;
 import main.VeterinaryClinic.Model.Pet;
 
@@ -7,61 +8,34 @@ import javax.persistence.*;
 
 @Entity
 @Table(name="Bill_medicine")
+@Data
 public class BillMedicine {
 
     @EmbeddedId
     private BillMedicineID pairedID;
 
-    @ManyToOne()
-    @JoinColumn(name="pk_bill_id")
+//    @ManyToOne()
+//    @JoinColumn(name="pk_bill_id")
+//    private Bill bill;
+
+    @MapsId("bill_id")
+    @ManyToOne
     private Bill bill;
 
-    @ManyToOne()
-    @JoinColumn(name="pk_med_id")
+    @MapsId("med_id")
+    @ManyToOne
     private Medicine medicine;
 
-    @Column(name="cure_amount")
-    private double cureAmount;
+    @Column(name="bill_med_amount")
+    private int medAmount;
 
     public BillMedicine() {super();}
 
-    public BillMedicine(Bill bill, Medicine medicine, double cureAmount) {
+    public BillMedicine(Bill bill, Medicine medicine, int cureAmount) {
         this.pairedID = new BillMedicineID(bill.getBillID(),medicine.getMedID());
         this.bill = bill;
         this.medicine = medicine;
-        this.cureAmount = cureAmount;
-    }
-
-    public BillMedicineID getPairedID() {
-        return pairedID;
-    }
-
-    public void setPairedID(BillMedicineID pairedID) {
-        this.pairedID = pairedID;
-    }
-
-    public Bill getBill() {
-        return bill;
-    }
-
-    public void setBill(Bill bill) {
-        this.bill = bill;
-    }
-
-    public Medicine getMedicine() {
-        return medicine;
-    }
-
-    public void setMedicine(Medicine medicine) {
-        this.medicine = medicine;
-    }
-
-    public double getCureAmount() {
-        return cureAmount;
-    }
-
-    public void setCureAmount(double cureAmount) {
-        this.cureAmount = cureAmount;
+        this.medAmount = cureAmount;
     }
 
     @Override
@@ -70,7 +44,7 @@ public class BillMedicine {
                 "pairedID=" + pairedID +
                 ", bill=" + bill +
                 ", medicine=" + medicine +
-                ", cureAmount=" + cureAmount +
+                ", cureAmount=" + medAmount +
                 '}';
     }
 }
