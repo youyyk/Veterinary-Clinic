@@ -26,7 +26,7 @@ public class AccountUserDetailService extends DefaultOAuth2UserService {
         String linePic = oAuth2User.getAttribute("pictureUrl");
         Account account = accountService.getByLineId(lineId);
         if (account != null) {
-            if (account.getLastName().isEmpty() || account.getLastName().isBlank()){
+            if (account.getLastName() == null|| account.getLastName().isEmpty() || account.getLastName().isBlank()){
                 account.setFirstName(lineName);
             }
             account.setLineId(lineId);

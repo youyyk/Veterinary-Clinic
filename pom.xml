@@ -87,6 +87,13 @@
 			<version>5.0.3</version>
 		</dependency>
 
+		<!-- PDF Generator -->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>6.20.0</version>
+		</dependency>
+
 		<!-- Fix Warning -->
 		<dependency>
 			<groupId>com.squareup.retrofit2</groupId>
