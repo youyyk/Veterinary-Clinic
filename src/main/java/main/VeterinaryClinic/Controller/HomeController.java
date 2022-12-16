@@ -17,6 +17,6 @@ public class HomeController {
         else {
             model.addAttribute("user", "Guest");
         }
-        return "home";
+        return "index";
     }
 }

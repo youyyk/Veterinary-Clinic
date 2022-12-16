@@ -3,7 +3,6 @@ package main.VeterinaryClinic.Model.Account;
 
 
 import lombok.Data;
-import main.VeterinaryClinic.Model.Role;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;

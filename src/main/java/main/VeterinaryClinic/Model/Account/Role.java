@@ -1,4 +1,4 @@
-package main.VeterinaryClinic.Model;
+package main.VeterinaryClinic.Model.Account;
 
 import lombok.Data;
 
