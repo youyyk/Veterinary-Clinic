@@ -1,7 +1,13 @@
 package main.VeterinaryClinic;
 
+import main.VeterinaryClinic.Model.Meeting;
+import main.VeterinaryClinic.Model.Pet;
+import main.VeterinaryClinic.Service.GlobalService;
 import main.VeterinaryClinic.Service.LineSendService;
+import main.VeterinaryClinic.Service.MeetingService;
+import main.VeterinaryClinic.Service.PetService;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.annotation.Bean;
@@ -17,16 +23,16 @@ public class VeterinaryClinicApplication {
 	}
 
 
-	@Bean
-	ApplicationRunner applicationRunner(LineSendService lineSendService){
-		return args -> {
-			List<String> client = new LinkedList<>();
-			List<String> message = new LinkedList<>();
-			client.add("Ua740d4c84ff34de6a233ae21b0db03ab");
-			message.add("Hello Test");
-			lineSendService.sendMessageToClient(client, message);
-		};
-	}
+//	@Bean
+//	ApplicationRunner applicationRunner(LineSendService lineSendService){
+//		return args -> {
+//			List<String> client = new LinkedList<>();
+//			List<String> message = new LinkedList<>();
+//			client.add("Ua740d4c84ff34de6a233ae21b0db03ab");
+//			message.add("Hello Test");
+//			lineSendService.sendMessageToClient(client, message);
+//		};
+//	}
 
 //	@Bean
 //	ApplicationRunner applicationRunner(MedicineService medicineService){
@@ -145,4 +151,19 @@ public class VeterinaryClinicApplication {
 //
 //		};
 //	}
+	@Bean
+	public CommandLineRunner mappingDemo(MeetingService meetingService, PetService petService){
+		return args -> {
+			Pet pet = new Pet("แอล","เมีย", GlobalService.convertStringToDate("2018/05/11"),false,"สุนัข","ปอม");
+			petService.create(pet);
+
+			Meeting meeting = new Meeting(pet,GlobalService.convertStringToDate("2022/12/27"),"อาเจียนและท้องเสีย");
+			meetingService.create(meeting);
+
+			meeting = new Meeting(pet,GlobalService.convertStringToDate("2023/02/08"),"ฉีดวัคซีน");
+			meetingService.create(meeting);
+
+
+		};
+	}
 }

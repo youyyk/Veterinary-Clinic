@@ -41,6 +41,9 @@ public class Pet {
     @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Bill> items;
 
+    @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Meeting> meetings;
+
     public Pet() {super();}
 
     public Pet(String name, String gender, Date doB, boolean sterilization, String petType, String breed){
