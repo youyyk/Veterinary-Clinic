@@ -20,13 +20,15 @@ public class WareHouse {
     @JoinColumn(name="med_id")
     private Medicine medicine;
 
-
     @ManyToOne()
     @JoinColumn(name="tool_id")
     private Tool tool;
 
-    @Column(name="ware_amount")
-    private int amount;
+    @Column(name="quantity_in") //stock in
+    private int quantityIn;
+
+    @Column(name="quantity_left")
+    private int quantityLeft;
 
     @Column(name="ware_type")
     private String type;
@@ -41,26 +43,22 @@ public class WareHouse {
         super();
     }
 
-    public WareHouse(int amount, String type, double paidTotal,Date expiredDate) {
-        this.amount = amount;
-        this.type = type;
-        this.paidTotal = paidTotal;
-        this.createdDate = GlobalService.getCurrentTime();
-        this.expiredDate = expiredDate;
-    }
 
-    public WareHouse(Medicine medicine, int amount, double paidTotal,Date expiredDate) {
+    public WareHouse(Medicine medicine, int quantityIn, double paidTotal, Date expiredDate) {
         this.medicine = medicine;
-        this.amount = amount;
+        this.quantityIn = quantityIn;
+        this.quantityLeft = quantityIn;
         this.type = "medicine";
         this.paidTotal = paidTotal;
         this.createdDate = GlobalService.getCurrentTime();
         this.expiredDate = expiredDate;
     }
 
-    public WareHouse(Tool tool, int amount, double paidTotal,Date expiredDate) {
+
+    public WareHouse(Tool tool, int quantityIn, double paidTotal, Date expiredDate) {
         this.tool = tool;
-        this.amount = amount;
+        this.quantityIn = quantityIn;
+        this.quantityLeft = quantityIn;
         this.type = "tool";
         this.paidTotal = paidTotal;
         this.createdDate = GlobalService.getCurrentTime();

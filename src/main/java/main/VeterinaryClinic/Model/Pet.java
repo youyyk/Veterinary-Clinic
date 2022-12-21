@@ -42,7 +42,7 @@ public class Pet {
     private List<Bill> items;
 
     @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Meeting> meetings;
+    private List<Appointment> appointments;
 
     public Pet() {super();}
 

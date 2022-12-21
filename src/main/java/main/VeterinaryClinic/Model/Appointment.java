@@ -6,25 +6,27 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="Meeting")
+@Table(name="Appointment")
 @Data
-public class Meeting {
+public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="meeting_id")
-    private Long meetID;
+    @Column(name="appointment_id")
+    private Long appointmentID;
 
     @ManyToOne()
     @JoinColumn(name="pet_id")
     private Pet pet;
 
-    @Column(name="meeting_date")
+    @Column(name="appointment_date")
     private Date date;
 
     @Column(name="description")
     private String description;
 
-    public Meeting(Pet pet, Date date, String description) {
+    public Appointment() {super();}
+
+    public Appointment(Pet pet, Date date, String description) {
         this.pet = pet;
         this.date = date;
         this.description = description;
@@ -32,8 +34,8 @@ public class Meeting {
 
     @Override
     public String toString() {
-        return "Meeting{" +
-                "meetID=" + meetID +
+        return "Appointment{" +
+                "appointment=" + appointmentID +
                 ", pet=" + pet +
                 ", date=" + date +
                 ", description='" + description + '\'' +

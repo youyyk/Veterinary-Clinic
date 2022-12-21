@@ -38,10 +38,6 @@ public class Bill {
     @Column(name="discount")
     private double discount;
 
-    @Column(name="diagnosis")
-    private String diagnosis;
-
-
 
     @OneToMany(mappedBy = "bill", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<BillMedicine> medUsed;
