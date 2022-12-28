@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<body>
+<!--Create Pet (PopUp)-->
+<div th:fragment="createPetPopUp" th:id="createPetPopUp" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     data-bs-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">เพิ่มสัตว์เลี้ยง</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/pets}" method="POST" enctype="multipart/form-data">
+
+                    <!--Pet's Name-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text">ชื่อสัตว์เลี้ยง</span>
+                        <input type="text" class="form-control" id="name" name="name">
+                    </div>
+
+                    <!--Pet's Image-->
+                    <div class="mb-3">
+                        <input class="form-control" type="file" id="image" name="image">
+                    </div>
+
+                    <!--DoB-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text date">วันเกิด</span>
+                        <input type="date" class="form-control" id="doB" name="doB" placeholder="----- วันเกิด ------">
+                        <span class="input-group-text" >อายุ</span>
+                        <input type="text" id="age" name="age" class="form-control">
+                    </div>
+
+
+                    <!--Pet's Type & Breed-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text">ประเภท</span>
+                        <input type="text" class="form-control" id="petType" name="petType">
+                        <span class="input-group-text">พันธุ์</span>
+                        <input type="text" class="form-control" id="breed" name="breed">
+                    </div>
+
+
+                    <!--Gender-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text">เพศ</span>
+                        <select class="form-select" id="gender" name="gender">
+                            <option selected>-------- กดเพื่อเลือก --------</option>
+                            <option value="เมีย">เพศเมีย</option>
+                            <option value="ผุ้">เพศผู้</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text">ทำหมัน</span>
+                        <select class="form-select" id="sterilization" name="sterilization">
+                            <option selected>-------- กดเพื่อเลือก --------</option>
+                            <option value="true">ทำแล้ว</option>
+                            <option value="false">ยังไม่ได้ทำ</option>
+                        </select>
+                    </div>
+
+
+                    <!--Remark-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text">remark</span>
+                        <input type="text" class="form-control" id="remark" name="remark">
+                    </div>
+
+                    <!--button-->
+                    <div class="modal-footer">
+                            <button class="btn btn-primary" type="submit">เพิ่มสัตว์เลี้ยง</button>
+                            <button class="btn btn-secondary" type="reset">clear</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+
+</html>

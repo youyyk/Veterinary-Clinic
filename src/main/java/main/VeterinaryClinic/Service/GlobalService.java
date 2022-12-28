@@ -52,7 +52,7 @@ public class GlobalService {
     }
     public static Date convertStringToDate(String strDate) {
         try {
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = formatter.parse(strDate);
             System.out.println(date);
             return date;
@@ -106,11 +106,11 @@ public class GlobalService {
         pet = new Pet("แทมมี่","ผู้",convertStringToDate("2021/08/12"),false,"แมว","เปอร์เซีย");
         petService.create(pet);
 
-        Appointment appointment = new Appointment(pet,convertStringToDate("2022/12/27"),"อาเจียนและท้องเสีย");
-        appointmentService.create(appointment);
-
-        appointment = new Appointment(pet,convertStringToDate("2023/02/08"),"ฉีดวัคซีน");
-        appointmentService.create(appointment);
+//        Appointment appointment = new Appointment(pet,convertStringToDate("2022/12/27"),"อาเจียนและท้องเสีย");
+//        appointmentService.create(appointment);
+//
+//        appointment = new Appointment(pet,convertStringToDate("2023/02/08"),"ฉีดวัคซีน");
+//        appointmentService.create(appointment);
 
         //------------- Cure History --------------
         CureHistory cureHistory = new CureHistory(pet,convertStringToDate("2022/12/10"),"พบเห็บหมัด",false);

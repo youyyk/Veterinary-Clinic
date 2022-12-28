@@ -21,23 +21,28 @@ public class Appointment {
     @Column(name="appointment_date")
     private Date date;
 
+    @Column(name="period")
+    private String period;
+
     @Column(name="description")
     private String description;
 
     public Appointment() {super();}
 
-    public Appointment(Pet pet, Date date, String description) {
+    public Appointment(Pet pet, Date date, String period, String description) {
         this.pet = pet;
         this.date = date;
+        this.period = period;
         this.description = description;
     }
 
     @Override
     public String toString() {
         return "Appointment{" +
-                "appointment=" + appointmentID +
+                "appointmentID=" + appointmentID +
                 ", pet=" + pet +
                 ", date=" + date +
+                ", period='" + period + '\'' +
                 ", description='" + description + '\'' +
                 '}';
     }

@@ -28,54 +28,54 @@
 
     <h1>All warehouses</h1>
 
-    <table id="allWH">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>MedID</th>
-            <th>ToolID</th>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Paid Total</th>
-            <th>Amount</th>
-            <th>Stock In</th>
-            <th>Expired Date</th>
-        </tr>
-        </thead>
-        <tbody>
+<!--    <table id="allWH">-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th>Id</th>-->
+<!--            <th>MedID</th>-->
+<!--            <th>ToolID</th>-->
+<!--            <th>Name</th>-->
+<!--            <th>Type</th>-->
+<!--            <th>Paid Total</th>-->
+<!--            <th>Amount</th>-->
+<!--            <th>Stock In</th>-->
+<!--            <th>Expired Date</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
 
-            <tr th:each="wh : ${warehouses}">
-                <td th:text="${wh.itemID}"></td>
+<!--            <tr th:each="wh : ${warehouses}">-->
+<!--                <td th:text="${wh.itemID}"></td>-->
 
-                <!--                <td th:if="${wh.medicine != null}" th:each="med : ${wh.medicine}" th:text="${med.getMedID}"></td>-->
-                <td th:switch="${wh.medicine}">
-                    <p th:case="null">-</p>
-                    <p th:case="*" th:each="med : ${wh.medicine}" th:text="${med.getMedID}"></p>
-                </td>
+<!--                &lt;!&ndash;                <td th:if="${wh.medicine != null}" th:each="med : ${wh.medicine}" th:text="${med.getMedID}"></td>&ndash;&gt;-->
+<!--                <td th:switch="${wh.medicine}">-->
+<!--                    <p th:case="null">-</p>-->
+<!--                    <p th:case="*" th:each="med : ${wh.medicine}" th:text="${med.getMedID}"></p>-->
+<!--                </td>-->
 
-                <!--                <td th:if="${wh.tool != null}" th:each="tool : ${wh.tool}" th:text="${tool.getToolID}"></td>-->
-                <td th:switch="${wh.tool}">
-                    <p th:case="null">-</p>
-                    <p th:case="*" th:each="tool : ${wh.tool}" th:text="${tool.getToolID}"></p>
-                </td>
+<!--                &lt;!&ndash;                <td th:if="${wh.tool != null}" th:each="tool : ${wh.tool}" th:text="${tool.getToolID}"></td>&ndash;&gt;-->
+<!--                <td th:switch="${wh.tool}">-->
+<!--                    <p th:case="null">-</p>-->
+<!--                    <p th:case="*" th:each="tool : ${wh.tool}" th:text="${tool.getToolID}"></p>-->
+<!--                </td>-->
 
-                <td th:if="${wh.medicine != null}" th:each="med : ${wh.medicine}" th:text="${med.getName}"></td>
-                <td th:if="${wh.tool != null}" th:each="tool : ${wh.tool}" th:text="${tool.getName}"></td>
+<!--                <td th:if="${wh.medicine != null}" th:each="med : ${wh.medicine}" th:text="${med.getName}"></td>-->
+<!--                <td th:if="${wh.tool != null}" th:each="tool : ${wh.tool}" th:text="${tool.getName}"></td>-->
 
-                <td th:text="${wh.type}"></td>
-                <td th:text="${wh.paidTotal}"></td>
-                <td th:text="${wh.amount}"></td>
-                <td th:text="${wh.createdDate}"></td>
-                <td th:text="${wh.expiredDate}"></td>
-
-
-
-
-            </tr>
+<!--                <td th:text="${wh.type}"></td>-->
+<!--                <td th:text="${wh.paidTotal}"></td>-->
+<!--                <td th:text="${wh.amount}"></td>-->
+<!--                <td th:text="${wh.createdDate}"></td>-->
+<!--                <td th:text="${wh.expiredDate}"></td>-->
 
 
 
-        </tbody>
-    </table>
+
+<!--            </tr>-->
+
+
+
+<!--        </tbody>-->
+<!--    </table>-->
 
 </html>

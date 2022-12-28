@@ -1,2 +1,2 @@
-- Create database (Cure History)
-- Mocking all new data
+- Upload file (image) to rds with byte type
+- Import modal (PopUp) from another html file
