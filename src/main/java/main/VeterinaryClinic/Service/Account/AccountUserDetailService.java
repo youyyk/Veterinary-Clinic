@@ -26,19 +26,17 @@ public class AccountUserDetailService extends DefaultOAuth2UserService {
         String linePic = oAuth2User.getAttribute("pictureUrl");
         Account account = accountService.getByLineId(lineId);
         if (account != null) {
-            if (account.getLastName() == null|| account.getLastName().isEmpty() || account.getLastName().isBlank()){
-                account.setFirstName(lineName);
-            }
+            account.setLineName(lineName);
             account.setLineId(lineId);
             account.setImg_path(linePic);
             accountService.save(account);
-
             System.out.println("User Already");
-            System.out.println(account);
         } else {
-            System.out.println("User NOT Already");
             account = accountService.create(lineName, lineId, linePic);
+
+            System.out.println("User NOT Already");
         }
+        System.out.println(account);
         return account;
     }
 }

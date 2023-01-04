@@ -3,6 +3,7 @@ package main.VeterinaryClinic.Model.Account;
 
 
 import lombok.Data;
+import main.VeterinaryClinic.Config.SecurityConfig;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -25,10 +26,12 @@ public class Account {
     private String firstName;
     @Column(name = "lastname")
     private String lastName;
-    @Column(name = "address")
+    @Column(name = "address", columnDefinition="TEXT")
     private String address;
-    @Column(name = "phone", columnDefinition = "CHAR(10)")
+    @Column(name = "phone", columnDefinition = "CHAR(12)")
     private String phone;
+    @Column(name = "line_name")
+    private String lineName;
     @Column(name = "line_id")
     private String lineId;
     @Column(name = "img_path")
@@ -44,10 +47,42 @@ public class Account {
 
     public Account() {super();} // Need for get data from database
     public Account(String displayName, String lineId, String imgPath) {
-        this.firstName = displayName;
+        this.lineName = displayName;
         this.lineId = lineId;
         this.img_path = imgPath;
     }
+
+    public void addRole(Role role){
+        roles.add(role);
+    }
+
+    public String getFullName(){
+        String title = this.title==null?"":this.title+" ";
+        String firstname = this.firstName==null?"":this.firstName+" ";
+        String lastname = this.lastName==null?"":this.lastName;
+        String fullName = title+firstname+lastname;
+        if (fullName.isBlank()||fullName.isEmpty()){
+            return this.lineName;
+        }
+        return fullName;
+    }
+
+    public String getUserRole(){
+        // If edit need to follow edit in on frontend
+        if (isAdmin()){
+            return "ADMIN";
+        }
+        if (isOfficer()){
+            return "OFFICER";
+        }
+        return "CUSTOMER";
+    }
+
+    public boolean isAdmin(){ return roles.contains(new Role(SecurityConfig.ROLE_ADMIN)); }
+
+    public boolean isOfficer(){ return roles.contains(new Role(SecurityConfig.ROLE_OFFICER)); }
+
+    public boolean isCustomer(){ return roles.contains(new Role(SecurityConfig.ROLE_CUSTOMER)); }
 
     @Override
     public String toString() {
@@ -58,6 +93,7 @@ public class Account {
                 ", lastName='" + lastName + '\'' +
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
+                ", lineName='" + lineName + '\'' +
                 ", lineId='" + lineId + '\'' +
                 ", img_path='" + img_path + '\'' +
                 ", roles=" + roles +

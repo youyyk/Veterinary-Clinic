@@ -4,6 +4,7 @@ import main.VeterinaryClinic.Service.Account.AccountUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -16,14 +17,18 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 public class SecurityConfig  {
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
+    public static final String ROLE_OFFICER = "ROLE_OFFICER";
+    public static final String ROLE_CUSTOMER = "ROLE_CUSTOMER";
     @EnableWebSecurity
     public class LineLoginSecurityConfig extends WebSecurityConfigurerAdapter {
         @Autowired
         private AccountUserDetailService accountUserDetailService;
         @Override
         protected void configure(HttpSecurity http) throws Exception {
-            http    .authorizeRequests()
-                    .antMatchers("/", "/css/**", "/js/**", "/accounts","/img/**").permitAll() // Don't need login can use (Home Page, CSS, JS)
+            http    .csrf().disable()
+                    .authorizeRequests()
+                    .antMatchers("/", "/css/**", "/js/**", "/images/**", "/account/**", "/accounts").permitAll() // Don't need login can use (Home Page, CSS, JS)
 //                    .antMatchers("/authTest").access("hasRole('ROLE_ADMIN')")
                     .anyRequest().authenticated() // Other path need login
             .and()

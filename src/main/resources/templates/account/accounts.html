@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Account View</title>
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <link th:rel="stylesheet" th:href="@{/css/table-image.css}">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<script>
+    let host = window.location.origin;
+    let editRole = false;
+    let hide = "none";
+    let show = "table-cell";
+
+    function Edit_Btn_Click(fromId) {
+        let normalRoleView = document.getElementById('cell-Role-Normal-' + fromId);
+        let editRoleView = document.getElementById('cell-Role-Edit-' + fromId);
+        let normalRoleAction = document.getElementById('cell-Role-Normal-Action-' + fromId);
+        let editRoleAction = document.getElementById('cell-Role-Edit-Action-' + fromId)
+        if (!editRole){
+            normalRoleView.style.display = hide;
+            normalRoleAction.style.display = hide;
+            editRoleView.style.display = show;
+            editRoleAction.style.display = show
+        } else {
+            normalRoleView.style.display = show;
+            normalRoleAction.style.display = show;
+            editRoleView.style.display = hide;
+            editRoleAction.style.display = hide
+        }
+        editRole = !editRole;
+    }
+
+    async function saveAccount(accId) {
+        let newRole = document.getElementById('select-role-' + accId).value;
+        let response = await fetch(host + '/account/update/role', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                "newRole": newRole,
+                "id": accId,
+            })
+        })
+        response.ok ? location.reload(true): console.log("Status : "+response.status);
+        Edit_Btn_Click(accId);
+    }
+</script>
+<body>
+
+<div th:insert="fragments/header :: header"></div>
+
+<section class="main-content">
+    <div class="container">
+        <h1>Users</h1>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Profile</th>
+                <th class="td-long-text">Address</th>
+                <th>Phone</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:each="account: ${accounts}">
+
+                    <td>
+                        <div class="user-info">
+                            <div class="user-info__img">
+                                <img th:if="${account.img_path != null}" th:src="${account.img_path}" />
+                                <img th:unless="${account.img_path != null}" th:src="@{/images/no-image.jpg}" />
+                            </div>
+                            <div class="user-info__basic">
+                                <h5 class="mb-0" th:text="${account.getFullName()}"/>
+                                <p class="text-muted mb-0" th:text="'@'+${account.lineName}"/>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td class="td-long-text" th:text="${account.address}" />
+
+                    <td th:text="${account.phone}" />
+
+                    <td th:id="'cell-Role-Normal-' + ${account.accId}" th:switch="${account.getUserRole()}">
+                        <span th:each="role : ${roles}"
+                              th:class="'badge rounded-pill '+
+                                        ${(account.getUserRole()=='ADMIN' ? 'bg-primary ' : '') +
+                                        (account.getUserRole()=='OFFICER'  ? 'bg-success ' : '') +
+                                        (account.getUserRole()=='CUSTOMER'  ? 'bg-secondary ' : '')}"
+                              th:case="${role}"
+                              th:text="${role}"/>
+                    </td>
+                    <td th:id="'cell-Role-Edit-' + ${account.accId}" style="display: none">
+                        <select th:id="'select-role-' + ${account.accId}" class="form-select" aria-label="Default select example">
+                            <option th:each="role : ${roles}" th:value="${role}" th:text="${role}"
+                                    th:selected="${role==account.getUserRole()}"/>
+                        </select>
+                    </td>
+
+                    <td th:id="'cell-Role-Normal-Action-' + ${account.accId}" >
+                        <div class="dropdown open">
+                            <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
+                               aria-expanded="false">
+                                <i class="fa fa-ellipsis-v"></i>
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                <a th:id="'edit-role-button'" class="dropdown-item" href="#" th:attr="onclick='Edit_Btn_Click(\'' + ${account.accId}+  '\');'">
+                                    <i class="fa fa-pencil mr-1"></i> Edit
+                                </a>
+                                <a th:id="'delete-role-button'" class="dropdown-item text-danger" href="#">
+                                    <i class="fa fa-trash mr-1"></i> Delete
+                                </a>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td th:id="'cell-Role-Edit-Action-' + ${account.accId}" style="display: none">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                            <button type="button" class="btn btn-primary" th:attr="onclick='saveAccount(\'' + ${account.accId} +  '\');'">Save</button>
+                            <button type="button" class="btn btn-secondary" th:attr="onclick='Edit_Btn_Click(\'' + ${account.accId} +  '\');'">Close</button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <nav aria-label="Page navigation example" style="text-align: center">
+            <div style="display: inline-block">
+                <ul class="pagination pagination-gap">
+                    <li class="page-item" th:classappend="${currentPage==1} ? disabled : ''">
+                        <a class="page-link" th:href="@{/account(pageNo=${currentPage -1})}">Previous</a>
+                    </li>
+                    <li class="page-item" th:each="i: ${#numbers.sequence(1, totalPages)}" th:classappend="${i==currentPage} ? active : ''">
+                        <a class="page-link" th:href="@{/account(pageNo=${i})}" >[[${i}]]</a>
+                    </li>
+                    <li class="page-item" th:classappend="${currentPage==totalPages} ? disabled : ''">
+                        <a class="page-link" th:href="@{/account(pageNo=${currentPage +1})}">Next</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+<!--        <footer style="font-size: large" class="panel-footer">-->
+<!--            Total Items [[${totalAccounts}]] : Page [[${currentPage}]] of [[${totalPages}]]-->
+<!--            &nbsp; &nbsp; - &nbsp;-->
+<!--            <span th:each="i: ${#numbers.sequence(1, totalPages)}">-->
+<!--                -->
+<!--                &nbsp; &nbsp;-->
+<!--            </span>-->
+<!--        </footer>-->
+    </div>
+</section>
+</body>
+</html>

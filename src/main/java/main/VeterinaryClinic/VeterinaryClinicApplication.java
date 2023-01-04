@@ -1,5 +1,7 @@
 package main.VeterinaryClinic;
 
+import main.VeterinaryClinic.Model.Account.Account;
+import main.VeterinaryClinic.Service.Account.AccountService;
 import main.VeterinaryClinic.Service.LineSendService;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,13 +20,11 @@ public class VeterinaryClinicApplication {
 
 
 	@Bean
-	ApplicationRunner applicationRunner(LineSendService lineSendService){
+	ApplicationRunner applicationRunner(AccountService accountService){
 		return args -> {
-			List<String> client = new LinkedList<>();
-			List<String> message = new LinkedList<>();
-			client.add("Ua740d4c84ff34de6a233ae21b0db03ab");
-			message.add("Hello Test");
-			lineSendService.sendMessageToClient(client, message);
+			for (int i=1; i<=30; i++){
+				accountService.create("You"+i, "123",null);
+			}
 		};
 	}
 
