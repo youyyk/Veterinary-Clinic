@@ -7,7 +7,7 @@ import main.VeterinaryClinic.Model.Tool;
 import javax.persistence.*;
 
 @Entity
-@Table(name="Bill_Tool")
+@Table(name="bill_tools")
 @Data
 public class BillTool {
 

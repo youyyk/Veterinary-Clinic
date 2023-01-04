@@ -1,4 +1,3 @@
-Can Do (Merge you to develop)
 - Connect Database
 - Line Login
 - Line Send Message
@@ -8,3 +7,5 @@ Can Do (Merge you to develop)
 - Collapse field in relational database with 2 primary keys
 - Create all database
 - Mocking data
+- - Upload file (image) to rds with byte type
+- Import modal (PopUp) from another html file

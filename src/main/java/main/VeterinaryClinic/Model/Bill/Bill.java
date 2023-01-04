@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="Bill")
+@Table(name="bills")
 @Data
 public class Bill {
     @Id
@@ -38,10 +38,6 @@ public class Bill {
     @Column(name="discount")
     private double discount;
 
-    @Column(name="diagnosis")
-    private String diagnosis;
-
-
 
     @OneToMany(mappedBy = "bill", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<BillMedicine> medUsed;
@@ -50,7 +46,7 @@ public class Bill {
     private List<BillTool> toolUsed;
 
     @OneToMany(mappedBy = "bill", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<BillService> serviceUsed;
+    private List<BillServing> serviceUsed;
 
     public Bill() {super();}
 

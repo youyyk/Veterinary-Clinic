@@ -5,14 +5,14 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name="Service")
+@Table(name="servings")
 @Data
-public class Service {
+public class Serving {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="service_id")
+    @Column(name="serving_id")
     private Long serviceID;
-    @Column(name="service_name")
+    @Column(name="serving_name")
     private String name;
     @Column(name="price")
     private double price;
@@ -27,9 +27,9 @@ public class Service {
 //    private List<WareHouse> items;
 
 
-    public Service() { super();}
+    public Serving() { super();}
 
-    public Service(String name, double price) {
+    public Serving(String name, double price) {
         this.name = name;
         this.price = price;
         this.softDeleted = false;
@@ -39,7 +39,7 @@ public class Service {
 
     @Override
     public String toString() {
-        return "Service{" +
+        return "Serving{" +
                 "serviceID=" + serviceID +
                 ", name='" + name + '\'' +
                 ", price=" + price +

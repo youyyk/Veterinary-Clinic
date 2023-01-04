@@ -25,7 +25,8 @@
   color: white;
 }
 </style>
-
+<body>
+    <div th:insert="fragments/header :: header"></div>
     <h1>All warehouses</h1>
 
     <table id="allWH">
@@ -37,13 +38,12 @@
             <th>Name</th>
             <th>Type</th>
             <th>Paid Total</th>
-            <th>Amount</th>
+            <th>Quantity Left</th>
             <th>Stock In</th>
             <th>Expired Date</th>
         </tr>
         </thead>
         <tbody>
-
             <tr th:each="wh : ${warehouses}">
                 <td th:text="${wh.itemID}"></td>
 
@@ -64,18 +64,11 @@
 
                 <td th:text="${wh.type}"></td>
                 <td th:text="${wh.paidTotal}"></td>
-                <td th:text="${wh.amount}"></td>
+                <td th:text="${wh.quantityLeft}"></td>
                 <td th:text="${wh.createdDate}"></td>
                 <td th:text="${wh.expiredDate}"></td>
-
-
-
-
             </tr>
-
-
-
         </tbody>
     </table>
-
+</body>
 </html>

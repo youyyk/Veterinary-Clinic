@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+</head>
+
+<body>
+
+<!--header-->
+<div th:insert="fragments/header :: header"></div>
+
+
+<div class="container mt-3">
+    <div class="container justify-content-center card mt-3">
+
+        <h2 class="mt-3">เพิ่มสัตว์เลี้ยง</h2>
+
+        <form action="#" th:action="@{/pets}" method="POST" enctype="multipart/form-data">
+
+            <!--Pet's Name-->
+            <div class="input-group input-group mb-3">
+                <span class="input-group-text">ชื่อสัตว์เลี้ยง</span>
+                <input type="text" class="form-control" id="name" name="name">
+            </div>
+
+            <!--Pet's Image-->
+            <div class="mb-3">
+                <input class="form-control" type="file" id="image" name="image">
+            </div>
+
+            <!--DoB-->
+            <div class="input-group input-group mb-3">
+                <span class="input-group-text">วันเกิด</span>
+                <input type="date" class="form-control" id="doB" name="doB" placeholder="----- วันเกิด ------">
+<!--                <span class="input-group-text" id="age">อายุ</span>-->
+<!--                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">-->
+            </div>
+
+            <!--Pet's Type & Breed-->
+            <div class="input-group input-group mb-3">
+                <span class="input-group-text">ประเภท</span>
+                <input type="text" class="form-control" id="petType" name="petType">
+                <span class="input-group-text">พันธุ์</span>
+                <input type="text" class="form-control" id="breed" name="breed">
+            </div>
+
+
+            <!--Gender-->
+            <div class="input-group input-group mb-3">
+                <span class="input-group-text">เพศ</span>
+                <select class="form-select" id="gender" name="gender">
+                    <option selected>-------- กดเพื่อเลือก --------</option>
+                    <option value="เมีย">เมีย</option>
+                    <option value="ผุ้">ผู้</option>
+                </select>
+<!--                <input type="text" class="form-control" id="gender" name="gender">-->
+            </div>
+
+
+            <!--Remark-->
+            <div class="input-group input-group mb-3">
+                <span class="input-group-text">remark</span>
+                <input type="text" class="form-control" id="remark" name="remark">
+            </div>
+
+            <!--button-->
+            <button class="btn btn-primary mb-3" type="submit">เพิ่มสัตว์เลี้ยง</button>
+
+        </form>
+
+    </div>
+</div>
+
+
+
+</body>
+
+</html>

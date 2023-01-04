@@ -2,13 +2,16 @@ package main.VeterinaryClinic.Model;
 
 import lombok.Data;
 import main.VeterinaryClinic.Model.Bill.Bill;
+import main.VeterinaryClinic.Service.GlobalService;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="Pet")
+@Table(name="pets")
 @Data
 public class Pet {
 
@@ -20,6 +23,7 @@ public class Pet {
     private String name;
     @Column(name="gender")
     private String gender;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="date_of_birth")
     private Date doB;
     @Column(name="sterilization")//ทำหมัน
@@ -28,8 +32,7 @@ public class Pet {
     private String petType;
     @Column(name="breed")//พันธุ์
     private String breed;
-    @Column(name="cure_history")
-    private String cureHistory;
+
     @Column(name="remark")//allergic
     private String remark;
     @Column(name="soft_deleted_date")
@@ -37,9 +40,19 @@ public class Pet {
     @Column(name="soft_deleted")
     private boolean softDeleted;
 
+    @Lob
+    @Column(name="image")
+    private String image;
+
 
     @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Bill> items;
+
+    @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Appointment> appointments;
+
+    @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<CureHistory> cureHistories;
 
     public Pet() {super();}
 
@@ -50,20 +63,31 @@ public class Pet {
         this.sterilization = sterilization;
         this.petType = petType;
         this.breed = breed;
-        this.cureHistory = "";
         this.remark = "";
+        this.image = "";
         this.softDeleted = false;
         this.softDeletedDate = null;
     }
 
-    public Pet(String name, String gender, Date doB, boolean sterilization, String petType, String breed, String cureHistory, String remark){
+    public Pet(String name, String gender, Date doB, boolean sterilization, String petType, String breed, String remark){
         this.name = name;
         this.gender = gender;
         this.doB = doB;
         this.sterilization = sterilization;
         this.petType = petType;
         this.breed = breed;
-        this.cureHistory = cureHistory;
+        this.remark = remark;
+        this.softDeleted = false;
+        this.softDeletedDate = null;
+    }
+
+    public Pet(String name, String gender, String doB, String petType, String breed, String remark){
+        this.name = name;
+        this.gender = gender;
+        this.doB = GlobalService.convertStringToDate(doB);
+        this.sterilization = false;
+        this.petType = petType;
+        this.breed = breed;
         this.remark = remark;
         this.softDeleted = false;
         this.softDeletedDate = null;
@@ -78,7 +102,6 @@ public class Pet {
                 ", doB='" + doB + '\'' +
                 ", sterilization=" + sterilization +
                 ", breed='" + breed + '\'' +
-                ", cureHistory='" + cureHistory + '\'' +
                 ", remark='" + remark + '\'' +
                 ", softDeletedDate='" + softDeletedDate + '\'' +
                 ", softDeleted=" + softDeleted +

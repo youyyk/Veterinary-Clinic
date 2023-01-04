@@ -1,6 +1,6 @@
 package main.VeterinaryClinic.Service.SubBill;
 
-import main.VeterinaryClinic.Model.Bill.BillService;
+import main.VeterinaryClinic.Model.Bill.BillServing;
 import main.VeterinaryClinic.Repository.Bill.BillServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +12,12 @@ public class BillServiceService {
     @Autowired
     private BillServiceRepository repository;
 
-    public List<BillService> getAll() {
+    public List<BillServing> getAll() {
         return repository.findAll();
     }
 
-    public BillService create(BillService billService) {
-        return repository.save(billService);
+    public BillServing create(BillServing billServing) {
+        return repository.save(billServing);
     }
 
 

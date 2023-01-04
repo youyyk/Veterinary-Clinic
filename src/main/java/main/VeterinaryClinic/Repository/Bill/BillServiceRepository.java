@@ -1,12 +1,10 @@
 package main.VeterinaryClinic.Repository.Bill;
 
-import main.VeterinaryClinic.Model.Bill.BillMedicine;
-import main.VeterinaryClinic.Model.Bill.BillMedicineID;
-import main.VeterinaryClinic.Model.Bill.BillService;
-import main.VeterinaryClinic.Model.Bill.BillServiceID;
+import main.VeterinaryClinic.Model.Bill.BillServing;
+import main.VeterinaryClinic.Model.Bill.BillServingID;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface BillServiceRepository extends JpaRepository<BillService, BillServiceID> {
+public interface BillServiceRepository extends JpaRepository<BillServing, BillServingID> {
 }

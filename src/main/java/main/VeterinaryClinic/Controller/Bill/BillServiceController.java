@@ -1,8 +1,6 @@
 package main.VeterinaryClinic.Controller.Bill;
 
-import main.VeterinaryClinic.Model.Bill.BillMedicine;
-import main.VeterinaryClinic.Model.Bill.BillService;
-import main.VeterinaryClinic.Service.SubBill.BillMedicineService;
+import main.VeterinaryClinic.Model.Bill.BillServing;
 import main.VeterinaryClinic.Service.SubBill.BillServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +16,7 @@ public class BillServiceController {
     private BillServiceService billServiceService;
 
     @GetMapping
-    public List<BillService> getAllBillService() {
+    public List<BillServing> getAllBillService() {
         return billServiceService.getAll();
     }
 

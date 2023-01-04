@@ -1,36 +1,35 @@
 package main.VeterinaryClinic.Model.Bill;
 
 import lombok.Data;
-import main.VeterinaryClinic.Model.Medicine;
-import main.VeterinaryClinic.Model.Service;
+import main.VeterinaryClinic.Model.Serving;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name="Bill_service")
+@Table(name="bill_servings")
 @Data
-public class BillService {
+public class BillServing {
 
     @EmbeddedId
-    private BillServiceID pairedID;
+    private BillServingID pairedID;
 
     @MapsId("bill_id")
     @ManyToOne
     private Bill bill;
 
-    @MapsId("service_id")
+    @MapsId("serving_id")
     @ManyToOne
-    private Service service;
+    private Serving serving;
 
     @Column(name="bill_tool_amount")
     private int toolAmount;
 
-    public BillService() {super();}
+    public BillServing() {super();}
 
-    public BillService(Bill bill, Service service, int toolAmount) {
-        this.pairedID = new BillServiceID(bill.getBillID(),service.getServiceID());
+    public BillServing(Bill bill, Serving serving, int toolAmount) {
+        this.pairedID = new BillServingID(bill.getBillID(), serving.getServiceID());
         this.bill = bill;
-        this.service = service;
+        this.serving = serving;
         this.toolAmount = toolAmount;
     }
 
@@ -40,7 +39,7 @@ public class BillService {
         return "BillService{" +
                 "pairedID=" + pairedID +
                 ", bill=" + bill +
-                ", service=" + service +
+                ", service=" + serving +
                 ", toolAmount=" + toolAmount +
                 '}';
     }

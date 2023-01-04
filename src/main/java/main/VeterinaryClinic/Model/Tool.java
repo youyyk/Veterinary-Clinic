@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name="Tool")
+@Table(name="tools")
 @Data
 public class Tool {
     @Id

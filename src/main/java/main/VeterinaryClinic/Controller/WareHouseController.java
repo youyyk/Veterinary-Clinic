@@ -19,8 +19,6 @@ public class WareHouseController {
     @Autowired
     private WareHouseService wareHouseService;
 
-    @Autowired
-    private MedicineService medicineService;
 
 //    @GetMapping
 //    public List<WareHouse> getAllWarehouse() {

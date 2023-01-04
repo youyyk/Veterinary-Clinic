@@ -7,7 +7,7 @@ import main.VeterinaryClinic.Model.Pet;
 import javax.persistence.*;
 
 @Entity
-@Table(name="Bill_medicine")
+@Table(name="bill_medicines")
 @Data
 public class BillMedicine {
 
