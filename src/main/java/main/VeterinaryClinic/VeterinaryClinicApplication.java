@@ -17,6 +17,7 @@ public class VeterinaryClinicApplication {
 	ApplicationRunner applicationRunner(GlobalService globalService){
 		return args -> {
             globalService.mockData();
+			globalService.createReport();
 		};
 	}
 

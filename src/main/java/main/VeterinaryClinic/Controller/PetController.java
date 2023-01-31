@@ -46,10 +46,10 @@ public class PetController {
 //    }
 
     //Create Pet (PopUp)
-    @GetMapping("/pets/create")
-    public String createPetForm() {
-        return "../pet/petPopUp/createPetPopUp";
-    }
+//    @GetMapping("/pets/create")
+//    public String createPetForm() {
+//        return "../pet/petPopUp/createPetPopUp";
+//    }
 
     //After submit "Create Pet (PopUp)" get object from input for create pet and return to show all pets
     @PostMapping("/pets")
@@ -76,7 +76,7 @@ public class PetController {
 
         petService.create(pet);
 
-        return "redirect:/pet/pets";
+        return "redirect:/pets";
     }
 
 

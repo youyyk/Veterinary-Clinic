@@ -44,6 +44,9 @@ public class GlobalService {
     private AppointmentService appointmentService;
     @Autowired
     private CureHistoryService cureHistoryService;
+    @Autowired
+    private GenerateFileService generateFileService;
+
     public static String getStringCurrentTime() {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
@@ -66,6 +69,10 @@ public class GlobalService {
             System.out.println("Cannot Convert String to Date");
         }
         return null;
+    }
+
+    public void createReport() {
+        generateFileService.exportReport("accountReport");
     }
 
     public void mockData() {

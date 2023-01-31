@@ -25,7 +25,7 @@ public class Bill {
 
     @Column(name="end_date")
     private Date endDate;
-    @Column(name="pay_type")
+    @Column(name="pay_type" , columnDefinition = "CHAR(10)")
     private String payType;
     @Column(name="total")
     private double total;
