@@ -4,10 +4,13 @@ package main.VeterinaryClinic.Model.Account;
 
 import lombok.Data;
 import main.VeterinaryClinic.Config.SecurityConfig;
+import main.VeterinaryClinic.Model.Pet;
+import main.VeterinaryClinic.Model.WareHouse;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -37,6 +40,9 @@ public class Account {
     @Column(name = "img_path")
     private String img_path;
 
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Pet> pets;
+
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
@@ -51,6 +57,7 @@ public class Account {
         this.lineId = lineId;
         this.img_path = imgPath;
     }
+
 
     public void addRole(Role role){
         roles.add(role);

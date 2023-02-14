@@ -21,10 +21,10 @@ public class Appointment {
     @Column(name="appointment_date")
     private Date date;
 
-    @Column(name="period")
+    @Column(name="period", columnDefinition = "CHAR(10)")
     private String period;
 
-    @Column(name="description")
+    @Column(name="description", columnDefinition = "TEXT")
     private String description;
 
     public Appointment() {super();}

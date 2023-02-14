@@ -16,7 +16,7 @@ public class VeterinaryClinicApplication {
 	@Bean
 	ApplicationRunner applicationRunner(GlobalService globalService){
 		return args -> {
-            globalService.mockData();
+//            globalService.mockData();
 		};
 	}
 

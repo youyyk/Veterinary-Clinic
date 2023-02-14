@@ -12,7 +12,7 @@ public class Serving {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="serving_id")
     private Long serviceID;
-    @Column(name="serving_name")
+    @Column(name="serving_name", columnDefinition = "CHAR(20)")
     private String name;
     @Column(name="price")
     private double price;
@@ -22,9 +22,6 @@ public class Serving {
     private boolean softDeleted;
 
 
-//    @OneToMany(mappedBy = "medicine", fetch = FetchType.LAZY,
-//            cascade = CascadeType.ALL)
-//    private List<WareHouse> items;
 
 
     public Serving() { super();}

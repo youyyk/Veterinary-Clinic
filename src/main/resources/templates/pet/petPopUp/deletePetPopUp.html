@@ -4,7 +4,7 @@
 
 <body>
 <!--Create Pet (PopUp)-->
-<div th:fragment="createPetPopUp(accId)" th:id="createPetPopUp" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div th:fragment="deletePetPopUp" th:id="deletePetPopUp" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      data-bs-backdrop="static" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -13,10 +13,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:action="@{/create/pets}" method="POST" enctype="multipart/form-data">
-
-                    <!--Account ID-->
-                    <input type="hidden" class="form-control" id="accId" name="accId" th:value="${accId}">
+                <form th:action="@{/pets}" method="POST" enctype="multipart/form-data">
 
                     <!--Pet's Name-->
                     <div class="input-group input-group mb-3">

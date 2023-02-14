@@ -1,76 +1,70 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<!--<!DOCTYPE html>-->
+<!--<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">-->
 
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-    <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-    <script th:src="@{/js/bootstrap.min.js}"></script>
-</head>
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Pet</title>-->
+<!--    <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">-->
+<!--    <script th:src="@{/js/bootstrap.min.js}"></script>-->
+<!--</head>-->
 
-<body>
-
-<!--header-->
-<div th:insert="fragments/header :: header"></div>
-<div class="mb-5">
-    <div class="float-end mt-3 mb-3">
-        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createPetPopUp">
-            + เพิ่มสัตว์เลี้ยง
-        </button>
-        <!--Call Create pet (PopUp)-->
-        <th:block th:replace="petPopUp/createPetPopUp :: createPetPopUp">modal</th:block>
-    </div>
-</div>
-<!--<div class="float-end mt-3">-->
-<!--    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createPetPopUp">-->
-<!--        + เพิ่มสัตว์เลี้ยง-->
-<!--    </button>-->
-<!--    &lt;!&ndash;Call Create pet (PopUp)&ndash;&gt;-->
-<!--    <th:block th:replace="petPopUp/createPetPopUp :: createPetPopUp">modal</th:block>-->
-<!--</div>-->
+<!--<body>-->
 
 
-<!--Pet's Card Loop-->
-<!--<div th:each="pet : ${pets}">-->
-<!--    <div class="card w-75">-->
-<!--        <div class="card-body">-->
-<!--            <img alt="" th:src="*{'data:image;base64,'+{pet.image}}" style="width: 100px;height: 100px;">-->
-<!--            <h5 class="card-title" th:text="${pet.name}"></h5>-->
-<!--            <p><b>เพศ : </b><span th:text="${pet.gender}"></span><b> วันเกิด : </b><span th:text="${pet.doB}"></span></p>-->
-<!--            <p><b>ประเภท : </b><span th:text="${pet.petType}"></span><b> พันธุ์ : </b><span th:text="${pet.breed}"></span></p>-->
-<!--        </div>-->
+<!--<div th:insert="fragments/header :: header"></div><div class="mb-5">-->
+<!--    <div class="float-end mt-3 mb-3">-->
+<!--        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createPetPopUp">-->
+<!--            + เพิ่มสัตว์เลี้ยง-->
+<!--        </button>-->
+<!--        &lt;!&ndash;Call Create pet (PopUp)&ndash;&gt;-->
+<!--        <th:block th:replace="pet/petPopUp/createPetPopUp :: createPetPopUp">modal</th:block>-->
 <!--    </div>-->
 <!--</div>-->
-<div class="container-fluid">
-    <table class="table">
-        <thead class="table-dark">
-            <tr>
-                <th scope="col">รูปภาพ</th>
-                <th scope="col">ชื่อสัตว์เลี้ยง</th>
-                <th scope="col">เพศ</th>
-                <th scope="col">วันเกิด</th>
-                <th scope="col">ประเภท</th>
-                <th scope="col">พันธุ์</th>
-                <th scope="col">ทำหมัน(Y/N)</th>
-            </tr>
-        </thead>
-    <tbody>
-        <tr th:each="pet : ${pets}">
-            <th scope="row"><img alt="" th:src="*{'data:image;base64,'+{pet.image}}" style="width:100px;height:100px"></th>
 
-            <td>[[*{pet.name}]]</td>
-            <td>[[*{pet.gender}]]</td>
-            <td>[[*{pet.doB}]]</td>
-            <td>[[*{pet.petType}]]</td>
-            <td>[[*{pet.breed}]]</td>
-            <td th:switch="${pet.sterilization}">
-                <p th:case="true">Y</p>
-                <p th:case="false">N</p>
-            </td>
+<!--<div class="container-fluid">-->
+<!--    <table class="table">-->
+<!--        <thead class="table-dark">-->
+<!--        <tr>-->
+<!--            <th scope="col">รูปภาพ</th>-->
+<!--            <th scope="col">ชื่อสัตว์เลี้ยง</th>-->
+<!--            <th scope="col">เพศ</th>-->
+<!--            <th scope="col">วันเกิด</th>-->
+<!--            <th scope="col">ประเภท</th>-->
+<!--            <th scope="col">พันธุ์</th>-->
+<!--            <th scope="col">ทำหมัน(Y/N)</th>-->
+<!--            <th scope="col">Actions</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="pet : ${pets}">-->
+<!--            <th scope="row"><img alt="" th:src="*{'data:image;base64,'+{pet.image}}" style="width:100px;height:100px"></th>-->
 
-        </tr>
-    </tbody>
-    </table>
-</div>
-</body>
-</html>
+<!--            <td>[[*{pet.name}]]</td>-->
+<!--            <td>[[*{pet.gender}]]</td>-->
+<!--            <td>[[*{pet.doB}]]</td>-->
+<!--            <td>[[*{pet.petType}]]</td>-->
+<!--            <td>[[*{pet.breed}]]</td>-->
+<!--            <td th:switch="${pet.sterilization}">-->
+<!--                <p th:case="true">Y</p>-->
+<!--                <p th:case="false">N</p>-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                <button type="button" class="btn btn-primary" data-bs-toggle="modal"-->
+<!--                        th:attr="data-bs-target='#editPetPopUp'+*{pet.petID}">-->
+<!--                    edit-->
+<!--                </button>-->
+<!--                <th:block th:replace="pet/petPopUp/editPetPopUp :: editPetPopUp(${pet})">modal</th:block>-->
+
+<!--                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deletePetPopUp">-->
+<!--                    delete-->
+<!--                </button>-->
+<!--                &lt;!&ndash;                <th:block th:replace="pet/petPopUp/deletePetPopUp :: deletePetPopUp">modal</th:block>&ndash;&gt;-->
+<!--            </td>-->
+
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--</div>-->
+
+<!--</body>-->
+<!--</html>-->

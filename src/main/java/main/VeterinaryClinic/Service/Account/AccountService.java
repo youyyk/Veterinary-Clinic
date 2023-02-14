@@ -61,6 +61,7 @@ public class AccountService {
     }
 
     public Account getById(String id){ return accountRepository.findByAccId(UUID.fromString(id));}
+    public Account getById(UUID id){ return accountRepository.findByAccId(id);}
     public Account getByLineId(String lineId){ return accountRepository.findByLineId(lineId);}
 
     public List<Account> getAll(){

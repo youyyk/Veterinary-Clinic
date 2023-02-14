@@ -3,47 +3,41 @@
 
 
 <body>
-<!--Create Pet (PopUp)-->
-<div th:fragment="createPetPopUp(accId)" th:id="createPetPopUp" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<!--edit Pet (PopUp)-->
+<div th:fragment="editPetPopUp(pet)" th:id="'editPetPopUp'+${pet.petID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
      data-bs-backdrop="static" aria-hidden="true">
+
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">เพิ่มสัตว์เลี้ยง</h5>
+                <h5 class="modal-title">Edit</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:action="@{/create/pets}" method="POST" enctype="multipart/form-data">
-
-                    <!--Account ID-->
-                    <input type="hidden" class="form-control" id="accId" name="accId" th:value="${accId}">
-
+                <form th:action="@{/edit/pets}" method="POST" enctype="multipart/form-data">
+                    <input type="hidden" class="form-control" id="petID" name="petID" th:value="${pet.petID}">
+                    <!--Pet's Image-->
+                    <div class="mb-3">
+                        <img alt="" th:src="*{'data:image;base64,'+{pet.image}}" style="width:100px;height:100px">
+                        <input class="form-control" type="file" id="image" name="image">
+                    </div>
                     <!--Pet's Name-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">ชื่อสัตว์เลี้ยง</span>
-                        <input type="text" class="form-control" id="name" name="name">
-                    </div>
-
-                    <!--Pet's Image-->
-                    <div class="mb-3">
-                        <input class="form-control" type="file" id="image" name="image">
+                        <input type="text" class="form-control" id="name" name="name" th:value="${pet.name}">
                     </div>
 
                     <!--DoB-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text date">วันเกิด</span>
-                        <input type="date" class="form-control" id="doB" name="doB" placeholder="----- วันเกิด ------">
-                        <span class="input-group-text" >อายุ</span>
-                        <input type="text" id="age" name="age" class="form-control">
+                        <input type="date" class="form-control" id="doB" name="doB">
                     </div>
-
-
                     <!--Pet's Type & Breed-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">ประเภท</span>
-                        <input type="text" class="form-control" id="petType" name="petType">
+                        <input type="text" class="form-control" id="petType" name="petType" th:value="${pet.petType}">
                         <span class="input-group-text">พันธุ์</span>
-                        <input type="text" class="form-control" id="breed" name="breed">
+                        <input type="text" class="form-control" id="breed" name="breed" th:value="${pet.breed}">
                     </div>
 
 
@@ -51,7 +45,7 @@
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">เพศ</span>
                         <select class="form-select" id="gender" name="gender">
-                            <option selected>-------- กดเพื่อเลือก --------</option>
+                            <option selected>[[${pet.gender}]]</option>
                             <option value="เมีย">เพศเมีย</option>
                             <option value="ผุ้">เพศผู้</option>
                         </select>
@@ -60,7 +54,10 @@
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">ทำหมัน</span>
                         <select class="form-select" id="sterilization" name="sterilization">
-                            <option selected>-------- กดเพื่อเลือก --------</option>
+                            <option  selected th:switch="${pet.sterilization}">
+                                <p th:case="true">ทำแล้ว</p>
+                                <p th:case="false">ยังไม่ได้ทำ</p>
+                            </option>
                             <option value="true">ทำแล้ว</option>
                             <option value="false">ยังไม่ได้ทำ</option>
                         </select>
@@ -70,12 +67,12 @@
                     <!--Remark-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">remark</span>
-                        <input type="text" class="form-control" id="remark" name="remark">
+                        <input type="text" class="form-control" id="remark" name="remark" th:value="${pet.remark}">
                     </div>
 
                     <!--button-->
                     <div class="modal-footer">
-                            <button class="btn btn-primary" type="submit">เพิ่มสัตว์เลี้ยง</button>
+                            <button class="btn btn-primary" type="submit">edit</button>
                             <button class="btn btn-secondary" type="reset">clear</button>
                     </div>
 

@@ -2,7 +2,9 @@ package main.VeterinaryClinic.Controller;
 
 import main.VeterinaryClinic.Config.SecurityConfig;
 import main.VeterinaryClinic.Model.Account.Account;
+import main.VeterinaryClinic.Model.Pet;
 import main.VeterinaryClinic.Service.Account.AccountService;
+import main.VeterinaryClinic.Service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,8 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private PetService petService;
 
     /*
     http://localhost:8080/employees?pageSize=5
@@ -68,5 +72,19 @@ public class AccountController {
             }
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/getInfo/{accId}")
+    public String getInfo(@PathVariable("accId") UUID accId, Model model) {
+        System.out.println("---Get Info---");
+        Account account = accountService.getById(accId);
+        List<Pet> pets = petService.findByAccount(account);
+        System.out.println(pets);
+
+        model.addAttribute("account", account);
+        model.addAttribute("pets", pets);
+
+
+        return "account/infoAccount";
     }
 }

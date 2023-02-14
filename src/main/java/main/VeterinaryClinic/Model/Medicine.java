@@ -21,15 +21,15 @@ public class Medicine {
     @Column(name="med_id")
     private Long medID;
 
-    @Column(name="med_name")
+    @Column(name="name", columnDefinition = "CHAR(30)")
     private String name;
-    @Column(name="dose")
+    @Column(name="dose", columnDefinition = "CHAR(30)")
     private String dose;
-    @Column(name="unit")
+    @Column(name="unit", columnDefinition = "CHAR(6)")
     private String unit;
     @Column(name="price")
     private double price;
-    @Column(name="description")
+    @Column(name="description", columnDefinition = "TEXT")
     private String description;
     @Column(name="soft_deleted_date")
     private Date softDeletedDate;
