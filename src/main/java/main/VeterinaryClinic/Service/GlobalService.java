@@ -55,14 +55,14 @@ public class GlobalService {
     public static Date getCurrentTime() {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        System.out.println(formatter.format(date));
+        System.out.println("Global : " + formatter.format(date));
         return date;
     }
     public static Date convertStringToDate(String strDate) {
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = formatter.parse(strDate);
-            System.out.println(date);
+            System.out.println("Global : " + date);
             return date;
         }
         catch(Exception e){
@@ -97,7 +97,7 @@ public class GlobalService {
 
         medicine = new Medicine("Tramadol HCL","capsule",15,"ครั้งละ 1 เม็ด หลังอาหารเช้า เย็น","50 mg");
         medicineService.create(medicine);
-        wareHouseService.create(new WareHouse(medicine, 120,1440,GlobalService.convertStringToDate("2022-01-27")));
+        wareHouseService.create(new WareHouse(medicine, 120,1440,GlobalService.convertStringToDate("2024-01-27")));
 
         medicine = new Medicine("Toflex/Cephalexin","capsule",20,"ครั้งละ 1 เม็ด หลังอาหารเช้า เย็น","250mg");
         medicineService.create(medicine);
@@ -114,7 +114,7 @@ public class GlobalService {
         Tool toolData = new Tool("Syringe",10,"5 ml");
         toolService.create(toolData);
         wareHouseService.create(new WareHouse(toolData, 100,800,GlobalService.convertStringToDate("2022-01-12")));
-        wareHouseService.create(new WareHouse(toolData, 300,24000,GlobalService.convertStringToDate("2022-12-30")));
+        wareHouseService.create(new WareHouse(toolData, 300,24000,GlobalService.convertStringToDate("2023-4-2")));
         toolData = new Tool("Syringe",5,"3 ml");
         toolService.create(toolData);
         wareHouseService.create(new WareHouse(toolData, 150,6000,GlobalService.convertStringToDate("2022-01-12")));

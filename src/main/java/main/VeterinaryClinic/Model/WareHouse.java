@@ -4,6 +4,7 @@ import lombok.Data;
 import main.VeterinaryClinic.Service.GlobalService;
 
 import javax.persistence.*;
+import java.util.Calendar;
 import java.util.Date;
 
 @Entity
@@ -54,7 +55,6 @@ public class WareHouse {
         this.expiredDate = expiredDate;
     }
 
-
     public WareHouse(Tool tool, int quantityIn, double paidTotal, Date expiredDate) {
         this.tool = tool;
         this.quantityIn = quantityIn;
@@ -63,6 +63,23 @@ public class WareHouse {
         this.paidTotal = paidTotal;
         this.createdDate = GlobalService.getCurrentTime();
         this.expiredDate = expiredDate;
+    }
+
+    public void setExpiredDate(String expiredDate) {
+        this.expiredDate = GlobalService.convertStringToDate(expiredDate);
+    }
+
+    public short isExpired(){
+        Date today = GlobalService.getCurrentTime();
+        Calendar c = Calendar.getInstance();
+        c.setTime(today);
+        c.add(Calendar.DATE, 90);
+        if (expiredDate.compareTo(today) < 0) {
+            return -1; // Expired
+        } else if (today.compareTo(expiredDate) * expiredDate.compareTo(c.getTime()) >= 0) {
+            return 1; // Almost
+        }
+        return  0; // Normal
     }
 
 }

@@ -1,5 +1,6 @@
 package main.VeterinaryClinic;
 
+import main.VeterinaryClinic.Repository.PetRepository;
 import main.VeterinaryClinic.Service.*;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,7 +18,7 @@ public class VeterinaryClinicApplication {
 	ApplicationRunner applicationRunner(GlobalService globalService){
 		return args -> {
             globalService.mockData();
-			globalService.createReport();
+//			globalService.createReport();
 		};
 	}
 

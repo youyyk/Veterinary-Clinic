@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.w3.org/1999/xhtml" xmlns="http://www.w3.org/1999/html"
+      layout:decorate="~{fragments/main_layout}"
+      xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Warehouse View</title>
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+
+    <link th:rel="stylesheet" th:href="@{/css/table-warehouse.css}">
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <script src="js/datatables-simple-demo.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<script>
+    window.addEventListener('DOMContentLoaded', event => {
+        const datatablesSimple = document.getElementById('datatablesSimple');
+        if (datatablesSimple) {
+            new simpleDatatables.DataTable(datatablesSimple);
+        }
+    });
+
+    let hide = "none";
+    let show = "block";
+    function choose_add_type(option) {
+        console.log('choose_add_type');
+        let selectOption = document.getElementById('selectAddOption')
+        if (option == "med") {
+            selectOption.options[1].innerHTML = "New Medicine";
+            selectOption.options[1].value = 1;
+            selectOption.options[2].value = 3;
+        } else if (option == "tool") {
+            selectOption.options[1].innerHTML = "New Tool";
+            selectOption.options[1].value = 2;
+            selectOption.options[2].value = 4;
+        }
+        choose_add_option();
+    }
+    function choose_add_option() {
+        let selectValue = document.getElementById('selectAddOption').value
+        let medForm = document.getElementsByName('medicineForm');
+        let toolForm = document.getElementsByName('toolForm');
+        if (selectValue == 1){ // new medicine
+            medForm[0].style.display = show;
+            medForm[1].style.display = hide;
+            setDisplay(toolForm, hide);
+        } else if (selectValue == 2){ // new tool
+            toolForm[0].style.display = show;
+            toolForm[1].style.display = hide;
+            setDisplay(medForm, hide);
+        } else if (selectValue == 3){ // stock medicine
+            medForm[0].style.display = hide;
+            medForm[1].style.display = show;
+            setDisplay(toolForm, hide);
+        } else if (selectValue == 4){ // stock tool
+            toolForm[0].style.display = hide;
+            toolForm[1].style.display = show;
+            setDisplay(medForm, hide);
+        } else { // chose...
+            setDisplay(medForm, hide);
+            setDisplay(toolForm, hide);
+        }
+    }
+
+    function setDisplay(elements, displayType) {
+        elements.forEach((element) => {
+            element.style.display = displayType;
+        });
+    }
+</script>
+<style>
+
+</style>
+<body>
+    <div th:insert="fragments/header :: header"></div>
+    <h1>All warehouses</h1>
+    <div class="card mb-4 container">
+        <div class="card-header">
+            <i class="fas fa-table"></i>
+            Warehouse
+        </div>
+        <div class="mb-0">
+            <div class="float-end mt-3 mb-0">
+                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createWarehousePopUp">
+                    + Add Item
+                </button>
+                <th:block th:replace="warehouse/warehousePopUp/createWarehousePopUp :: createWarehousePopUp">modal</th:block>
+            </div>
+        </div>
+        <div class="card-body">
+        <!--Setting Table in JS-->
+            <table id="datatablesSimple">
+                <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Item ID</th>
+                    <th>Name</th>
+                    <th>Type</th>
+                    <th>Paid Total</th>
+                    <th>Quantity In</th>
+                    <th>Quantity Left</th>
+                    <th>Stock In</th>
+                    <th>Expired Date</th>
+                    <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="wh : ${warehouses}">
+                    <td th:text="${ '#' + wh.itemID}"></td>
+                    <td th:if="${wh.medicine != null}" th:each="med : ${wh.medicine}" th:text="${ 'M' + med.getMedID}"></td>
+                    <td th:if="${wh.tool != null}" th:each="tool : ${wh.tool}" th:text="${ 'T' + tool.getToolID}"></td>
+                    <td th:if="${wh.medicine != null}" th:each="med : ${wh.medicine}" th:text="${med.getName}"></td>
+                    <td th:if="${wh.tool != null}" th:each="tool : ${wh.tool}" th:text="${tool.getName}"></td>
+                    <td th:text="${wh.type}"></td>
+                    <td th:text="${wh.paidTotal}"></td>
+                    <td th:text="${wh.quantityIn}"></td>
+                    <td th:text="${wh.quantityLeft}"></td>
+                    <td th:text="${#dates.format(wh.createdDate, 'yyyy/MM/dd')}"></td>
+                    <td th:text="${#dates.format(wh.expiredDate, 'yyyy/MM/dd')}"></td>
+                    <td th:switch="${wh.isExpired()}">
+                        <span th:case="-1" th:text="Expired" class="badge rounded-pill bg-danger"/>
+                        <span th:case="1" th:text="Almost" class="badge rounded-pill bg-warning text-dark"/>
+                        <span th:case="0" th:text="Normal" class="badge rounded-pill bg-secondary"/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

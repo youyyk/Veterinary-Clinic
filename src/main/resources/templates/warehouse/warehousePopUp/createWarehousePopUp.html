@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+<div th:fragment="createWarehousePopUp" th:id="createWarehousePopUp" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     data-bs-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Medicine / Tool</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="nav bg-light nav-pills rounded nav-fill mb-3" id="ex-with-icons" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="ex-with-icons-tab-1" data-bs-toggle="tab" href="#create-med" role="tab"
+                           aria-controls="ex-with-icons-tabs-1" aria-selected="true"
+                           onclick="choose_add_type('med')"
+                        ><i class="fas fa-medkit fa-fw me-2"></i>Medicine</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="ex-with-icons-tab-2" data-bs-toggle="tab" href="#create-tool" role="tab"
+                           aria-controls="ex-with-icons-tabs-2" aria-selected="false"
+                           onclick="choose_add_type('tool')"
+                        ><i class="fas fa-wrench fa-fw me-2"></i>Tool</a>
+                    </li>
+                </ul>
+                <select id="selectAddOption" class="form-select mb-3" aria-label="Default select example" onchange="choose_add_option()">
+                    <option value=0 selected >Choose...</option>
+                    <option value=1 >New Medicine</option>
+                    <option value=3 >Stock In</option>
+                </select>
+
+                <div class="tab-content" id="ex-with-icons-content">
+                    <div class="tab-pane fade show active" id="create-med" aria-labelledby="ex-with-icons-tab-1">
+                        <div name="medicineForm" style="display: none">
+                            <form th:action="@{warehouse/create/medicine}" method="POST" th:object="${newMedForm}">
+
+                                <!--Med's Name-->
+                                <div class="input-group input-group mb-3">
+                                    <span class="input-group-text">Name</span>
+                                    <input type="text" class="form-control" th:field="*{name}">
+                                </div>
+
+                                <!--Price-->
+                                <div class="input-group input-group mb-3">
+                                    <span class="input-group-text date">Price</span>
+                                    <input type="number" class="form-control" th:field="*{price}">
+                                </div>
+
+                                <!--Pet's Dose & Unit-->
+                                <div class="input-group input-group mb-3">
+                                    <span class="input-group-text">Dose</span>
+                                    <input type="text" class="form-control" th:field="*{dose}" style="margin-right: 2px">
+                                    <span class="input-group-text">Unit</span>
+                                    <input type="text" class="form-control" th:field="*{unit}">
+                                </div>
+
+                                <!--Description-->
+                                <div class="input-group input-group mb-3">
+                                    <span class="input-group-text date">Description</span>
+                                    <input type="text" class="form-control" th:field="*{description}">
+                                </div>
+
+                                <div class="modal-footer">
+                                    <div class="col-md-12 text-center">
+                                        <button class="btn btn-primary" type="submit">Submit</button>
+                                        <button class="btn btn-secondary" type="reset">Clear</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div name="medicineForm" style="display: none">
+                            <form th:action="@{warehouse/create/order}" method="POST" th:object="${newWarehouseMedForm}">
+
+                                <!--Warehouse Med-->
+                                <div class="input-group input-group mb-3">
+                                    <span class="input-group-text">Medicine</span>
+                                    <select th:id="selectMedicineOrder" class="form-select" aria-label="Select Medicine" th:field="*{medicine}">
+                                        <option value=0 selected >Choose...</option>
+                                        <option th:each="med : ${medicines}" th:value="${med.medID}" th:text="${med.name}"/>
+                                    </select>
+                                </div>
+
+                                <!--Quality In-->
+                                <div class="input-group input-group mb-3">
+                                    <span class="input-group-text date">Qut.In</span>
+                                    <input type="number" class="form-control" th:field="*{quantityIn}">
+                                </div>
+
+                                <!--PaidTotal-->
+                                <div class="input-group input-group mb-3">
+                                    <span class="input-group-text date">Paid Total</span>
+                                    <input type="number" class="form-control" th:field="*{paidTotal}">
+                                </div>
+
+                                <!--Description-->
+                                <div class="input-group input-group mb-3">
+                                    <span class="input-group-text date">Exp. Date</span>
+                                    <input type="date" class="form-control" th:field="*{expiredDate}">
+                                </div>
+
+                                <div class="modal-footer">
+                                    <div class="col-md-12 text-center">
+                                        <button class="btn btn-primary" type="submit">Submit</button>
+                                        <button class="btn btn-secondary" type="reset">Clear</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="create-tool" aria-labelledby="ex-with-icons-tab-2">
+                        <div name="toolForm" style="display: none">
+                            <form th:action="@{warehouse/create/tool}" method="POST" th:object="${newToolForm}">
+                                <!--Tool's Name-->
+                                <div class="input-group input-group mb-3">
+                                    <span class="input-group-text">Name</span>
+                                    <input type="text" class="form-control" th:field="*{name}">
+                                </div>
+
+                                <!--Price-->
+                                <div class="input-group input-group mb-3">
+                                    <span class="input-group-text date">Price</span>
+                                    <input type="number" class="form-control" th:field="*{price}">
+                                </div>
+
+                                <!--Description-->
+                                <div class="input-group input-group mb-3">
+                                    <span class="input-group-text date">Description</span>
+                                    <input type="text" class="form-control" th:field="*{description}">
+                                </div>
+
+                                <div class="modal-footer">
+                                    <div class="col-md-12 text-center">
+                                        <button class="btn btn-primary" type="submit">Submit</button>
+                                        <button class="btn btn-secondary" type="reset">Clear</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div name="toolForm" style="display: none">
+                            <form th:action="@{warehouse/create/order}" method="POST" th:object="${newWarehouseToolForm}">
+                                <!--Warehouse Med-->
+                                <div class="input-group input-group mb-3">
+                                    <span class="input-group-text">Tool</span>
+                                    <select th:id="selectMedicineOrder" class="form-select" aria-label="Select Medicine" th:field="*{tool}">
+                                        <option value=0 selected >Choose...</option>
+                                        <option th:each="tool : ${tools}" th:value="${tool.ToolID}" th:text="${tool.name}"/>
+                                    </select>
+                                </div>
+
+                                <!--Quality In-->
+                                <div class="input-group input-group mb-3">
+                                    <span class="input-group-text date">Qut.In</span>
+                                    <input type="number" class="form-control" th:field="*{quantityIn}">
+                                </div>
+
+                                <!--PaidTotal-->
+                                <div class="input-group input-group mb-3">
+                                    <span class="input-group-text date">Paid Total</span>
+                                    <input type="number" class="form-control" th:field="*{paidTotal}">
+                                </div>
+
+                                <!--Description-->
+                                <div class="input-group input-group mb-3">
+                                    <span class="input-group-text date">Exp. Date</span>
+                                    <input type="date" class="form-control" th:field="*{expiredDate}">
+                                </div>
+
+                                <div class="modal-footer">
+                                    <div class="col-md-12 text-center">
+                                        <button class="btn btn-primary" type="submit">Submit</button>
+                                        <button class="btn btn-secondary" type="reset">Clear</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>
