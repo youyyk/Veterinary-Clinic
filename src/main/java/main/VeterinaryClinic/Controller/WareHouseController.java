@@ -1,6 +1,5 @@
 package main.VeterinaryClinic.Controller;
 
-import lombok.Getter;
 import main.VeterinaryClinic.Model.Medicine;
 import main.VeterinaryClinic.Model.Tool;
 import main.VeterinaryClinic.Model.WareHouse;
@@ -11,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Controller
