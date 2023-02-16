@@ -1,5 +1,6 @@
 package main.VeterinaryClinic.Controller;
 
+import lombok.Getter;
 import main.VeterinaryClinic.Model.Medicine;
 import main.VeterinaryClinic.Model.Tool;
 import main.VeterinaryClinic.Model.WareHouse;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/warehouse")
@@ -24,7 +27,20 @@ public class WareHouseController {
 
     @GetMapping
     public String getWarehousePage(Model model) {
-        model.addAttribute("warehouses", wareHouseService.getAll());
+        List<WareHouse> wareHouses = wareHouseService.getAll();
+        int expiredCount = 0;
+        int almostCount = 0;
+        for (WareHouse wh : wareHouses) {
+            short expiredType = wh.isExpired();
+            if (expiredType == -1){
+                expiredCount++;
+            } else if (expiredType == 1) {
+                almostCount++;
+            }
+        }
+        model.addAttribute("warehouses", wareHouses);
+        model.addAttribute("expiredCount", expiredCount);
+        model.addAttribute("almostCount", almostCount);
         model.addAttribute("medicines", medicineService.getAll());
         model.addAttribute("tools", toolService.getAll());
         model.addAttribute("newMedForm", new Medicine());

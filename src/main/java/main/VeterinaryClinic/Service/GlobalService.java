@@ -55,18 +55,16 @@ public class GlobalService {
     public static Date getCurrentTime() {
         Date date = new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-        System.out.println("Global : " + formatter.format(date));
         return date;
     }
     public static Date convertStringToDate(String strDate) {
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = formatter.parse(strDate);
-            System.out.println("Global : " + date);
             return date;
         }
         catch(Exception e){
-            System.out.println("Cannot Convert String to Date");
+            System.out.println("Global : Cannot Convert String to Date");
         }
         return null;
     }
