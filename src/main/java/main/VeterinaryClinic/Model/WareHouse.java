@@ -31,7 +31,7 @@ public class WareHouse {
     @Column(name="quantity_left")
     private int quantityLeft;
 
-    @Column(name="ware_type")
+    @Column(name="ware_type", columnDefinition = "CHAR(10)")
     private String type;
     @Column(name="paid_total") //ต้นทุน
     private double paidTotal;

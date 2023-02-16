@@ -115,6 +115,10 @@
                                 <i class="fa fa-ellipsis-v"></i>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                <a th:id="'profile-button'" class="dropdown-item" th:href="@{'account/getInfo/'+${account.accId}}">
+                                    <i class="fa fa-user-circle mr-1"></i> Profile
+<!--                                    <th:block th:replace="account/infoAccount :: infoAccount(${account})">modal</th:block>-->
+                                </a>
                                 <a th:id="'edit-role-button'" class="dropdown-item" href="#" th:attr="onclick='Edit_Btn_Click(\'' + ${account.accId}+  '\');'">
                                     <i class="fa fa-pencil mr-1"></i> Edit
                                 </a>

@@ -20,12 +20,17 @@ public class Bill {
     @ManyToOne()
     @JoinColumn(name="pet_id")
     private Pet pet;
+
+    @OneToOne()
+    @MapsId("cure_history_id")
+    private CureHistory cureHistory;
+
     @Column(name="start_date")
     private Date startDate;
 
     @Column(name="end_date")
     private Date endDate;
-    @Column(name="pay_type" , columnDefinition = "CHAR(10)")
+    @Column(name="pay_type", columnDefinition = "CHAR(10)")
     private String payType;
     @Column(name="total")
     private double total;
@@ -57,5 +62,7 @@ public class Bill {
         this.startDate = GlobalService.getCurrentTime();
         this.endDate = null;
     }
+
+
 
 }

@@ -2,7 +2,6 @@ package main.VeterinaryClinic.Model.Bill;
 
 import lombok.Data;
 import main.VeterinaryClinic.Model.Medicine;
-import main.VeterinaryClinic.Model.Pet;
 
 import javax.persistence.*;
 
@@ -14,10 +13,6 @@ public class BillMedicine {
     @EmbeddedId
     private BillMedicineID pairedID;
 
-//    @ManyToOne()
-//    @JoinColumn(name="pk_bill_id")
-//    private Bill bill;
-
     @MapsId("bill_id")
     @ManyToOne
     private Bill bill;
@@ -26,8 +21,8 @@ public class BillMedicine {
     @ManyToOne
     private Medicine medicine;
 
-    @Column(name="bill_med_amount")
-    private int medAmount;
+    @Column(name="bill_med_total")
+    private int medTotal;
 
     public BillMedicine() {super();}
 
@@ -35,7 +30,7 @@ public class BillMedicine {
         this.pairedID = new BillMedicineID(bill.getBillID(),medicine.getMedID());
         this.bill = bill;
         this.medicine = medicine;
-        this.medAmount = cureAmount;
+        this.medTotal = cureAmount;
     }
 
     @Override
@@ -44,7 +39,7 @@ public class BillMedicine {
                 "pairedID=" + pairedID +
                 ", bill=" + bill +
                 ", medicine=" + medicine +
-                ", cureAmount=" + medAmount +
+                ", cureAmount=" + medTotal +
                 '}';
     }
 }

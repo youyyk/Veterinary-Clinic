@@ -61,6 +61,7 @@ public class AccountService {
     }
 
     public Account getById(String id){ return accountRepository.findByAccId(UUID.fromString(id));}
+    public Account getById(UUID id){ return accountRepository.findByAccId(id);}
     public Account getByLineId(String lineId){ return accountRepository.findByLineId(lineId);}
 
     public List<Account> getAll(){
@@ -72,5 +73,17 @@ public class AccountService {
     }
     public List<Account> getAccountWithSort(String field) {
         return accountRepository.findAll(Sort.by(Sort.Direction.ASC, field));
+    }
+
+    public void editAccount(Account newAccount,String accId){
+        Account account = getById(accId);
+
+        account.setTitle(newAccount.getTitle());
+        account.setFirstName(newAccount.getFirstName());
+        account.setLastName(newAccount.getLastName());
+        account.setAddress(newAccount.getAddress());
+        account.setPhone(newAccount.getPhone());
+
+        accountRepository.save(account);
     }
 }

@@ -79,12 +79,12 @@ public class GlobalService {
         }
         //------------- Pet --------------
         Pet pet = new Pet("มินิ","เมีย",GlobalService.convertStringToDate("2020-11-03"),false,"สุนัข","ชิวาวา");
-        petService.create(pet);
+        petService.save(pet);
         pet = new Pet("แทมมี่","ผู้",GlobalService.convertStringToDate("2020-11-03"),false,"แมว","เปอร์เซีย");
-        petService.create(pet);
+        petService.save(pet);
         //------------- Bill --------------
-        Bill bill = new Bill(pet);
-        mainBillService.create(bill);
+//        Bill bill = new Bill(pet);
+//        mainBillService.create(bill);
 
         //------------- Medicine ------------
 
@@ -105,8 +105,8 @@ public class GlobalService {
         medicineService.create(medicine);
         wareHouseService.create(new WareHouse(medicine, 100,8000,GlobalService.convertStringToDate("2022-01-22")));
 
-        BillMedicine billMedicine = new BillMedicine(bill,medicine,10);
-        billMedicineService.create(billMedicine);
+//        BillMedicine billMedicine = new BillMedicine(bill,medicine,10);
+//        billMedicineService.create(billMedicine);
 
         //------------- Tool ------------
         Tool toolData = new Tool("Syringe",10,"5 ml");
@@ -117,8 +117,8 @@ public class GlobalService {
         toolService.create(toolData);
         wareHouseService.create(new WareHouse(toolData, 150,6000,GlobalService.convertStringToDate("2022-01-12")));
 
-        BillTool billTool = new BillTool(bill,toolData,1);
-        billToolService.create(billTool);
+//        BillTool billTool = new BillTool(bill,toolData,1);
+//        billToolService.create(billTool);
 
         //------------- Service ------------
         Serving serviceData = new Serving("เปิดห้องผ่าตัด",300);
@@ -126,21 +126,21 @@ public class GlobalService {
         serviceData = new Serving("Doctor Fee",170);
         servingService.create(serviceData);
 
-        BillServing billService = new BillServing(bill,serviceData,1);
-        billServiceService.create(billService);
+//        BillServing billService = new BillServing(bill,serviceData,1);
+//        billServiceService.create(billService);
 
         //------------- Appointment --------------
-        pet = new Pet("แจ็ค","ผู้",GlobalService.convertStringToDate("2021-08-12"),true,"แมว","เปอร์เซีย");
-        petService.create(pet);
-
-        Appointment appointment = new Appointment(pet,GlobalService.convertStringToDate("2022-12-27"),"เย็น","อาเจียนและท้องเสีย");
-        appointmentService.create(appointment);
-
-        appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-02-08"),"เช้า","ฉีดวัคซีน");
-        appointmentService.create(appointment);
-
-        //------------- Cure History --------------
-        CureHistory cureHistory = new CureHistory(pet,GlobalService.convertStringToDate("2022-12-10"),"พบเห็บหมัด",false);
-        cureHistoryService.create(cureHistory);
+//        pet = new Pet("แจ็ค","ผู้",GlobalService.convertStringToDate("2021-08-12"),true,"แมว","เปอร์เซีย");
+//        petService.save(pet);
+//
+//        Appointment appointment = new Appointment(pet,GlobalService.convertStringToDate("2022-12-27"),"เย็น","อาเจียนและท้องเสีย");
+//        appointmentService.create(appointment);
+//
+//        appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-02-08"),"เช้า","ฉีดวัคซีน");
+//        appointmentService.create(appointment);
+//
+//        //------------- Cure History --------------
+//        CureHistory cureHistory = new CureHistory(pet,GlobalService.convertStringToDate("2022-12-10"),"พบเห็บหมัด",false);
+//        cureHistoryService.create(cureHistory);
     }
 }

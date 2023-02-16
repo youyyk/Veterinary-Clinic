@@ -21,8 +21,8 @@ public class BillServing {
     @ManyToOne
     private Serving serving;
 
-    @Column(name="bill_tool_amount")
-    private int toolAmount;
+    @Column(name="bill_serving_total")
+    private int servingTotal;
 
     public BillServing() {super();}
 
@@ -30,7 +30,7 @@ public class BillServing {
         this.pairedID = new BillServingID(bill.getBillID(), serving.getServiceID());
         this.bill = bill;
         this.serving = serving;
-        this.toolAmount = toolAmount;
+        this.servingTotal = toolAmount;
     }
 
 
@@ -40,7 +40,7 @@ public class BillServing {
                 "pairedID=" + pairedID +
                 ", bill=" + bill +
                 ", service=" + serving +
-                ", toolAmount=" + toolAmount +
+                ", toolAmount=" + servingTotal +
                 '}';
     }
 }

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+<div th:fragment="editInfoAccountPopUp(account)" th:id="editInfoAccountPopUp" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
+     data-bs-backdrop="static" aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Account</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/account/edit}" method="POST">
+                    <!--Account ID-->
+                    <input type="hidden" class="form-control" id="accId" name="accId" th:value="${account.accId}">
+                    <!--Line Name-->
+                    <input type="hidden" class="form-control" id="lineName" name="lineName" th:value="${account.lineName}">
+                    <!--Line ID-->
+                    <input type="hidden" class="form-control" id="lineId" name="lineId" th:value="${account.lineId}">
+                    <!--Image Path-->
+                    <input type="hidden" class="form-control" id="img_path" name="img_path" th:value="${account.img_path}">
+
+                    <!--Title-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text">Title</span>
+                        <select class="form-select" id="title" name="title" aria-label="Default select example">
+                            <option th:value="Mr." th:text="Mr."
+                                    th:selected="${#strings.contains(account.title, 'Mr.')}"/>
+                            <option th:value="Mrs." th:text="Mrs."
+                                    th:selected="${#strings.contains(account.title, 'Mrs.')}"/>
+                            <option th:value="Ms." th:text="Ms."
+                                    th:selected="${#strings.contains(account.title, 'Ms.')}"/>
+                            <option th:value="Miss" th:text="Miss"
+                                    th:selected="${#strings.contains(account.title, 'Miss')}"/>
+                        </select>
+                    </div>
+                    <!--FirstName-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text">First Name</span>
+                        <input type="text" class="form-control" id="firstName" name="firstName" th:value="${account.firstName}">
+                    </div>
+
+                    <!--LastName-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text">Last Name</span>
+                        <input type="text" class="form-control" id="lastName" name="lastName" th:value="${account.lastName}">
+                    </div>
+
+                    <!--Address-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text">Address</span>
+                        <input type="text" class="form-control" id="address" name="address" th:value="${account.address}">
+                    </div>
+
+                    <!--Phone No.-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text">Phone No.</span>
+                        <input type="text" class="form-control" id="phone" name="phone" th:value="${account.phone}">
+                    </div>
+
+                    <!--button-->
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit">edit</button>
+                        <button class="btn btn-secondary" type="reset">clear</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

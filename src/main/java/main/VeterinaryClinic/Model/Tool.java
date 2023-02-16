@@ -14,11 +14,11 @@ public class Tool {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tool_id")
     private Long ToolID;
-    @Column(name = "tool_name")
+    @Column(name = "tool_name", columnDefinition = "CHAR(30)")
     private String name;
     @Column(name = "price")
     private double price;
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
     @Column(name = "soft_deleted_date")
     private Date softDeletedDate;

@@ -2,16 +2,22 @@ package main.VeterinaryClinic.Controller;
 
 import main.VeterinaryClinic.Config.SecurityConfig;
 import main.VeterinaryClinic.Model.Account.Account;
+import main.VeterinaryClinic.Model.Pet;
 import main.VeterinaryClinic.Service.Account.AccountService;
+import main.VeterinaryClinic.Service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
+
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
 @RequestMapping("/account")
@@ -19,6 +25,8 @@ public class AccountController {
 
     @Autowired
     private AccountService accountService;
+    @Autowired
+    private PetService petService;
 
     /*
     http://localhost:8080/employees?pageSize=5
@@ -68,5 +76,45 @@ public class AccountController {
             }
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    @GetMapping("/getInfo/{accId}")
+    public String getInfo(@PathVariable("accId") UUID accId, Model model) {
+        System.out.println("---Get Info---");
+        Account account = accountService.getById(accId);
+        List<Pet> pets = petService.findByAccountAndSoftDeleted(account,false);
+//        System.out.println(pets);
+
+        System.out.println(account.getFirstName()+" "+account.getLastName());
+        model.addAttribute("account", account);
+        model.addAttribute("pets", pets);
+
+
+        return "account/infoAccount";
+    }
+
+    @RequestMapping(path = "/edit", method = POST)
+    public String editAccount(@RequestParam("accId") String accId,
+                              @RequestParam("title") String title,
+                              @RequestParam("firstName") String firstName,
+                              @RequestParam("lastName") String lastName,
+                              @RequestParam("address") String address,
+                              @RequestParam("phone") String phone) {
+        System.out.println("---Edit Account---");
+//        System.out.println(account);
+
+        Account account = accountService.getById(accId);
+
+        account.setTitle(title);
+        account.setFirstName(firstName);
+        account.setLastName(lastName);
+        account.setAddress(address);
+        account.setPhone(phone);
+
+        System.out.println(account);
+
+        accountService.save(account);
+
+        return "redirect:/account/getInfo/"+accId;
     }
 }

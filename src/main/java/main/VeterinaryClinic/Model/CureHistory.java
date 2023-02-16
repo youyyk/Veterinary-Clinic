@@ -1,6 +1,7 @@
 package main.VeterinaryClinic.Model;
 
 import lombok.Data;
+import main.VeterinaryClinic.Model.Bill.Bill;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -18,11 +19,18 @@ public class CureHistory {
     @JoinColumn(name="pet_id")
     private Pet pet;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "bill_id")
+    private Bill bill;
+
     @Column(name="cure_date")
     private Date date;
 
-    @Column(name="diagnosis")
+    @Column(name="diagnosis", columnDefinition = "TEXT")
     private String diagnosis;
+
+    @Column(name="weight")
+    private double weight;
 
     @Column(name="our_clinic")
     private boolean ourClinic;

@@ -1,7 +1,6 @@
 package main.VeterinaryClinic.Model.Bill;
 
 import lombok.Data;
-import main.VeterinaryClinic.Model.Medicine;
 import main.VeterinaryClinic.Model.Tool;
 
 import javax.persistence.*;
@@ -22,16 +21,16 @@ public class BillTool {
     @ManyToOne
     private Tool tool;
 
-    @Column(name="Bill_service_amount")
-    private double serviceAmount;
+    @Column(name="bill_tool_total")
+    private int toolTotal;
 
     public BillTool() {super();}
 
-    public BillTool(Bill bill, Tool tool, double serviceAmount) {
+    public BillTool(Bill bill, Tool tool, int toolTotal) {
         this.pairedID = new BillToolID(bill.getBillID(),tool.getToolID());
         this.bill = bill;
         this.tool = tool;
-        this.serviceAmount = serviceAmount;
+        this.toolTotal = toolTotal;
     }
 
     @Override
@@ -40,7 +39,7 @@ public class BillTool {
                 "pairedID=" + pairedID +
                 ", bill=" + bill +
                 ", tool=" + tool +
-                ", serviceAmount=" + serviceAmount +
+                ", serviceAmount=" + toolTotal +
                 '}';
     }
 }
