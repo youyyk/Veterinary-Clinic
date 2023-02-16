@@ -1,2 +1,2 @@
-- Edit some database
-- Create Account's profile with pets
+- Edit information
+- Delete pet

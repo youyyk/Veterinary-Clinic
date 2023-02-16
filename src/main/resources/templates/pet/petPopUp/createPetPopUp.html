@@ -9,18 +9,18 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">เพิ่มสัตว์เลี้ยง</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add Pet</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:action="@{/create/pets}" method="POST" enctype="multipart/form-data">
+                <form th:action="@{/pets/create}" method="POST" enctype="multipart/form-data">
 
                     <!--Account ID-->
                     <input type="hidden" class="form-control" id="accId" name="accId" th:value="${accId}">
 
                     <!--Pet's Name-->
                     <div class="input-group input-group mb-3">
-                        <span class="input-group-text">ชื่อสัตว์เลี้ยง</span>
+                        <span class="input-group-text">Pet's Name</span>
                         <input type="text" class="form-control" id="name" name="name">
                     </div>
 
@@ -30,52 +30,57 @@
                     </div>
 
                     <!--DoB-->
+<!--                    <div class="input-group input-group mb-3">-->
+<!--                        <span class="input-group-text date">Date of Birth</span>-->
+<!--                        <input type="date" class="form-control" id="doB" name="doB">-->
+<!--                        <span class="input-group-text" >Age</span>-->
+<!--                        <input type="text" id="age" name="age" class="form-control">-->
+<!--                    </div>-->
+
                     <div class="input-group input-group mb-3">
-                        <span class="input-group-text date">วันเกิด</span>
-                        <input type="date" class="form-control" id="doB" name="doB" placeholder="----- วันเกิด ------">
-                        <span class="input-group-text" >อายุ</span>
-                        <input type="text" id="age" name="age" class="form-control">
+                        <span class="input-group-text">Date of Birth</span>
+                        <input type="date" class="form-control" id="doB" name="doB">
                     </div>
 
 
                     <!--Pet's Type & Breed-->
                     <div class="input-group input-group mb-3">
-                        <span class="input-group-text">ประเภท</span>
+                        <span class="input-group-text">Pet's Type</span>
                         <input type="text" class="form-control" id="petType" name="petType">
-                        <span class="input-group-text">พันธุ์</span>
+                        <span class="input-group-text">Breed</span>
                         <input type="text" class="form-control" id="breed" name="breed">
                     </div>
 
 
                     <!--Gender-->
                     <div class="input-group input-group mb-3">
-                        <span class="input-group-text">เพศ</span>
+                        <span class="input-group-text">Gender</span>
                         <select class="form-select" id="gender" name="gender">
-                            <option selected>-------- กดเพื่อเลือก --------</option>
-                            <option value="เมีย">เพศเมีย</option>
-                            <option value="ผุ้">เพศผู้</option>
+                            <option selected>-------- Choose --------</option>
+                            <option value="female">female</option>
+                            <option value="male">male</option>
                         </select>
                     </div>
 
                     <div class="input-group input-group mb-3">
-                        <span class="input-group-text">ทำหมัน</span>
+                        <span class="input-group-text">Sterilization</span>
                         <select class="form-select" id="sterilization" name="sterilization">
-                            <option selected>-------- กดเพื่อเลือก --------</option>
-                            <option value="true">ทำแล้ว</option>
-                            <option value="false">ยังไม่ได้ทำ</option>
+                            <option selected>-------- Choose --------</option>
+                            <option value="true">sterilized</option>
+                            <option value="false">not sterilized</option>
                         </select>
                     </div>
 
 
                     <!--Remark-->
                     <div class="input-group input-group mb-3">
-                        <span class="input-group-text">remark</span>
+                        <span class="input-group-text">Remark</span>
                         <input type="text" class="form-control" id="remark" name="remark">
                     </div>
 
                     <!--button-->
                     <div class="modal-footer">
-                            <button class="btn btn-primary" type="submit">เพิ่มสัตว์เลี้ยง</button>
+                            <button class="btn btn-primary" type="submit">save</button>
                             <button class="btn btn-secondary" type="reset">clear</button>
                     </div>
 

@@ -15,7 +15,8 @@ import java.util.UUID;
 public interface PetRepository extends JpaRepository<Pet, Long> {
     Pet findByPetID(long petID);
 
-
     List<Pet> findByAccount(Account account);
+
+    List<Pet> findByAccountAndSoftDeleted(Account account,boolean softDeleted);
 
 }

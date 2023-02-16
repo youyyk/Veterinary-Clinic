@@ -59,6 +59,8 @@ public class Account {
     }
 
 
+
+
     public void addRole(Role role){
         roles.add(role);
     }
@@ -90,6 +92,8 @@ public class Account {
     public boolean isOfficer(){ return roles.contains(new Role(SecurityConfig.ROLE_OFFICER)); }
 
     public boolean isCustomer(){ return roles.contains(new Role(SecurityConfig.ROLE_CUSTOMER)); }
+
+
 
     @Override
     public String toString() {

@@ -30,7 +30,7 @@ public class Pet {
 
     @Column(name="pet_name", columnDefinition = "CHAR(20)")
     private String name;
-    @Column(name="gender", columnDefinition = "CHAR(5)")
+    @Column(name="gender", columnDefinition = "CHAR(10)")
     private String gender;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Column(name="date_of_birth")

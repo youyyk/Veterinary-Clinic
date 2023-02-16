@@ -24,10 +24,13 @@
       </div>
       <div class="col-md-8 ms-auto">
         <div class="card-body">
-          <button type="button" class="btn btn-primary float-end">Edit</button>
-          <h3 class="card-title">Name Surname</h3>
-          <p class="card-text">----- Address -----</p>
-          <p class="card-text">----- Phone No. -----</p>
+            <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#editInfoAccountPopUp">
+                Edit
+            </button>
+            <th:block th:replace="account/accountPopUp/editInfoAccountPopUp :: editInfoAccountPopUp(${account})">modal</th:block>
+            <h2 class="card-title">[[*{account.firstName}]] [[*{account.lastName}]]</h2>
+            <p class="card-text">[[*{account.address}]]</p>
+            <p class="card-text">[[*{account.phone}]]</p>
         </div>
       </div>
     </div>
@@ -36,7 +39,7 @@
   <div class="mb-5">
       <div class="float-end mt-3 mb-3">
           <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createPetPopUp">
-              + เพิ่มสัตว์เลี้ยง
+              + Add Pet
           </button>
           <!--Call Create pet (PopUp)-->
           <th:block th:replace="pet/petPopUp/createPetPopUp :: createPetPopUp(${account.accId})">modal</th:block>
@@ -45,28 +48,47 @@
     <table class="table">
         <thead class="table-dark">
         <tr>
-            <th scope="col">รูปภาพ</th>
-            <th scope="col">ชื่อสัตว์เลี้ยง</th>
-            <th scope="col">เพศ</th>
-            <th scope="col">วันเกิด</th>
-            <th scope="col">ประเภท</th>
-            <th scope="col">พันธุ์</th>
-            <th scope="col">ทำหมัน(Y/N)</th>
+            <th scope="col">Image</th>
+            <th scope="col">Pet's Name</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Date of Birth</th>
+            <th scope="col">Pet's Type</th>
+            <th scope="col">Breed</th>
+            <th scope="col">Sterilization</th>
+            <th scope="col">Actions</th>
         </tr>
         </thead>
+
         <tbody>
-        <tr th:each="pet : ${pets}">
+        <tr th:each="pet : ${pets}" th:style="${pet.softDeleted} == true ? 'opacity:0.2'">
             <th scope="row"><img alt="" th:src="*{'data:image;base64,'+{pet.image}}" style="width:100px;height:100px"></th>
 
             <td>[[*{pet.name}]]</td>
             <td>[[*{pet.gender}]]</td>
-            <td>[[*{pet.doB}]]</td>
+            <td>[[${#dates.format(pet.doB, 'yyyy/MM/dd')}]]</td>
             <td>[[*{pet.petType}]]</td>
             <td>[[*{pet.breed}]]</td>
-            <td th:switch="${pet.sterilization}">
-                <p th:case="true">Y</p>
-                <p th:case="false">N</p>
+
+            <td>
+                <span th:if="${pet.sterilization == true}" style="font-size: 0.9em;" class="badge rounded-pill bg-success">STERILIZED</span>
+                <span th:if="${pet.sterilization == false}" style="font-size: 0.9em;" class="badge rounded-pill bg-secondary">NOT STERILIZED</span>
             </td>
+            <td>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        th:attr="data-bs-target='#editPetPopUp'+*{pet.petID}">
+                    edit
+                </button>
+                <th:block th:replace="pet/petPopUp/editPetPopUp :: editPetPopUp(${account.accId},${pet})">modal</th:block>
+
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal"
+                        th:attr="data-bs-target='#deletePopUp'+*{pet.petID}">
+                    delete
+                </button>
+                <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Pet',mainPath='pets',deleteId=${pet.petID},deleteName=${pet.name},pathId=${account.accId})">
+                    modal
+                </th:block>
+            </td>
+
 
         </tr>
         </tbody>

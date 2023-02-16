@@ -74,4 +74,16 @@ public class AccountService {
     public List<Account> getAccountWithSort(String field) {
         return accountRepository.findAll(Sort.by(Sort.Direction.ASC, field));
     }
+
+    public void editAccount(Account newAccount,String accId){
+        Account account = getById(accId);
+
+        account.setTitle(newAccount.getTitle());
+        account.setFirstName(newAccount.getFirstName());
+        account.setLastName(newAccount.getLastName());
+        account.setAddress(newAccount.getAddress());
+        account.setPhone(newAccount.getPhone());
+
+        accountRepository.save(account);
+    }
 }

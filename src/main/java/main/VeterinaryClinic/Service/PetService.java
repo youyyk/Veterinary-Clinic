@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @Transactional
@@ -24,18 +23,27 @@ public class PetService {
         return repository.findByAccount(account);
     }
 
-    public Pet create(Pet pet) {
+    public List<Pet> findByAccountAndSoftDeleted(Account account,boolean softDeleted) {
+        return repository.findByAccountAndSoftDeleted(account,softDeleted);
+    }
+
+    public Pet findByPetID(long petID) {
+        return repository.findByPetID(petID);
+    }
+
+    public Pet save(Pet pet) {
         return repository.save(pet);
     }
 
     public void editPet(Pet newPet,long id)
     {
-        System.out.println("Edit Service");
+        System.out.println("---Edit Pet Service---");
         Pet pet = repository.findByPetID(id);
         System.out.println("Old Pet "+pet);
         pet = pet.setAll(pet,newPet,id);
         System.out.println("Set Pet "+pet);
         repository.save(pet);
+        System.out.println("---done---");
     }
 
 

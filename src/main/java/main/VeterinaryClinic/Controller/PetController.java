@@ -6,6 +6,7 @@ import main.VeterinaryClinic.Service.Account.AccountService;
 import main.VeterinaryClinic.Service.GlobalService;
 import main.VeterinaryClinic.Service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -15,7 +16,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Base64;
 import java.util.Objects;
-import java.util.UUID;
+
+import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 @Controller
 @RequestMapping
@@ -39,8 +41,8 @@ public class PetController {
 
 
 
-    //After submit "Create Pet (PopUp)" get object from input for create pet and return to show all pets
-    @PostMapping("/create/pets")
+    //Create Pet (PopUp) -> Return Pet's Owner Page
+    @RequestMapping(path = "/pets/create", method = POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public String createPet(@RequestParam("accId") String accId,
                             @RequestParam("name") String name,
                             @RequestParam("image") MultipartFile image,
@@ -66,18 +68,20 @@ public class PetController {
             e.printStackTrace();
         }
 
-        petService.create(pet);
+        petService.save(pet);
 
-        return "redirect:/pets";
+        return "redirect:/account/getInfo/"+accId;
     }
 
-    @PostMapping("/edit/pets")
-    public String editPet(@RequestParam("petID") long petID,
+    //Edit Pet (PopUp) -> Return Pet's Owner Page
+    @RequestMapping(path = "/pets/edit", method = POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public String editPet(@RequestParam("accId") String accId,
+                          @RequestParam("petID") long petID,
                           @RequestParam("name") String name,
                           @RequestParam("image") MultipartFile image,
                           @RequestParam("gender") String gender,
                           @RequestParam("doB") String doB,
-                          @RequestParam("sterilization") Boolean sterilization,
+                          @RequestParam("sterilization") boolean sterilization,
                           @RequestParam("petType") String petType,
                           @RequestParam("breed") String breed,
                           @RequestParam("remark") String remark){
@@ -104,8 +108,27 @@ public class PetController {
 
         petService.editPet(pet,petID);
 
-        return "redirect:/pets";
+        return "redirect:/account/getInfo/"+accId;
     }
+
+    //Delete Pet (PopUp) -> Return Pet's Owner Page
+    @RequestMapping(path = "/pets/delete", method = POST)
+    public String deletePet(@RequestParam("id") long id,
+                            @RequestParam("pathId") String pathId){
+        System.out.println("---- Delete Pet ----");
+
+        Pet pet = petService.findByPetID(id);
+
+        pet.setSoftDeleted(true);
+        pet.setSoftDeletedDate(GlobalService.getCurrentTime());
+
+        petService.save(pet);
+
+        System.out.println("Delete "+pet.getName());
+
+        return "redirect:/account/getInfo/"+pathId;
+    }
+
 
 
 
