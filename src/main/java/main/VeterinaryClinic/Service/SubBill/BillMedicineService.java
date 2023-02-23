@@ -16,8 +16,12 @@ public class BillMedicineService {
         return repository.findAll();
     }
 
-    public BillMedicine create(BillMedicine billMedicine) {
+    public BillMedicine save(BillMedicine billMedicine) {
         return repository.save(billMedicine);
+    }
+
+    public BillMedicine findByBillIDAndMedID(long billID,long medID) {
+        return repository.findByPairedID_BillAndPairedID_Med(billID, medID);
     }
 
 

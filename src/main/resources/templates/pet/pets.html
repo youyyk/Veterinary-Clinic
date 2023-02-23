@@ -37,7 +37,7 @@
         </thead>
         <tbody>
         <tr th:each="pet : ${pets}">
-            <th scope="row"><img alt="" th:src="*{'data:image;base64,'+{pet.image}}" style="width:100px;height:100px"></th>
+            <th scope="row"><img alt="" th:src="*{'data:image;base64,'+${pet.image}}" style="width:100px;height:100px"></th>
 
             <td>[[*{pet.name}]]</td>
             <td>[[*{pet.gender}]]</td>
@@ -60,7 +60,6 @@
 <!--                </button>-->
 <!--                &lt;!&ndash;                <th:block th:replace="pet/petPopUp/deletePetPopUp :: deletePetPopUp">modal</th:block>&ndash;&gt;-->
 <!--            </td>-->
-
         </tr>
         </tbody>
     </table>

@@ -13,11 +13,11 @@ public class BillMedicine {
     @EmbeddedId
     private BillMedicineID pairedID;
 
-    @MapsId("bill_id")
+    @MapsId("bill")
     @ManyToOne
     private Bill bill;
 
-    @MapsId("med_id")
+    @MapsId("med")
     @ManyToOne
     private Medicine medicine;
 

@@ -22,8 +22,8 @@ public class Bill {
     private Pet pet;
 
     @OneToOne()
-    @MapsId("cure_history_id")
-    private CureHistory cureHistory;
+    @MapsId("treatment_history_id")
+    private TreatmentHistory TreatmentHistory;
 
     @Column(name="start_date")
     private Date startDate;

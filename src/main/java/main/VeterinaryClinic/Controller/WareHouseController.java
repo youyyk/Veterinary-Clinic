@@ -50,13 +50,13 @@ public class WareHouseController {
     @RequestMapping(path = "/create/medicine", method = RequestMethod.POST)
     public String createPet(@ModelAttribute Medicine medicine){
         System.out.println("Test");
-        medicineService.create(medicine);
+        medicineService.save(medicine);
         return "redirect:/warehouse";
     }
 
     @RequestMapping(path = "/create/tool", method = RequestMethod.POST)
     public String createPet(@ModelAttribute Tool tool){
-        toolService.create(tool);
+        toolService.save(tool);
         return "redirect:/warehouse";
     }
 

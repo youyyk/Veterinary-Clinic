@@ -1,2 +1,3 @@
-- Edit information
-- Delete pet
+- Edit Account's Information
+- Create Treatment History Page
+- Change Cure -> Treatment

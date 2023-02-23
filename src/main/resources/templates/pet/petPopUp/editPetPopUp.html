@@ -3,7 +3,7 @@
 
 <body>
 <!--edit Pet (PopUp)-->
-<div th:fragment="editPetPopUp(accId,pet)" th:id="'editPetPopUp'+${pet.petID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
+<div th:fragment="editPetPopUp(accId,pet,page)" th:id="'editPetPopUp'+${pet.petID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
      data-bs-backdrop="static" aria-hidden="true">
 
     <div class="modal-dialog">
@@ -19,6 +19,8 @@
                     <input type="hidden" class="form-control" id="petID" name="petID" th:value="${pet.petID}">
                     <!--Account ID-->
                     <input type="hidden" class="form-control" id="accId" name="accId" th:value="${accId}">
+                    <!--Page-->
+                    <input type="hidden" class="form-control" id="page" name="page" th:value="${page}">
 
 
                     <!--Pet's Image-->

@@ -13,7 +13,7 @@ public class Tool {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tool_id")
-    private Long ToolID;
+    private Long toolID;
     @Column(name = "tool_name", columnDefinition = "CHAR(30)")
     private String name;
     @Column(name = "price")

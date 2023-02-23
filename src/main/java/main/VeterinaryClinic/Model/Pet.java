@@ -3,16 +3,11 @@ package main.VeterinaryClinic.Model;
 import lombok.Data;
 import main.VeterinaryClinic.Model.Account.Account;
 import main.VeterinaryClinic.Model.Bill.Bill;
-import main.VeterinaryClinic.Service.GlobalService;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.util.StringUtils;
 
 import javax.persistence.*;
-import java.io.IOException;
-import java.util.Base64;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 @Table(name="pets")
@@ -61,7 +56,7 @@ public class Pet {
     private List<Appointment> appointments;
 
     @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<CureHistory> cureHistories;
+    private List<TreatmentHistory> treatmentHistories;
 
 
     public Pet() {super();}
@@ -73,7 +68,7 @@ public class Pet {
         this.sterilization = sterilization;
         this.petType = petType;
         this.breed = breed;
-        this.remark = "";
+        this.remark = "-";
         this.image = "";
         this.softDeleted = false;
         this.softDeletedDate = null;

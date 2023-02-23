@@ -18,9 +18,11 @@ public class ToolService {
         return repository.findAll();
     }
 
-    public Tool create(Tool tool) {
+    public Tool save(Tool tool) {
         return repository.save(tool);
     }
+
+    public Tool findByToolID(long toolID){return repository.findByToolID(toolID);}
 
 
 }

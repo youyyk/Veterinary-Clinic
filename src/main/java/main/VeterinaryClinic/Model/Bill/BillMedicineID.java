@@ -9,16 +9,16 @@ import java.util.Objects;
 public class BillMedicineID implements Serializable {
 
     @Column(name = "_id")
-    protected long bill_id;
+    protected long bill;
 
     @Column(name = "_id")
-    protected long med_id;
+    protected long med;
 
     public BillMedicineID() {super();}
 
-    public BillMedicineID(long bill_id, long med_id) {
-        this.bill_id = bill_id;
-        this.med_id = med_id;
+    public BillMedicineID(long bill, long med) {
+        this.bill = bill;
+        this.med = med;
     }
 
     @Override
@@ -26,11 +26,11 @@ public class BillMedicineID implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BillMedicineID billMedicineID = (BillMedicineID) o;
-        return bill_id == billMedicineID.bill_id && med_id == billMedicineID.med_id;
+        return bill == billMedicineID.bill && med == billMedicineID.med;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bill_id, med_id);
+        return Objects.hash(bill, med);
     }
 }

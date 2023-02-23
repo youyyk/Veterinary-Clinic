@@ -5,7 +5,6 @@ import main.VeterinaryClinic.Model.Bill.Bill;
 import main.VeterinaryClinic.Model.Bill.BillMedicine;
 import main.VeterinaryClinic.Model.Bill.BillServing;
 import main.VeterinaryClinic.Model.Bill.BillTool;
-
 import org.springframework.stereotype.Service;
 import main.VeterinaryClinic.Service.Account.AccountService;
 import main.VeterinaryClinic.Service.SubBill.BillMedicineService;
@@ -43,7 +42,7 @@ public class GlobalService {
     @Autowired
     private AppointmentService appointmentService;
     @Autowired
-    private CureHistoryService cureHistoryService;
+    private TreatmentHistoryService treatmentHistoryService;
     @Autowired
     private GenerateFileService generateFileService;
 
@@ -74,60 +73,74 @@ public class GlobalService {
     }
 
     public void mockData() {
-        for (int i=1; i<=30; i++){
-            accountService.create("Test"+i, "123",null);
-        }
+//        for (int i=1; i<=5; i++){
+//            accountService.create("Test"+i, "123",null);
+//        }
         //------------- Pet --------------
-        Pet pet = new Pet("มินิ","เมีย",GlobalService.convertStringToDate("2020-11-03"),false,"สุนัข","ชิวาวา");
-        petService.save(pet);
-        pet = new Pet("แทมมี่","ผู้",GlobalService.convertStringToDate("2020-11-03"),false,"แมว","เปอร์เซีย");
-        petService.save(pet);
+//        Pet pet = new Pet("มินิ","เมีย",GlobalService.convertStringToDate("2020-11-03"),false,"สุนัข","ชิวาวา");
+//        petService.save(pet);
+//        pet = new Pet("แทมมี่","ผู้",GlobalService.convertStringToDate("2020-11-03"),false,"แมว","เปอร์เซีย");
+//        petService.save(pet);
+
+        //------------- CureHistory --------------
+//        TreatmentHistory treatmentHistory = new TreatmentHistory(petService.findByPetID(1),GlobalService.convertStringToDate("2020-11-03"),"ฉีดยาพิษสุนัขบ้า",20,false);
+//        treatmentHistoryService.save(treatmentHistory);
+//        treatmentHistory = new TreatmentHistory(petService.findByPetID(1),GlobalService.convertStringToDate("2020-12-08"),"ถ่ายพยาธิ",21.7,true);
+//        treatmentHistoryService.save(treatmentHistory);
+//        treatmentHistory = new TreatmentHistory(petService.findByPetID(1),GlobalService.convertStringToDate("2020-12-08"),
+//                "I have this thing where I get older but just never wiser Midnights become my afternoons When my depression works the graveyard shift ",21.7,true);
+//        treatmentHistoryService.save(treatmentHistory);
+
         //------------- Bill --------------
-//        Bill bill = new Bill(pet);
-//        mainBillService.create(bill);
+//        Bill bill = new Bill(petService.findByPetID(1));
+//        mainBillService.save(bill);
 
         //------------- Medicine ------------
 
-        Medicine medicine = new Medicine("Previcox","tablet",75,"ครั้งละ 1 เม็ด หลังอาหารเย็น","57 mg");
-        medicineService.create(medicine);
-        wareHouseService.create(new WareHouse(medicine, 100,6500,GlobalService.convertStringToDate("2022-01-22")));
-        wareHouseService.create(new WareHouse(medicine, 200,13000,GlobalService.convertStringToDate("2022-03-15")));
+//        Medicine medicine = new Medicine("Previcox","tablet",75,"ครั้งละ 1 เม็ด หลังอาหารเย็น","57 mg");
+//        medicineService.save(medicine);
+//        wareHouseService.create(new WareHouse(medicine, 100,6500,GlobalService.convertStringToDate("2022-01-22")));
+//        wareHouseService.create(new WareHouse(medicine, 200,13000,GlobalService.convertStringToDate("2022-03-15")));
+//
+//        medicine = new Medicine("Tramadol HCL","capsule",15,"ครั้งละ 1 เม็ด หลังอาหารเช้า เย็น","50 mg");
+//        medicineService.save(medicine);
+//        wareHouseService.create(new WareHouse(medicine, 120,1440,GlobalService.convertStringToDate("2024-01-27")));
+//
+//        medicine = new Medicine("Toflex/Cephalexin","capsule",20,"ครั้งละ 1 เม็ด หลังอาหารเช้า เย็น","250mg");
+//        medicineService.save(medicine);
+//        wareHouseService.create(new WareHouse(medicine, 200,3600,GlobalService.convertStringToDate("2022-02-12")));
+//
+//        medicine = new Medicine("Defensor","dose",85,"vaccine");
+//        medicineService.save(medicine);
+//        wareHouseService.create(new WareHouse(medicine, 100,8000,GlobalService.convertStringToDate("2022-01-22")));
+//        wareHouseService.create(new WareHouse(medicine, 100,8000,GlobalService.convertStringToDate("2023-11-07")));
 
-        medicine = new Medicine("Tramadol HCL","capsule",15,"ครั้งละ 1 เม็ด หลังอาหารเช้า เย็น","50 mg");
-        medicineService.create(medicine);
-        wareHouseService.create(new WareHouse(medicine, 120,1440,GlobalService.convertStringToDate("2024-01-27")));
-
-        medicine = new Medicine("Toflex/Cephalexin","capsule",20,"ครั้งละ 1 เม็ด หลังอาหารเช้า เย็น","250mg");
-        medicineService.create(medicine);
-        wareHouseService.create(new WareHouse(medicine, 200,3600,GlobalService.convertStringToDate("2022-02-12")));
-
-        medicine = new Medicine("Defensor","dose",85,"vaccine");
-        medicineService.create(medicine);
-        wareHouseService.create(new WareHouse(medicine, 100,8000,GlobalService.convertStringToDate("2022-01-22")));
-
-//        BillMedicine billMedicine = new BillMedicine(bill,medicine,10);
-//        billMedicineService.create(billMedicine);
+//
+//        BillMedicine billMedicine = new BillMedicine(bill,medicineService.findByMedID(1),10);
+//        billMedicineService.save(billMedicine);
+//        billMedicine = new BillMedicine(bill,medicineService.findByMedID(3),1);
+//        billMedicineService.save(billMedicine);
 
         //------------- Tool ------------
-        Tool toolData = new Tool("Syringe",10,"5 ml");
-        toolService.create(toolData);
-        wareHouseService.create(new WareHouse(toolData, 100,800,GlobalService.convertStringToDate("2022-01-12")));
-        wareHouseService.create(new WareHouse(toolData, 300,24000,GlobalService.convertStringToDate("2023-4-2")));
-        toolData = new Tool("Syringe",5,"3 ml");
-        toolService.create(toolData);
-        wareHouseService.create(new WareHouse(toolData, 150,6000,GlobalService.convertStringToDate("2022-01-12")));
+//        Tool toolData = new Tool("Syringe",10,"5 ml");
+//        toolService.save(toolData);
+//        wareHouseService.create(new WareHouse(toolData, 100,800,GlobalService.convertStringToDate("2022-01-12")));
+//        wareHouseService.create(new WareHouse(toolData, 300,24000,GlobalService.convertStringToDate("2023-4-2")));
+//        toolData = new Tool("Syringe",5,"3 ml");
+//        toolService.save(toolData);
+//        wareHouseService.create(new WareHouse(toolData, 150,6000,GlobalService.convertStringToDate("2022-01-12")));
 
-//        BillTool billTool = new BillTool(bill,toolData,1);
-//        billToolService.create(billTool);
+//        BillTool billTool = new BillTool(bill,toolService.findByToolID(2),1);
+//        billToolService.save(billTool);
 
         //------------- Service ------------
-        Serving serviceData = new Serving("เปิดห้องผ่าตัด",300);
-        servingService.create(serviceData);
-        serviceData = new Serving("Doctor Fee",170);
-        servingService.create(serviceData);
+//        Serving serviceData = new Serving("เปิดห้องผ่าตัด",300);
+//        servingService.save(serviceData);
+//        serviceData = new Serving("Doctor Fee",170);
+//        servingService.save(serviceData);
 
-//        BillServing billService = new BillServing(bill,serviceData,1);
-//        billServiceService.create(billService);
+//        BillServing billService = new BillServing(bill,servingService.findByServingID(1),1);
+//        billServiceService.save(billService);
 
         //------------- Appointment --------------
 //        pet = new Pet("แจ็ค","ผู้",GlobalService.convertStringToDate("2021-08-12"),true,"แมว","เปอร์เซีย");

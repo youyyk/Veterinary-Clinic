@@ -40,7 +40,6 @@ public class PetController {
     }
 
 
-
     //Create Pet (PopUp) -> Return Pet's Owner Page
     @RequestMapping(path = "/pets/create", method = POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public String createPet(@RequestParam("accId") String accId,
@@ -76,6 +75,7 @@ public class PetController {
     //Edit Pet (PopUp) -> Return Pet's Owner Page
     @RequestMapping(path = "/pets/edit", method = POST, consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
     public String editPet(@RequestParam("accId") String accId,
+                          @RequestParam("page") String page,
                           @RequestParam("petID") long petID,
                           @RequestParam("name") String name,
                           @RequestParam("image") MultipartFile image,
@@ -86,11 +86,14 @@ public class PetController {
                           @RequestParam("breed") String breed,
                           @RequestParam("remark") String remark){
         System.out.println("---- Edit Pet ----");
+        if (remark.isEmpty() || remark.trim().isEmpty()){
+            remark = "-";
+        }
         Pet pet = new Pet(name,gender, GlobalService.convertStringToDate(doB),sterilization,petType,breed,remark);
-        System.out.println(pet);
+//        System.out.println(pet);
 
         String filename = StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename()));
-        System.out.println("FileName : " + filename);
+//        System.out.println("FileName : " + filename);
         if (filename.contains("..")) {
             System.out.println("---- Invalid Image ----");
         }
@@ -99,6 +102,7 @@ public class PetController {
         }
         else {
             try {
+                System.out.println("FileName : " + filename);
                 pet.setImage(Base64.getEncoder().encodeToString(image.getBytes()));
             } catch (IOException e) {
                 e.printStackTrace();
@@ -108,7 +112,19 @@ public class PetController {
 
         petService.editPet(pet,petID);
 
-        return "redirect:/account/getInfo/"+accId;
+        if (page.equals("infoAccount")){
+            System.out.println("++++ Redirect to InfoAccount ++++");
+            return "redirect:/account/getInfo/"+accId;
+        }
+        else if (page.equals("treatmentHistory")) {
+            System.out.println("++++ Redirect to TreatmentHistory ++++");
+            return "redirect:/treatmentHistory/"+petID;
+        }
+        else {
+            System.out.println("---- Cannot Redirect ----");
+            return null;
+        }
+
     }
 
     //Delete Pet (PopUp) -> Return Pet's Owner Page

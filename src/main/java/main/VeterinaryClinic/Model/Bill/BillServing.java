@@ -27,7 +27,7 @@ public class BillServing {
     public BillServing() {super();}
 
     public BillServing(Bill bill, Serving serving, int toolAmount) {
-        this.pairedID = new BillServingID(bill.getBillID(), serving.getServiceID());
+        this.pairedID = new BillServingID(bill.getBillID(), serving.getServingID());
         this.bill = bill;
         this.serving = serving;
         this.servingTotal = toolAmount;

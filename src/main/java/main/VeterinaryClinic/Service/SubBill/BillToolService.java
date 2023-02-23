@@ -16,9 +16,13 @@ public class BillToolService {
         return repository.findAll();
     }
 
-    public BillTool create(BillTool billTool) {
+    public BillTool save(BillTool billTool) {
         return repository.save(billTool);
     }
+
+//    public BillTool findByBillIDAndToolID(long billID, long toolID) {
+//        return repository.findByBill_idAndTool_id(billID, toolID);
+//    }
 
 
 }

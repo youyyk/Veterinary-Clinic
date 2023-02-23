@@ -16,9 +16,12 @@ public class BillServiceService {
         return repository.findAll();
     }
 
-    public BillServing create(BillServing billServing) {
+    public BillServing save(BillServing billServing) {
         return repository.save(billServing);
     }
 
+//    public BillServing findByBillIDAndServingID(long billID, long servingID) {
+//        return repository.findByBill_idAndServing_id(billID, servingID);
+//    }
 
 }

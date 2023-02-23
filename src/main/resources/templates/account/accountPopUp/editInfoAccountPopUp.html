@@ -26,6 +26,9 @@
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Title</span>
                         <select class="form-select" id="title" name="title" aria-label="Default select example">
+                            <option th:if="${#strings.isEmpty(account.title)}" value="" selected>---- Choose ----</option>
+<!--                            <option th:if="${#strings.isEmpty(account.title)}" th:value="${account.title}"-->
+<!--                                    th:selected="${not #strings.contains(account.title, 'M')}">-&#45;&#45; Choose -&#45;&#45;</option>-->
                             <option th:value="Mr." th:text="Mr."
                                     th:selected="${#strings.contains(account.title, 'Mr.')}"/>
                             <option th:value="Mrs." th:text="Mrs."

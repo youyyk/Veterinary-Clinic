@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BillToolRepository extends JpaRepository<BillTool, BillToolID> {
+//   BillTool findByBill_idAndTool_id(long billID, long tooID);
+
 }
