@@ -10,16 +10,16 @@ import java.util.Objects;
 public class BillServingID implements Serializable {
 
     @Column(name = "_id")
-    protected long bill_id;
+    protected long bill;
 
     @Column(name = "_id")
-    protected long serving_id;
+    protected long serving;
 
     public BillServingID() {super();}
 
-    public BillServingID(long bill_id, long service_id) {
-        this.bill_id = bill_id;
-        this.serving_id = service_id;
+    public BillServingID(long bill, long service_id) {
+        this.bill = bill;
+        this.serving = service_id;
     }
 
     @Override
@@ -27,11 +27,11 @@ public class BillServingID implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BillServingID billMedicineID = (BillServingID) o;
-        return bill_id == billMedicineID.bill_id && serving_id == billMedicineID.serving_id;
+        return bill == billMedicineID.bill && serving == billMedicineID.serving;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bill_id, serving_id);
+        return Objects.hash(bill, serving);
     }
 }

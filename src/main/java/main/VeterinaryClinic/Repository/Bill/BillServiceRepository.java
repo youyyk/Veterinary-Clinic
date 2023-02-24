@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BillServiceRepository extends JpaRepository<BillServing, BillServingID> {
-//    BillServing findByBill_idAndServing_id(long billID, long tooID);
+    BillServing findByPairedID_BillAndPairedID_Serving(long billID, long tooID);
 }

@@ -13,11 +13,11 @@ public class BillTool {
     @EmbeddedId
     private BillToolID pairedID;
 
-    @MapsId("bill_id")
+    @MapsId("bill")
     @ManyToOne
     private Bill bill;
 
-    @MapsId("tool_id")
+    @MapsId("tool")
     @ManyToOne
     private Tool tool;
 

@@ -17,6 +17,10 @@ public class TreatmentHistoryService {
         return repository.findAll();
     }
 
+    public TreatmentHistory findByTreatmentHisID(long treatID) {
+        return repository.findByTreatmentHisID(treatID);
+    }
+
     public List<TreatmentHistory> findByPet(Pet pet){return repository.findByPet(pet);}
 
     public TreatmentHistory save(TreatmentHistory TreatmentHistory) {

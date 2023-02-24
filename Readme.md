@@ -1,3 +1,3 @@
-- Edit Account's Information
-- Create Treatment History Page
-- Change Cure -> Treatment
+- Edit one to one between bill and treatmentHistory
+- Create Bill's Detail Page
+- Create global.css

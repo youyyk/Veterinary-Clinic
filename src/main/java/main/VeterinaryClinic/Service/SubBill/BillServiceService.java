@@ -20,8 +20,8 @@ public class BillServiceService {
         return repository.save(billServing);
     }
 
-//    public BillServing findByBillIDAndServingID(long billID, long servingID) {
-//        return repository.findByBill_idAndServing_id(billID, servingID);
-//    }
+    public BillServing findByBillIDAndServingID(long billID, long servingID) {
+        return repository.findByPairedID_BillAndPairedID_Serving(billID, servingID);
+    }
 
 }

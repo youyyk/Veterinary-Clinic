@@ -7,6 +7,7 @@
     <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <link th:rel="stylesheet" th:href="@{/css/table-image.css}">
+    <link th:rel="stylesheet" th:href="@{/css/global.css}">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
@@ -23,15 +24,15 @@
         new simpleDatatables.DataTable(datatablesTreatmentHistory);
     });
 </script>
-<style>
-    #owner:hover{
-        color: #A4CB85;
-    }
-    #owner{
-        text-decoration: none;
-        color:black;
-    }
-</style>
+<!--<style>-->
+<!--    #owner:hover{-->
+<!--        color: #A4CB85;-->
+<!--    }-->
+<!--    #owner{-->
+<!--        text-decoration: none;-->
+<!--        color:black;-->
+<!--    }-->
+<!--</style>-->
 <body>
 <div th:insert="fragments/header :: header"></div>
 
@@ -133,7 +134,7 @@
                                     <i class="fa fa-ellipsis-v"></i>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                    <a class="dropdown-item btn" th:href="@{'/bill/'+${treat.bill.billID}}">
+                                    <a class="dropdown-item btn" th:href="@{'/bill/getDetail/'+${treat.bill.billID}}">
                                         <i class="fa fa-file-invoice"></i> Bill's Details
                                     </a>
 

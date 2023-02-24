@@ -50,9 +50,6 @@ public class Pet {
 
 
     @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Bill> items;
-
-    @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Appointment> appointments;
 
     @OneToMany(mappedBy = "pet", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -147,7 +144,6 @@ public class Pet {
                 ", remark='" + remark + '\'' +
                 ", softDeletedDate=" + softDeletedDate +
                 ", softDeleted=" + softDeleted +
-                ", image='" + image + '\'' +
                 '}';
     }
 }

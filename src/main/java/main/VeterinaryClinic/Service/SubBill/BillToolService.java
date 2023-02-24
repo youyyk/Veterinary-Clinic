@@ -20,9 +20,9 @@ public class BillToolService {
         return repository.save(billTool);
     }
 
-//    public BillTool findByBillIDAndToolID(long billID, long toolID) {
-//        return repository.findByBill_idAndTool_id(billID, toolID);
-//    }
+    public BillTool findByBillIDAndToolID(long billID, long toolID) {
+        return repository.findByPairedID_BillAndPairedID_Tool(billID, toolID);
+    }
 
 
 }

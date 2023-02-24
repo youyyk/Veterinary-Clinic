@@ -23,7 +23,7 @@ public class TreatmentHistoryController {
     private PetService petService;
 
 
-    @GetMapping("/{petID}")
+    @GetMapping("/pet{petID}")
     public String getInfo(@PathVariable("petID") long petID, Model model) {
         System.out.println("---Get Pet's Treatment History---");
         Pet pet = petService.findByPetID(petID);

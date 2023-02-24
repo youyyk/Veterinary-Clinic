@@ -13,11 +13,11 @@ public class BillServing {
     @EmbeddedId
     private BillServingID pairedID;
 
-    @MapsId("bill_id")
+    @MapsId("bill")
     @ManyToOne
     private Bill bill;
 
-    @MapsId("serving_id")
+    @MapsId("serving")
     @ManyToOne
     private Serving serving;
 

@@ -19,11 +19,16 @@ public class TreatmentHistory {
     @JoinColumn(name="pet_id")
     private Pet pet;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "bill_id")
+
+//    @OneToOne(cascade = CascadeType.ALL,optional = false)
+//    @JoinColumn(name = "bill_id")
+//    private Bill bill;
+
+    @OneToOne(cascade = CascadeType.ALL,mappedBy = "treatmentHistory")
     private Bill bill;
 
-    @Column(name="cure_date")
+
+    @Column(name="treat_date")
     private Date date;
 
     @Column(name="diagnosis", columnDefinition = "TEXT")
@@ -36,6 +41,10 @@ public class TreatmentHistory {
     private boolean ourClinic;
 
     public TreatmentHistory() {super();}
+
+    public TreatmentHistory(Bill bill) {
+        this.bill = bill;
+    }
 
     public TreatmentHistory(Pet pet, Bill bill, Date date, String diagnosis, double weight, boolean ourClinic) {
         this.pet = pet;
@@ -62,12 +71,13 @@ public class TreatmentHistory {
         this.ourClinic = ourClinic;
     }
 
+
     @Override
     public String toString() {
-        return "CureHistory{" +
-                "cureHisID=" + treatmentHisID +
+        return "TreatmentHistory{" +
+                "treatmentHisID=" + treatmentHisID +
                 ", pet=" + pet.getName() +
-                ", bill=" + bill +
+                ", bill=" + bill.getBillID() +
                 ", date=" + date +
                 ", diagnosis='" + diagnosis + '\'' +
                 ", weight=" + weight +

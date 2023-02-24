@@ -1,5 +1,6 @@
 package main.VeterinaryClinic.Model.Bill;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import main.VeterinaryClinic.Model.*;
 import main.VeterinaryClinic.Service.GlobalService;
@@ -17,13 +18,21 @@ public class Bill {
     @Column(name="bill_id")
     private Long billID;
 
-    @ManyToOne()
-    @JoinColumn(name="pet_id")
-    private Pet pet;
+//    @ManyToOne()
+//    @JoinColumn(name="pet_id")
+//    private Pet pet;
 
-    @OneToOne()
-    @MapsId("treatment_history_id")
-    private TreatmentHistory TreatmentHistory;
+//    @OneToOne
+//    @MapsId("treatment_history_id")
+//    private TreatmentHistory treatmentHistory;
+
+
+//    @OneToOne(mappedBy = "bill")
+//    private TreatmentHistory treatmentHistoryShadow;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "treatment_history_id")
+    private TreatmentHistory treatmentHistory;
 
     @Column(name="start_date")
     private Date startDate;
@@ -55,8 +64,10 @@ public class Bill {
 
     public Bill() {super();}
 
-    public Bill(Pet pet) {
-        this.pet = pet;
+
+    public Bill(TreatmentHistory treatmentHistory) {
+        System.out.println("----"+treatmentHistory);
+        this.treatmentHistory = treatmentHistory;
         this.payType = null;
         this.paidStatus = false;
         this.startDate = GlobalService.getCurrentTime();
@@ -64,5 +75,21 @@ public class Bill {
     }
 
 
-
+    @Override
+    public String toString() {
+        return "Bill{" +
+                "billID=" + billID +
+                ", treatmentHistory=" + treatmentHistory.getTreatmentHisID() +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", payType='" + payType + '\'' +
+                ", total=" + total +
+                ", paidStatus=" + paidStatus +
+                ", receive=" + receive +
+                ", discount=" + discount +
+//                ", medUsed=" + medUsed +
+//                ", toolUsed=" + toolUsed +
+//                ", serviceUsed=" + serviceUsed +
+                '}';
+    }
 }
