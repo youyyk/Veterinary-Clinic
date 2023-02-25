@@ -15,9 +15,11 @@ public class MedicineService {
         return repository.findAll();
     }
 
-    public Medicine create(Medicine medicine) {
+    public Medicine save(Medicine medicine) {
         return repository.save(medicine);
     }
+
+    public Medicine findByMedID(long medID){return repository.findByMedID(medID);}
 
 
 }

@@ -73,11 +73,10 @@
 
                         <div name="medicineForm" style="display: none">
                             <form th:action="@{warehouse/create/order}" method="POST" th:object="${newWarehouseMedForm}">
-
                                 <!--Warehouse Med-->
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text">Medicine</span>
-                                    <select th:id="selectMedicineOrder" class="form-select" aria-label="Select Medicine" th:field="*{medicine}">
+                                    <select class="form-select" aria-label="Select Medicine" th:field="*{medicine}">
                                         <option value=0 selected >Choose...</option>
                                         <option th:each="med : ${medicines}" th:value="${med.medID}" th:text="${med.name}"/>
                                     </select>
@@ -141,10 +140,10 @@
                         </div>
                         <div name="toolForm" style="display: none">
                             <form th:action="@{warehouse/create/order}" method="POST" th:object="${newWarehouseToolForm}">
-                                <!--Warehouse Med-->
+                                <!--Warehouse Tool-->
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text">Tool</span>
-                                    <select th:id="selectMedicineOrder" class="form-select" aria-label="Select Medicine" th:field="*{tool}">
+                                    <select class="form-select" aria-label="Select Medicine" th:field="*{tool}">
                                         <option value=0 selected >Choose...</option>
                                         <option th:each="tool : ${tools}" th:value="${tool.ToolID}" th:text="${tool.name}"/>
                                     </select>

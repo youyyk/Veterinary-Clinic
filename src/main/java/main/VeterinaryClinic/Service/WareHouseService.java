@@ -1,8 +1,6 @@
 package main.VeterinaryClinic.Service;
 
-import main.VeterinaryClinic.Model.Medicine;
 import main.VeterinaryClinic.Model.WareHouse;
-import main.VeterinaryClinic.Repository.MedicineRepository;
 import main.VeterinaryClinic.Repository.WareHouseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +16,11 @@ public class WareHouseService {
         return repository.findAll();
     }
 
-    public WareHouse create(WareHouse wareHouse) {
-        return repository.save(wareHouse);
+    public WareHouse getById(long id) {
+        return repository.findByItemID(id);
     }
 
-
+    public WareHouse save(WareHouse wareHouse) {
+        return repository.save(wareHouse);
+    }
 }

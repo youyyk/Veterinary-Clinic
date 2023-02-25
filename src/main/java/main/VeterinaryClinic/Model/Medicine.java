@@ -70,6 +70,14 @@ public class Medicine {
         this.softDeletedDate = null;
     }
 
+    public void updateFieldForEdit(String name, String unit, double price, String description, String dose){
+        this.name = name;
+        this.unit = unit;
+        this.price = price;
+        this.description = description;
+        this.dose = dose;
+    }
+
     @Override
     public String toString() {
         return "Medicine{" +

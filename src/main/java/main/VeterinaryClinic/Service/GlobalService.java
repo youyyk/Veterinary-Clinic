@@ -1,10 +1,6 @@
 package main.VeterinaryClinic.Service;
 
 import main.VeterinaryClinic.Model.*;
-import main.VeterinaryClinic.Model.Bill.Bill;
-import main.VeterinaryClinic.Model.Bill.BillMedicine;
-import main.VeterinaryClinic.Model.Bill.BillServing;
-import main.VeterinaryClinic.Model.Bill.BillTool;
 
 import org.springframework.stereotype.Service;
 import main.VeterinaryClinic.Service.Account.AccountService;
@@ -89,33 +85,33 @@ public class GlobalService {
         //------------- Medicine ------------
 
         Medicine medicine = new Medicine("Previcox","tablet",75,"ครั้งละ 1 เม็ด หลังอาหารเย็น","57 mg");
-        medicineService.create(medicine);
-        wareHouseService.create(new WareHouse(medicine, 100,6500,GlobalService.convertStringToDate("2022-01-22")));
-        wareHouseService.create(new WareHouse(medicine, 200,13000,GlobalService.convertStringToDate("2022-03-15")));
+        medicineService.save(medicine);
+        wareHouseService.save(new WareHouse(medicine, 100,6500,GlobalService.convertStringToDate("2022-01-22")));
+        wareHouseService.save(new WareHouse(medicine, 200,13000,GlobalService.convertStringToDate("2022-03-15")));
 
         medicine = new Medicine("Tramadol HCL","capsule",15,"ครั้งละ 1 เม็ด หลังอาหารเช้า เย็น","50 mg");
-        medicineService.create(medicine);
-        wareHouseService.create(new WareHouse(medicine, 120,1440,GlobalService.convertStringToDate("2024-01-27")));
+        medicineService.save(medicine);
+        wareHouseService.save(new WareHouse(medicine, 120,1440,GlobalService.convertStringToDate("2024-01-27")));
 
         medicine = new Medicine("Toflex/Cephalexin","capsule",20,"ครั้งละ 1 เม็ด หลังอาหารเช้า เย็น","250mg");
-        medicineService.create(medicine);
-        wareHouseService.create(new WareHouse(medicine, 200,3600,GlobalService.convertStringToDate("2022-02-12")));
+        medicineService.save(medicine);
+        wareHouseService.save(new WareHouse(medicine, 200,3600,GlobalService.convertStringToDate("2022-02-12")));
 
         medicine = new Medicine("Defensor","dose",85,"vaccine");
-        medicineService.create(medicine);
-        wareHouseService.create(new WareHouse(medicine, 100,8000,GlobalService.convertStringToDate("2022-01-22")));
+        medicineService.save(medicine);
+        wareHouseService.save(new WareHouse(medicine, 100,8000,GlobalService.convertStringToDate("2022-01-22")));
 
 //        BillMedicine billMedicine = new BillMedicine(bill,medicine,10);
 //        billMedicineService.create(billMedicine);
 
         //------------- Tool ------------
         Tool toolData = new Tool("Syringe",10,"5 ml");
-        toolService.create(toolData);
-        wareHouseService.create(new WareHouse(toolData, 100,800,GlobalService.convertStringToDate("2022-01-12")));
-        wareHouseService.create(new WareHouse(toolData, 300,24000,GlobalService.convertStringToDate("2023-4-2")));
+        toolService.save(toolData);
+        wareHouseService.save(new WareHouse(toolData, 100,800,GlobalService.convertStringToDate("2022-01-12")));
+        wareHouseService.save(new WareHouse(toolData, 300,24000,GlobalService.convertStringToDate("2023-4-2")));
         toolData = new Tool("Syringe",5,"3 ml");
-        toolService.create(toolData);
-        wareHouseService.create(new WareHouse(toolData, 150,6000,GlobalService.convertStringToDate("2022-01-12")));
+        toolService.save(toolData);
+        wareHouseService.save(new WareHouse(toolData, 150,6000,GlobalService.convertStringToDate("2022-01-12")));
 
 //        BillTool billTool = new BillTool(bill,toolData,1);
 //        billToolService.create(billTool);

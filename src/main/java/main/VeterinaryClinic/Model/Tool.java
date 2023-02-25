@@ -13,7 +13,7 @@ public class Tool {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tool_id")
-    private Long ToolID;
+    private Long toolID;
     @Column(name = "tool_name", columnDefinition = "CHAR(30)")
     private String name;
     @Column(name = "price")
@@ -38,6 +38,12 @@ public class Tool {
         this.description = description;
         this.softDeletedDate = null;
         this.softDeleted = false;
+    }
+
+    public void updateFieldForEdit(String name, double price, String description){
+        this.name = name;
+        this.price = price;
+        this.description = description;
     }
 }
 

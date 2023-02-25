@@ -1,8 +1,6 @@
 package main.VeterinaryClinic.Service;
 
-import main.VeterinaryClinic.Model.Medicine;
 import main.VeterinaryClinic.Model.Tool;
-import main.VeterinaryClinic.Repository.MedicineRepository;
 import main.VeterinaryClinic.Repository.ToolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +16,11 @@ public class ToolService {
         return repository.findAll();
     }
 
-    public Tool create(Tool tool) {
+    public Tool save(Tool tool) {
         return repository.save(tool);
     }
+
+    public Tool findByToolID(long toolID){return repository.findByToolID(toolID);}
 
 
 }
