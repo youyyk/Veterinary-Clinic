@@ -76,7 +76,9 @@ public class WareHouseController {
 
     @RequestMapping(path = "/create/medicine", method = RequestMethod.POST)
     public String createWarehouseMedicine(@ModelAttribute Medicine medicine){
-        medicineService.save(medicine);
+        if (medicine != null) {
+            medicineService.save(medicine);
+        }
         return "redirect:/warehouse";
     }
 
@@ -88,14 +90,18 @@ public class WareHouseController {
                                         @RequestParam("unit") String unit,
                                         @RequestParam("description") String description){
         Medicine medicine = medicineService.findByMedID(id);
-        medicine.updateFieldForEdit(name, unit, price, description, dose);
-        medicineService.save(medicine);
+        if (medicine != null) {
+            medicine.updateFieldForEdit(name, unit, price, description, dose);
+            medicineService.save(medicine);
+        }
         return "redirect:/warehouse";
     }
 
     @RequestMapping(path = "/create/tool", method = RequestMethod.POST)
     public String createWarehouseTool(@ModelAttribute Tool tool){
-        toolService.save(tool);
+        if (tool != null) {
+            toolService.save(tool);
+        }
         return "redirect:/warehouse";
     }
 
@@ -105,8 +111,10 @@ public class WareHouseController {
                                     @RequestParam("price") double price,
                                     @RequestParam("description") String description){
         Tool tool = toolService.findByToolID(id);
-        tool.updateFieldForEdit(name, price, description);
-        toolService.save(tool);
+        if (tool != null) {
+            tool.updateFieldForEdit(name, price, description);
+            toolService.save(tool);
+        }
         return "redirect:/warehouse";
     }
 
@@ -128,19 +136,7 @@ public class WareHouseController {
                                      @RequestParam("paidTotal") String paidTotal,
                                      @RequestParam("stockInDate") String stockInDate,
                                      @RequestParam("expiredDate") String expiredDate){
-        int convertQtyIn = Integer.parseInt(quantityIn);
-        int convertQtyLeft = Integer.parseInt(quantityLeft);
-        double convertPaidTotal = Double.parseDouble(paidTotal);
-        WareHouse wareHouse = wareHouseService.getById(id);
-        if (wareHouse != null) {
-            if (wareHouse.getMedicine() != null) {
-                Medicine medicine = medicineService.findByMedID(medicineId);
-                if (medicine != null) {
-                    wareHouse.updateFieldForEdit(medicine, null, convertQtyIn, convertQtyLeft, convertPaidTotal, GlobalService.convertStringToDate(stockInDate), GlobalService.convertStringToDate(expiredDate));
-                    wareHouseService.save(wareHouse);
-                }
-            }
-        }
+        updateOrder(id, -1, medicineId, quantityIn, quantityLeft, paidTotal, stockInDate, expiredDate);
         return "redirect:/warehouse";
     }
 
@@ -152,19 +148,29 @@ public class WareHouseController {
                                      @RequestParam("paidTotal") String paidTotal,
                                      @RequestParam("stockInDate") String stockInDate,
                                      @RequestParam("expiredDate") String expiredDate){
+        updateOrder(id, toolId, -1, quantityIn, quantityLeft, paidTotal, stockInDate, expiredDate);
+        return "redirect:/warehouse";
+    }
+
+    private void updateOrder(long warehouseId, long toolId, long medicineId, String quantityIn, String quantityLeft, String paidTotal, String stockInDate, String expiredDate){
         int convertQtyIn = Integer.parseInt(quantityIn);
         int convertQtyLeft = Integer.parseInt(quantityLeft);
         double convertPaidTotal = Double.parseDouble(paidTotal);
-        WareHouse wareHouse = wareHouseService.getById(id);
+        WareHouse wareHouse = wareHouseService.getById(warehouseId);
         if (wareHouse != null) {
             if (wareHouse.getTool() != null) {
                 Tool tool = toolService.findByToolID(toolId);
                 if (tool != null) {
                     wareHouse.updateFieldForEdit(null, tool, convertQtyIn, convertQtyLeft, convertPaidTotal, GlobalService.convertStringToDate(stockInDate), GlobalService.convertStringToDate(expiredDate));
-                    wareHouseService.save(wareHouse);
                 }
             }
+            else if (wareHouse.getMedicine() != null) {
+                Medicine medicine = medicineService.findByMedID(medicineId);
+                if (medicine != null) {
+                    wareHouse.updateFieldForEdit(medicine, null, convertQtyIn, convertQtyLeft, convertPaidTotal, GlobalService.convertStringToDate(stockInDate), GlobalService.convertStringToDate(expiredDate));
+                }
+            }
+            wareHouseService.save(wareHouse);
         }
-        return "redirect:/warehouse";
     }
 }

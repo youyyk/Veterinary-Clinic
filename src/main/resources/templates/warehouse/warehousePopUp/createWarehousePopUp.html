@@ -78,7 +78,7 @@
                                     <span class="input-group-text">Medicine</span>
                                     <select class="form-select" aria-label="Select Medicine" th:field="*{medicine}">
                                         <option value=0 selected >Choose...</option>
-                                        <option th:each="med : ${medicines}" th:value="${med.medID}" th:text="${med.name}"/>
+                                        <option th:each="med : ${medicines}" th:value="${med.medID}" th:text="${med.getNameForShow}"/>
                                     </select>
                                 </div>
 
@@ -145,7 +145,7 @@
                                     <span class="input-group-text">Tool</span>
                                     <select class="form-select" aria-label="Select Medicine" th:field="*{tool}">
                                         <option value=0 selected >Choose...</option>
-                                        <option th:each="tool : ${tools}" th:value="${tool.ToolID}" th:text="${tool.name}"/>
+                                        <option th:each="tool : ${tools}" th:value="${tool.ToolID}" th:text="${tool.getNameForShow}"/>
                                     </select>
                                 </div>
 

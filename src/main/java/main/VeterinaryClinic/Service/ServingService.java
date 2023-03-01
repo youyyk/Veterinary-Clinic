@@ -15,9 +15,7 @@ public class ServingService {
         return repository.findAll();
     }
 
-    public Serving create(Serving serving) {
-        return repository.save(serving);
-    }
+    public Serving save(Serving serving) {return repository.save(serving);}
 
-
+    public Serving findByServiceID(long serviceId){return repository.findByServiceID(serviceId);}
 }

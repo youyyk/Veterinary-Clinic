@@ -118,9 +118,9 @@ public class GlobalService {
 
         //------------- Service ------------
         Serving serviceData = new Serving("เปิดห้องผ่าตัด",300);
-        servingService.create(serviceData);
+        servingService.save(serviceData);
         serviceData = new Serving("Doctor Fee",170);
-        servingService.create(serviceData);
+        servingService.save(serviceData);
 
 //        BillServing billService = new BillServing(bill,serviceData,1);
 //        billServiceService.create(billService);

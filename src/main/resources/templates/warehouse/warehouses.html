@@ -157,8 +157,8 @@
                             <td th:text="${ '#' + wh.itemID}"></td>
                             <td th:if="${wh.medicine != null}" th:text="${ 'M' + wh.medicine.getMedID}"></td>
                             <td th:if="${wh.tool != null}" th:text="${ 'T' + wh.tool.getToolID}"></td>
-                            <td th:if="${wh.medicine != null}" th:text="${wh.medicine.getName}"></td>
-                            <td th:if="${wh.tool != null}" th:text="${wh.tool.getName}"></td>
+                            <td th:if="${wh.medicine != null}" th:text="${wh.medicine.getNameForShow}"></td>
+                            <td th:if="${wh.tool != null}" th:text="${wh.tool.getNameForShow}"></td>
                             <td th:text="${wh.type}"></td>
                             <td th:text="${wh.paidTotal}"></td>
                             <td th:text="${wh.quantityIn}"></td>
@@ -182,9 +182,10 @@
                                                 <i class="fa fa-pencil mr-1"></i> Edit
                                             </a>
 
-                                            <a class="dropdown-item" href="#">
+                                            <a th:if="${wh.isExpired()}" class="dropdown-item" href="#">
                                                 <i class="fa fa-pencil mr-1"></i> Stock Out
                                             </a>
+
                                             <a class="dropdown-item text-danger" href="#">
                                                 <i class="fa fa-trash mr-1"></i> Delete
                                             </a>
@@ -251,7 +252,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <th:block th:replace="warehouse/warehousePopUp/editWarehouseMedicinePopUp :: editWarehouseMedicinePopUp(${med}, ${medicines})">modal</th:block>
+                            <th:block th:replace="warehouse/warehousePopUp/editWarehouseMedicinePopUp :: editWarehouseMedicinePopUp(${med})">modal</th:block>
                         </tr>
                         </tbody>
                     </table>
@@ -305,7 +306,7 @@
                                     </div>
                                 </div>
                             </td>
-                            <th:block th:replace="warehouse/warehousePopUp/editWarehouseToolPopUp :: editWarehouseToolPopUp(${tool}, ${tools})">modal</th:block>
+                            <th:block th:replace="warehouse/warehousePopUp/editWarehouseToolPopUp :: editWarehouseToolPopUp(${tool})">modal</th:block>
                         </tr>
                         </tbody>
                     </table>

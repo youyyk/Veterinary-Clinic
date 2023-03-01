@@ -78,6 +78,14 @@ public class Medicine {
         this.dose = dose;
     }
 
+    public String getNameForShow(){
+        if (!dose.isEmpty() && !dose.isBlank()){
+            return name + " (" + dose + " / " + unit.trim() + ")";
+        } else {
+            return name + " (" + unit.trim() +")";
+        }
+    }
+
     @Override
     public String toString() {
         return "Medicine{" +

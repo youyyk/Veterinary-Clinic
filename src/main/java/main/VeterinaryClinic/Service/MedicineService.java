@@ -21,5 +21,4 @@ public class MedicineService {
 
     public Medicine findByMedID(long medID){return repository.findByMedID(medID);}
 
-
 }
