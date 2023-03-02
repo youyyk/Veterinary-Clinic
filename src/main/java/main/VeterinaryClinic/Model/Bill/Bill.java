@@ -18,18 +18,6 @@ public class Bill {
     @Column(name="bill_id")
     private Long billID;
 
-//    @ManyToOne()
-//    @JoinColumn(name="pet_id")
-//    private Pet pet;
-
-//    @OneToOne
-//    @MapsId("treatment_history_id")
-//    private TreatmentHistory treatmentHistory;
-
-
-//    @OneToOne(mappedBy = "bill")
-//    private TreatmentHistory treatmentHistoryShadow;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "treatment_history_id")
     private TreatmentHistory treatmentHistory;
@@ -66,7 +54,7 @@ public class Bill {
 
 
     public Bill(TreatmentHistory treatmentHistory) {
-        System.out.println("----"+treatmentHistory);
+//        System.out.println("----"+treatmentHistory);
         this.treatmentHistory = treatmentHistory;
         this.payType = null;
         this.paidStatus = false;

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+<div th:fragment="paymentPopup(bill,pet)" th:id="'paymentPopup'+${bill.billID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
+     data-bs-backdrop="static" aria-hidden="true">
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Payment Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <form th:action="@{/bill/paid}" method="POST">
+              <!--Bill ID-->
+              <input type="hidden" class="form-control" id="billID" name="billID" th:value="${bill.billID}">
+              <input type="hidden" id="total" name="total" th:value="${bill.total}">
+              <!--Information -->
+              <p>
+                <b>Customer's name : </b>[[*{pet.account.firstName}]] [[*{pet.account.lastName}]]
+              </p>
+              <p>
+                <b>Pet's name : </b>[[*{pet.name}]]
+              </p>
+              <p>
+                  <b>Total : <span class="float-end" style="font-size: 1.1em">[[${#numbers.formatDecimal(bill.total, 1, 'COMMA', 2, 'POINT')}]] ฿</span></b>
+              </p>
+
+              <hr>
+
+
+              <b>Pay Type : </b>
+              <span>
+                <div class="form-check form-check-inline">
+                  <input onclick="displayRadioValue()" class="form-check-input" type="radio" name="payType" id="cash" th:value="cash">
+                  <label class="form-check-label" for="cash">Cash</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input onclick="displayRadioValue()" class="form-check-input" type="radio" name="payType" id="prompt" th:value="prompt">
+                  <label class="form-check-label" for="prompt">PromptPay</label>
+                </div>
+              </span>
+
+
+              <div id="cashOperation" class="" style="display: none">
+                  <br>
+<!--                <div class="input-group input-group mb-3">-->
+<!--                  <span class="input-group-text">Receive</span>-->
+<!--                  <input type="number" onkeyup="receiveKeyUp()"-->
+<!--                         class="form-control" id="receive" name="receive">-->
+<!--                  <div class="form-group">-->
+<!--                      <label for="receive"><b>Receive2 : </b></label>-->
+<!--                      <span><input type="number" onkeyup="receiveKeyUp()"class="form-control" id="receive" name="receive"></span>-->
+<!--                  </div>-->
+                  <div class="form-group row">
+                      <label for="receive" class="col-sm-2 col-form-label"><b>Receive </b></label>
+                      <div class="col-sm-9">
+<!--                          <input type="number"onkeyup="receiveKeyUp()" class="form-control" id="receive" name="receive">-->
+<!--                          <span class="col-sm-1"> ฿</span>-->
+<!--                          -->
+                          <div class="input-group mb-2">
+                              <input type="number"onkeyup="receiveKeyUp()" class="form-control" id="receive" name="receive">
+                              <div class="input-group-prepend">
+                                  <div class="input-group-text">฿</div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <p id="pChange" class="mt-2">
+                    <b>Change : </b><span id="change"></span>
+                  </p>
+                </div>
+
+
+
+
+              <!--button-->
+              <div class="modal-footer">
+                <button class="btn btn-primary mt-2" type="submit">submit</button>
+                <button onclick="clearChange()" class="btn btn-secondary" type="reset">clear</button>
+              </div>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+<div th:fragment="receiveTreatmentPopUp(pet)" th:id="'receiveTreatmentPopUp'+${pet.petID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
+     data-bs-backdrop="static" aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Receive Treatment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{'/treatmentHistory/receive/treatment'}" method="POST">
+                    <!--ID-->
+                    <input type="hidden" class="form-control" id="petID" name="petID" th:value="${pet.petID}">
+
+<!--                    <p>Are you sure <b>[[${pet.name}]]</b> want to receive treatment ?</p>-->
+
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text">Weight</span>
+                        <input type="number" class="form-control" id="weight" name="weight">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text">kg</div>
+                        </div>
+                    </div>
+                    <!--button-->
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit">save</button>
+                        <button class="btn btn-secondary" data-bs-dismiss="modal">cancel</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -5,7 +5,7 @@
     <title>Bill</title>
     <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <script th:src="@{/js/bootstrap.min.js}"></script>
-    <link th:rel="stylesheet" th:href="@{/css/table-image.css}">
+    <link th:rel="stylesheet" th:href="@{/css/table-warehouse.css}">
     <link th:rel="stylesheet" th:href="@{/css/global.css}">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -26,6 +26,56 @@
         const datatablesBillServing = document.getElementById('datatablesBillServing');
         new simpleDatatables.DataTable(datatablesBillServing);
     });
+
+    const hide = "none";
+    const show = "block";
+
+    function displayRadioValue() {
+        let radioValue = document.getElementsByName('payType');
+        let cashOperation = document.getElementById('cashOperation');
+
+        if (radioValue[0].checked){
+            cashOperation.style.display = show;
+        } else if (radioValue[1].checked){ // new tool
+            cashOperation.style.display = hide;
+        }
+
+    }
+
+    function receiveKeyUp() {
+        let receive = document.getElementById('receive').value;
+        let total = document.getElementById('total').value;
+        // let pChange = document.getElementById('pChange');
+
+        console.log("total : "+total);
+        console.log("receive : "+receive);
+        if (receive === ""){
+            console.log("receive is empty !!");
+            document.getElementById("change").innerHTML = "";
+        }
+        else{
+            // pChange.style.display = show;
+            let finalChange = receive - total;
+            console.log("change : "+finalChange);
+
+            document.getElementById("change").innerHTML = ""+finalChange+" ฿";
+        }
+
+
+    }
+
+    //reset change to empty
+    function clearChange() {
+        document.getElementById("change").innerHTML = "";
+    }
+
+
+    function setDisplay(elements, displayType) {
+        elements.forEach((element) => {
+            element.style.display = displayType;
+        });
+    }
+
 </script>
 
 <body>
@@ -41,19 +91,20 @@
             <a th:href="@{'/account/getInfo/'+${pet.account.accId}}" id="owner">
                [[*{pet.account.firstName}]] [[*{pet.account.lastName}]]
             </a>
-        <form th:action="@{/bill/paid}" method="POST">
             <span class="float-end">
                 <b>Total : </b> [[${#numbers.formatDecimal(sumBill, 1, 'COMMA', 2, 'POINT')}]] baht
-                <input class="form-control" type="hidden" id="billID" name="billID" th:value="${bill.billID}">
-                <button type="submit" th:if="${bill.paidStatus == false}" class="btn btn-primary ms-3">
+                <button type="button" th:if="${bill.paidStatus == false}" class="btn btn-primary ms-3" data-bs-toggle="modal"
+                        th:attr="data-bs-target='#paymentPopup'+*{bill.billID}">
                     Pay
                 </button>
                 <button th:if="${bill.paidStatus == true}" class="btn btn-secondary ms-3" disabled>
                     Paid
                 </button>
             </span>
-        </form>
         </p>
+        <!--Call Payment (PopUp)-->
+        <th:block th:replace="bill/billPopUp/paymentPopup :: paymentPopup(${bill},${pet})">modal</th:block>
+
         <p style="font-size: 1.2em;">
             <b>Pet's name : </b>
             <a th:href="@{'/treatmentHistory/pet'+${pet.petID}}" id="owner">
@@ -66,6 +117,13 @@
 <!--   Bill Medicine     -->
         <p style="font-size: 1.2em;">
             <b>Medicine's Total : </b> [[${#numbers.formatDecimal(sumMed, 1, 'COMMA', 2, 'POINT')}]] baht
+            <span class="float-end">
+                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addMedToBill">
+                    +Add Medicine
+                </button>
+            </span>
+            <!--Call Add Medicine To Bill (PopUp)-->
+            <th:block th:replace="bill/billPopUp/addMedToBill :: addMedToBill(${bill.billID},${medicines})">modal</th:block>
         </p>
         <div class="card mb-4 container">
             <div class="card-body">
@@ -119,6 +177,13 @@
 <!--    Bill Tool    -->
         <p style="font-size: 1.2em;">
             <b>Tool's Total : </b> [[${#numbers.formatDecimal(sumTool, 1, 'COMMA', 2, 'POINT')}]] baht
+            <span class="float-end">
+            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addToolToBill">
+                +Add Tool
+            </button>
+            </span>
+            <!--Call Add Medicine To Bill (PopUp)-->
+            <th:block th:replace="bill/billPopUp/addToolToBill :: addToolToBill(${bill.billID},${tools})">modal</th:block>
         </p>
         <div class="card mb-4 container">
             <div class="card-body">
@@ -171,6 +236,13 @@
         <!--    Bill Service    -->
         <p style="font-size: 1.2em;">
             <b>Service's Total : </b> [[${#numbers.formatDecimal(sumServing, 1, 'COMMA', 2, 'POINT')}]] baht
+            <span class="float-end">
+            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addServingToBill">
+                +Add Service
+            </button>
+            </span>
+            <!--Call Add Serving To Bill (PopUp)-->
+            <th:block th:replace="bill/billPopUp/addServingToBill :: addServingToBill(${bill.billID},${servings})">modal</th:block>
         </p>
         <div class="card pe-4 container">
             <div class="card-body">
@@ -214,9 +286,6 @@
                 </table>
             </div>
         </div>
-
-
-
 
 
     </div>

@@ -39,11 +39,14 @@ public class WareHouse {
     private Date createdDate;
     @Column(name="expired_date")
     private Date expiredDate;
+    @Column(name="soft_deleted_date")
+    private Date softDeletedDate;
+    @Column(name="soft_deleted")
+    private boolean softDeleted;
 
     public WareHouse() {
         super();
     }
-
 
     public WareHouse(Medicine medicine, int quantityIn, double paidTotal, Date expiredDate) {
         this.medicine = medicine;
@@ -53,6 +56,8 @@ public class WareHouse {
         this.paidTotal = paidTotal;
         this.createdDate = GlobalService.getCurrentTime();
         this.expiredDate = expiredDate;
+        this.softDeleted = false;
+        this.softDeletedDate = null;
     }
 
     public WareHouse(Tool tool, int quantityIn, double paidTotal, Date expiredDate) {
@@ -63,10 +68,19 @@ public class WareHouse {
         this.paidTotal = paidTotal;
         this.createdDate = GlobalService.getCurrentTime();
         this.expiredDate = expiredDate;
+        this.softDeleted = false;
+        this.softDeletedDate = null;
     }
 
-    public void setExpiredDate(String expiredDate) {
-        this.expiredDate = GlobalService.convertStringToDate(expiredDate);
+    public void updateFieldForEdit(Medicine medicine, Tool tool, int quantityIn, int quantityLeft, double paidTotal, Date stockInDate, Date expiredDate) {
+        this.medicine = medicine;
+        this.tool = tool;
+        this.quantityIn = quantityIn;
+        this.quantityLeft = quantityLeft;
+        this.type = medicine!=null ? "medicine" : "tool";
+        this.paidTotal = paidTotal;
+        this.createdDate = stockInDate;
+        this.expiredDate = expiredDate;
     }
 
     public short isExpired(){

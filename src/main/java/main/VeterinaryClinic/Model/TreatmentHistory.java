@@ -46,19 +46,18 @@ public class TreatmentHistory {
         this.bill = bill;
     }
 
-    public TreatmentHistory(Pet pet, Bill bill, Date date, String diagnosis, double weight, boolean ourClinic) {
+
+    public TreatmentHistory(Pet pet, Date date, String diagnosis, double weight, boolean ourClinic) {
         this.pet = pet;
-        this.bill = bill;
         this.date = date;
         this.diagnosis = diagnosis;
         this.weight = weight;
         this.ourClinic = ourClinic;
     }
 
-    public TreatmentHistory(Pet pet, Date date, String diagnosis, double weight, boolean ourClinic) {
+    public TreatmentHistory(Pet pet, Date date, double weight, boolean ourClinic) {
         this.pet = pet;
         this.date = date;
-        this.diagnosis = diagnosis;
         this.weight = weight;
         this.ourClinic = ourClinic;
     }

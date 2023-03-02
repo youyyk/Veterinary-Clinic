@@ -2,6 +2,7 @@ package main.VeterinaryClinic.Service;
 
 import main.VeterinaryClinic.Model.Serving;
 import main.VeterinaryClinic.Model.Tool;
+import main.VeterinaryClinic.Model.WareHouse;
 import main.VeterinaryClinic.Repository.ServingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,6 +22,9 @@ public class ServingService {
     }
 
     public Serving findByServingID(long servingID){return repository.findByServingID(servingID);}
+
+
+
 
 
 }

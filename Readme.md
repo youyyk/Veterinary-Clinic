@@ -1,3 +1,1 @@
-- Edit one to one between bill and treatmentHistory
-- Create Bill's Detail Page
-- Create global.css
+- Add medicine, tool and serving to Bill

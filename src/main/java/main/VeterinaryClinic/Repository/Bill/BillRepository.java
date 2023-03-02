@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 @Repository
@@ -16,5 +17,9 @@ public interface BillRepository extends JpaRepository<Bill, Long> {
     Bill findByBillID(long billID);
 
 //    List<Pet> findByAccount(Account account);
+
+//    Bill findFirstByStartDateOrderByBillIDesc(Date startDate);
+    Bill findFirstByPaidStatusOrderByBillIDDesc(boolean paidStatus);
+
 
 }
