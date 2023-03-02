@@ -15,11 +15,11 @@ public interface WareHouseRepository extends JpaRepository<WareHouse, Long> {
     List<WareHouse> findByTool(Tool tool);
 
     WareHouse findFirstByMedicineOrderByCreatedDateAsc(Medicine medicine);
-
-//    List<WareHouse> findByMedicineAndExpiredDateBeforeOrderByCreatedDateAsc(Medicine medicine, Date expiredDate);
+    WareHouse findFirstByToolOrderByCreatedDateAsc(Tool tool);
     List<WareHouse> findByMedicineAndSoftDeletedAndExpiredDateBeforeOrderByCreatedDateAsc(Medicine medicine,boolean softDeleted, Date expiredDate);
     List<WareHouse> findByToolAndSoftDeletedAndExpiredDateBeforeOrderByCreatedDateAsc(Tool tool,boolean softDeleted, Date expiredDate);
-    WareHouse findFirstByToolOrderByCreatedDateAsc(Tool tool);
+
+    List<WareHouse> findByMedicineAndExpiredDateBeforeOrderByCreatedDateAsc(Medicine medicine, Date expiredDate);
 //    List<WareHouse> findByToolAndExpiredDateBeforeOrderByCreatedDateAsc(Medicine medicine, Date expiredDate);
 
 }

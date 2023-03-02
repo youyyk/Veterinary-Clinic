@@ -30,5 +30,9 @@ public class BillMedicineService {
         return repository.findByPairedID_BillAndPairedID_Med(billID, medID);
     }
 
+    public BillMedicine deleteBillMedicineByBill_BillIDAndMedicine_MedID(long billID,long medID) {
+        return repository.deleteBillMedicineByBill_BillIDAndMedicine_MedID(billID, medID);
+    }
+
 
 }

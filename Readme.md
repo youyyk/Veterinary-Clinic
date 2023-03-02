@@ -1,1 +1,1 @@
-- Add medicine, tool and serving to Bill
+- Recover Stock Function

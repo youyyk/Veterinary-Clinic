@@ -1,5 +1,6 @@
 package main.VeterinaryClinic.Service;
 
+import main.VeterinaryClinic.Model.Bill.BillMedicine;
 import main.VeterinaryClinic.Model.Medicine;
 import main.VeterinaryClinic.Model.Tool;
 import main.VeterinaryClinic.Model.WareHouse;
@@ -54,6 +55,26 @@ public class WareHouseService {
             }
         }
         return null;
+    }
+
+    public void recoverStock(BillMedicine billMedicine) {
+        int cureAmt = billMedicine.getMedTotal();
+        List<WareHouse> wareHouses = repository.findByMedicineAndExpiredDateBeforeOrderByCreatedDateAsc(billMedicine.getMedicine(),GlobalService.getCurrentTime());
+        for (int i = wareHouses.size()-1; i >=0; i--) {
+            if (wareHouses.get(i).getQuantityLeft() < wareHouses.get(i).getQuantityIn()){
+//                System.out.println("CureAmt (Left) : ");
+                if (wareHouses.get(i).getQuantityLeft() + cureAmt <= wareHouses.get(i).getQuantityIn()){
+                    wareHouses.get(i).setQuantityLeft(wareHouses.get(i).getQuantityLeft() + cureAmt);
+                    repository.save(wareHouses.get(i));
+                    break;
+                }
+                else if (wareHouses.get(i).getQuantityLeft() + cureAmt > wareHouses.get(i).getQuantityIn()) {
+                    cureAmt -= (wareHouses.get(i).getQuantityIn()-wareHouses.get(i).getQuantityLeft());
+                    wareHouses.get(i).setQuantityLeft(wareHouses.get(i).getQuantityLeft() + cureAmt);
+                    repository.save(wareHouses.get(i));
+                }
+            }
+        }
     }
 
 

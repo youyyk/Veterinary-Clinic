@@ -53,4 +53,30 @@ public class BillMedicineController {
         return "redirect:/bill/getDetail/"+billID;
     }
 
+    @RequestMapping(path = "/delete", method = POST)
+    public String deleteMedicineFromBill(@RequestParam("billID") long billID,
+                                    @RequestParam("connectID") long connectID,
+                                    @RequestParam("cureAmount") int cureAmount){
+        System.out.println("----- Delete Medicine from Bill -----");
+
+        BillMedicine billMed = billMedicineService.findByBillIDAndMedID(billID,connectID);
+
+
+        billMedicineService.deleteBillMedicineByBill_BillIDAndMedicine_MedID(billID,connectID);
+
+//        List<BillMedicine> billMedicines = billMedicineService.getAll();
+//        billMedicines.remove(billMedicineService.findByBillIDAndMedID(billID,connectID));
+
+//        Bill bill = mainBillService.findByBillID(billID);
+//        Medicine medicine = medicineService.findByMedID(medID);
+//
+//
+//        BillMedicine billMedicine = new BillMedicine(bill,medicine,cureAmount);
+//        billMedicineService.save(billMedicine);
+//
+//        wareHouseService.removeStock(medicine,cureAmount);
+
+        return "redirect:/bill/getDetail/"+billID;
+    }
+
 }
