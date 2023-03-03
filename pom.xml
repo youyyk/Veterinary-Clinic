@@ -97,6 +97,13 @@
 			<artifactId>jasperreports</artifactId>
 			<version>6.20.0</version>
 		</dependency>
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>customfont-th</artifactId>
+			<version>1.0</version>
+			<scope>system</scope>
+			<systemPath>${pom.basedir}/lib/Sarabun.jar</systemPath>
+		</dependency>
 
 		<!-- Fix Warning -->
 		<dependency>

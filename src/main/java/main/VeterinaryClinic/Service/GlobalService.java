@@ -65,8 +65,8 @@ public class GlobalService {
         return null;
     }
 
-    public void createReport() {
-        generateFileService.exportReport("accountReport");
+    public void createReceiptPDF() {
+        generateFileService.exportReceiptPDF();
     }
 
     public void mockData() {
@@ -138,5 +138,6 @@ public class GlobalService {
 //        //------------- Cure History --------------
 //        CureHistory cureHistory = new CureHistory(pet,GlobalService.convertStringToDate("2022-12-10"),"พบเห็บหมัด",false);
 //        cureHistoryService.create(cureHistory);
+//        generateFileService.exportReport("receipt");
     }
 }
