@@ -3,6 +3,7 @@ package main.VeterinaryClinic.Controller.Bill;
 import main.VeterinaryClinic.Model.Bill.Bill;
 import main.VeterinaryClinic.Model.Bill.BillMedicine;
 import main.VeterinaryClinic.Model.Bill.BillTool;
+import main.VeterinaryClinic.Model.Medicine;
 import main.VeterinaryClinic.Model.Tool;
 import main.VeterinaryClinic.Service.MainBillService;
 import main.VeterinaryClinic.Service.MedicineService;
@@ -47,10 +48,20 @@ public class BillToolController {
         Bill bill = mainBillService.findByBillID(billID);
         Tool tool = toolService.findByToolID(toolID);
 
-        BillTool billTool = new BillTool(bill,tool,cureAmount);
-        billToolService.save(billTool);
+        wareHouseService.createBillToolAndRemoveStock(bill,tool,cureAmount);
 
-        wareHouseService.removeStock(tool,cureAmount);
+        return "redirect:/bill/getDetail/"+billID;
+    }
+
+    @RequestMapping(path = "/delete", method = POST)
+    public String deleteMedicineFromBill(@RequestParam("billID") long billID,
+                                         @RequestParam("deleteID") long deleteID){
+        System.out.println("----- Delete Tool from Bill "+billID+" -----");
+
+        Bill bill = mainBillService.findByBillID(billID);
+        Tool tool = toolService.findByToolID(deleteID);
+
+        wareHouseService.deleteBillToolAndRecoverStock(bill,tool);
 
         return "redirect:/bill/getDetail/"+billID;
     }

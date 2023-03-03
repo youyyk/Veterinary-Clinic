@@ -11,14 +11,17 @@ public class BillMedicineID implements Serializable {
     @Column(name = "_id")
     protected long bill;
 
+//    @Column(name = "_id")
+//    protected long med;
     @Column(name = "_id")
-    protected long med;
+    protected long item;
 
-    public BillMedicineID() {super();}
 
-    public BillMedicineID(long bill, long med) {
+public BillMedicineID() {super();}
+
+    public BillMedicineID(long bill, long item) {
         this.bill = bill;
-        this.med = med;
+        this.item = item;
     }
 
     @Override
@@ -26,11 +29,11 @@ public class BillMedicineID implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BillMedicineID billMedicineID = (BillMedicineID) o;
-        return bill == billMedicineID.bill && med == billMedicineID.med;
+        return bill == billMedicineID.bill && item == billMedicineID.item;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bill, med);
+        return Objects.hash(bill, item);
     }
 }

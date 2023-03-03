@@ -2,6 +2,7 @@ package main.VeterinaryClinic.Model.Bill;
 
 import lombok.Data;
 import main.VeterinaryClinic.Model.Tool;
+import main.VeterinaryClinic.Model.WareHouse;
 
 import javax.persistence.*;
 
@@ -17,29 +18,29 @@ public class BillTool {
     @ManyToOne
     private Bill bill;
 
-    @MapsId("tool")
+    @MapsId("item")
     @ManyToOne
-    private Tool tool;
+    private WareHouse wareHouse;
 
     @Column(name="bill_tool_total")
     private int toolTotal;
 
     public BillTool() {super();}
 
-    public BillTool(Bill bill, Tool tool, int toolTotal) {
-        this.pairedID = new BillToolID(bill.getBillID(),tool.getToolID());
+//    public BillTool(Bill bill, Tool tool, int toolTotal) {
+//        this.pairedID = new BillToolID(bill.getBillID(),tool.getToolID());
+//        this.bill = bill;
+//        this.tool = tool;
+//        this.toolTotal = toolTotal;
+//    }
+
+
+    public BillTool( Bill bill, WareHouse wareHouse, int toolTotal) {
+        this.pairedID = new BillToolID(bill.getBillID(), wareHouse.getItemID());
         this.bill = bill;
-        this.tool = tool;
+        this.wareHouse = wareHouse;
         this.toolTotal = toolTotal;
     }
 
-    @Override
-    public String toString() {
-        return "BillTool{" +
-                "pairedID=" + pairedID +
-                ", bill=" + bill +
-                ", tool=" + tool +
-                ", serviceAmount=" + toolTotal +
-                '}';
-    }
+
 }

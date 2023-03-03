@@ -1,1 +1,3 @@
-- Recover Stock Function
+- Remake Model that related to Bill, Medicine and Tool
+- Remake Add Bill, Medicine and Tool
+- Delete Bill -> Serving, Medicine and Tool

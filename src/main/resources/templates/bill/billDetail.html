@@ -60,8 +60,13 @@
 
             document.getElementById("change").innerHTML = ""+finalChange+" ฿";
         }
-
-
+    }
+    
+    function showDescription(medicines) {
+        // let medID = document.getElementById('medID').value;
+        let description = document.getElementById('medID').value;
+        console.log(description);
+        // document.getElementById("description").innerHTML = ""+description;
     }
 
     //reset change to empty
@@ -141,15 +146,15 @@
                     </tr>
                     </thead>
 
-                    <tbody th:if="${not #lists.isEmpty(bill.medUsed)}">
-                        <tr th:each="med : ${bill.medUsed}">
-                            <td>[[${med.medicine.name}]]</td>
-                            <td>[[${med.medicine.dose}]]</td>
-                            <td>[[${med.medicine.unit}]]</td>
-                            <td>[[${med.medicine.description}]]</td>
-                            <td>[[${med.medTotal}]]</td>
-                            <td>[[${med.medicine.price}]]</td>
-                            <td th:text="${med.medTotal}*${med.medicine.price}"></td>
+                    <tbody>
+                        <tr th:each="med: ${medicineAmts}">
+                            <td th:text="${med.medicine.name}"></td>
+                            <td th:text="${med.medicine.dose}"></td>
+                            <td th:text="${med.medicine.unit}"></td>
+                            <td th:text="${med.medicine.description}"></td>
+                            <td th:text="${med.amount}"></td>
+                            <td th:text="${med.medicine.price}"></td>
+                            <td th:text="${med.price}"></td>
                             <td>
                                 <div class="dropdown open">
                                     <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
@@ -160,11 +165,15 @@
                                         <a class="dropdown-item btn">
                                             <i class="fa fa-pencil mr-1"></i> Edit
                                         </a>
-                                        <a class="dropdown-item text-danger btn" data-bs-toggle="modal">
+                                        <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
+                                           th:attr="data-bs-target='#deleteItemPopUp'+*{med.medicine.medID}">
                                             <i class="fa fa-trash mr-1"></i> Delete
                                         </a>
                                     </div>
                                 </div>
+                                <th:block th:replace="bill/billPopUp/deleteItemPopUp :: deleteItemPopUp(header='Medicine',mainPath='billMedicine',deleteID=${med.medicine.medID},deleteName=${med.medicine.name},billID=${billID})">
+                                    modal
+                                </th:block>
                             </td>
                         </tr>
                     </tbody>
@@ -199,14 +208,14 @@
                     </tr>
                     </thead>
 
-                    <tbody th:if="${not #lists.isEmpty(bill.toolUsed)}">
-                    <div th:each="tool : ${bill.toolUsed}">
+                    <tbody>
+                    <div th:each="tool : ${toolAmts}">
                         <tr>
                             <td>[[${tool.tool.name}]]</td>
                             <td>[[${tool.tool.description}]]</td>
-                            <td>[[${tool.toolTotal}]]</td>
+                            <td>[[${tool.amount}]]</td>
                             <td>[[${tool.tool.price}]]</td>
-                            <td th:text="${tool.toolTotal}*${tool.tool.price}"></td>
+                            <td th:text="${tool.price}"></td>
                             <td>
                                 <div class="dropdown open">
                                     <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
@@ -217,12 +226,17 @@
                                         <a class="dropdown-item btn">
                                             <i class="fa fa-pencil mr-1"></i> Edit
                                         </a>
-                                        <a class="dropdown-item text-danger btn" data-bs-toggle="modal">
+                                        <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
+                                           th:attr="data-bs-target='#deleteItemPopUp'+*{tool.tool.toolID}">
                                             <i class="fa fa-trash mr-1"></i> Delete
                                         </a>
 
                                     </div>
                                 </div>
+                                <th:block th:replace="bill/billPopUp/deleteItemPopUp :: deleteItemPopUp(header='Tool',mainPath='billTool',deleteID=${tool.tool.toolID},deleteName=${tool.tool.name},billID=${billID})">
+                                    modal
+                                </th:block>
+
                             </td>
                         </tr>
                     </div>
@@ -257,7 +271,7 @@
                     </tr>
                     </thead>
 
-                    <tbody th:if="${not #lists.isEmpty(bill.serviceUsed)}">
+                    <tbody>
                     <div th:each="serving : ${bill.serviceUsed}">
                         <tr>
                             <td>[[${serving.serving.name}]]</td>
@@ -274,11 +288,15 @@
                                         <a class="dropdown-item btn">
                                             <i class="fa fa-pencil mr-1"></i> Edit
                                         </a>
-                                        <a class="dropdown-item text-danger btn" data-bs-toggle="modal">
+                                        <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
+                                           th:attr="data-bs-target='#deleteItemPopUp'+*{serving.serving.servingID}">
                                             <i class="fa fa-trash mr-1"></i> Delete
                                         </a>
                                     </div>
                                 </div>
+                                <th:block th:replace="bill/billPopUp/deleteItemPopUp :: deleteItemPopUp(header='Service',mainPath='billService',deleteID=${serving.serving.servingID},deleteName=${serving.serving.name},billID=${billID})">
+                                    modal
+                                </th:block>
                             </td>
                         </tr>
                     </div>

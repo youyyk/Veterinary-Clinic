@@ -29,5 +29,9 @@ public class MainBillService {
 //    public Bill findFirstByStartDateOrderByBillIDesc(Date startDate){return repository.findFirstByStartDateOrderByBillIDesc(startDate);}
     public Bill findFirstByPaidStatusOrderByBillIDDesc(boolean paidStatus){return repository.findFirstByPaidStatusOrderByBillIDDesc(paidStatus);}
 
+    public void deleteBillByBillID(long billID){
+        repository.deleteBillByBillID(billID);
+    }
+
 
 }

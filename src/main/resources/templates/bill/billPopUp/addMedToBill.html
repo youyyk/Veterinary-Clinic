@@ -21,7 +21,7 @@
                     <!-- Choose Medicine-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Medicine</span>
-                        <select class="form-select" aria-label="Select Medicine" id="medID" name="medID">
+                        <select class="form-select" aria-label="Select Medicine" id="medID" name="medID" onchange="showDescription(${medicines})" >
                             <option value=0 selected >-------- Choose --------</option>
                             <div th:each="med : ${medicines}">
                                 <option th:if="${#strings.isEmpty(med.dose)}" th:value="${med.medID}" th:text="${med.name}+' ('+${med.unit}+')'"/>
@@ -29,6 +29,11 @@
                             </div>
                         </select>
                     </div>
+
+<!--                    <div class="input-group input-group mb-3">-->
+<!--                        <span class="input-group-text">Description</span>-->
+<!--                        <input type="text" class="form-control" id="newDescription" name="newDescription">-->
+<!--                    </div>-->
 
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Amount</span>

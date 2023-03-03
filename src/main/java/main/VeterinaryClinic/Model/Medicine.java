@@ -41,9 +41,9 @@ public class Medicine {
             cascade = CascadeType.ALL)
     private List<WareHouse> items;
 
-    @OneToMany(mappedBy = "medicine", fetch = FetchType.LAZY,
-            cascade = CascadeType.ALL)
-    private List<BillMedicine> billMed;
+//    @OneToMany(mappedBy = "medicine", fetch = FetchType.LAZY,
+//            cascade = CascadeType.ALL)
+//    private List<BillMedicine> billMed;
 
 
     public Medicine() {

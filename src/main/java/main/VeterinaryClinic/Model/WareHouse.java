@@ -1,11 +1,14 @@
 package main.VeterinaryClinic.Model;
 
 import lombok.Data;
+import main.VeterinaryClinic.Model.Bill.BillMedicine;
+import main.VeterinaryClinic.Model.Bill.BillTool;
 import main.VeterinaryClinic.Service.GlobalService;
 
 import javax.persistence.*;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="warehouse")
@@ -43,6 +46,16 @@ public class WareHouse {
     private Date softDeletedDate;
     @Column(name="soft_deleted")
     private boolean softDeleted;
+
+    @OneToMany(mappedBy = "wareHouse", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<BillMedicine> billMed;
+
+    @OneToMany(mappedBy = "wareHouse", fetch = FetchType.LAZY,
+            cascade = CascadeType.ALL)
+    private List<BillTool> billTool;
+
+
 
     public WareHouse() {
         super();

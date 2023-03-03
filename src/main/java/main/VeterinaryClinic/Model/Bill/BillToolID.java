@@ -12,13 +12,13 @@ public class BillToolID implements Serializable {
     protected long bill;
 
     @Column(name = "_id")
-    protected long tool;
+    protected long item;
 
     public BillToolID() {super();}
 
-    public BillToolID(long bill, long tool) {
+    public BillToolID(long bill, long item) {
         this.bill = bill;
-        this.tool = tool;
+        this.item = item;
     }
 
     @Override
@@ -26,11 +26,11 @@ public class BillToolID implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         BillToolID billToolID = (BillToolID) o;
-        return bill == billToolID.bill && tool == billToolID.tool;
+        return bill == billToolID.bill && item == billToolID.item;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(bill, tool);
+        return Objects.hash(bill, item);
     }
 }

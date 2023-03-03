@@ -73,6 +73,7 @@ public class GlobalService {
     }
 
     public void mockData() {
+//        mainBillService.deleteBillByBillID(1);
 //        for (int i=1; i<=5; i++){
 //            accountService.create("Test"+i, "123",null);
 //        }
@@ -89,9 +90,9 @@ public class GlobalService {
         treatmentHistory.setBill(bill);
         bill.setTreatmentHistory(treatmentHistory);
         treatmentHistoryService.save(treatmentHistory);
-        bill = mainBillService.findByBillID(1);
-        System.out.println("--Bill--"+bill);
-        System.out.println("--treatment--"+treatmentHistoryService.findByTreatmentHisID(1));
+//        bill = mainBillService.findByBillID(1);
+//        System.out.println("--Bill--"+bill);
+//        System.out.println("--treatment--"+treatmentHistoryService.findByTreatmentHisID(1));
 
 //        ------------- CureHistory --------------
 //        TreatmentHistory treatmentHistory = new TreatmentHistory(petService.findByPetID(1),mainBillService.findByBillID(1),
@@ -127,10 +128,10 @@ public class GlobalService {
 //        wareHouseService.create(new WareHouse(medicine, 100,8000,GlobalService.convertStringToDate("2023-11-07")));
 //
 //
-        BillMedicine billMedicine = new BillMedicine(bill,medicineService.findByMedID(1),10);
-        billMedicineService.save(billMedicine);
-        billMedicine = new BillMedicine(bill,medicineService.findByMedID(3),1);
-        billMedicineService.save(billMedicine);
+//        BillMedicine billMedicine = new BillMedicine(bill,medicineService.findByMedID(1),10);
+//        billMedicineService.save(billMedicine);
+//        billMedicine = new BillMedicine(bill,medicineService.findByMedID(3),1);
+//        billMedicineService.save(billMedicine);
 //
 //        //------------- Tool ------------
 //        Tool toolData = new Tool("Syringe",10,"5 ml");
@@ -141,8 +142,8 @@ public class GlobalService {
 //        toolService.save(toolData);
 //        wareHouseService.create(new WareHouse(toolData, 150,6000,GlobalService.convertStringToDate("2022-01-12")));
 //
-        BillTool billTool = new BillTool(bill,toolService.findByToolID(2),1);
-        billToolService.save(billTool);
+//        BillTool billTool = new BillTool(bill,toolService.findByToolID(2),1);
+//        billToolService.save(billTool);
 ////
 ////        //------------- Service ------------
 //        Serving serviceData = new Serving("เปิดห้องผ่าตัด",300);
@@ -150,8 +151,8 @@ public class GlobalService {
 //        serviceData = new Serving("Doctor Fee",170);
 //        servingService.save(serviceData);
 //
-        BillServing billService = new BillServing(bill,servingService.findByServingID(1),1);
-        billServiceService.save(billService);
+//        BillServing billService = new BillServing(bill,servingService.findByServingID(1),1);
+//        billServiceService.save(billService);
 //
         //------------- Appointment --------------
 //        pet = new Pet("แจ็ค","ผู้",GlobalService.convertStringToDate("2021-08-12"),true,"แมว","เปอร์เซีย");

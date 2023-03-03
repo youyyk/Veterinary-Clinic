@@ -1,5 +1,6 @@
 package main.VeterinaryClinic.Controller.Bill;
 
+import lombok.Data;
 import main.VeterinaryClinic.Model.*;
 import main.VeterinaryClinic.Model.Bill.Bill;
 import main.VeterinaryClinic.Model.Bill.BillMedicine;
@@ -15,8 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import static com.nimbusds.openid.connect.sdk.assurance.claims.ISO3166_1Alpha3CountryCode.THA;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -46,7 +49,7 @@ public class BillController {
 
     @GetMapping()
     public String getPetPage(Model model) {
-        System.out.println("--Bills Page---");
+        System.out.println("-- Bills Page ---");
 
         // step 1. update model for template
         model.addAttribute("bills", mainBillService.getAll());
@@ -57,7 +60,7 @@ public class BillController {
 
     @GetMapping("/getDetail/{billID}")
     public String getDetail(@PathVariable("billID") long billID, Model model) {
-        System.out.println("---Get Bill ID : "+billID+" ---");
+        System.out.println("--- Get Bill ID : "+billID+" ---");
         Bill bill = mainBillService.findByBillID(billID);
         Pet pet = petService.findByPetID(bill.getTreatmentHistory().getPet().getPetID());
         List<Medicine> medicines = medicineService.getAll();
@@ -66,13 +69,16 @@ public class BillController {
 
         double sumTool=0,sumMed=0,sumServing=0,sumBill;
 
-        for (BillMedicine medicine:bill.getMedUsed()){
-            sumMed += (medicine.getMedTotal()*medicine.getMedicine().getPrice());
-            medicines.remove(medicine.getMedicine());
+//        Map<Medicine,Integer> countMedicines = billMedicineService.countMedicine(bill);
+        List<MedicineAmt> medicineAmts  = billMedicineService.countMedicine(bill);
+        for (MedicineAmt med : medicineAmts) {
+            sumMed += med.getPrice();
+            medicines.remove(med.getMedicine());
         }
 
-        for (BillTool tool:bill.getToolUsed()){
-            sumTool += (tool.getToolTotal()*tool.getTool().getPrice());
+        List<ToolAmt> toolAmts  = billToolService.countTool(bill);
+        for (ToolAmt tool : toolAmts) {
+            sumTool += tool.getPrice();
             tools.remove(tool.getTool());
         }
 
@@ -93,6 +99,8 @@ public class BillController {
 
         model.addAttribute("pet", pet);
         model.addAttribute("bill", bill);
+        model.addAttribute("medicineAmts",medicineAmts);
+        model.addAttribute("toolAmts",toolAmts);
         model.addAttribute("medicines", medicines);
         model.addAttribute("tools", tools);
         model.addAttribute("servings", servings);

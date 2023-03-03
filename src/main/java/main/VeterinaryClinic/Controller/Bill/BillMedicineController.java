@@ -38,43 +38,29 @@ public class BillMedicineController {
     @RequestMapping(path = "/add", method = POST)
     public String addMedicineToBill(@RequestParam("billID") long billID,
                                     @RequestParam("medID") long medID,
+//                                    @RequestParam("description") String description,
                                     @RequestParam("cureAmount") int cureAmount){
         System.out.println("----- Add Medicine to Bill -----");
 
         Bill bill = mainBillService.findByBillID(billID);
         Medicine medicine = medicineService.findByMedID(medID);
 
+        wareHouseService.createBillMedAndRemoveStock(bill,medicine,cureAmount);
 
-        BillMedicine billMedicine = new BillMedicine(bill,medicine,cureAmount);
-        billMedicineService.save(billMedicine);
-
-        wareHouseService.removeStock(medicine,cureAmount);
 
         return "redirect:/bill/getDetail/"+billID;
     }
 
     @RequestMapping(path = "/delete", method = POST)
     public String deleteMedicineFromBill(@RequestParam("billID") long billID,
-                                    @RequestParam("connectID") long connectID,
-                                    @RequestParam("cureAmount") int cureAmount){
-        System.out.println("----- Delete Medicine from Bill -----");
+                                    @RequestParam("deleteID") long deleteID){
+        System.out.println("----- Delete Medicine from Bill "+billID+" -----");
 
-        BillMedicine billMed = billMedicineService.findByBillIDAndMedID(billID,connectID);
+        Bill bill = mainBillService.findByBillID(billID);
+        Medicine medicine = medicineService.findByMedID(deleteID);
 
+        wareHouseService.deleteBillMedAndRecoverStock(bill,medicine);
 
-        billMedicineService.deleteBillMedicineByBill_BillIDAndMedicine_MedID(billID,connectID);
-
-//        List<BillMedicine> billMedicines = billMedicineService.getAll();
-//        billMedicines.remove(billMedicineService.findByBillIDAndMedID(billID,connectID));
-
-//        Bill bill = mainBillService.findByBillID(billID);
-//        Medicine medicine = medicineService.findByMedID(medID);
-//
-//
-//        BillMedicine billMedicine = new BillMedicine(bill,medicine,cureAmount);
-//        billMedicineService.save(billMedicine);
-//
-//        wareHouseService.removeStock(medicine,cureAmount);
 
         return "redirect:/bill/getDetail/"+billID;
     }
