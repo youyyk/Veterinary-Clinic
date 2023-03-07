@@ -32,8 +32,16 @@ public class BillMedicineService {
         return repository.findByBill_BillID(billID);
     }
 
+    public List<BillMedicine> findByBill(Bill bill) {
+        return repository.findByBill(bill);
+    }
+
     public void deleteBillMedicineByBillAndWareHouse_Medicine_MedID(Bill bill, long medID) {
         repository.deleteBillMedicineByBillAndWareHouse_Medicine_MedID(bill,medID);
+    }
+
+    public void deleteBillMedicineByBill_AndWareHouse_ItemID(Bill bill, long itemID) {
+        repository.deleteBillMedicineByBill_AndWareHouse_ItemID(bill,itemID);
     }
 
     public  List<BillMedicine> findByBillAndWareHouse_Medicine(Bill bill,Medicine medicine){
@@ -55,12 +63,14 @@ public class BillMedicineService {
                 System.out.println("itemID : "+billMedicine.getWareHouse().getItemID()+ " | Amount :"+billMedicine.getMedTotal());
                 MedicineAmt temp = count.get(billMedicine.getWareHouse().getMedicine().getMedID());
                 temp.setAmount(billMedicine.getMedTotal()+ temp.getAmount());
+                temp.setTotalPrice(temp.getAmount()*billMedicine.getWareHouse().getMedicine().getPrice());
                 count.put(temp.getMedicine().getMedID(), temp);
             }
 //            System.out.println("- - - - -");
 //            System.out.println("MedID : "+billMedicine.getWareHouse().getMedicine().getMedID());
 //            System.out.println("ItemID : "+billMedicine.getWareHouse().getItemID());
             System.out.println("New Amount : "+ count.get(billMedicine.getWareHouse().getMedicine().getMedID()).getAmount());
+            System.out.println("Total price : "+ count.get(billMedicine.getWareHouse().getMedicine().getMedID()).getTotalPrice());
 //            System.out.println("- - - - -");
         }
 

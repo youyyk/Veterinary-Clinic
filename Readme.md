@@ -1,3 +1,1 @@
-- Remake Model that related to Bill, Medicine and Tool
-- Remake Add Bill, Medicine and Tool
-- Delete Bill -> Serving, Medicine and Tool
+- Edit Bill -> cut and recover medicine, tool and service

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -64,5 +65,27 @@ public class BillMedicineController {
 
         return "redirect:/bill/getDetail/"+billID;
     }
+
+    @RequestMapping(path = "/edit", method = POST)
+    public String editMedicineFromBill(@RequestParam("billID") long billID,
+                                       @RequestParam("medID") long medID,
+                                       @RequestParam("description") String description,
+                                       @RequestParam("oldAmount") int oldAmount,
+                                       @RequestParam("newAmount") int newAmount) throws ParseException {
+        System.out.println("----- Edit Medicine from Bill "+billID+" -----");
+
+        Bill bill = mainBillService.findByBillID(billID);
+        Medicine medicine = medicineService.findByMedID(medID);
+
+        if (newAmount == 0){
+            wareHouseService.deleteBillMedAndRecoverStock(bill,medicine);
+            return "redirect:/bill/getDetail/"+billID;
+        }
+        wareHouseService.editBillMedicine(bill,medicine,oldAmount,newAmount,description);
+
+        return "redirect:/bill/getDetail/"+billID;
+    }
+
+
 
 }

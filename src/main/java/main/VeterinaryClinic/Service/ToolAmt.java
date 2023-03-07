@@ -7,11 +7,11 @@ import main.VeterinaryClinic.Model.Tool;
 public class ToolAmt {
     private Tool tool;
     private int amount;
-    private double price;
+    private double totalPrice;
 
     public ToolAmt(Tool tool, int amount) {
         this.tool = tool;
         this.amount = amount;
-        this.price = amount * tool.getPrice();
+        this.totalPrice = amount * tool.getPrice();
     }
 }

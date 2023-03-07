@@ -9,11 +9,11 @@ class MedicineAmt {
     private Medicine medicine;
     private int amount;
 
-    private double price;
+    private double totalPrice;
 
     public MedicineAmt(Medicine medicine, int amount) {
         this.medicine = medicine;
         this.amount = amount;
-        this.price = medicine.getPrice()*amount;
+        this.totalPrice = medicine.getPrice()*amount;
     }
 }

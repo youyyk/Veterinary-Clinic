@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.ParseException;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -62,6 +63,25 @@ public class BillToolController {
         Tool tool = toolService.findByToolID(deleteID);
 
         wareHouseService.deleteBillToolAndRecoverStock(bill,tool);
+
+        return "redirect:/bill/getDetail/"+billID;
+    }
+
+    @RequestMapping(path = "/edit", method = POST)
+    public String editToolFromBill(@RequestParam("billID") long billID,
+                                       @RequestParam("toolID") long toolID,
+                                       @RequestParam("oldAmount") int oldAmount,
+                                       @RequestParam("newAmount") int newAmount) throws ParseException {
+        System.out.println("----- Edit Tool from Bill "+billID+" -----");
+
+        Bill bill = mainBillService.findByBillID(billID);
+        Tool tool = toolService.findByToolID(toolID);
+
+        if (newAmount == 0){
+            wareHouseService.deleteBillToolAndRecoverStock(bill,tool);
+            return "redirect:/bill/getDetail/"+billID;
+        }
+        wareHouseService.editBillTool(bill,tool,oldAmount,newAmount);
 
         return "redirect:/bill/getDetail/"+billID;
     }

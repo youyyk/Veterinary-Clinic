@@ -1,10 +1,13 @@
 package main.VeterinaryClinic.Model.Bill;
 
+import lombok.Data;
+
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Data
 @Embeddable
 public class BillMedicineID implements Serializable {
 
@@ -35,5 +38,13 @@ public BillMedicineID() {super();}
     @Override
     public int hashCode() {
         return Objects.hash(bill, item);
+    }
+
+    @Override
+    public String toString() {
+        return "BillMedicineID{" +
+                "bill=" + bill +
+                ", item=" + item +
+                '}';
     }
 }

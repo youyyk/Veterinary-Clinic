@@ -1,6 +1,5 @@
 package main.VeterinaryClinic.Controller.Bill;
 
-import lombok.Data;
 import main.VeterinaryClinic.Model.*;
 import main.VeterinaryClinic.Model.Bill.Bill;
 import main.VeterinaryClinic.Model.Bill.BillMedicine;
@@ -15,13 +14,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
-import static com.nimbusds.openid.connect.sdk.assurance.claims.ISO3166_1Alpha3CountryCode.THA;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
@@ -67,43 +61,49 @@ public class BillController {
         List<Tool> tools = toolService.getAll();
         List<Serving> servings = servingService.getAll();
 
-        double sumTool=0,sumMed=0,sumServing=0,sumBill;
+        List<BillMedicine> billMedList = billMedicineService.findByBill(bill);
+        List<BillTool> billToolList = billToolService.findByBill(bill);
 
-//        Map<Medicine,Integer> countMedicines = billMedicineService.countMedicine(bill);
+
+        //------- Count item and calculate sum --------
+        double sumTool=0,sumMed=0,sumServing=0,sumBill;
         List<MedicineAmt> medicineAmts  = billMedicineService.countMedicine(bill);
         for (MedicineAmt med : medicineAmts) {
-            sumMed += med.getPrice();
+            sumMed += med.getTotalPrice();
             medicines.remove(med.getMedicine());
         }
-
         List<ToolAmt> toolAmts  = billToolService.countTool(bill);
         for (ToolAmt tool : toolAmts) {
-            sumTool += tool.getPrice();
+            sumTool += tool.getTotalPrice();
             tools.remove(tool.getTool());
         }
-
         for (BillServing serving:bill.getServiceUsed()){
             sumServing += (serving.getServingTotal()*serving.getServing().getPrice());
             servings.remove(serving.getServing());
         }
-
         sumBill = sumMed+sumTool+sumServing;
-
         System.out.println("Med total : "+sumMed);
         System.out.println("Tool total : "+sumTool);
         System.out.println("Serving total : "+sumServing);
         System.out.println("Bill total : "+sumBill);
-
         bill.setTotal(sumBill);
         mainBillService.save(bill);
 
+
+        //---- Pass Value ----
         model.addAttribute("pet", pet);
         model.addAttribute("bill", bill);
+
         model.addAttribute("medicineAmts",medicineAmts);
         model.addAttribute("toolAmts",toolAmts);
+
+        model.addAttribute("billMedList",billMedList);
+        model.addAttribute("billToolList",billToolList);
+
         model.addAttribute("medicines", medicines);
         model.addAttribute("tools", tools);
         model.addAttribute("servings", servings);
+
         model.addAttribute("sumMed", sumMed);
         model.addAttribute("sumTool", sumTool);
         model.addAttribute("sumServing", sumServing);

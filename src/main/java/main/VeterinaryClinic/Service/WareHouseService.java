@@ -12,6 +12,10 @@ import main.VeterinaryClinic.Service.SubBill.BillToolService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
@@ -57,7 +61,6 @@ public class WareHouseService {
     }
 
 
-
     public void createBillMedAndRemoveStock(Bill bill,Medicine medicine,int removeAmt){
         System.out.println("RemoveAmt (Start) : "+removeAmt);
         List<WareHouse> wareHouses = findByMedicineAndExpiredDateAfterOrderByExpiredDateAsc(medicine,GlobalService.getCurrentTime());
@@ -68,7 +71,7 @@ public class WareHouseService {
                 System.out.println("Qty Left(Before) : "+wareHouse.getQuantityLeft());
                 wareHouse.setQuantityLeft(wareHouse.getQuantityLeft()-removeAmt);
                 System.out.println("Qty Left(After) : "+wareHouse.getQuantityLeft());
-                BillMedicine billMedicine = new BillMedicine(bill,wareHouse,removeAmt);
+                BillMedicine billMedicine = new BillMedicine(bill,wareHouse, medicine.getDescription(), removeAmt);
                 billMedicineService.save(billMedicine);
                 repository.save(wareHouse);
                 removeAmt = 0;
@@ -80,7 +83,7 @@ public class WareHouseService {
                 System.out.println("ItemID : "+wareHouse.getItemID());
                 System.out.println("Qty Left(Before) : "+wareHouse.getQuantityLeft());
                 removeAmt -= wareHouse.getQuantityLeft();
-                BillMedicine billMedicine = new BillMedicine(bill,wareHouse,wareHouse.getQuantityLeft());
+                BillMedicine billMedicine = new BillMedicine(bill,wareHouse,medicine.getDescription(),wareHouse.getQuantityLeft());
                 wareHouse.setQuantityLeft(0);
                 System.out.println("Qty Left(After) : "+wareHouse.getQuantityLeft());
                 billMedicineService.save(billMedicine);
@@ -134,7 +137,8 @@ public class WareHouseService {
 
             WareHouse recoverStock = repository.findByItemID(billMed.getWareHouse().getItemID());
             recoverStock.setQuantityLeft(recoverStock.getQuantityLeft()+billMed.getMedTotal());
-            billMedicineService.deleteBillMedicineByBillAndWareHouse_Medicine_MedID(billMed.getBill(),billMed.getWareHouse().getMedicine().getMedID());
+            billMedicineService.deleteBillMedicineByBill_AndWareHouse_ItemID(bill,billMed.getWareHouse().getItemID());
+//            billMedicineService.deleteBillMedicineByBillAndWareHouse_Medicine_MedID(billMed.getBill(),billMed.getWareHouse().getMedicine().getMedID());
         }
 
         bill.setTotal(newBillTotal);
@@ -158,6 +162,170 @@ public class WareHouseService {
         bill.setTotal(newBillTotal);
         mainBillService.save(bill);
 
+    }
+
+    public void editBillMedicine(Bill bill,Medicine medicine,int oldAmount,int newAmount,String description){
+        int diffAmt = newAmount-oldAmount;
+        System.out.println("Old Amt : "+oldAmount+" | New Amt : "+newAmount+" | Diff Amt : "+diffAmt);
+        System.out.println("Description : "+description);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        if (diffAmt < 0){
+            List<BillMedicine> billMedicineList = billMedicineService.findByBillAndWareHouse_Medicine(bill,medicine);
+            billMedicineList.sort(Comparator.comparing((BillMedicine o) -> sdf.format(o.getWareHouse().getExpiredDate())).reversed());
+            diffAmt = Math.abs(diffAmt);
+            for (BillMedicine billMed: billMedicineList) {
+                System.out.println(billMed.getPairedID().toString());
+                System.out.println("old med total : "+billMed.getMedTotal());
+                if (billMed.getMedTotal() > diffAmt){
+                    // recover stock
+                    billMed.getWareHouse().setQuantityLeft(billMed.getWareHouse().getQuantityLeft()+diffAmt);
+                    // delete from medTotal
+                    billMed.setMedTotal(billMed.getMedTotal()-diffAmt);
+                    billMedicineService.save(billMed);
+                    System.out.println("new med total : "+billMed.getMedTotal());
+                    diffAmt = 0;
+                    System.out.println("Diff Amt (>): "+diffAmt);
+                    break;
+                }
+                else if (billMed.getMedTotal() == diffAmt) {
+                    // recover stock
+                    billMed.getWareHouse().setQuantityLeft(billMed.getWareHouse().getQuantityLeft()+diffAmt);
+                    // delete bill medicine
+                    billMedicineService.deleteBillMedicineByBill_AndWareHouse_ItemID(billMed.getBill(),billMed.getWareHouse().getItemID());
+//                    billMedicineService.save(billMed);
+                    System.out.println("new med total : 0");
+                    diffAmt = 0;
+                    System.out.println("Diff Amt (=): "+diffAmt);
+                    break;
+                }
+                else if (billMed.getMedTotal() < diffAmt) {
+                    // recover stock
+                    billMed.getWareHouse().setQuantityLeft(billMed.getWareHouse().getQuantityLeft()+billMed.getMedTotal());
+                    diffAmt -= billMed.getMedTotal();
+                    billMed.setMedTotal(0);
+                    billMedicineService.save(billMed);
+                    billMedicineService.deleteBillMedicineByBill_AndWareHouse_ItemID(billMed.getBill(),billMed.getWareHouse().getItemID());
+                    System.out.println("new med total : "+billMed.getMedTotal());
+                    System.out.println("Diff Amt (<): "+diffAmt);
+                    System.out.println("- - - - ");
+                }
+            }
+        }
+        else if (diffAmt > 0) {
+            List<BillMedicine> billMedicineList = billMedicineService.findByBillAndWareHouse_Medicine(bill,medicine);
+            billMedicineList.sort(Comparator.comparing((BillMedicine o) -> sdf.format(o.getWareHouse().getExpiredDate())));
+            for (BillMedicine billMed: billMedicineList) {
+                if (billMed.getWareHouse().getQuantityLeft() >= diffAmt){
+                    billMed.getWareHouse().setQuantityLeft(billMed.getWareHouse().getQuantityLeft()-diffAmt);
+                    billMed.setMedTotal(billMed.getMedTotal()+diffAmt);
+                    billMedicineService.save(billMed);
+                    diffAmt -= billMed.getMedTotal();
+                    System.out.println("new med total : "+billMed.getMedTotal());
+                    System.out.println("Diff Amt (>= diff): "+diffAmt);
+                    billMedicineService.save(billMed);
+                    break;
+                }
+                else if (billMed.getWareHouse().getQuantityLeft() < diffAmt) {
+                    billMed.setMedTotal(billMed.getMedTotal()+billMed.getWareHouse().getQuantityLeft());
+                    diffAmt -= billMed.getWareHouse().getQuantityLeft();
+                    billMed.getWareHouse().setQuantityLeft(0);
+                    System.out.println("new med total : "+billMed.getMedTotal());
+                    System.out.println("Diff Amt (< diff): "+diffAmt);
+                    System.out.println("- - - - ");
+                    billMedicineService.save(billMed);
+                }
+            }
+            if (diffAmt > 0){
+                createBillMedAndRemoveStock(bill,medicine,diffAmt);
+            }
+        }
+        if (!description.equals(medicine.getDescription())){
+            List<BillMedicine> setBillMedDescription = billMedicineService.findByBillAndWareHouse_Medicine(bill,medicine);
+            for (BillMedicine billMed: setBillMedDescription) {
+                billMed.setNewDescription(description);
+                billMedicineService.save(billMed);
+            }
+        }
+    }
+
+    public void editBillTool(Bill bill,Tool tool,int oldAmount,int newAmount){
+        int diffAmt = newAmount-oldAmount;
+        System.out.println("Old Amt : "+oldAmount+" | New Amt : "+newAmount+" | Diff Amt : "+diffAmt);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        if (diffAmt < 0){
+            List<BillTool> billToolList = billToolService.findByBillAndWareHouse_Tool(bill,tool);
+            billToolList.sort(Comparator.comparing((BillTool o) -> sdf.format(o.getWareHouse().getExpiredDate())).reversed());
+            diffAmt = Math.abs(diffAmt);
+
+            for (BillTool billTool: billToolList) {
+                System.out.println(billTool.getPairedID().toString());
+                System.out.println("old tool total : "+billTool.getToolTotal());
+                if (billTool.getToolTotal() > diffAmt){
+                    // recover stock
+                    billTool.getWareHouse().setQuantityLeft(billTool.getWareHouse().getQuantityLeft()+diffAmt);
+                    // delete from tool Total
+                    billTool.setToolTotal(billTool.getToolTotal()-diffAmt);
+                    billToolService.save(billTool);
+                    System.out.println("new tool total : "+billTool.getToolTotal());
+                    diffAmt = 0;
+                    System.out.println("Diff Amt (>): "+diffAmt);
+                    break;
+                }
+                else if (billTool.getToolTotal() == diffAmt) {
+                    // recover stock
+                    billTool.getWareHouse().setQuantityLeft(billTool.getWareHouse().getQuantityLeft()+diffAmt);
+                    // delete bill tool
+                    billToolService.deleteBillToolByBillAndWareHouse_ItemID(billTool.getBill(),billTool.getWareHouse().getItemID());
+                    System.out.println("new tool total : 0");
+                    diffAmt = 0;
+                    System.out.println("Diff Amt (=): "+diffAmt);
+                    break;
+                }
+                else if (billTool.getToolTotal() < diffAmt) {
+                    // recover stock
+                    billTool.getWareHouse().setQuantityLeft(billTool.getWareHouse().getQuantityLeft()+billTool.getToolTotal());
+                    diffAmt -= billTool.getToolTotal();
+                    billTool.setToolTotal(0);
+                    billToolService.save(billTool);
+                    billToolService.deleteBillToolByBillAndWareHouse_ItemID(billTool.getBill(),billTool.getWareHouse().getItemID());
+                    System.out.println("new tool total : "+billTool.getToolTotal());
+                    System.out.println("Diff Amt (<): "+diffAmt);
+                    System.out.println("- - - - ");
+                }
+            }
+        }
+        else if (diffAmt > 0) {
+            List<BillTool> billToolList = billToolService.findByBillAndWareHouse_Tool(bill,tool);
+            billToolList.sort(Comparator.comparing((BillTool o) -> sdf.format(o.getWareHouse().getExpiredDate())));
+            for (BillTool billTool: billToolList) {
+                if (billTool.getWareHouse().getQuantityLeft() >= diffAmt){
+                    billTool.getWareHouse().setQuantityLeft(billTool.getWareHouse().getQuantityLeft()-diffAmt);
+                    billTool.setToolTotal(billTool.getToolTotal()+diffAmt);
+                    billToolService.save(billTool);
+                    diffAmt -= billTool.getToolTotal();
+                    System.out.println("new tool total : "+billTool.getToolTotal());
+                    System.out.println("Diff Amt (>= diff): "+diffAmt);
+                    billToolService.save(billTool);
+                    break;
+                }
+                else if (billTool.getWareHouse().getQuantityLeft() < diffAmt) {
+                    billTool.setToolTotal(billTool.getToolTotal()+billTool.getWareHouse().getQuantityLeft());
+                    diffAmt -= billTool.getWareHouse().getQuantityLeft();
+                    billTool.getWareHouse().setQuantityLeft(0);
+                    System.out.println("new tool total : "+billTool.getToolTotal());
+                    System.out.println("Diff Amt (< diff): "+diffAmt);
+                    System.out.println("- - - - ");
+                    billToolService.save(billTool);
+                }
+            }
+            if (diffAmt > 0){
+                createBillToolAndRemoveStock(bill,tool,diffAmt);
+            }
+        }
     }
 
 

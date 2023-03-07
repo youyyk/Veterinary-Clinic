@@ -32,8 +32,18 @@ public class BillToolService {
         return  repository.findByBillAndWareHouse_Tool(bill,tool);
     }
 
+    public List<BillTool> findByBill(Bill bill){
+        return  repository.findByBill(bill);
+    }
+
+
+
     public void deleteBillToolByBillAndWareHouse_Tool_ToolID(Bill bill, long toolID) {
         repository.deleteBillToolByBillAndWareHouse_Tool_ToolID(bill,toolID);
+    }
+
+    public void deleteBillToolByBillAndWareHouse_ItemID(Bill bill, long itemID) {
+        repository.deleteBillToolByBillAndWareHouse_ItemID(bill,itemID);
     }
 
     public List<ToolAmt> countTool(Bill bill){
@@ -54,6 +64,7 @@ public class BillToolService {
 
                 ToolAmt temp = count.get(billTool.getWareHouse().getTool().getToolID());
                 temp.setAmount(billTool.getToolTotal()+ temp.getAmount());
+                temp.setTotalPrice(temp.getAmount()*billTool.getWareHouse().getTool().getPrice());
                 count.put(temp.getTool().getToolID(), temp);
             }
 //            System.out.println("- - - - -");

@@ -32,4 +32,7 @@ public interface WareHouseRepository extends JpaRepository<WareHouse, Long> {
 
 
 
+
+
+
 }

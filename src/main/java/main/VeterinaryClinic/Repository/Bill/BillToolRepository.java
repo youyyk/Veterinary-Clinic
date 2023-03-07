@@ -22,4 +22,7 @@ public interface BillToolRepository extends JpaRepository<BillTool, BillToolID> 
     @Transactional
     void deleteBillToolByBillAndWareHouse_Tool_ToolID(Bill bill, long toolID);
 
+    @Transactional
+    void deleteBillToolByBillAndWareHouse_ItemID(Bill bill,long itemID);
+
 }
