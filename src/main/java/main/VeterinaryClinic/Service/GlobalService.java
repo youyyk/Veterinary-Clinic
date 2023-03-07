@@ -2,6 +2,7 @@ package main.VeterinaryClinic.Service;
 
 import main.VeterinaryClinic.Model.*;
 
+import main.VeterinaryClinic.Model.Account.Account;
 import org.springframework.stereotype.Service;
 import main.VeterinaryClinic.Service.Account.AccountService;
 import main.VeterinaryClinic.Service.SubBill.BillMedicineService;
@@ -65,8 +66,27 @@ public class GlobalService {
         return null;
     }
 
-    public void createReceiptPDF() {
-        generateFileService.exportReceiptPDF();
+    public static String handleRedirectPageForAccountByRole(Account account){
+        if (account.isRegisAccount()) {
+            if (account.isAdmin()) {
+                System.out.println("---HANDLE-PAGE : ADMIN---");
+                return "redirect:/account";
+            } else if (account.isOfficer()) {
+                System.out.println("---HANDLE-PAGE : OFFICER---");
+                return "redirect:/warehouse";
+            } else if (account.isCustomer()) {
+                System.out.println("---HANDLE-PAGE : CUSTOMER---");
+                return "redirect:/account/getInfo/"+account.getAccId();
+            }
+        }
+        return "redirect:/account/register";
+    }
+
+    public static String handleRedirectPageForAccount(Account account, String goToPath){
+        if (account.isRegisAccount()) {
+            return goToPath;
+        }
+        return "redirect:/account/register";
     }
 
     public void mockData() {

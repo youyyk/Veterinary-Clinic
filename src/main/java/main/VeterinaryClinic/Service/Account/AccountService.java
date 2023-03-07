@@ -75,6 +75,10 @@ public class AccountService {
         return accountRepository.findAll(Sort.by(Sort.Direction.ASC, field));
     }
 
+    public long countAccount(){
+        return accountRepository.count();
+    }
+
     public void editAccount(Account newAccount,String accId){
         Account account = getById(accId);
 

@@ -14,6 +14,7 @@ public class HomeController {
         model.addAttribute("greeting", "Hi OAuth");
         if (accountUserDetail != null) {
             model.addAttribute("user", accountUserDetail.getName());
+            return GlobalService.handleRedirectPageForAccount(accountUserDetail.getAccount(), "home");
         }
         else {
             model.addAttribute("user", "Guest");

@@ -15,12 +15,12 @@ public class AccountUserDetailService extends DefaultOAuth2UserService {
     @Autowired
     private AccountService accountService;
     @Override
-    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+    public OAuth2User loadUser(OAuth2UserRequest userRequest) {
         OAuth2User oAuth2User = super.loadUser(userRequest);
         return new AccountUserDetail(oAuth2User, loadUserByUsername(oAuth2User));
     }
 
-    public Account loadUserByUsername(OAuth2User oAuth2User) throws UsernameNotFoundException {
+    public Account loadUserByUsername(OAuth2User oAuth2User) {
         String lineName = oAuth2User.getAttribute("displayName");
         String lineId = oAuth2User.getAttribute("userId");
         String linePic = oAuth2User.getAttribute("pictureUrl");
@@ -33,7 +33,6 @@ public class AccountUserDetailService extends DefaultOAuth2UserService {
             System.out.println("User Already");
         } else {
             account = accountService.create(lineName, lineId, linePic);
-
             System.out.println("User NOT Already");
         }
         System.out.println(account);
