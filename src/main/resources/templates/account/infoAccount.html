@@ -6,12 +6,45 @@
   <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
   <script th:src="@{/js/bootstrap.min.js}"></script>
   <link th:rel="stylesheet" th:href="@{/css/table-image.css}">
+  <script th:src="@{/js/validateModel.js}"></script>
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
+
+<script>
+    let realTimeValid = false;
+
+    function validFormEditAccountByEachField(fieldElement){
+        if (realTimeValid){
+            const formEditAccount = document.getElementById("editAccountForm")
+            const validatedList = serviceValidEditAccount(formEditAccount, fieldElement.id);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(formEditAccount.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitEditAccountForm(formEditAccount, option){
+        realTimeValid = true;
+        const validatedList = serviceValidEditAccount(formEditAccount, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(formEditAccount.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 5){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
 <body>
 <div th:insert="fragments/header :: header"></div>
 

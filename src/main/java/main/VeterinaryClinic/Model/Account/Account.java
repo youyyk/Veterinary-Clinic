@@ -31,7 +31,7 @@ public class Account {
     private String lastName;
     @Column(name = "address", columnDefinition="TEXT")
     private String address;
-    @Column(name = "phone", columnDefinition = "CHAR(12)")
+    @Column(name = "phone", columnDefinition = "CHAR(10)")
     private String phone;
     @Column(name = "line_name")
     private String lineName;

@@ -12,20 +12,16 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:action="@{/account/edit}" method="POST">
+                <form id="editAccountForm" th:action="@{/account/edit}" method="POST" onsubmit="return validSubmitEditAccountForm(this, 'all');">
                     <!--Account ID-->
                     <input type="hidden" class="form-control" id="accId" name="accId" th:value="${account.accId}">
-                    <!--Line Name-->
-                    <input type="hidden" class="form-control" id="lineName" name="lineName" th:value="${account.lineName}">
-                    <!--Line ID-->
-                    <input type="hidden" class="form-control" id="lineId" name="lineId" th:value="${account.lineId}">
-                    <!--Image Path-->
-                    <input type="hidden" class="form-control" id="img_path" name="img_path" th:value="${account.img_path}">
 
                     <!--Title-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Title</span>
-                        <select class="form-select" id="title" name="title" aria-label="Default select example">
+                        <select class="form-select" id="title" name="title" aria-label="Default select example" autocomplete="off" onchange="validFormEditAccountByEachField(this)">
+                            <option th:value="dummy" th:text="Choose..."
+                                    th:selected="${#strings.contains(account.title, 'Choose...')}"/>
                             <option th:value="Mr." th:text="Mr."
                                     th:selected="${#strings.contains(account.title, 'Mr.')}"/>
                             <option th:value="Mrs." th:text="Mrs."
@@ -36,34 +32,37 @@
                                     th:selected="${#strings.contains(account.title, 'Miss')}"/>
                         </select>
                     </div>
+
                     <!--FirstName-->
                     <div class="input-group input-group mb-3">
-                        <span class="input-group-text">First Name</span>
-                        <input type="text" class="form-control" id="firstName" name="firstName" th:value="${account.firstName}">
+                        <span class="input-group-text">Firstname</span>
+                        <input type="text" class="form-control" id="firstName" name="firstName" th:value="${account.firstName}" autocomplete="off" onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
                     </div>
 
                     <!--LastName-->
                     <div class="input-group input-group mb-3">
-                        <span class="input-group-text">Last Name</span>
-                        <input type="text" class="form-control" id="lastName" name="lastName" th:value="${account.lastName}">
+                        <span class="input-group-text">Lastname</span>
+                        <input type="text" class="form-control" id="lastName" name="lastName" th:value="${account.lastName}" autocomplete="off" onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
                     </div>
 
                     <!--Address-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Address</span>
-                        <input type="text" class="form-control" id="address" name="address" th:value="${account.address}">
+                        <input type="text" class="form-control" id="address" name="address" th:value="${account.address}" autocomplete="off" onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
                     </div>
 
                     <!--Phone No.-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Phone No.</span>
-                        <input type="text" class="form-control" id="phone" name="phone" th:value="${account.phone}">
+                        <input type="text" class="form-control" id="phone" name="phone" maxlength="10" th:value="${account.phone}" autocomplete="off" onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
                     </div>
 
                     <!--button-->
                     <div class="modal-footer">
-                        <button class="btn btn-primary" type="submit">edit</button>
-                        <button class="btn btn-secondary" type="reset">clear</button>
+                        <div class="col-md-12 text-center">
+                            <button class="btn btn-primary" type="submit">Edit</button>
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                        </div>
                     </div>
 
                 </form>
