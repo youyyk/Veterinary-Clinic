@@ -1,2 +1,3 @@
-- Edit information
-- Delete pet
+- Regis Page
+- Validation
+- Dynamic Warehouse
