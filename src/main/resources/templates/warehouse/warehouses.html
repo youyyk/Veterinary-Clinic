@@ -44,16 +44,35 @@
     const show = "block";
     function choose_add_type(option) {
         let selectOption = document.getElementById('selectAddOption')
+        let tabBodyMed = document.getElementById("tab-body-med");
+        let tabBodyTool = document.getElementById("tab-body-tool");
         if (option == "med") {
             selectOption.options[1].innerHTML = "New Medicine";
             selectOption.options[1].value = 1;
             selectOption.options[2].value = 3;
+            tabBodyMed.classList.add("show", "active");
+            tabBodyTool.classList.remove("show", "active");
         } else if (option == "tool") {
             selectOption.options[1].innerHTML = "New Tool";
             selectOption.options[1].value = 2;
             selectOption.options[2].value = 4;
+            tabBodyMed.classList.remove("show", "active");
+            tabBodyTool.classList.add("show", "active");
         }
         choose_add_option();
+    }
+    function switchTabActive(btnFrom){
+        let tabMed = document.getElementById("tab-pane-med");
+        let tabTool = document.getElementById("tab-pane-tool");
+        if (btnFrom.id === "btn-add-med"){
+            tabMed.classList.add("active");
+            tabTool.classList.remove("active");
+            choose_add_type("med");
+        } else if (btnFrom.id === "btn-add-tool"){
+            tabMed.classList.remove("active");
+            tabTool.classList.add("active");
+            choose_add_type("tool");
+        }
     }
     function choose_add_option() {
         let selectValue = document.getElementById('selectAddOption').value
@@ -208,7 +227,7 @@
                 </div>
                 <div class="mb-0">
                     <div class="float-end mt-4 mb-0 ms-4">
-                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createWarehousePopUp">
+                        <button id="btn-add-med" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createWarehousePopUp" onclick="switchTabActive(this)">
                             + Add Item
                         </button>
                     </div>
@@ -266,7 +285,7 @@
                 </div>
                 <div class="mb-0">
                     <div class="float-end mt-4 mb-0 ms-4">
-                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createWarehousePopUp">
+                        <button id="btn-add-tool" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createWarehousePopUp" onclick="switchTabActive(this)">
                             + Add Item
                         </button>
                     </div>

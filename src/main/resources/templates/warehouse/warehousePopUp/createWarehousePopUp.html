@@ -13,13 +13,13 @@
             <div class="modal-body">
                 <ul class="nav bg-light nav-pills rounded nav-fill mb-3" id="ex-with-icons" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" id="ex-with-icons-tab-1" data-bs-toggle="tab" href="#create-med" role="tab"
+                        <a class="nav-link active" id="tab-pane-med" data-bs-toggle="tab" href="#create-med" role="tab"
                            aria-controls="ex-with-icons-tabs-1" aria-selected="true"
                            onclick="choose_add_type('med')"
                         ><i class="fas fa-medkit fa-fw me-2"></i>Medicine</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="ex-with-icons-tab-2" data-bs-toggle="tab" href="#create-tool" role="tab"
+                        <a class="nav-link" id="tab-pane-tool" data-bs-toggle="tab" href="#create-tool" role="tab"
                            aria-controls="ex-with-icons-tabs-2" aria-selected="false"
                            onclick="choose_add_type('tool')"
                         ><i class="fas fa-wrench fa-fw me-2"></i>Tool</a>
@@ -32,7 +32,7 @@
                 </select>
 
                 <div class="tab-content" id="ex-with-icons-content">
-                    <div class="tab-pane fade show active" id="create-med" aria-labelledby="ex-with-icons-tab-1">
+                    <div id="tab-body-med" class="tab-pane fade show active" aria-labelledby="ex-with-icons-tab-1">
                         <div name="medicineForm" style="display: none">
                             <form th:action="@{warehouse/create/medicine}" method="POST" th:object="${newMedForm}">
 
@@ -109,7 +109,7 @@
                             </form>
                         </div>
                     </div>
-                    <div class="tab-pane fade" id="create-tool" aria-labelledby="ex-with-icons-tab-2">
+                    <div id="tab-body-tool" class="tab-pane fade" aria-labelledby="ex-with-icons-tab-2">
                         <div name="toolForm" style="display: none">
                             <form th:action="@{warehouse/create/tool}" method="POST" th:object="${newToolForm}">
                                 <!--Tool's Name-->

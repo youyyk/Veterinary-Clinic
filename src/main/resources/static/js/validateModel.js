@@ -5,6 +5,12 @@ function payloadValid(fieldId, errorMessage) {
 const regexOnlyCharacter = /^[A-Za-zก-๙]+$/;
 const regexPhoneNumber = /^0\d{9}$/;
 const titleChoice = ["Mr.", "Mrs.", "Ms.", "Miss"];
+
+/*
+* Use on Files
+* - infoAccount for form in editInfoAccountPopUp
+* - registerAccount
+* */
 function serviceValidEditAccount(formEditAccount, option){
     const payload = [];
     if (formEditAccount != null || formEditAccount != undefined){
