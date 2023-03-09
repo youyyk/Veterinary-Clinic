@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+
+<div th:fragment="editWarehouseMedicinePopUp(editMed)" th:id="'editWarehouseMedicinePopUp'+${editMed.medID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
+     data-bs-backdrop="static" aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!--Edit Med Warehouse-->
+            <div class="modal-body">
+                <form th:action="@{warehouse/edit/medicine/{id} (id=${editMed.medID})}" method="POST">
+
+                    <!--Med's Name-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text">Name</span>
+                        <input type="text" class="form-control" th:value="${editMed.name}" id="name" name="name">
+                    </div>
+
+                    <!--Price-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text date">Price</span>
+                        <input type="number" class="form-control" th:value="${editMed.price}" id="price" name="price">
+                    </div>
+
+                    <!--Pet's Dose & Unit-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text">Dose</span>
+                        <input type="text" class="form-control" th:value="${editMed.dose}" id="dose" name="dose" style="margin-right: 2px">
+                        <span class="input-group-text">Unit</span>
+                        <input type="text" class="form-control" th:value="${editMed.unit}" id="unit" name="unit">
+                    </div>
+
+                    <!--Description-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text date">Description</span>
+                        <input type="text" class="form-control" th:value="${editMed.description}" id="description" name="description">
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="col-md-12 text-center">
+                            <button class="btn btn-primary" type="submit">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+
+</html>

@@ -1,1 +1,4 @@
+- Regis Page
+- Validation
+- Dynamic Warehouse
 - Appointment -> create, edit and delete

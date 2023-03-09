@@ -35,8 +35,8 @@ public class WareHouseService {
         return repository.findAll();
     }
 
-    public WareHouse create(WareHouse wareHouse) {
-        return repository.save(wareHouse);
+    public WareHouse getById(long id) {
+        return repository.findByItemID(id);
     }
 
     public WareHouse findByItemID(long itemID) {
@@ -328,4 +328,7 @@ public class WareHouseService {
     }
 
 
+    public WareHouse save(WareHouse wareHouse) {
+        return repository.save(wareHouse);
+    }
 }

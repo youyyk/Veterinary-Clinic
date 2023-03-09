@@ -44,7 +44,7 @@ public class BillServiceController {
         System.out.println("----- Add Serving to Bill -----");
 
         Bill bill = mainBillService.findByBillID(billID);
-        Serving serving = servingService.findByServingID(servingID);
+        Serving serving = servingService.findByServiceID(servingID);
 
         BillServing billServing = new BillServing(bill,serving,cureAmount);
         billServiceService.save(billServing);

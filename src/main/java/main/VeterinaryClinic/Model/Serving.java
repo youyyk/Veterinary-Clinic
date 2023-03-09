@@ -33,6 +33,10 @@ public class Serving {
         this.softDeletedDate = "";
     }
 
+    public void updateFieldForEdit(String name, double price){
+        this.name = name;
+        this.price = price;
+    }
 
     @Override
     public String toString() {

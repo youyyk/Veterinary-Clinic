@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+
+<div th:fragment="editWarehouseToolPopUp(editTool)" th:id="'editWarehouseToolPopUp'+${editTool.toolID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
+     data-bs-backdrop="static" aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!--Edit Tool Warehouse-->
+            <div class="modal-body">
+                <form th:action="@{warehouse/edit/tool/{id} (id=${editTool.toolID})}" method="POST">
+
+                    <!--Tool's Name-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text">Name</span>
+                        <input type="text" class="form-control" th:value="${editTool.name}" id="name" name="name">
+                    </div>
+
+                    <!--Price-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text date">Price</span>
+                        <input type="number" class="form-control" th:value="${editTool.price}" id="price" name="price">
+                    </div>
+
+                    <!--Description-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text date">Description</span>
+                        <input type="text" class="form-control" th:value="${editTool.description}" id="description" name="description">
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="col-md-12 text-center">
+                            <button class="btn btn-primary" type="submit">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+
+</html>

@@ -5,20 +5,22 @@
 <head>
     <meta charset="UTF-8">
     <title>Warehouse View</title>
+    <!--Custome Style-->
+    <link th:rel="stylesheet" th:href="@{/css/table-warehouse.css}">
+    <!--Bootstrap-->
     <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <script th:src="@{/js/bootstrap.min.js}"></script>
-
-    <link th:rel="stylesheet" th:href="@{/css/table-warehouse.css}">
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-    <script src="js/datatables-simple-demo.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!--Table-->
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
 </head>
 <script>
+    let host = window.location.origin;
 
     window.addEventListener('DOMContentLoaded', event => {
         const datatablesWarehouse = document.getElementById('datatablesWarehouse');
@@ -33,23 +35,44 @@
         if (datatablesTool) {
             new simpleDatatables.DataTable(datatablesTool);
         }
+        document.getElementById('link-filter-almost').href = host + "/warehouse/status/almost";
+        document.getElementById('link-filter-expired').href = host + "/warehouse/status/expired";
+        document.getElementById('link-filter-clear').href = host + "/warehouse";
     });
 
     const hide = "none";
     const show = "block";
     function choose_add_type(option) {
-        console.log('choose_add_type');
         let selectOption = document.getElementById('selectAddOption')
+        let tabBodyMed = document.getElementById("tab-body-med");
+        let tabBodyTool = document.getElementById("tab-body-tool");
         if (option == "med") {
             selectOption.options[1].innerHTML = "New Medicine";
             selectOption.options[1].value = 1;
             selectOption.options[2].value = 3;
+            tabBodyMed.classList.add("show", "active");
+            tabBodyTool.classList.remove("show", "active");
         } else if (option == "tool") {
             selectOption.options[1].innerHTML = "New Tool";
             selectOption.options[1].value = 2;
             selectOption.options[2].value = 4;
+            tabBodyMed.classList.remove("show", "active");
+            tabBodyTool.classList.add("show", "active");
         }
         choose_add_option();
+    }
+    function switchTabActive(btnFrom){
+        let tabMed = document.getElementById("tab-pane-med");
+        let tabTool = document.getElementById("tab-pane-tool");
+        if (btnFrom.id === "btn-add-med"){
+            tabMed.classList.add("active");
+            tabTool.classList.remove("active");
+            choose_add_type("med");
+        } else if (btnFrom.id === "btn-add-tool"){
+            tabMed.classList.remove("active");
+            tabTool.classList.add("active");
+            choose_add_type("tool");
+        }
     }
     function choose_add_option() {
         let selectValue = document.getElementById('selectAddOption').value
@@ -111,24 +134,21 @@
                 </div>
                 <div class="mb-0">
                     <div class="float-end mt-4 mb-0 ms-4">
-                        <button id="filter-almost" type="button" class="btn btn-warning position-relative me-3">
+                        <a id="link-filter-almost" class="btn btn-warning position-relative me-3" role="button">
                             Almost
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary"
                                   th:text="${almostCount}"
                             ></span>
-                        </button>
-
-                        <button type="button" class="btn btn-danger position-relative me-3">
+                        </a>
+                        <a id="link-filter-expired" class="btn btn-danger position-relative me-3" role="button">
                             Expired
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary"
                                   th:text="${expiredCount}"
                             ></span>
-                        </button>
-
-                        <button type="button" class="btn btn-secondary position-relative me-3">
+                        </a>
+                        <a id="link-filter-clear" class="btn btn-secondary position-relative me-3" role="button">
                             Clear
-                        </button>
-
+                        </a>
                         <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createWarehousePopUp">
                             + Add Item
                         </button>
@@ -154,10 +174,10 @@
                         <tbody>
                         <tr th:each="wh : ${warehouses}">
                             <td th:text="${ '#' + wh.itemID}"></td>
-                            <td th:if="${wh.medicine != null}" th:each="med : ${wh.medicine}" th:text="${ 'M' + med.getMedID}"></td>
-                            <td th:if="${wh.tool != null}" th:each="tool : ${wh.tool}" th:text="${ 'T' + tool.getToolID}"></td>
-                            <td th:if="${wh.medicine != null}" th:each="med : ${wh.medicine}" th:text="${med.getName}"></td>
-                            <td th:if="${wh.tool != null}" th:each="tool : ${wh.tool}" th:text="${tool.getName}"></td>
+                            <td th:if="${wh.medicine != null}" th:text="${ 'M' + wh.medicine.getMedID}"></td>
+                            <td th:if="${wh.tool != null}" th:text="${ 'T' + wh.tool.getToolID}"></td>
+                            <td th:if="${wh.medicine != null}" th:text="${wh.medicine.getNameForShow}"></td>
+                            <td th:if="${wh.tool != null}" th:text="${wh.tool.getNameForShow}"></td>
                             <td th:text="${wh.type}"></td>
                             <td th:text="${wh.paidTotal}"></td>
                             <td th:text="${wh.quantityIn}"></td>
@@ -177,9 +197,14 @@
                                             <i class="fa fa-ellipsis-v"></i>
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                            <a class="dropdown-item" href="#">
+                                            <a class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editWarehouseOrderPopUp'+ *{wh.itemID}" role="button">
                                                 <i class="fa fa-pencil mr-1"></i> Edit
                                             </a>
+
+                                            <a th:if="${wh.isExpired()}" class="dropdown-item" href="#">
+                                                <i class="fa fa-pencil mr-1"></i> Stock Out
+                                            </a>
+
                                             <a class="dropdown-item text-danger" href="#">
                                                 <i class="fa fa-trash mr-1"></i> Delete
                                             </a>
@@ -187,6 +212,8 @@
                                     </div>
                                 </div>
                             </td>
+                            <th:block th:if="wh.medicine != null" th:replace="warehouse/warehousePopUp/editWarehouseOrderPopUp :: editWarehouseOrderPopUp(${wh}, ${medicines}, ${tools})">modal</th:block>
+<!--                            <th:block th:replace="warehouse/warehousePopUp/editWarehouseToolPopUp :: editWarehouseToolPopUp(${wh}, ${tools})">modal</th:block>-->
                         </tr>
                         </tbody>
                     </table>
@@ -200,7 +227,7 @@
                 </div>
                 <div class="mb-0">
                     <div class="float-end mt-4 mb-0 ms-4">
-                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createWarehousePopUp">
+                        <button id="btn-add-med" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createWarehousePopUp" onclick="switchTabActive(this)">
                             + Add Item
                         </button>
                     </div>
@@ -234,7 +261,7 @@
                                             <i class="fa fa-ellipsis-v"></i>
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                            <a class="dropdown-item" href="#">
+                                            <a class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editWarehouseMedicinePopUp'+ *{med.medID}" role="button">
                                                 <i class="fa fa-pencil mr-1"></i> Edit
                                             </a>
                                             <a class="dropdown-item text-danger" href="#">
@@ -244,6 +271,7 @@
                                     </div>
                                 </div>
                             </td>
+                            <th:block th:replace="warehouse/warehousePopUp/editWarehouseMedicinePopUp :: editWarehouseMedicinePopUp(${med})">modal</th:block>
                         </tr>
                         </tbody>
                     </table>
@@ -257,7 +285,7 @@
                 </div>
                 <div class="mb-0">
                     <div class="float-end mt-4 mb-0 ms-4">
-                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createWarehousePopUp">
+                        <button id="btn-add-tool" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createWarehousePopUp" onclick="switchTabActive(this)">
                             + Add Item
                         </button>
                     </div>
@@ -287,7 +315,7 @@
                                             <i class="fa fa-ellipsis-v"></i>
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                            <a class="dropdown-item" href="#">
+                                            <a class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editWarehouseToolPopUp'+ *{tool.toolID}" role="button">
                                                 <i class="fa fa-pencil mr-1"></i> Edit
                                             </a>
                                             <a class="dropdown-item text-danger" href="#">
@@ -297,6 +325,7 @@
                                     </div>
                                 </div>
                             </td>
+                            <th:block th:replace="warehouse/warehousePopUp/editWarehouseToolPopUp :: editWarehouseToolPopUp(${tool})">modal</th:block>
                         </tr>
                         </tbody>
                     </table>

@@ -2,6 +2,7 @@ package main.VeterinaryClinic.Controller;
 
 import main.VeterinaryClinic.Config.SecurityConfig;
 import main.VeterinaryClinic.Model.Account.Account;
+import main.VeterinaryClinic.Model.Account.AccountUserDetail;
 import main.VeterinaryClinic.Model.Appointment;
 import main.VeterinaryClinic.Model.Pet;
 import main.VeterinaryClinic.Service.Account.AccountService;
@@ -10,12 +11,11 @@ import main.VeterinaryClinic.Service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
 
@@ -105,7 +105,6 @@ public class AccountController {
                               @RequestParam("address") String address,
                               @RequestParam("phone") String phone) {
         System.out.println("---Edit Account---");
-//        System.out.println(account);
 
         Account account = accountService.getById(accId);
 
@@ -120,5 +119,17 @@ public class AccountController {
         accountService.save(account);
 
         return "redirect:/account/getInfo/"+accId;
+    }
+
+    @GetMapping("/register")
+    public String registerAccount(@AuthenticationPrincipal AccountUserDetail accountUserDetail, Model model) {
+        if (accountUserDetail != null) {
+            Account nowAccount = accountUserDetail.getAccount();
+            if (nowAccount != null && !nowAccount.isRegisAccount()){
+                model.addAttribute("account", accountUserDetail.getAccount());
+                return "account/registerAccount";
+            }
+        }
+        return "redirect:";
     }
 }

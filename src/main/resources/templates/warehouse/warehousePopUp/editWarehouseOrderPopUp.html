@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+<!--edit Pet (PopUp)-->
+<div th:fragment="editWarehouseOrderPopUp(wh, medicines, tools)" th:id="'editWarehouseOrderPopUp'+${wh.itemID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
+     data-bs-backdrop="static" aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!--Edit Med Warehouse-->
+            <div class="modal-body">
+                <form th:action="@{warehouse/edit/{type}/order/{id} (id=${wh.itemID}, type=${wh.medicine != null ? 'medicine' : 'tool'})}" method="POST">
+                    <!--Warehouse Med-->
+                    <div th:if="${wh.medicine != null}" class="input-group input-group mb-3">
+                        <span class="input-group-text">Medicine</span>
+                        <select class="form-select" aria-label="Select Medicine" id="medicine" name="medicine">
+                            <option value=0 selected >Choose...</option>
+                            <option th:each="med : ${medicines}" th:value="${med.medID}" th:text="${med.name}" th:selected="${med.medID == wh.medicine.medID}"/>
+                        </select>
+                    </div>
+
+                    <!--Warehouse Tool-->
+                    <div th:if="${wh.tool != null}" class="input-group input-group mb-3">
+                        <span class="input-group-text">Tool</span>
+                        <select class="form-select" aria-label="Select Medicine" id="tool" name="tool">
+                            <option value=0 selected >Choose...</option>
+                            <option th:each="tool : ${tools}" th:value="${tool.ToolID}" th:text="${tool.name}" th:selected="${tool.ToolID == wh.tool.ToolID}"/>
+                        </select>
+                    </div>
+
+                    <!--Quality In-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text date">Qty.In</span>
+                        <input type="number" class="form-control" th:value="${wh.quantityIn}" id="quantityIn" name="quantityIn">
+                    </div>
+
+                    <!--Quality Left-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text date">Qty.Left</span>
+                        <input type="number" class="form-control" th:value="${wh.quantityLeft}" id="quantityLeft" name="quantityLeft">
+                    </div>
+
+                    <!--PaidTotal-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text date">Paid Total</span>
+                        <input type="number" class="form-control" th:value="${wh.paidTotal}" id="paidTotal" name="paidTotal">
+                    </div>
+
+                    <!--Stock In Date-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text date">Stock In</span>
+                        <input type="date" class="form-control" th:value="${#dates.format(wh.expiredDate, 'yyyy-MM-dd')}" id="stockInDate" name="stockInDate">
+                    </div>
+
+                    <!--Expired Date-->
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text date">Exp. Date</span>
+                        <input type="date" class="form-control" th:value="${#dates.format(wh.expiredDate, 'yyyy-MM-dd')}" id="expiredDate" name="expiredDate">
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="col-md-12 text-center">
+                            <button class="btn btn-primary" type="submit">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+
+</html>

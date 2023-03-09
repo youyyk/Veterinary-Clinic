@@ -31,7 +31,7 @@ public class Account {
     private String lastName;
     @Column(name = "address", columnDefinition="TEXT")
     private String address;
-    @Column(name = "phone", columnDefinition = "CHAR(12)")
+    @Column(name = "phone", columnDefinition = "CHAR(10)")
     private String phone;
     @Column(name = "line_name")
     private String lineName;
@@ -94,7 +94,15 @@ public class Account {
 
     public boolean isCustomer(){ return roles.contains(new Role(SecurityConfig.ROLE_CUSTOMER)); }
 
-
+    public boolean isRegisAccount(){
+        if ( (firstName == null || firstName.isBlank() || firstName.isEmpty()) ||
+             (lastName == null || lastName.isBlank() || lastName.isEmpty()) ||
+             (address == null || address.isBlank() || address.isEmpty()) ||
+             (phone == null || phone.isEmpty() || phone.isEmpty())) {
+            return false;
+        }
+        return true;
+    }
 
     @Override
     public String toString() {

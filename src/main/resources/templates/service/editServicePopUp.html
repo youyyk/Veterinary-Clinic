@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+<div th:fragment="editServicePopUp(editService)" th:id="editServicePopUp+${editService.serviceID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     data-bs-backdrop="static" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Service</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{service/edit/{id} (id=${editService.serviceID})}" method="POST">
+
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text">Name</span>
+                        <input type="text" class="form-control" th:value="${editService.name}" id="name" name="name">
+                    </div>
+
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text date">Price</span>
+                        <input type="number" class="form-control" th:value="${editService.price}" id="price" name="price">
+                    </div>
+
+                    <div class="modal-footer">
+                        <div class="col-md-12 text-center">
+                            <button class="btn btn-primary" type="submit">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>

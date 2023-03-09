@@ -39,5 +39,15 @@ public class Tool {
         this.softDeletedDate = null;
         this.softDeleted = false;
     }
+
+    public String getNameForShow(){
+        return name + " (" + description + ")";
+    }
+
+    public void updateFieldForEdit(String name, double price, String description){
+        this.name = name;
+        this.price = price;
+        this.description = description;
+    }
 }
 

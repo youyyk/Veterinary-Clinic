@@ -1,8 +1,6 @@
 package main.VeterinaryClinic.Service;
 
-import main.VeterinaryClinic.Model.Medicine;
 import main.VeterinaryClinic.Model.Tool;
-import main.VeterinaryClinic.Repository.MedicineRepository;
 import main.VeterinaryClinic.Repository.ToolRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
