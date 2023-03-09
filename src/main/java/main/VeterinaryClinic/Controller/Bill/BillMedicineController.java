@@ -1,5 +1,7 @@
 package main.VeterinaryClinic.Controller.Bill;
 
+import main.VeterinaryClinic.Config.SecurityConfig;
+import main.VeterinaryClinic.Model.Account.Account;
 import main.VeterinaryClinic.Model.Bill.Bill;
 import main.VeterinaryClinic.Model.Bill.BillMedicine;
 import main.VeterinaryClinic.Model.Medicine;
@@ -8,14 +10,15 @@ import main.VeterinaryClinic.Service.MedicineService;
 import main.VeterinaryClinic.Service.SubBill.BillMedicineService;
 import main.VeterinaryClinic.Service.WareHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -39,15 +42,14 @@ public class BillMedicineController {
     @RequestMapping(path = "/add", method = POST)
     public String addMedicineToBill(@RequestParam("billID") long billID,
                                     @RequestParam("medID") long medID,
-//                                    @RequestParam("description") String description,
+                                    @RequestParam("newDescription") String newDescription,
                                     @RequestParam("cureAmount") int cureAmount){
         System.out.println("----- Add Medicine to Bill -----");
 
         Bill bill = mainBillService.findByBillID(billID);
         Medicine medicine = medicineService.findByMedID(medID);
 
-        wareHouseService.createBillMedAndRemoveStock(bill,medicine,cureAmount);
-
+        wareHouseService.createBillMedAndRemoveStock(bill,medicine,cureAmount,newDescription);
 
         return "redirect:/bill/getDetail/"+billID;
     }
@@ -61,7 +63,6 @@ public class BillMedicineController {
         Medicine medicine = medicineService.findByMedID(deleteID);
 
         wareHouseService.deleteBillMedAndRecoverStock(bill,medicine);
-
 
         return "redirect:/bill/getDetail/"+billID;
     }

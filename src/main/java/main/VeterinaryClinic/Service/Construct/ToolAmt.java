@@ -1,4 +1,4 @@
-package main.VeterinaryClinic.Service;
+package main.VeterinaryClinic.Service.Construct;
 
 import lombok.Data;
 import main.VeterinaryClinic.Model.Tool;

@@ -1,5 +1,6 @@
 package main.VeterinaryClinic.Service;
 
+import main.VeterinaryClinic.Model.Bill.Bill;
 import main.VeterinaryClinic.Model.TreatmentHistory;
 import main.VeterinaryClinic.Model.Pet;
 import main.VeterinaryClinic.Repository.TreatmentHistoryRepository;
@@ -20,6 +21,7 @@ public class TreatmentHistoryService {
     public TreatmentHistory findByTreatmentHisID(long treatID) {
         return repository.findByTreatmentHisID(treatID);
     }
+
 
     public List<TreatmentHistory> findByPet(Pet pet){return repository.findByPet(pet);}
 

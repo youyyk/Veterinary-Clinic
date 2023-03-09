@@ -2,8 +2,10 @@ package main.VeterinaryClinic.Controller;
 
 import main.VeterinaryClinic.Config.SecurityConfig;
 import main.VeterinaryClinic.Model.Account.Account;
+import main.VeterinaryClinic.Model.Appointment;
 import main.VeterinaryClinic.Model.Pet;
 import main.VeterinaryClinic.Service.Account.AccountService;
+import main.VeterinaryClinic.Service.AppointmentService;
 import main.VeterinaryClinic.Service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +29,8 @@ public class AccountController {
     private AccountService accountService;
     @Autowired
     private PetService petService;
+    @Autowired
+    private AppointmentService appointmentService;
 
     /*
     http://localhost:8080/employees?pageSize=5
@@ -83,12 +87,12 @@ public class AccountController {
         System.out.println("---Get Info---");
         Account account = accountService.getById(accId);
         List<Pet> pets = petService.findByAccountAndSoftDeleted(account,false);
-//        System.out.println(pets);
+        List<Appointment> appointments = appointmentService.findByPet_Account_AccIdOrderByDateAsc(accId);
 
         System.out.println(account.getFirstName()+" "+account.getLastName());
         model.addAttribute("account", account);
         model.addAttribute("pets", pets);
-
+        model.addAttribute("appointments", appointments);
 
         return "account/infoAccount";
     }

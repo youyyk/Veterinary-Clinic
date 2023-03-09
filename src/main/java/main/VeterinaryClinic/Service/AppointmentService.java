@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class AppointmentService {
@@ -16,8 +17,18 @@ public class AppointmentService {
         return repository.findAll();
     }
 
-    public Appointment create(Appointment appointment) {
+    public Appointment save(Appointment appointment) {
         return repository.save(appointment);
+    }
+
+    public Appointment findByAppointmentID(long appointmentID) {
+        return repository.findByAppointmentID(appointmentID);
+    }
+
+    public void deleteByAppointmentID(long appointmentID){repository.deleteByAppointmentID(appointmentID);}
+
+    public List<Appointment> findByPet_Account_AccIdOrderByDateAsc(UUID accID) {
+        return repository.findByPet_Account_AccIdOrderByDateAsc(accID);
     }
 
 

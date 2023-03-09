@@ -24,19 +24,22 @@
               <p>
                 <b>Pet's name : </b>[[*{pet.name}]]
               </p>
-<!--              <div class="form-group row">-->
-<!--                  <label for="receive" class="col-sm-2 col-form-label"><b>Discount :</b></label>-->
-<!--                  <div class="col-sm-9">-->
-<!--                      <div class="input-group mb-2">-->
-<!--                          <input type="number"onkeyup="receiveKeyUp()" class="form-control" id="discount" name="discount" th:value="${discount}">-->
-<!--                          <div class="input-group-prepend">-->
-<!--                              <div class="input-group-text">฿</div>-->
-<!--                          </div>-->
-<!--                      </div>-->
-<!--                  </div>-->
-<!--              </div>-->
+              <div class="form-group row">
+                  <label for="receive" class="col-sm-2 col-form-label"><b>Discount </b></label>
+                  <div class="col-sm-9">
+                      <div class="input-group mb-2">
+                          <input type="number"onkeyup="discountKeyUp()" class="form-control" style="text-align: right" id="discount" name="discount" th:value="0">
+                          <div class="input-group-prepend">
+                              <div class="input-group-text">฿</div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
               <p>
-                  <b>Total : <span class="float-end" style="font-size: 1.1em">[[${#numbers.formatDecimal(bill.total, 1, 'COMMA', 2, 'POINT')}]] ฿</span></b>
+                  <b>Total :
+                      <span id="oldTotal" class="float-end" style="font-size: 1.1em" th:text="${#numbers.formatDecimal(bill.total, 1, 'COMMA', 2, 'POINT')}+' ฿'"></span>
+                      <span id="netTotal" class="float-end" style="font-size: 1.1em;display: none"></span>
+                  </b>
               </p>
 
               <hr>
@@ -57,19 +60,11 @@
 
               <div id="cashOperation" class="" style="display: none">
                   <br>
-<!--                <div class="input-group input-group mb-3">-->
-<!--                  <span class="input-group-text">Receive</span>-->
-<!--                  <input type="number" onkeyup="receiveKeyUp()"-->
-<!--                         class="form-control" id="receive" name="receive">-->
-<!--                  <div class="form-group">-->
-<!--                      <label for="receive"><b>Receive2 : </b></label>-->
-<!--                      <span><input type="number" onkeyup="receiveKeyUp()"class="form-control" id="receive" name="receive"></span>-->
-<!--                  </div>-->
                   <div class="form-group row">
                       <label for="receive" class="col-sm-2 col-form-label"><b>Receive </b></label>
                       <div class="col-sm-9">
                           <div class="input-group mb-2">
-                              <input type="number"onkeyup="receiveKeyUp()" class="form-control" id="receive" name="receive">
+                              <input type="number"onkeyup="receiveKeyUp()" class="form-control" style="text-align: right" id="receive" name="receive">
                               <div class="input-group-prepend">
                                   <div class="input-group-text">฿</div>
                               </div>
@@ -77,9 +72,11 @@
                       </div>
                   </div>
                   <p id="pChange" class="mt-2">
-                    <b>Change : </b><span id="change"></span>
+                    <b>Change :
+                      <span id="change" class="mt-2 float-end" style="font-size: 1.1em"></span>
+                    </b>
                   </p>
-                </div>
+              </div>
 
 
 

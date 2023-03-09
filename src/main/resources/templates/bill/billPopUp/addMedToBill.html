@@ -18,10 +18,11 @@
                     <!--Account ID-->
                     <input type="hidden" class="form-control" id="billID" name="billID" th:value="${billID}">
 
+
                     <!-- Choose Medicine-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Medicine</span>
-                        <select class="form-select" aria-label="Select Medicine" id="medID" name="medID" onchange="showDescription(${medicines})" >
+                        <select class="form-select" aria-label="Select Medicine" id="medID" name="medID" onchange="showDescription()">
                             <option value=0 selected >-------- Choose --------</option>
                             <div th:each="med : ${medicines}">
                                 <option th:if="${#strings.isEmpty(med.dose)}" th:value="${med.medID}" th:text="${med.name}+' ('+${med.unit}+')'"/>
@@ -30,10 +31,12 @@
                         </select>
                     </div>
 
-<!--                    <div class="input-group input-group mb-3">-->
-<!--                        <span class="input-group-text">Description</span>-->
-<!--                        <input type="text" class="form-control" id="newDescription" name="newDescription">-->
-<!--                    </div>-->
+                    <div id="descriptionPane"  style="display: none">
+                        <div class="input-group input-group mb-3">
+                            <span class="input-group-text">Description</span>
+                            <input type="text" class="form-control" id="newDescription" name="newDescription">
+                        </div>
+                    </div>
 
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Amount</span>

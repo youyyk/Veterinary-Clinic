@@ -1,12 +1,10 @@
 package main.VeterinaryClinic.Service.SubBill;
 
 import main.VeterinaryClinic.Model.Bill.Bill;
-import main.VeterinaryClinic.Model.Bill.BillMedicine;
 import main.VeterinaryClinic.Model.Bill.BillTool;
 import main.VeterinaryClinic.Model.Tool;
 import main.VeterinaryClinic.Repository.Bill.BillToolRepository;
-import main.VeterinaryClinic.Service.MedicineAmt;
-import main.VeterinaryClinic.Service.ToolAmt;
+import main.VeterinaryClinic.Service.Construct.ToolAmt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

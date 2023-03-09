@@ -81,7 +81,6 @@ public class Medicine {
                 ", description='" + description + '\'' +
                 ", softDeletedDate='" + softDeletedDate + '\'' +
                 ", softDeleted=" + softDeleted +
-                ", items=" + items +
                 '}';
     }
 }

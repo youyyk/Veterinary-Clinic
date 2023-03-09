@@ -36,11 +36,17 @@ public class Appointment {
         this.description = description;
     }
 
+    public Appointment(Pet pet, Date date, String period) {
+        this.pet = pet;
+        this.date = date;
+        this.period = period;
+    }
+
     @Override
     public String toString() {
         return "Appointment{" +
                 "appointmentID=" + appointmentID +
-                ", pet=" + pet +
+                ", pet=" + pet.getName() +
                 ", date=" + date +
                 ", period='" + period + '\'' +
                 ", description='" + description + '\'' +

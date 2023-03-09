@@ -50,7 +50,7 @@ public class TreatmentHistoryController {
         System.out.println("---Receive Treatment---");
 
         TreatmentHistory treatmentHistory = new TreatmentHistory(petService.findByPetID(petID),
-                GlobalService.getCurrentTime(),weight,true);
+                GlobalService.getCurrentTime(),weight);
         Bill bill = new Bill();
         bill.setStartDate(GlobalService.getCurrentTime());
         treatmentHistory.setBill(bill);
@@ -60,6 +60,55 @@ public class TreatmentHistoryController {
         System.out.println("Bill : "+findBill);
 
         return "redirect:/bill/getDetail/"+findBill.getBillID();
+    }
+
+    @RequestMapping(path = "/diagnosis/edit", method = POST)
+    public String editDiagnosis(@RequestParam("billID") long billID,
+                              @RequestParam("diagnosis") String diagnosis) {
+        System.out.println("---Edit Diagnosis---");
+        Bill bill = mainBillService.findByBillID(billID);
+
+        if (!diagnosis.isEmpty() || !diagnosis.isBlank() || !(diagnosis == null)){
+            bill.getTreatmentHistory().setDiagnosis(diagnosis);
+            mainBillService.save(bill);
+        }
+        else {
+            bill.getTreatmentHistory().setDiagnosis("");
+            mainBillService.save(bill);
+        }
+
+        return "redirect:/bill/getDetail/"+billID;
+    }
+    @RequestMapping(path = "/weight/edit", method = POST)
+    public String editWeight(@RequestParam("billID") long billID,
+                              @RequestParam(defaultValue = "-1") double weight) {
+        System.out.println("---Edit Weight---");
+        Bill bill = mainBillService.findByBillID(billID);
+
+        bill.getTreatmentHistory().setWeight(weight);
+        mainBillService.save(bill);
+
+        return "redirect:/bill/getDetail/"+billID;
+    }
+
+    @RequestMapping(path = "/edit", method = POST)
+    public String editAccount(@RequestParam("treatmentHisID") long treatmentHisID,
+                              @RequestParam("weight") double weight,
+                              @RequestParam("diagnosis") String diagnosis) {
+        System.out.println("---Edit Treatment History---");
+        TreatmentHistory treatmentHistory = treatmentHistoryService.findByTreatmentHisID(treatmentHisID);
+
+        if (!diagnosis.isEmpty() || !diagnosis.isBlank() || !(diagnosis == null)){
+            treatmentHistory.setDiagnosis(diagnosis);
+        }
+        else {
+            treatmentHistory.setDiagnosis("");
+        }
+        treatmentHistory.setWeight(weight);
+
+        treatmentHistoryService.save(treatmentHistory);
+
+        return "redirect:/treatmentHistory/pet"+treatmentHistory.getPet().getPetID();
     }
 
 

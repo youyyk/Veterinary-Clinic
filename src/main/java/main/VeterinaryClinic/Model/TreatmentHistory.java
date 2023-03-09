@@ -37,8 +37,8 @@ public class TreatmentHistory {
     @Column(name="weight")
     private double weight;
 
-    @Column(name="our_clinic")
-    private boolean ourClinic;
+//    @Column(name="our_clinic")
+//    private boolean ourClinic;
 
     public TreatmentHistory() {super();}
 
@@ -47,27 +47,24 @@ public class TreatmentHistory {
     }
 
 
-    public TreatmentHistory(Pet pet, Date date, String diagnosis, double weight, boolean ourClinic) {
+    public TreatmentHistory(Pet pet, Date date, String diagnosis, double weight) {
         this.pet = pet;
         this.date = date;
         this.diagnosis = diagnosis;
         this.weight = weight;
-        this.ourClinic = ourClinic;
     }
 
-    public TreatmentHistory(Pet pet, Date date, double weight, boolean ourClinic) {
+    public TreatmentHistory(Pet pet, Date date, double weight) {
         this.pet = pet;
         this.date = date;
         this.weight = weight;
-        this.ourClinic = ourClinic;
     }
 
-    public TreatmentHistory(Pet pet, Date date, String diagnosis, boolean ourClinic) {
+    public TreatmentHistory(Pet pet, Date date, String diagnosis) {
         this.pet = pet;
         this.date = date;
         this.diagnosis = diagnosis;
         this.weight = -1;
-        this.ourClinic = ourClinic;
     }
 
 
@@ -80,7 +77,6 @@ public class TreatmentHistory {
                 ", date=" + date +
                 ", diagnosis='" + diagnosis + '\'' +
                 ", weight=" + weight +
-                ", ourClinic=" + ourClinic +
                 '}';
     }
 }

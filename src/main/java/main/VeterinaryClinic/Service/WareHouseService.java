@@ -61,7 +61,7 @@ public class WareHouseService {
     }
 
 
-    public void createBillMedAndRemoveStock(Bill bill,Medicine medicine,int removeAmt){
+    public void createBillMedAndRemoveStock(Bill bill,Medicine medicine,int removeAmt,String description){
         System.out.println("RemoveAmt (Start) : "+removeAmt);
         List<WareHouse> wareHouses = findByMedicineAndExpiredDateAfterOrderByExpiredDateAsc(medicine,GlobalService.getCurrentTime());
         for (WareHouse wareHouse: wareHouses) {
@@ -71,7 +71,7 @@ public class WareHouseService {
                 System.out.println("Qty Left(Before) : "+wareHouse.getQuantityLeft());
                 wareHouse.setQuantityLeft(wareHouse.getQuantityLeft()-removeAmt);
                 System.out.println("Qty Left(After) : "+wareHouse.getQuantityLeft());
-                BillMedicine billMedicine = new BillMedicine(bill,wareHouse, medicine.getDescription(), removeAmt);
+                BillMedicine billMedicine = new BillMedicine(bill,wareHouse, description, removeAmt);
                 billMedicineService.save(billMedicine);
                 repository.save(wareHouse);
                 removeAmt = 0;
@@ -83,7 +83,7 @@ public class WareHouseService {
                 System.out.println("ItemID : "+wareHouse.getItemID());
                 System.out.println("Qty Left(Before) : "+wareHouse.getQuantityLeft());
                 removeAmt -= wareHouse.getQuantityLeft();
-                BillMedicine billMedicine = new BillMedicine(bill,wareHouse,medicine.getDescription(),wareHouse.getQuantityLeft());
+                BillMedicine billMedicine = new BillMedicine(bill,wareHouse,description,wareHouse.getQuantityLeft());
                 wareHouse.setQuantityLeft(0);
                 System.out.println("Qty Left(After) : "+wareHouse.getQuantityLeft());
                 billMedicineService.save(billMedicine);
@@ -238,16 +238,15 @@ public class WareHouseService {
                 }
             }
             if (diffAmt > 0){
-                createBillMedAndRemoveStock(bill,medicine,diffAmt);
+                createBillMedAndRemoveStock(bill,medicine,diffAmt,description);
             }
         }
-        if (!description.equals(medicine.getDescription())){
-            List<BillMedicine> setBillMedDescription = billMedicineService.findByBillAndWareHouse_Medicine(bill,medicine);
-            for (BillMedicine billMed: setBillMedDescription) {
-                billMed.setNewDescription(description);
-                billMedicineService.save(billMed);
-            }
+        List<BillMedicine> setBillMedDescription = billMedicineService.findByBillAndWareHouse_Medicine(bill,medicine);
+        for (BillMedicine billMed: setBillMedDescription) {
+            billMed.setNewDescription(description);
+            billMedicineService.save(billMed);
         }
+
     }
 
     public void editBillTool(Bill bill,Tool tool,int oldAmount,int newAmount){

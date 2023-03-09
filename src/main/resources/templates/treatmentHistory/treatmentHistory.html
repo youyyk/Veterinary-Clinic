@@ -54,12 +54,18 @@
                                 <i class="fa fa-heartbeat"></i> Receive Treatment
                             </a>
                             <a class="dropdown-item btn" data-bs-toggle="modal"
+                               th:attr="data-bs-target='#createAppointment'+*{pet.petID}">
+                                <i class="fa fa-calendar"></i> Create Appointment
+                            </a>
+                            <a class="dropdown-item btn" data-bs-toggle="modal"
                                th:attr="data-bs-target='#editPetPopUp'+*{pet.petID}">
                                 <i class="fa fa-pencil mr-1"></i> Edit
                             </a>
                         </div>
                         <!--Call Receive Treatment (PopUp)-->
                         <th:block th:replace="treatmentHistory/treatmentHistoryPopUp/receiveTreatmentPopUp :: receiveTreatmentPopUp(${pet})">modal</th:block>
+                        <!-- Create Appointment  -->
+                        <th:block th:replace="appointment/appointmentPopUp/createAppointment :: createAppointment(${pet})">modal</th:block>
                         <!--Call Edit pet (PopUp)-->
                         <th:block th:replace="pet/petPopUp/editPetPopUp :: editPetPopUp(${pet.account.accId},${pet},'treatmentHistory')">modal</th:block>
                     </div>
@@ -109,7 +115,6 @@
                         <th>Treatment ID</th>
                         <th>Date</th>
                         <th>Weight (kg)</th>
-                        <th>Our Clinic</th>
                         <th>Diagnosis</th>
                         <th>Actions</th>
                     </tr>
@@ -123,10 +128,10 @@
                         <td>[[*{treat.treatmentHisID}]]</td>
                         <td>[[${#dates.format(treat.date, 'dd/MM/yyyy')}]]</td>
                         <td class="text-right">[[*{treat.weight}]]</td>
-                        <td>
-                            <span th:if="${treat.ourClinic == true}" style="font-size: 0.9em;" class="badge rounded-pill bg-success">YES</span>
-                            <span th:if="${treat.ourClinic == false}" style="font-size: 0.9em;" class="badge rounded-pill bg-danger">NO</span>
-                        </td>
+<!--                        <td>-->
+<!--                            <span th:if="${treat.ourClinic == true}" style="font-size: 0.9em;" class="badge rounded-pill bg-success">YES</span>-->
+<!--                            <span th:if="${treat.ourClinic == false}" style="font-size: 0.9em;" class="badge rounded-pill bg-danger">NO</span>-->
+<!--                        </td>-->
                         <td>[[*{treat.diagnosis}]]</td>
 
 
@@ -140,9 +145,16 @@
                                     <a class="dropdown-item btn" th:href="@{'/bill/getDetail/'+${treat.bill.billID}}">
                                         <i class="fa fa-file-invoice"></i> Bill's Details
                                     </a>
+                                    <a class="dropdown-item btn" data-bs-toggle="modal"
+                                       th:attr="data-bs-target='#editTreatmentHistory'+*{treat.treatmentHisID}">
+                                        <i class="fa fa-pencil mr-1"></i> Edit
+                                    </a>
 
                                 </div>
                             </div>
+                            <th:block th:replace="treatmentHistory/treatmentHistoryPopUp/editTreatmentHistory :: editTreatmentHistory(${treat})">
+                                modal
+                            </th:block>
                         </td>
 
 

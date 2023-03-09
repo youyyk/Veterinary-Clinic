@@ -4,7 +4,7 @@ import main.VeterinaryClinic.Model.Bill.Bill;
 import main.VeterinaryClinic.Model.Bill.BillMedicine;
 import main.VeterinaryClinic.Model.Medicine;
 import main.VeterinaryClinic.Repository.Bill.BillMedicineRepository;
-import main.VeterinaryClinic.Service.MedicineAmt;
+import main.VeterinaryClinic.Service.Construct.MedicineAmt;
 import main.VeterinaryClinic.Service.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,7 +56,7 @@ public class BillMedicineService {
             if (!(count.containsKey(billMedicine.getWareHouse().getMedicine().getMedID()))){
                 System.out.println("Not have this Medicine");
                 System.out.println("itemID : "+billMedicine.getWareHouse().getItemID()+ " | Amount :"+billMedicine.getMedTotal());
-                count.put(billMedicine.getWareHouse().getMedicine().getMedID(), new MedicineAmt(billMedicine.getWareHouse().getMedicine(), billMedicine.getMedTotal()));
+                count.put(billMedicine.getWareHouse().getMedicine().getMedID(), new MedicineAmt(billMedicine.getWareHouse().getMedicine(), billMedicine.getMedTotal(),billMedicine.getNewDescription()));
             }
             else if (count.containsKey(billMedicine.getWareHouse().getMedicine().getMedID())){
                 System.out.println("Already have this Medicine");

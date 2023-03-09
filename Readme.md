@@ -1,1 +1,1 @@
-- Edit Bill -> cut and recover medicine, tool and service
+- Appointment -> create, edit and delete

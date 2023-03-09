@@ -6,6 +6,8 @@ import main.VeterinaryClinic.Model.Bill.BillMedicine;
 import main.VeterinaryClinic.Model.Bill.BillServing;
 import main.VeterinaryClinic.Model.Bill.BillTool;
 import main.VeterinaryClinic.Service.*;
+import main.VeterinaryClinic.Service.Construct.MedicineAmt;
+import main.VeterinaryClinic.Service.Construct.ToolAmt;
 import main.VeterinaryClinic.Service.SubBill.BillMedicineService;
 import main.VeterinaryClinic.Service.SubBill.BillServiceService;
 import main.VeterinaryClinic.Service.SubBill.BillToolService;
@@ -115,25 +117,26 @@ public class BillController {
     @RequestMapping(path = "/paid", method = POST)
     public String deletePet(@RequestParam("billID") long billID,
                             @RequestParam(defaultValue = "-1") double receive,
+                            @RequestParam(defaultValue = "0") double discount,
                             @RequestParam("payType") String payType){
         System.out.println("----- Paid -----");
 
         Bill bill = mainBillService.findByBillID(billID);
 
-
         System.out.println("payType : "+payType);
         System.out.println("Receive : "+receive);
 
-        if (payType == "cash"){
+        if (payType.equals("cash")){
             System.out.println("Payment : Cash");
             bill.setPayType("Cash");
             bill.setReceive(receive);
         }
-        else if (payType == "prompt") {
+        else if (payType.equals("prompt")) {
             System.out.println("Payment : PromptPay");
             bill.setPayType("PromptPay");
             bill.setReceive(bill.getTotal());
         }
+        bill.setDiscount(discount);
         bill.setPaidStatus(true);
         bill.setEndDate(GlobalService.getCurrentTime());
 

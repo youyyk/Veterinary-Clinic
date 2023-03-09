@@ -28,7 +28,7 @@ public class SecurityConfig  {
         protected void configure(HttpSecurity http) throws Exception {
             http    .csrf().disable()
                     .authorizeRequests()
-                    .antMatchers("/", "/css/**", "/js/**", "/images/**", "/account/**", "/accounts", "/warehouse", "/appointment", "/pets/**").permitAll() // Don't need login can use (Home Page, CSS, JS)
+                    .antMatchers("/", "/css/**", "/js/**", "/images/**", "/account/**", "/accounts", "/warehouse", "/appointment", "/pets/**","/medicine/**").permitAll() // Don't need login can use (Home Page, CSS, JS)
 //                    .antMatchers("/authTest").access("hasRole('ROLE_ADMIN')")
                     .anyRequest().authenticated() // Other path need login
             .and()

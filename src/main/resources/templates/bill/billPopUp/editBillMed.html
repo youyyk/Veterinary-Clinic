@@ -4,7 +4,7 @@
 
 <body>
 <!--Create Pet (PopUp)-->
-<div th:fragment="editBillMed(medicine,amount,billID)" th:id="'editBillMed'+${medicine.medID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div th:fragment="editBillMed(medicine,amount,description,billID)" th:id="'editBillMed'+${medicine.medID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      data-bs-backdrop="static" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -22,7 +22,7 @@
 
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Description</span>
-                        <input type="text" class="form-control" id="description" name="description" th:value="${medicine.description}">
+                        <input type="text" class="form-control" id="description" name="description" th:value="${description}">
                     </div>
 
 

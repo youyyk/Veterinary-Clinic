@@ -27,9 +27,11 @@
         new simpleDatatables.DataTable(datatablesBillServing);
     });
 
+    let host = window.location.origin;
     const hide = "none";
     const show = "block";
 
+    // PaymentPopUp
     function displayRadioValue() {
         let radioValue = document.getElementsByName('payType');
         let cashOperation = document.getElementById('cashOperation');
@@ -41,39 +43,99 @@
         }
 
     }
-
+    // PaymentPopUp
     function receiveKeyUp() {
         let receive = document.getElementById('receive').value;
         let total = document.getElementById('total').value;
-        // let pChange = document.getElementById('pChange');
+        let discount = document.getElementById('discount').value;
+
+        if (!discount){
+            discount = 0;
+        }
 
         console.log("total : "+total);
         console.log("receive : "+receive);
+        console.log("discount : "+discount);
         if (receive === ""){
             console.log("receive is empty !!");
-            document.getElementById("change").innerHTML = "";
+            document.getElementById("change").innerHTML = "0 ฿";
         }
         else{
             // pChange.style.display = show;
-            let finalChange = receive - total;
+            let finalChange = receive - (total - discount);
             console.log("change : "+finalChange);
 
-            document.getElementById("change").innerHTML = ""+finalChange+" ฿";
+            let changeFormat = Intl.NumberFormat('th-TH', {  currency: 'THB',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2, }).format(finalChange);
+
+            if (finalChange >= 0){
+                document.getElementById("change").innerHTML = ""+changeFormat+" ฿";
+            }
+            else if(finalChange < 0) {
+                document.getElementById("change").innerHTML = "0 ฿";
+            }
+            else {
+                document.getElementById("change").innerHTML = "-1";
+            }
+
         }
     }
-    
-    function showDescription(medicines) {
-        // let medID = document.getElementById('medID').value;
-        let description = document.getElementById('medID').value;
-        console.log(description);
-        // document.getElementById("description").innerHTML = ""+description;
+
+    //PaymentPopUp
+    function discountKeyUp() {
+        let discount = document.getElementById('discount').value;
+        let total = document.getElementById('total').value;
+        let oldTotal = document.getElementById('oldTotal');
+        let netTotal = document.getElementById('netTotal');
+
+        oldTotal.style.display = hide;
+        netTotal.style.display = show;
+
+        console.log("total : "+total);
+        console.log("discount : "+discount);
+
+        let newTotal = total - discount;
+        console.log("netTotal : "+newTotal);
+
+        newTotal = Intl.NumberFormat('th-TH', {  currency: 'THB',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2, }).format(newTotal);
+
+        document.getElementById("netTotal").innerHTML = ""+newTotal+" ฿";
+
     }
 
-    //reset change to empty
+    //reset change to empty -> PaymentPopUp
     function clearChange() {
+        let oldTotal = document.getElementById('oldTotal');
+        let netTotal = document.getElementById('netTotal');
+
         document.getElementById("change").innerHTML = "";
+        document.getElementById("discount").value = 0;
+
+        oldTotal.style.display = show;
+        netTotal.style.display = hide;
+
     }
 
+    //AddMedToBill
+    async function showDescription() {
+        let medID = document.getElementById('medID').value;
+        let newDescription = document.getElementById("newDescription");
+        let descriptionPane = document.getElementById("descriptionPane");
+        console.log(medID);
+        console.log(newDescription)
+
+        const response= await fetch(host + '/medicine/'+medID);
+        console.log(response);
+        const data= await response.json();
+        console.log(data.description);
+
+        newDescription.value = data.description;
+        descriptionPane.style.display = show;
+
+    }
 
     function setDisplay(elements, displayType) {
         elements.forEach((element) => {
@@ -87,7 +149,7 @@
 <div th:insert="fragments/header :: header"></div>
 
 <div class="container">
-    <h1>Bill's Details</h1>
+    <h1>Bill's Details <span style="font-size: 0.75em;">( [[${#dates.format(bill.startDate, 'yyyy/MM/dd')}]] )</span></h1>
 
     <div class="pb-4 mb-4" style="background-color: #EEF5E8">
     <div class="m-3">
@@ -97,7 +159,7 @@
                [[*{pet.account.firstName}]] [[*{pet.account.lastName}]]
             </a>
             <span class="float-end">
-                <b>Total : </b> [[${#numbers.formatDecimal(sumBill, 1, 'COMMA', 2, 'POINT')}]] baht
+                <b>Total : </b> [[${#numbers.formatDecimal(sumBill, 1, 'COMMA', 2, 'POINT')}]] ฿
                 <button type="button" th:if="${bill.paidStatus == false}" class="btn btn-primary ms-3" data-bs-toggle="modal"
                         th:attr="data-bs-target='#paymentPopup'+*{bill.billID}">
                     Pay
@@ -116,12 +178,34 @@
                 [[*{pet.name}]]
             </a>
         </p>
+        <p style="font-size: 1.2em;">
+            <b>Diagnosis : </b>
+            <span th:if="${#strings.isEmpty(bill.treatmentHistory.diagnosis)}" class="text-secondary">
+                <em>none</em>
+            </span>
+            <span th:if="${not #strings.isEmpty(bill.treatmentHistory.diagnosis)}">
+                [[*{bill.treatmentHistory.diagnosis}]]
+            </span>
+            <a data-bs-toggle="modal" th:attr="data-bs-target='#editDiagnosis'" class="text-secondary"><i class="fa fa-edit"></i></a>
+        </p>
+        <th:block th:replace="bill/billPopUp/editDiagnosis :: editDiagnosis(${bill.billID},${bill.treatmentHistory.diagnosis})">modal</th:block>
+        <p style="font-size: 1.2em;">
+            <b>Weight : </b>
+            <span th:if="${bill.treatmentHistory.weight == -1}" class="text-secondary">
+                <em>none</em>
+            </span>
+            <span th:if="${bill.treatmentHistory.weight != -1}">
+                [[*{bill.treatmentHistory.weight}]] kg
+            </span>
+            <a data-bs-toggle="modal" th:attr="data-bs-target='#editWeight'" class="text-secondary"><i class="fa fa-edit"></i></a>
+        </p>
+        <th:block th:replace="bill/billPopUp/editWeight :: editWeight(${bill.billID},${bill.treatmentHistory.weight})">modal</th:block>
 
         <hr class="w-100">
 
 <!--   Bill Medicine     -->
         <p style="font-size: 1.2em;">
-            <b>Medicine's Total : </b> [[${#numbers.formatDecimal(sumMed, 1, 'COMMA', 2, 'POINT')}]] baht
+            <b>Medicine's Total : </b> [[${#numbers.formatDecimal(sumMed, 1, 'COMMA', 2, 'POINT')}]] ฿
             <span class="float-end">
                 <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addMedToBill">
                     +Add Medicine
@@ -151,7 +235,7 @@
                             <td th:text="${med.medicine.name}"></td>
                             <td th:text="${med.medicine.dose}"></td>
                             <td th:text="${med.medicine.unit}"></td>
-                            <td th:text="${med.medicine.description}"></td>
+                            <td th:text="${med.description}"></td>
                             <td th:text="${med.amount}"></td>
                             <td th:text="${med.medicine.price}"></td>
                             <td th:text="${med.totalPrice}"></td>
@@ -172,7 +256,7 @@
                                         </a>
                                     </div>
                                 </div>
-                                <th:block th:replace="bill/billPopUp/editBillMed :: editBillMed(${med.medicine},${med.amount},${bill.billID})">
+                                <th:block th:replace="bill/billPopUp/editBillMed :: editBillMed(${med.medicine},${med.amount},${med.description},${bill.billID})">
                                     modal
                                 </th:block>
 
@@ -190,7 +274,7 @@
 
 <!--    Bill Tool    -->
         <p style="font-size: 1.2em;">
-            <b>Tool's Total : </b> [[${#numbers.formatDecimal(sumTool, 1, 'COMMA', 2, 'POINT')}]] baht
+            <b>Tool's Total : </b> [[${#numbers.formatDecimal(sumTool, 1, 'COMMA', 2, 'POINT')}]] ฿
             <span class="float-end">
             <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addToolToBill">
                 +Add Tool
@@ -257,7 +341,7 @@
 
         <!--    Bill Service    -->
         <p style="font-size: 1.2em;">
-            <b>Service's Total : </b> [[${#numbers.formatDecimal(sumServing, 1, 'COMMA', 2, 'POINT')}]] baht
+            <b>Service's Total : </b> [[${#numbers.formatDecimal(sumServing, 1, 'COMMA', 2, 'POINT')}]] ฿
             <span class="float-end">
             <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addServingToBill">
                 +Add Service
