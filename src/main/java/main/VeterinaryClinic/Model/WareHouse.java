@@ -4,6 +4,7 @@ import lombok.Data;
 import main.VeterinaryClinic.Model.Bill.BillMedicine;
 import main.VeterinaryClinic.Model.Bill.BillTool;
 import main.VeterinaryClinic.Service.GlobalService;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Calendar;
@@ -40,6 +41,7 @@ public class WareHouse {
     private double paidTotal;
     @Column(name="created_date")
     private Date createdDate;
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     @Column(name="expired_date")
     private Date expiredDate;
     @Column(name="soft_deleted_date")

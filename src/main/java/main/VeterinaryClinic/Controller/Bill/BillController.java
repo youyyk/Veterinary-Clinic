@@ -1,6 +1,7 @@
 package main.VeterinaryClinic.Controller.Bill;
 
 import main.VeterinaryClinic.Model.*;
+import main.VeterinaryClinic.Model.Account.AccountUserDetail;
 import main.VeterinaryClinic.Model.Bill.Bill;
 import main.VeterinaryClinic.Model.Bill.BillMedicine;
 import main.VeterinaryClinic.Model.Bill.BillServing;
@@ -12,6 +13,7 @@ import main.VeterinaryClinic.Service.SubBill.BillMedicineService;
 import main.VeterinaryClinic.Service.SubBill.BillServiceService;
 import main.VeterinaryClinic.Service.SubBill.BillToolService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -55,7 +57,7 @@ public class BillController {
     }
 
     @GetMapping("/getDetail/{billID}")
-    public String getDetail(@PathVariable("billID") long billID, Model model) {
+    public String getDetail(@PathVariable("billID") long billID, Model model, @AuthenticationPrincipal AccountUserDetail accountUserDetail) {
         System.out.println("--- Get Bill ID : "+billID+" ---");
         Bill bill = mainBillService.findByBillID(billID);
         Pet pet = petService.findByPetID(bill.getTreatmentHistory().getPet().getPetID());
@@ -91,6 +93,9 @@ public class BillController {
         bill.setTotal(sumBill);
         mainBillService.save(bill);
 
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            model.addAttribute("nowAccount", accountUserDetail.getAccount());
+        }
 
         //---- Pass Value ----
         model.addAttribute("pet", pet);

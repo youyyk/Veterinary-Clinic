@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.20.0.final using JasperReports Library version 6.20.0-2bc7ab61c56f459e8176eb05c7705e145cd400ad  -->
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="account" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="80252385-8c00-469c-836a-1b8968ee65c6">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="account" pageWidth="420" pageHeight="596" columnWidth="380" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" isFloatColumnFooter="true" uuid="80252385-8c00-469c-836a-1b8968ee65c6">
 	<parameter name="RECEIPT_HEAD_INFO" class="java.lang.String"/>
 	<parameter name="RECEIPT_PET_NAME" class="java.lang.String"/>
 	<parameter name="RECEIPT_CUSTOMER_NAME" class="java.lang.String"/>
@@ -18,18 +18,18 @@
 	<field name="description" class="java.lang.String"/>
 	<field name="amount" class="java.lang.Double"/>
 	<title>
-		<band height="81" splitType="Stretch">
+		<band height="77" splitType="Stretch">
 			<staticText>
-				<reportElement x="106" y="-1" width="104" height="42" uuid="9ebcfd94-a5b6-4d20-adb5-649ef7af398b"/>
+				<reportElement x="80" y="-1" width="104" height="42" uuid="9ebcfd94-a5b6-4d20-adb5-649ef7af398b"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="Sarabun" size="14" isBold="true"/>
+					<font fontName="Sarabun" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[หมอตี้รักษาสัตว์]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="105" y="22" width="448" height="58" uuid="003d6983-a12f-44ed-bcdc-94d1e0b91d80"/>
+				<reportElement x="80" y="17" width="299" height="58" uuid="003d6983-a12f-44ed-bcdc-94d1e0b91d80"/>
 				<textElement textAlignment="Left" verticalAlignment="Bottom">
-					<font fontName="Sarabun" size="11" isBold="false"/>
+					<font fontName="Sarabun" size="10" isBold="false"/>
 				</textElement>
 				<text><![CDATA[1134 ถ.เลียบคลองรังสิตต.ประชาธิปัตย์ อ.ธัญบุรี จ.ปทุมธานี 12130
 โทร. 082-9174107
@@ -42,18 +42,18 @@
 		</band>
 	</title>
 	<pageHeader>
-		<band height="63">
+		<band height="53">
 			<staticText>
-				<reportElement x="196" y="2" width="163" height="30" uuid="b8f891d5-f146-4d6f-9b11-42abe60b4451"/>
-				<textElement textAlignment="Justified" verticalAlignment="Bottom">
-					<font fontName="Sarabun" size="14" isBold="true"/>
+				<reportElement x="100" y="3" width="163" height="30" uuid="b8f891d5-f146-4d6f-9b11-42abe60b4451"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Sarabun" size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[ใบเสร็จรับเงิน (Receipt)]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="0" y="35" width="553" height="19" uuid="d2fd9f38-bf18-49ce-9644-73138bf85b2e"/>
+				<reportElement x="0" y="30" width="379" height="19" uuid="d2fd9f38-bf18-49ce-9644-73138bf85b2e"/>
 				<textElement textAlignment="Right" verticalAlignment="Bottom">
-					<font fontName="Sarabun" size="12"/>
+					<font fontName="Sarabun" size="10"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{RECEIPT_HEAD_INFO}]]></textFieldExpression>
 			</textField>
@@ -62,7 +62,7 @@
 	<columnHeader>
 		<band height="76" splitType="Stretch">
 			<textField>
-				<reportElement x="2" y="2" width="550" height="48" uuid="3a6e9bc1-c08d-4399-8d9a-06cd5803056c"/>
+				<reportElement x="2" y="2" width="378" height="48" uuid="3a6e9bc1-c08d-4399-8d9a-06cd5803056c"/>
 				<box topPadding="0" leftPadding="0" bottomPadding="0" rightPadding="0">
 					<pen lineWidth="0.0"/>
 				</box>
@@ -72,25 +72,25 @@
 				<textFieldExpression><![CDATA["ชื่อสัตว์ (Pet Name) : "+$P{RECEIPT_PET_NAME}+"\n"+"เจ้าของ (Customer Name) : "+$P{RECEIPT_CUSTOMER_NAME}+"\n" + "ที่อยู่ (Address) : "+ $P{RECEIPT_CUSTOMER_ADDRESS}]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement mode="Transparent" x="0" y="0" width="555" height="50" uuid="95944d25-05f7-4c1e-8f25-4733740afda2"/>
+				<reportElement mode="Transparent" x="0" y="0" width="380" height="50" uuid="95944d25-05f7-4c1e-8f25-4733740afda2"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="0" y="50" width="380" height="20" uuid="ce4271c8-94c1-4b87-9e8f-e094d7c98cd2"/>
+				<reportElement x="0" y="50" width="262" height="20" uuid="ce4271c8-94c1-4b87-9e8f-e094d7c98cd2"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="380" y="50" width="175" height="20" uuid="f0a8d2aa-d106-45c3-84a7-7117f1cccc8b"/>
+				<reportElement x="262" y="50" width="118" height="20" uuid="f0a8d2aa-d106-45c3-84a7-7117f1cccc8b"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="0" y="50" width="380" height="20" uuid="a29add54-696e-4858-b27b-82beaf91b5ae"/>
+				<reportElement x="0" y="50" width="260" height="20" uuid="a29add54-696e-4858-b27b-82beaf91b5ae"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Sarabun" size="12" isBold="true"/>
+					<font fontName="Sarabun" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[รายละเอียด (Description)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="380" y="50" width="175" height="20" uuid="5a2779f1-a4b5-4c49-92f9-7dd7c20faf3d"/>
+				<reportElement x="263" y="50" width="118" height="20" uuid="5a2779f1-a4b5-4c49-92f9-7dd7c20faf3d"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="Sarabun" size="12" isBold="true"/>
+					<font fontName="Sarabun" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[จำนวนเงิน (Amount)]]></text>
 			</staticText>
@@ -100,7 +100,7 @@
 		<band height="14" splitType="Stretch">
 			<property name="com.jaspersoft.studio.layout"/>
 			<textField isBlankWhenNull="false">
-				<reportElement x="0" y="-6" width="380" height="20" uuid="5e04d0d1-51e0-4688-9881-f7f5b9cb6091">
+				<reportElement x="0" y="-6" width="262" height="20" uuid="5e04d0d1-51e0-4688-9881-f7f5b9cb6091">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="5">
@@ -114,7 +114,7 @@
 				<textFieldExpression><![CDATA[$F{description} == null ? "" : $F{description}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="380" y="-6" width="175" height="20" uuid="abff63d3-6882-4cb5-8bcf-f467cccfb688">
+				<reportElement x="262" y="-6" width="118" height="20" uuid="abff63d3-6882-4cb5-8bcf-f467cccfb688">
 					<property name="com.jaspersoft.studio.unit.height" value="px"/>
 				</reportElement>
 				<box topPadding="0" leftPadding="5" bottomPadding="0" rightPadding="5">
@@ -129,52 +129,52 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="82">
+		<band height="73">
 			<rectangle>
-				<reportElement x="0" y="0" width="380" height="20" uuid="1c1c85d8-2075-4ce8-8f5d-a7c6272dd637"/>
+				<reportElement x="0" y="0" width="262" height="20" uuid="1c1c85d8-2075-4ce8-8f5d-a7c6272dd637"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="0" y="20" width="380" height="20" uuid="71f32586-d8da-41c4-b764-20e948020716"/>
+				<reportElement x="0" y="20" width="262" height="20" uuid="71f32586-d8da-41c4-b764-20e948020716"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="380" y="0" width="175" height="20" uuid="4270f157-c29b-4e44-aecf-2c54e1a7deb7"/>
+				<reportElement x="262" y="0" width="118" height="20" uuid="4270f157-c29b-4e44-aecf-2c54e1a7deb7"/>
 			</rectangle>
 			<rectangle>
-				<reportElement x="380" y="20" width="175" height="20" uuid="8c469fef-cd1c-4a39-8d19-0b81d8be1de5"/>
+				<reportElement x="262" y="20" width="118" height="20" uuid="8c469fef-cd1c-4a39-8d19-0b81d8be1de5"/>
 			</rectangle>
 			<staticText>
-				<reportElement x="233" y="0" width="144" height="20" uuid="c8133405-f9cc-4b91-8d92-4f93dd127d73"/>
+				<reportElement x="115" y="0" width="144" height="20" uuid="c8133405-f9cc-4b91-8d92-4f93dd127d73"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Sarabun"/>
 				</textElement>
 				<text><![CDATA[ส่วนลดพิเศษ (Extra Discount)]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="233" y="20" width="144" height="20" uuid="50be5605-55df-485a-9ff6-a8f736c7821a"/>
+				<reportElement x="115" y="20" width="144" height="20" uuid="50be5605-55df-485a-9ff6-a8f736c7821a"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Sarabun"/>
 				</textElement>
 				<text><![CDATA[ยอดเงินสุทธิ (Net Total)]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="380" y="0" width="170" height="20" uuid="8b65b13e-3f75-4c5e-bb3d-6784f13d0738"/>
+				<reportElement x="264" y="0" width="112" height="20" uuid="8b65b13e-3f75-4c5e-bb3d-6784f13d0738"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Sarabun"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{RECEIPT_EXTRA_DISCOUNT}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="380" y="20" width="170" height="20" uuid="263e0d2f-12ae-45c8-9509-6437dcee3cb3"/>
+				<reportElement x="264" y="20" width="112" height="20" uuid="263e0d2f-12ae-45c8-9509-6437dcee3cb3"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
 					<font fontName="Sarabun"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{RECEIPT_NET_TOTAL}]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement x="0" y="40" width="555" height="42" uuid="c0f98488-fd74-4306-989d-d5703cd41394"/>
+				<reportElement x="0" y="40" width="380" height="33" uuid="c0f98488-fd74-4306-989d-d5703cd41394"/>
 			</rectangle>
 			<textField>
-				<reportElement x="3" y="40" width="548" height="42" uuid="70aa347e-b600-4bf1-a6c5-a3f21a6ed99f"/>
+				<reportElement x="3" y="40" width="374" height="32" uuid="70aa347e-b600-4bf1-a6c5-a3f21a6ed99f"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Sarabun"/>
 				</textElement>

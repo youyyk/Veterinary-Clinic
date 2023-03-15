@@ -94,6 +94,9 @@ public class GlobalService {
 
     public void mockData() {
         mainBillService.deleteBillByBillID(1);
+        Account uTest = new Account("me", "Ua740d4c84ff34de6a233ae21b0db03ab", "");
+        accountService.save(uTest);
+        accountService.addRoleAdmin(uTest);
         for (int i=1; i<=5; i++){
             accountService.create("Test"+i, "user"+i,null);
         }

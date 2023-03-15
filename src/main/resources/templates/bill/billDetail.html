@@ -7,7 +7,9 @@
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <link th:rel="stylesheet" th:href="@{/css/table-warehouse.css}">
     <link th:rel="stylesheet" th:href="@{/css/global.css}">
+    <link th:rel="stylesheet" th:href="@{/css/circle-loading.css}">
 
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,300,1,0" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
@@ -16,8 +18,13 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
 </head>
 <script>
+    let host = window.location.origin;
+    const hide = "none";
+    const show = "block";
+
     window.addEventListener('DOMContentLoaded', event => {
         const datatablesBillMedicine = document.getElementById('datatablesBillMedicine');
         new simpleDatatables.DataTable(datatablesBillMedicine);
@@ -25,11 +32,19 @@
         new simpleDatatables.DataTable(datatablesBillTool);
         const datatablesBillServing = document.getElementById('datatablesBillServing');
         new simpleDatatables.DataTable(datatablesBillServing);
-    });
 
-    let host = window.location.origin;
-    const hide = "none";
-    const show = "block";
+        // const downloadLink = document.getElementById('dropdown-download-a5');
+        // const loadingCircle = document.getElementById('loading-circle');
+        // downloadLink.addEventListener('click', function() {
+        //     // Show the loading circle
+        //     loadingCircle.style.display = "inline-block";
+        //
+        //     // Hide the loading circle after 3 seconds
+        //     setTimeout(function() {
+        //         loadingCircle.style.display = hide;
+        //     }, 3000);
+        // });
+    });
 
     // PaymentPopUp
     function displayRadioValue() {
@@ -142,15 +157,30 @@
             element.style.display = displayType;
         });
     }
-
 </script>
+<style>
 
+</style>
 <body>
 <div th:insert="fragments/header :: header"></div>
 
 <div class="container">
-    <h1>Bill's Details <span style="font-size: 0.75em;">( [[${#dates.format(bill.startDate, 'yyyy/MM/dd')}]] )</span></h1>
-
+    <h1 style="display:inline-block" class="mt-2">Bill's Details <span style="font-size: 0.75em;">( [[${#dates.format(bill.startDate, 'yyyy/MM/dd')}]] )</span></h1>
+    <a th:if="${!nowAccount.isOfficer()}" class="btn btn-primary mb-2" role="button" target="_blank" style="display:inline-block" th:href="@{/download/export/receipt/detail/{billId}(billId=${bill.getBillID()})}">
+        <i class="material-symbols-rounded align-middle me-1">download</i> PDF
+    </a>
+    <div th:if="${nowAccount.isOfficer()}" class="btn-group" style="display:inline-block">
+        <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" style="display:inline-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="material-symbols-rounded align-middle">download</i> PDF
+        </button>
+        <div class="dropdown-menu">
+            <a class="dropdown-item" id="dropdown-download-a5" th:href="@{/download/export/receipt/detail/{billId}(billId=${bill.getBillID()})}" download>Short Form</a>
+            <a class="dropdown-item" id="dropdown-download-a4" th:href="@{/download/export/receipt/details/{billId}(billId=${bill.getBillID()})}">Full Form</a>
+        </div>
+    </div>
+    <div id="loading-circle" class="" style="display: none;">
+        <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
+    </div>
     <div class="pb-4 mb-4" style="background-color: #EEF5E8">
     <div class="m-3">
         <p class="pt-3" style="font-size: 1.2em;">

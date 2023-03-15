@@ -11,7 +11,7 @@ import java.util.List;
 
 @Repository
 public interface ServingRepository extends JpaRepository<Serving, Long> {
-//    Serving findByServiceID(long serviceId);
+    //    Serving findByServiceID(long serviceId);
     Serving findByServingID(long servingID);
     List<Serving> findBySoftDeleted(boolean softDeleted);
 }

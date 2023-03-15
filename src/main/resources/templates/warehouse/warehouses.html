@@ -10,14 +10,14 @@
     <!--Bootstrap-->
     <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <script th:src="@{/js/bootstrap.min.js}"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+    <!--Icon-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,300,1,0" />
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <!--Table-->
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 </head>
 <script>
     let host = window.location.origin;
@@ -107,7 +107,9 @@
     }
 </script>
 <style>
-
+    table td p {
+        text-align: right;
+    }
 </style>
 <body>
     <div th:insert="fragments/header :: header"></div>
@@ -159,12 +161,12 @@
                         <thead>
                         <tr>
                             <th>Order ID</th>
-                            <th>Item ID</th>
+                            <th data-sortable="true">Item ID</th>
                             <th>Name</th>
                             <th>Type</th>
                             <th>Paid Total</th>
-                            <th>Quantity In</th>
-                            <th>Quantity Left</th>
+                            <th>Qty.In</th>
+                            <th>Qty.Left</th>
                             <th>Stock In</th>
                             <th>Expired Date</th>
                             <th>Status</th>
@@ -179,34 +181,40 @@
                             <td th:if="${wh.medicine != null}" th:text="${wh.medicine.getNameForShow}"></td>
                             <td th:if="${wh.tool != null}" th:text="${wh.tool.getNameForShow}"></td>
                             <td th:text="${wh.type}"></td>
-                            <td th:text="${wh.paidTotal}"></td>
-                            <td th:text="${wh.quantityIn}"></td>
-                            <td th:text="${wh.quantityLeft}"></td>
-                            <td th:text="${#dates.format(wh.createdDate, 'yyyy/MM/dd')}"></td>
-                            <td th:text="${#dates.format(wh.expiredDate, 'yyyy/MM/dd')}"></td>
+                            <td>
+                                <p th:text="${#numbers.formatDecimal(wh.paidTotal, 1, 'COMMA', 2, 'POINT')}"/>
+                            </td>
+                            <td>
+                                <p th:text="${#numbers.formatDecimal(wh.quantityIn, 1, 'COMMA', 0, 'POINT')}"/>
+                            <td>
+                                <p th:text="${#numbers.formatDecimal(wh.quantityLeft, 1, 'COMMA', 0, 'POINT')}"/>
+                            </td>
+                            <td th:text="${#dates.format(wh.createdDate, 'yyyy/MM/dd')}"/>
+                            <td th:text="${#dates.format(wh.expiredDate, 'yyyy/MM/dd')}"/>
                             <td th:switch="${wh.isExpired()}">
                                 <span th:case="-1" th:text="Expired" class="badge rounded-pill bg-danger"/>
                                 <span th:case="1" th:text="Almost" class="badge rounded-pill bg-warning text-dark"/>
                                 <span th:case="0" th:text="Normal" class="badge rounded-pill bg-secondary"/>
                             </td>
+
                             <td>
                                 <div class="col-md-12 text-center">
                                     <div class="dropdown open">
                                         <a href="#!" class="px-2" data-toggle="dropdown" aria-haspopup="true"
                                            aria-expanded="false">
-                                            <i class="fa fa-ellipsis-v"></i>
+                                            <i class="material-symbols-rounded align-middle">more_vert</i>
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="triggerId1">
                                             <a class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editWarehouseOrderPopUp'+ *{wh.itemID}" role="button">
-                                                <i class="fa fa-pencil mr-1"></i> Edit
+                                                <i class="material-symbols-rounded align-middle">edit</i> Edit
                                             </a>
 
-                                            <a th:if="${wh.isExpired()}" class="dropdown-item" href="#">
-                                                <i class="fa fa-pencil mr-1"></i> Stock Out
+                                            <a th:if="${wh.isExpired() == -1}" class="dropdown-item" href="#">
+                                                <i class="material-symbols-rounded align-middle">inventory_2</i> Stock Out
                                             </a>
 
                                             <a class="dropdown-item text-danger" href="#">
-                                                <i class="fa fa-trash mr-1"></i> Delete
+                                                <i class="material-symbols-rounded align-middle">delete</i> Delete
                                             </a>
                                         </div>
                                     </div>
@@ -249,23 +257,27 @@
                         <tr th:each="med : ${medicines}">
                             <td th:text="${ 'M' + med.medID}"></td>
                             <td th:text="${ med.name}"></td>
-                            <td th:text="${ med.dose}"></td>
+                            <td>
+                                <p th:text="${ med.dose}"/>
+                            </td>
                             <td th:text="${ med.unit}"></td>
-                            <td th:text="${ med.price}"></td>
+                            <td>
+                                <p th:text="${#numbers.formatDecimal(med.price, 1, 'COMMA', 2, 'POINT')}"/>
+                            </td>
                             <td th:text="${ med.description}"></td>
                             <td>
                                 <div class="col-md-12 text-center">
                                     <div class="dropdown open">
                                         <a href="#!" class="px-2" data-toggle="dropdown" aria-haspopup="true"
                                            aria-expanded="false">
-                                            <i class="fa fa-ellipsis-v"></i>
+                                            <i class="material-symbols-rounded align-middle">more_vert</i>
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="triggerId1">
                                             <a class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editWarehouseMedicinePopUp'+ *{med.medID}" role="button">
-                                                <i class="fa fa-pencil mr-1"></i> Edit
+                                                <i class="material-symbols-rounded align-middle">edit</i> Edit
                                             </a>
                                             <a class="dropdown-item text-danger" href="#">
-                                                <i class="fa fa-trash mr-1"></i> Delete
+                                                <i class="material-symbols-rounded align-middle">delete</i> Delete
                                             </a>
                                         </div>
                                     </div>
@@ -305,21 +317,23 @@
                         <tr th:each="tool : ${tools}">
                             <td th:text="${ 'T' + tool.ToolID}"></td>
                             <td th:text="${ tool.name}"></td>
-                            <td th:text="${ tool.price}"></td>
+                            <td>
+                                <p th:text="${#numbers.formatDecimal(tool.price, 1, 'COMMA', 2, 'POINT')}"/>
+                            </td>
                             <td th:text="${ tool.description}"></td>
                             <td>
                                 <div class="col-md-12 text-center">
                                     <div class="dropdown open">
                                         <a href="#!" class="px-2" data-toggle="dropdown" aria-haspopup="true"
                                            aria-expanded="false">
-                                            <i class="fa fa-ellipsis-v"></i>
+                                            <i class="material-symbols-rounded align-middle">more_vert</i>
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="triggerId1">
                                             <a class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editWarehouseToolPopUp'+ *{tool.toolID}" role="button">
-                                                <i class="fa fa-pencil mr-1"></i> Edit
+                                                <i class="material-symbols-rounded align-middle">edit</i> Edit
                                             </a>
                                             <a class="dropdown-item text-danger" href="#">
-                                                <i class="fa fa-trash mr-1"></i> Delete
+                                                <i class="material-symbols-rounded align-middle">delete</i> Delete
                                             </a>
                                         </div>
                                     </div>
