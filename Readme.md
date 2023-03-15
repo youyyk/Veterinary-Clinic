@@ -1,4 +1,3 @@
-- Regis Page
-- Validation
-- Dynamic Warehouse
-- Appointment -> create, edit and delete
+- Bill -> cancel, delete and reformat
+- Service -> delete
+- Pet -> calculate date of birth and age realtime

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <body>
-<div th:fragment="editServicePopUp(editService)" th:id="editServicePopUp+${editService.serviceID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div th:fragment="editServicePopUp(editService)" th:id="editServicePopUp+${editService.servingID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      data-bs-backdrop="static" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -11,7 +11,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:action="@{service/edit/{id} (id=${editService.serviceID})}" method="POST">
+                <form th:action="@{service/edit/{id} (id=${editService.servingID})}" method="POST">
 
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Name</span>

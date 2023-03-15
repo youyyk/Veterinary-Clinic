@@ -8,14 +8,14 @@
     <link th:rel="stylesheet" th:href="@{/css/table-warehouse.css}">
     <link th:rel="stylesheet" th:href="@{/css/global.css}">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-    <script src="js/datatables-simple-demo.js"></script>
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <!--Table-->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,300,1,0" />
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 </head>
 <script>
     window.addEventListener('DOMContentLoaded', event => {
@@ -158,17 +158,33 @@
             <a th:href="@{'/account/getInfo/'+${pet.account.accId}}" id="owner">
                [[*{pet.account.firstName}]] [[*{pet.account.lastName}]]
             </a>
-            <span class="float-end">
+            <span th:if="${bill.paidStatus == false}" class="float-end">
                 <b>Total : </b> [[${#numbers.formatDecimal(sumBill, 1, 'COMMA', 2, 'POINT')}]] ฿
-                <button type="button" th:if="${bill.paidStatus == false}" class="btn btn-primary ms-3" data-bs-toggle="modal"
+                <button type="button" class="btn btn-primary ms-3" data-bs-toggle="modal"
                         th:attr="data-bs-target='#paymentPopup'+*{bill.billID}">
                     Pay
                 </button>
-                <button th:if="${bill.paidStatus == true}" class="btn btn-secondary ms-3" disabled>
+                <button th:if="${bill.total == 0}" type="button" class="btn btn-danger ms-1" data-bs-toggle="modal"
+                        th:attr="data-bs-target='#deletePopUp'+*{bill.billID}">
+                    Delete
+                </button>
+                <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Bill',mainPath='bill',deleteId=${bill.billID},deleteName='Bill ID '+${bill.billID},pathId=${bill.billID})">
+                    modal
+                </th:block>
+            </span>
+            <span th:if="${bill.paidStatus == true}" class="float-end">
+                <b>Net Total : </b> [[${#numbers.formatDecimal((bill.total - bill.discount), 1, 'COMMA', 2, 'POINT')}]] ฿
+                <button class="btn btn-secondary ms-3 opacity-25" disabled>
                     Paid
+                </button>
+                <button class="btn btn-secondary ms-1"  data-bs-toggle="modal"
+                        th:attr="data-bs-target='#cancelBill'+*{bill.billID}">
+                    Cancel
                 </button>
             </span>
         </p>
+        <!--Call Payment (PopUp)-->
+        <th:block th:replace="bill/billPopUp/cancelBill :: cancelBill(${bill.billID},${bill.total}-${bill.discount})">modal</th:block>
         <!--Call Payment (PopUp)-->
         <th:block th:replace="bill/billPopUp/paymentPopup :: paymentPopup(${bill},${pet})">modal</th:block>
 
@@ -186,7 +202,12 @@
             <span th:if="${not #strings.isEmpty(bill.treatmentHistory.diagnosis)}">
                 [[*{bill.treatmentHistory.diagnosis}]]
             </span>
-            <a data-bs-toggle="modal" th:attr="data-bs-target='#editDiagnosis'" class="text-secondary"><i class="fa fa-edit"></i></a>
+            <a data-bs-toggle="modal" th:attr="data-bs-target='#editDiagnosis'">
+                <span class="material-symbols-rounded align-middle"
+                      style="color: #A6AB98"
+                      onMouseOver="this.style.color='#76A001'"
+                      onMouseOut="this.style.color='#A6AB98'">edit_note</span>
+            </a>
         </p>
         <th:block th:replace="bill/billPopUp/editDiagnosis :: editDiagnosis(${bill.billID},${bill.treatmentHistory.diagnosis})">modal</th:block>
         <p style="font-size: 1.2em;">
@@ -197,9 +218,26 @@
             <span th:if="${bill.treatmentHistory.weight != -1}">
                 [[*{bill.treatmentHistory.weight}]] kg
             </span>
-            <a data-bs-toggle="modal" th:attr="data-bs-target='#editWeight'" class="text-secondary"><i class="fa fa-edit"></i></a>
+            <a data-bs-toggle="modal" th:attr="data-bs-target='#editWeight'">
+                <span class="material-symbols-rounded align-middle"
+                      style="color: #A6AB98"
+                      onMouseOver="this.style.color='#76A001'"
+                      onMouseOut="this.style.color='#A6AB98'">edit_note</span>
+            </a>
         </p>
         <th:block th:replace="bill/billPopUp/editWeight :: editWeight(${bill.billID},${bill.treatmentHistory.weight})">modal</th:block>
+
+        <p th:if="${bill.paidStatus == true}" style="font-size: 1.2em;">
+            <b>Discount : </b>
+            <span>
+                [[${#numbers.formatDecimal(bill.discount, 1, 'COMMA', 2, 'POINT')}]] ฿
+            </span>
+            <span> | </span>
+            <b>Total : </b>
+            <span>
+                [[${#numbers.formatDecimal(bill.total, 1, 'COMMA', 2, 'POINT')}]] ฿
+            </span>
+        </p>
 
         <hr class="w-100">
 
@@ -207,7 +245,7 @@
         <p style="font-size: 1.2em;">
             <b>Medicine's Total : </b> [[${#numbers.formatDecimal(sumMed, 1, 'COMMA', 2, 'POINT')}]] ฿
             <span class="float-end">
-                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addMedToBill">
+                <button th:if="${bill.paidStatus == false}" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addMedToBill">
                     +Add Medicine
                 </button>
             </span>
@@ -226,7 +264,7 @@
                         <th>Amount</th>
                         <th>Price</th>
                         <th>Total</th>
-                        <th>Actions</th>
+                        <th th:if="${bill.paidStatus == false}">Actions</th>
                     </tr>
                     </thead>
 
@@ -237,22 +275,22 @@
                             <td th:text="${med.medicine.unit}"></td>
                             <td th:text="${med.description}"></td>
                             <td th:text="${med.amount}"></td>
-                            <td th:text="${med.medicine.price}"></td>
-                            <td th:text="${med.totalPrice}"></td>
-                            <td>
+                            <td th:text="${#numbers.formatDecimal(med.medicine.price, 1, 'COMMA', 2, 'POINT')}"></td>
+                            <td th:text="${#numbers.formatDecimal(med.totalPrice, 1, 'COMMA', 2, 'POINT')}"></td>
+                            <td th:if="${bill.paidStatus == false}">
                                 <div class="dropdown open">
                                     <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
                                        aria-expanded="false">
-                                        <i class="fa fa-ellipsis-v"></i>
+                                        <span class="material-symbols-rounded">more_vert</span>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="triggerId1">
                                         <a class="dropdown-item btn" data-bs-toggle="modal"
                                            th:attr="data-bs-target='#editBillMed'+*{med.medicine.medID}">
-                                            <i class="fa fa-pencil mr-1"></i> Edit
+                                            <span class="material-symbols-rounded align-middle">edit</span> Edit
                                         </a>
                                         <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
                                            th:attr="data-bs-target='#deleteItemPopUp'+*{med.medicine.medID}">
-                                            <i class="fa fa-trash mr-1"></i> Delete
+                                            <span class="material-symbols-rounded align-middle">delete</span> Delete
                                         </a>
                                     </div>
                                 </div>
@@ -276,7 +314,7 @@
         <p style="font-size: 1.2em;">
             <b>Tool's Total : </b> [[${#numbers.formatDecimal(sumTool, 1, 'COMMA', 2, 'POINT')}]] ฿
             <span class="float-end">
-            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addToolToBill">
+            <button th:if="${bill.paidStatus == false}" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addToolToBill">
                 +Add Tool
             </button>
             </span>
@@ -293,7 +331,7 @@
                         <th>Amount</th>
                         <th>Price</th>
                         <th>Total</th>
-                        <th>Actions</th>
+                        <th th:if="${bill.paidStatus == false}">Actions</th>
                     </tr>
                     </thead>
 
@@ -303,22 +341,22 @@
                             <td>[[${tool.tool.name}]]</td>
                             <td>[[${tool.tool.description}]]</td>
                             <td>[[${tool.amount}]]</td>
-                            <td>[[${tool.tool.price}]]</td>
-                            <td th:text="${tool.totalPrice}"></td>
-                            <td>
+                            <td>[[${#numbers.formatDecimal(tool.tool.price, 1, 'COMMA', 2, 'POINT')}]]</td>
+                            <td>[[${#numbers.formatDecimal(tool.totalPrice, 1, 'COMMA', 2, 'POINT')}]]</td>
+                            <td th:if="${bill.paidStatus == false}">
                                 <div class="dropdown open">
                                     <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
                                        aria-expanded="false">
-                                        <i class="fa fa-ellipsis-v"></i>
+                                        <span class="material-symbols-rounded">more_vert</span>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="triggerId1">
                                         <a class="dropdown-item btn" data-bs-toggle="modal"
                                            th:attr="data-bs-target='#editBillTool'+*{tool.tool.toolID}">
-                                            <i class="fa fa-pencil mr-1"></i> Edit
+                                           <span class="material-symbols-rounded align-middle">edit</span> Edit
                                         </a>
                                         <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
                                            th:attr="data-bs-target='#deleteItemPopUp'+*{tool.tool.toolID}">
-                                            <i class="fa fa-trash mr-1"></i> Delete
+                                            <span class="material-symbols-rounded align-middle">delete</span> Delete
                                         </a>
                                     </div>
                                 </div>
@@ -343,7 +381,7 @@
         <p style="font-size: 1.2em;">
             <b>Service's Total : </b> [[${#numbers.formatDecimal(sumServing, 1, 'COMMA', 2, 'POINT')}]] ฿
             <span class="float-end">
-            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addServingToBill">
+            <button th:if="${bill.paidStatus == false}" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#addServingToBill">
                 +Add Service
             </button>
             </span>
@@ -359,7 +397,7 @@
                         <th>Amount</th>
                         <th>Price</th>
                         <th>Total</th>
-                        <th>Actions</th>
+                        <th th:if="${bill.paidStatus == false}">Actions</th>
                     </tr>
                     </thead>
 
@@ -368,22 +406,23 @@
                         <tr>
                             <td>[[${serving.serving.name}]]</td>
                             <td>[[${serving.servingTotal}]]</td>
-                            <td>[[${serving.serving.price}]]</td>
-                            <td th:text="${serving.servingTotal}*${serving.serving.price}"></td>
+                            <td>[[${#numbers.formatDecimal(serving.serving.price, 1, 'COMMA', 2, 'POINT')}]]</td>
+                            <td th:text="${#numbers.formatDecimal((serving.servingTotal*serving.serving.price), 1, 'COMMA', 2, 'POINT')}"></td>
                             <td>
                                 <div class="dropdown open">
                                     <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
                                        aria-expanded="false">
-                                        <i class="fa fa-ellipsis-v"></i>
+                                        <span class="material-symbols-rounded">more_vert</span>
+
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="triggerId1">
                                         <a class="dropdown-item btn" data-bs-toggle="modal"
                                            th:attr="data-bs-target='#editBillServing'+*{serving.serving.servingID}">
-                                            <i class="fa fa-pencil mr-1"></i> Edit
+                                            <span class="material-symbols-rounded align-middle">edit</span> Edit
                                         </a>
                                         <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
                                            th:attr="data-bs-target='#deleteItemPopUp'+*{serving.serving.servingID}">
-                                            <i class="fa fa-trash mr-1"></i> Delete
+                                            <span class="material-symbols-rounded align-middle">delete</span> Delete
                                         </a>
                                     </div>
                                 </div>

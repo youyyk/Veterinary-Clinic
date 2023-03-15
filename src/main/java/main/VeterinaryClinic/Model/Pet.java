@@ -71,6 +71,8 @@ public class Pet {
         this.softDeletedDate = null;
     }
 
+
+
     public Pet(Account account, String name, String gender, Date doB, boolean sterilization, String petType, String breed, String remark) {
         this.account = account;
         this.name = name;
@@ -80,6 +82,19 @@ public class Pet {
         this.petType = petType;
         this.breed = breed;
         this.remark = remark;
+        this.softDeleted = false;
+        this.softDeletedDate = null;
+    }
+
+    public Pet(Account account, String name, String gender, Date doB, boolean sterilization, String petType, String breed) {
+        this.account = account;
+        this.name = name;
+        this.gender = gender;
+        this.doB = doB;
+        this.sterilization = sterilization;
+        this.petType = petType;
+        this.breed = breed;
+        this.remark = "-";
         this.softDeleted = false;
         this.softDeletedDate = null;
     }
@@ -95,18 +110,6 @@ public class Pet {
         this.softDeleted = false;
         this.softDeletedDate = null;
     }
-
-//    public Pet(String name, String gender, String doB, String petType, String breed, String remark){
-//        this.name = name;
-//        this.gender = gender;
-//        this.doB = GlobalService.convertStringToDate(doB);
-//        this.sterilization = false;
-//        this.petType = petType;
-//        this.breed = breed;
-//        this.remark = remark;
-//        this.softDeleted = false;
-//        this.softDeletedDate = null;
-//    }
 
 
     public Pet setAll(Pet pet,Pet newPet,long id) {

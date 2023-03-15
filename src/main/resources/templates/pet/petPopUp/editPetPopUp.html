@@ -14,7 +14,7 @@
             </div>
             <div class="modal-body">
 <!--                [[${#dates.format(pet.doB, 'dd/MM/yyyy')}]]-->
-                <form th:action="@{/pets/edit}" method="POST" enctype="multipart/form-data">
+                <form th:id="'editPetForm'+${pet.petID}" th:action="@{/pets/edit}" method="POST" enctype="multipart/form-data">
                     <!--Pet ID-->
                     <input type="hidden" class="form-control" id="petID" name="petID" th:value="${pet.petID}">
                     <!--Account ID-->
@@ -37,7 +37,9 @@
                     <!--DoB-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text date">Date of Birth</span>
-                        <input type="date" class="form-control" id="doB" name="doB" th:value="${#dates.format(pet.doB, 'yyyy-MM-dd')}">
+                        <input th:attr="onblur='calculateEditAge(\'' + ${pet.petID} +  '\');'" type="date" class="form-control" id="doB" name="doB" th:value="${#dates.format(pet.doB, 'yyyy-MM-dd')}">
+                        <span class="input-group-text">Age</span>
+                        <input th:attr="onchange='calculateEditDate(\'' + ${pet.petID} +  '\');'" type="text" class="form-control" id="age" name="age" >
                     </div>
                     <!--Pet's Type & Breed-->
                     <div class="input-group input-group mb-3">

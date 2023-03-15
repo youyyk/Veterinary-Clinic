@@ -10,14 +10,14 @@
     <!--Bootstrap-->
     <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <script th:src="@{/js/bootstrap.min.js}"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <!--Table-->
-    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20,400,0,0" />
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 </head>
 <script>
     let host = window.location.origin;
@@ -111,6 +111,7 @@
 </style>
 <body>
     <div th:insert="fragments/header :: header"></div>
+    <div class="container">
     <h1>All warehouses</h1>
     <div class="card mb-4 container">
 
@@ -184,10 +185,15 @@
                             <td th:text="${wh.quantityLeft}"></td>
                             <td th:text="${#dates.format(wh.createdDate, 'yyyy/MM/dd')}"></td>
                             <td th:text="${#dates.format(wh.expiredDate, 'yyyy/MM/dd')}"></td>
+<!--                            <td>-->
+<!--                                <span th:if="${wh.isExpired() eq 0}" >Normal</span>-->
+<!--                                <span th:if="${wh.isExpired() eq -1}" >Expired</span>-->
+<!--                                <span th:if="${wh.isExpired() eq 1}" >Almost</span>-->
+<!--                            </td>-->
                             <td th:switch="${wh.isExpired()}">
-                                <span th:case="-1" th:text="Expired" class="badge rounded-pill bg-danger"/>
-                                <span th:case="1" th:text="Almost" class="badge rounded-pill bg-warning text-dark"/>
-                                <span th:case="0" th:text="Normal" class="badge rounded-pill bg-secondary"/>
+                                <span th:case="-1" class="badge rounded-pill bg-danger">Expired</span>
+                                <span th:case="1" class="badge rounded-pill bg-warning text-dark">Almost</span>
+                                <span th:case="0" class="badge rounded-pill bg-secondary">Normal</span>
                             </td>
                             <td>
                                 <div class="col-md-12 text-center">
@@ -198,7 +204,7 @@
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="triggerId1">
                                             <a class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editWarehouseOrderPopUp'+ *{wh.itemID}" role="button">
-                                                <i class="fa fa-pencil mr-1"></i> Edit
+                                                <i class="material-symbols-rounded align-middle pb-1">edit</i> Edit
                                             </a>
 
                                             <a th:if="${wh.isExpired()}" class="dropdown-item" href="#">
@@ -335,5 +341,6 @@
         </div>
     </div>
     <th:block th:replace="warehouse/warehousePopUp/createWarehousePopUp :: createWarehousePopUp">modal</th:block>
+    </div>
 </body>
 </html>

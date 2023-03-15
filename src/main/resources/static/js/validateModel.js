@@ -2,7 +2,7 @@ function payloadValid(fieldId, errorMessage) {
     this.fieldId = fieldId;
     this.errorMessage = errorMessage;
 }
-const regexOnlyCharacter = /^[A-Za-zก-๙]+$/;
+const regexOnlyCharacter = /^[0-9A-Za-zก-๙ ,]+$/;
 const regexPhoneNumber = /^0\d{9}$/;
 const titleChoice = ["Mr.", "Mrs.", "Ms.", "Miss"];
 

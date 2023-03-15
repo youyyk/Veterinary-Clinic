@@ -118,7 +118,7 @@ public class PetController {
         }
         else if (page.equals("treatmentHistory")) {
             System.out.println("++++ Redirect to TreatmentHistory ++++");
-            return "redirect:/treatmentHistory/"+petID;
+            return "redirect:/treatmentHistory/pet"+petID;
         }
         else {
             System.out.println("---- Cannot Redirect ----");

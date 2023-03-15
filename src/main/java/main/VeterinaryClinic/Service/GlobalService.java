@@ -93,17 +93,16 @@ public class GlobalService {
     }
 
     public void mockData() {
-        mainBillService.deleteBillByBillID(1);
         for (int i=1; i<=5; i++){
             accountService.create("Test"+i, "user"+i,null);
         }
         //------------- Pet --------------
         Pet pet = new Pet(accountService.getByLineId("user1"),"Mini","female", GlobalService.convertStringToDate("2022-05-27"),
-                true,"Dog","Pom","");
+                true,"Dog","Pom");
         petService.save(pet);
 
         pet = new Pet(accountService.getByLineId("user1"),"Lupin","male", GlobalService.convertStringToDate("2022-03-12"),
-                true,"Cat","Persia","");
+                true,"Cat","Persia");
         petService.save(pet);
 
         //        ------------- Medicine ------------

@@ -3,6 +3,7 @@ package main.VeterinaryClinic.Model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="servings")
@@ -17,7 +18,7 @@ public class Serving {
     @Column(name="price")
     private double price;
     @Column(name="soft_deleted_date")
-    private String softDeletedDate;
+    private Date softDeletedDate;
     @Column(name="soft_deleted")
     private boolean softDeleted;
 
@@ -30,7 +31,7 @@ public class Serving {
         this.name = name;
         this.price = price;
         this.softDeleted = false;
-        this.softDeletedDate = "";
+        this.softDeletedDate = null;
     }
 
     public void updateFieldForEdit(String name, double price){

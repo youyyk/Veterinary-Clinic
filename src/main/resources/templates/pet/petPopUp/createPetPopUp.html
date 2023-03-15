@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<script>
 
+</script>
 
 <body>
 <!--Create Pet (PopUp)-->
@@ -30,17 +32,17 @@
                     </div>
 
                     <!--DoB-->
-<!--                    <div class="input-group input-group mb-3">-->
-<!--                        <span class="input-group-text date">Date of Birth</span>-->
-<!--                        <input type="date" class="form-control" id="doB" name="doB">-->
-<!--                        <span class="input-group-text" >Age</span>-->
-<!--                        <input type="text" id="age" name="age" class="form-control">-->
-<!--                    </div>-->
-
                     <div class="input-group input-group mb-3">
-                        <span class="input-group-text">Date of Birth</span>
-                        <input type="date" class="form-control" id="doB" name="doB">
+                        <span class="input-group-text date">Date of Birth</span>
+                        <input onblur="calculateAge()" type="date" class="form-control" id="doB" name="doB">
+                        <span class="input-group-text" >Age</span>
+                        <input onchange="calculateDate()" type="text" id="age" name="age" class="form-control">
                     </div>
+
+<!--                    <div class="input-group input-group mb-3">-->
+<!--                        <span class="input-group-text">Date of Birth</span>-->
+<!--                        <input type="date" class="form-control" id="doB" name="doB">-->
+<!--                    </div>-->
 
 
                     <!--Pet's Type & Breed-->

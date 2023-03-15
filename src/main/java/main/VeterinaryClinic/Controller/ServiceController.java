@@ -1,6 +1,8 @@
 package main.VeterinaryClinic.Controller;
 
+import main.VeterinaryClinic.Model.Pet;
 import main.VeterinaryClinic.Model.Serving;
+import main.VeterinaryClinic.Service.GlobalService;
 import main.VeterinaryClinic.Service.ServingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
 @RequestMapping("/service")
@@ -40,6 +44,23 @@ public class ServiceController {
             serving.updateFieldForEdit(name,price);
             servingService.save(serving);
         }
+        return "redirect:/service";
+    }
+
+    @RequestMapping(path = "/delete", method = POST)
+    public String deleteService(@RequestParam("id") long id,
+                            @RequestParam("pathId") String pathId){
+        System.out.println("---- Delete Service ----");
+
+        Serving serving = servingService.findByServiceID(id);
+
+        serving.setSoftDeleted(true);
+        serving.setSoftDeletedDate(GlobalService.getCurrentTime());
+
+        servingService.save(serving);
+
+        System.out.println("Delete "+serving.getName());
+
         return "redirect:/service";
     }
 }
