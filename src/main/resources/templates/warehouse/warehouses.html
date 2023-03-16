@@ -18,6 +18,8 @@
     <!--Table-->
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+
+    <script th:src="@{/js/validateModel.js}"></script>
 </head>
 <script>
     let host = window.location.origin;
@@ -104,6 +106,233 @@
         elements.forEach((element) => {
             element.style.display = displayType;
         });
+    }
+</script>
+<script>
+    // New Medicine Form
+    let realTimeValid_formNewMedicine = false;
+
+    function validFormNewMedicineByEachField(fieldElement){
+        if (realTimeValid_formNewMedicine){
+            const formNewMedicine = document.getElementById("newMedicineForm")
+            const validatedList = serviceValidNewMedicine(formNewMedicine, fieldElement.id);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(formNewMedicine.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitNewMedicineForm(formNewMedicine, option){
+        realTimeValid_formNewMedicine = true;
+        const validatedList = serviceValidNewMedicine(formNewMedicine, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(formNewMedicine.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 4){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
+<script>
+    // New Order Medicine Form
+    let realTimeValid_formNewWarehouseMedicine = false;
+
+    function validFormNewWarehouseMedicineByEachField(fieldElement){
+        if (realTimeValid_formNewWarehouseMedicine){
+            const newWarehouseMedicineForm = document.getElementById("newWarehouseMedicineForm")
+            const validatedList =serviceValidNewWarehouseMedicine(newWarehouseMedicineForm, fieldElement.id);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(newWarehouseMedicineForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitNewWarehouseMedicineForm(newWarehouseMedicineForm, option){
+        realTimeValid_formNewWarehouseMedicine= true;
+        const validatedList = serviceValidNewWarehouseMedicine(newWarehouseMedicineForm, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(newWarehouseMedicineForm.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 4){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
+<script>
+    // New Tool Form
+    let realTimeValid_formNewTool = false;
+
+    function validFormNewToolByEachField(fieldElement){
+        if (realTimeValid_formNewTool){
+            const newToolForm = document.getElementById("newToolForm")
+            const validatedList = serviceValidNewTool(newToolForm, fieldElement.id);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(newToolForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitNewToolForm(newToolForm, option){
+        realTimeValid_formNewTool= true;
+        const validatedList = serviceValidNewTool(newToolForm, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(newToolForm.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 3){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
+<script>
+    // New Order Tool Form
+    let realTimeValid_formNewWarehouseTool = false;
+
+    function validFormNewWarehouseToolByEachField(fieldElement){
+        if (realTimeValid_formNewWarehouseTool){
+            const newWarehouseToolForm = document.getElementById("newWarehouseToolForm")
+            const validatedList =serviceValidNewWarehouseTool(newWarehouseToolForm, fieldElement.id);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(newWarehouseToolForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitNewWarehouseToolForm(newWarehouseToolForm, option){
+        realTimeValid_formNewWarehouseTool= true;
+        const validatedList = serviceValidNewWarehouseTool(newWarehouseToolForm, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(newWarehouseToolForm.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 4){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
+<script>
+    // Edit order form
+    let realTimeValid_formEditOrder = false;
+
+    function validFormEditOrderByEachField(fieldId, fromId){
+        if (realTimeValid_formEditOrder){
+        console.log(fieldId + fromId);
+            const editOrderForm = document.getElementById("editWarehouseOrderForm"+fromId)
+            const validatedList = serviceValidEditWarehouseOrder(editOrderForm, fieldId);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(editOrderForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitEditOrderWarehouseToolForm(editOrderForm, option){
+        realTimeValid_formEditOrder= true;
+        const validatedList = serviceValidEditWarehouseOrder(editOrderForm, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(editOrderForm.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 6){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
+<script>
+    // Edit medicine info
+    let realTimeValid_formEditMedicineInfo = false;
+
+    function validFormEditMedicineInfoByEachField(fieldId, fromId){
+        if (realTimeValid_formEditMedicineInfo){
+            console.log(fieldId + fromId);
+            const editMedicineInfoForm = document.getElementById("editMedicineInfoForm"+fromId)
+            const validatedList = serviceValidNewMedicine(editMedicineInfoForm, fieldId);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(editMedicineInfoForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitEditMedicineInfoForm(editMedicineInfoForm, option){
+        realTimeValid_formEditMedicineInfo= true;
+        const validatedList = serviceValidNewMedicine(editMedicineInfoForm, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(editMedicineInfoForm.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 4){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
+<script>
+    // Edit tool info
+    let realTimeValid_formEditToolInfo = false;
+
+    function validFormEditToolInfoByEachField(fieldId, fromId){
+        if (realTimeValid_formEditToolInfo){
+            console.log(fieldId + fromId);
+            const editToolInfoForm = document.getElementById("editToolInfoForm"+fromId)
+            const validatedList = serviceValidNewTool(editToolInfoForm, fieldId);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(editToolInfoForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitEditToolInfoForm(editToolInfoForm, option){
+        realTimeValid_formEditToolInfo= true;
+        const validatedList = serviceValidNewTool(editToolInfoForm, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(editToolInfoForm.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 4){
+                return true;
+            }
+        }
+        return false;
     }
 </script>
 <style>

@@ -15,24 +15,35 @@
 
             <!--Edit Tool Warehouse-->
             <div class="modal-body">
-                <form th:action="@{warehouse/edit/tool/{id} (id=${editTool.toolID})}" method="POST">
+                <form th:id="'editToolInfoForm'+${editTool.toolID}" th:action="@{warehouse/edit/tool/{id} (id=${editTool.toolID})}" method="POST"
+                      onsubmit="return validSubmitEditToolInfoForm(this, 'all');">
 
                     <!--Tool's Name-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Name</span>
-                        <input type="text" class="form-control" th:value="${editTool.name}" id="name" name="name">
+                        <input type="text" class="form-control" th:value="${editTool.name}" id="name" name="name"
+                               autocomplete="off"
+                               th:onkeyup="'javascript:validFormEditToolInfoByEachField(\'' + 'name' +'\',\''+ ${editTool.toolID} + '\');'"
+                               th:onpaste="'javascript:validFormEditToolInfoByEachField(\'' + 'name' +'\',\''+ ${editTool.toolID} + '\');'">
                     </div>
 
                     <!--Price-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text date">Price</span>
-                        <input type="number" class="form-control" th:value="${editTool.price}" id="price" name="price">
+                        <input type="number" class="form-control" th:value="${editTool.price}" id="price" name="price"
+                               autocomplete="off"
+                               th:onkeyup="'javascript:validFormEditToolInfoByEachField(\'' + 'price' +'\',\''+ ${editTool.toolID} + '\');'"
+                               th:onchange="'javascript:validFormEditToolInfoByEachField(\'' + 'price' +'\',\''+ ${editTool.toolID} + '\');'"
+                               th:onpaste="'javascript:validFormEditToolInfoByEachField(\'' + 'price' +'\',\''+ ${editTool.toolID} + '\');'">
                     </div>
 
                     <!--Description-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text date">Description</span>
-                        <input type="text" class="form-control" th:value="${editTool.description}" id="description" name="description">
+                        <input type="text" class="form-control" th:value="${editTool.description}" id="description" name="description"
+                               autocomplete="off"
+                               th:onkeyup="'javascript:validFormEditToolInfoByEachField(\'' + 'description' +'\',\''+ ${editTool.toolID} + '\');'"
+                               th:onpaste="'javascript:validFormEditToolInfoByEachField(\'' + 'description' +'\',\''+ ${editTool.toolID} + '\');'">
                     </div>
 
                     <div class="modal-footer">

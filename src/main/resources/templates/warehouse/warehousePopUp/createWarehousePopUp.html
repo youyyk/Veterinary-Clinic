@@ -34,32 +34,35 @@
                 <div class="tab-content" id="ex-with-icons-content">
                     <div id="tab-body-med" class="tab-pane fade show active" aria-labelledby="ex-with-icons-tab-1">
                         <div name="medicineForm" style="display: none">
-                            <form th:action="@{warehouse/create/medicine}" method="POST" th:object="${newMedForm}">
+                            <form id="newMedicineForm" th:action="@{warehouse/create/medicine}" method="POST" th:object="${newMedForm}" onsubmit="return validSubmitNewMedicineForm(this, 'all');">
 
                                 <!--Med's Name-->
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text">Name</span>
-                                    <input type="text" class="form-control" th:field="*{name}">
+                                    <input type="text" class="form-control" maxlength="30" th:field="*{name}" autocomplete="off" onkeyup="validFormNewMedicineByEachField(this)" onpaste="validFormNewMedicineByEachField(this)">
                                 </div>
 
                                 <!--Price-->
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text date">Price</span>
-                                    <input type="number" class="form-control" th:field="*{price}">
+                                    <input type="number" class="form-control" th:field="*{price}" min="0" autocomplete="off"
+                                           onkeyup="validFormNewMedicineByEachField(this)"
+                                           onchange="validFormNewMedicineByEachField(this)"
+                                           onpaste="validFormNewMedicineByEachField(this)">
                                 </div>
 
                                 <!--Pet's Dose & Unit-->
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text">Dose</span>
-                                    <input type="text" class="form-control" th:field="*{dose}" style="margin-right: 2px">
+                                    <input type="text" class="form-control" maxlength="30" th:field="*{dose}" style="margin-right: 2px" autocomplete="off" onkeyup="validFormNewMedicineByEachField(this)" onpaste="validFormNewMedicineByEachField(this)">
                                     <span class="input-group-text">Unit</span>
-                                    <input type="text" class="form-control" th:field="*{unit}">
+                                    <input type="text" class="form-control" maxlength="15" th:field="*{unit}" autocomplete="off" onkeyup="validFormNewMedicineByEachField(this)" onpaste="validFormNewMedicineByEachField(this)">
                                 </div>
 
                                 <!--Description-->
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text date">Description</span>
-                                    <input type="text" class="form-control" th:field="*{description}">
+                                    <input type="text" class="form-control" th:field="*{description}" autocomplete="off" onkeyup="validFormNewMedicineByEachField(this)" onpaste="validFormNewMedicineByEachField(this)">
                                 </div>
 
                                 <div class="modal-footer">
@@ -72,11 +75,11 @@
                         </div>
 
                         <div name="medicineForm" style="display: none">
-                            <form th:action="@{warehouse/create/order}" method="POST" th:object="${newWarehouseMedForm}">
+                            <form id="newWarehouseMedicineForm" th:action="@{warehouse/create/order}" method="POST" th:object="${newWarehouseMedForm}" onsubmit="return validSubmitNewWarehouseMedicineForm(this, 'all');">
                                 <!--Warehouse Med-->
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text">Medicine</span>
-                                    <select class="form-select" aria-label="Select Medicine" th:field="*{medicine}">
+                                    <select class="form-select" aria-label="Select Medicine" th:field="*{medicine}" autocomplete="off" onchange="validFormNewWarehouseMedicineByEachField(this)">
                                         <option value=0 selected >Choose...</option>
                                         <option th:each="med : ${medicines}" th:value="${med.medID}" th:text="${med.getNameForShow}"/>
                                     </select>
@@ -85,19 +88,25 @@
                                 <!--Quality In-->
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text date">Qty.In</span>
-                                    <input type="number" class="form-control" th:field="*{quantityIn}">
+                                    <input type="number" class="form-control" th:field="*{quantityIn}" autocomplete="off"
+                                           onkeyup="validFormNewWarehouseMedicineByEachField(this)"
+                                           onchange="validFormNewWarehouseMedicineByEachField(this)"
+                                           onpaste="validFormNewWarehouseMedicineByEachField(this)">
                                 </div>
 
                                 <!--PaidTotal-->
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text date">Paid Total</span>
-                                    <input type="number" class="form-control" th:field="*{paidTotal}">
+                                    <input type="number" class="form-control" th:field="*{paidTotal}" autocomplete="off"
+                                           onkeyup="validFormNewWarehouseMedicineByEachField(this)"
+                                           onchange="validFormNewWarehouseMedicineByEachField(this)"
+                                           onpaste="validFormNewWarehouseMedicineByEachField(this)">
                                 </div>
 
                                 <!--Description-->
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text date">Exp. Date</span>
-                                    <input type="date" class="form-control" th:field="*{expiredDate}">
+                                    <input type="date" class="form-control" th:field="*{expiredDate}" autocomplete="off" onkeyup="validFormNewWarehouseMedicineByEachField(this)" onchange="validFormNewWarehouseMedicineByEachField(this)" onpaste="validFormNewWarehouseMedicineByEachField(this)">
                                 </div>
 
                                 <div class="modal-footer">
@@ -111,23 +120,26 @@
                     </div>
                     <div id="tab-body-tool" class="tab-pane fade" aria-labelledby="ex-with-icons-tab-2">
                         <div name="toolForm" style="display: none">
-                            <form th:action="@{warehouse/create/tool}" method="POST" th:object="${newToolForm}">
+                            <form id="newToolForm" th:action="@{warehouse/create/tool}" method="POST" th:object="${newToolForm}" onsubmit="return validSubmitNewToolForm(this, 'all');">
                                 <!--Tool's Name-->
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text">Name</span>
-                                    <input type="text" class="form-control" th:field="*{name}">
+                                    <input type="text" class="form-control" th:field="*{name}" autocomplete="off" onkeyup="validFormNewToolByEachField(this)" onchange="validFormNewToolByEachField(this)" onpaste="validFormNewToolByEachField(this)">
                                 </div>
 
                                 <!--Price-->
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text date">Price</span>
-                                    <input type="number" class="form-control" th:field="*{price}">
+                                    <input type="number" class="form-control" th:field="*{price}" autocomplete="off"
+                                           onkeyup="validFormNewToolByEachField(this)"
+                                           onchange="validFormNewToolByEachField(this)"
+                                           onpaste="validFormNewToolByEachField(this)">
                                 </div>
 
                                 <!--Description-->
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text date">Description</span>
-                                    <input type="text" class="form-control" th:field="*{description}">
+                                    <input type="text" class="form-control" th:field="*{description}" autocomplete="off" onkeyup="validFormNewToolByEachField(this)" onchange="validFormNewToolByEachField(this)" onpaste="validFormNewToolByEachField(this)">
                                 </div>
 
                                 <div class="modal-footer">
@@ -139,11 +151,11 @@
                             </form>
                         </div>
                         <div name="toolForm" style="display: none">
-                            <form th:action="@{warehouse/create/order}" method="POST" th:object="${newWarehouseToolForm}">
+                            <form id="newWarehouseToolForm" th:action="@{warehouse/create/order}" method="POST" th:object="${newWarehouseToolForm}" onsubmit="return validSubmitNewWarehouseToolForm(this, 'all');">
                                 <!--Warehouse Tool-->
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text">Tool</span>
-                                    <select class="form-select" aria-label="Select Medicine" th:field="*{tool}">
+                                    <select class="form-select" aria-label="Select Medicine" th:field="*{tool}" autocomplete="off" onchange="validFormNewWarehouseToolByEachField(this)">
                                         <option value=0 selected >Choose...</option>
                                         <option th:each="tool : ${tools}" th:value="${tool.ToolID}" th:text="${tool.getNameForShow}"/>
                                     </select>
@@ -152,19 +164,25 @@
                                 <!--Quality In-->
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text date">Qty.In</span>
-                                    <input type="number" class="form-control" th:field="*{quantityIn}">
+                                    <input type="number" class="form-control" th:field="*{quantityIn}" autocomplete="off"
+                                           onkeyup="validFormNewWarehouseToolByEachField(this)"
+                                           onchange="validFormNewWarehouseToolByEachField(this)"
+                                           onpaste="validFormNewWarehouseToolByEachField(this)">
                                 </div>
 
                                 <!--PaidTotal-->
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text date">Paid Total</span>
-                                    <input type="number" class="form-control" th:field="*{paidTotal}">
+                                    <input type="number" class="form-control" th:field="*{paidTotal}" autocomplete="off"
+                                           onkeyup="validFormNewWarehouseToolByEachField(this)"
+                                           onchange="validFormNewWarehouseToolByEachField(this)"
+                                           onpaste="validFormNewWarehouseToolByEachField(this)">
                                 </div>
 
                                 <!--Description-->
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text date">Exp. Date</span>
-                                    <input type="date" class="form-control" th:field="*{expiredDate}">
+                                    <input type="date" class="form-control" th:field="*{expiredDate}" autocomplete="off" onkeyup="validFormNewWarehouseToolByEachField(this)" onchange="validFormNewWarehouseToolByEachField(this)" onpaste="validFormNewWarehouseToolByEachField(this)">
                                 </div>
 
                                 <div class="modal-footer">

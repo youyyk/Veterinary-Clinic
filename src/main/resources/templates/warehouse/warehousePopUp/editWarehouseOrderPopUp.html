@@ -15,11 +15,12 @@
 
             <!--Edit Med Warehouse-->
             <div class="modal-body">
-                <form th:action="@{warehouse/edit/{type}/order/{id} (id=${wh.itemID}, type=${wh.medicine != null ? 'medicine' : 'tool'})}" method="POST">
+                <form th:id="'editWarehouseOrderForm'+${wh.itemID}" th:action="@{warehouse/edit/{type}/order/{id} (id=${wh.itemID}, type=${wh.medicine != null ? 'medicine' : 'tool'})}" method="POST"
+                      onsubmit="return validSubmitEditOrderWarehouseToolForm(this, 'all');">
                     <!--Warehouse Med-->
                     <div th:if="${wh.medicine != null}" class="input-group input-group mb-3">
                         <span class="input-group-text">Medicine</span>
-                        <select class="form-select" aria-label="Select Medicine" id="medicine" name="medicine">
+                        <select class="form-select" aria-label="Select Medicine" id="medicine" name="medicine" th:onchange="'javascript:validFormEditOrderByEachField(\'' + 'medicine' +'\',\''+ ${wh.itemID} + '\');'">
                             <option value=0 selected >Choose...</option>
                             <option th:each="med : ${medicines}" th:value="${med.medID}" th:text="${med.name}" th:selected="${med.medID == wh.medicine.medID}"/>
                         </select>
@@ -28,7 +29,7 @@
                     <!--Warehouse Tool-->
                     <div th:if="${wh.tool != null}" class="input-group input-group mb-3">
                         <span class="input-group-text">Tool</span>
-                        <select class="form-select" aria-label="Select Medicine" id="tool" name="tool">
+                        <select class="form-select" aria-label="Select Medicine" id="tool" name="tool" th:onchange="'javascript:validFormEditOrderByEachField(\'' + 'tool' +'\',\''+ ${wh.itemID} + '\');'">
                             <option value=0 selected >Choose...</option>
                             <option th:each="tool : ${tools}" th:value="${tool.ToolID}" th:text="${tool.name}" th:selected="${tool.ToolID == wh.tool.ToolID}"/>
                         </select>
@@ -37,31 +38,51 @@
                     <!--Quality In-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text date">Qty.In</span>
-                        <input type="number" class="form-control" th:value="${wh.quantityIn}" id="quantityIn" name="quantityIn">
+                        <input type="number" class="form-control" th:value="${wh.quantityIn}" id="quantityIn" name="quantityIn"
+                               autocomplete="off"
+                               th:onkeyup="'javascript:validFormEditOrderByEachField(\'' + 'quantityIn' +'\',\''+ ${wh.itemID} + '\');'"
+                               th:onchange="'javascript:validFormEditOrderByEachField(\'' + 'quantityIn' +'\',\''+ ${wh.itemID} + '\');'"
+                               th:onpaste="'javascript:validFormEditOrderByEachField(\'' + 'quantityIn' +'\',\''+ ${wh.itemID} + '\');'">
                     </div>
 
                     <!--Quality Left-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text date">Qty.Left</span>
-                        <input type="number" class="form-control" th:value="${wh.quantityLeft}" id="quantityLeft" name="quantityLeft">
+                        <input type="number" class="form-control" th:value="${wh.quantityLeft}" id="quantityLeft" name="quantityLeft"
+                               autocomplete="off"
+                               th:onkeyup="'javascript:validFormEditOrderByEachField(\'' + 'quantityLeft' +'\',\''+ ${wh.itemID} + '\');'"
+                               th:onchange="'javascript:validFormEditOrderByEachField(\'' + 'quantityLeft' +'\',\''+ ${wh.itemID} + '\');'"
+                               th:onpaste="'javascript:validFormEditOrderByEachField(\'' + 'quantityLeft' +'\',\''+ ${wh.itemID} + '\');'">
                     </div>
 
                     <!--PaidTotal-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text date">Paid Total</span>
-                        <input type="number" class="form-control" th:value="${wh.paidTotal}" id="paidTotal" name="paidTotal">
+                        <input type="number" class="form-control" th:value="${wh.paidTotal}" id="paidTotal" name="paidTotal"
+                               autocomplete="off"
+                               th:onkeyup="'javascript:validFormEditOrderByEachField(\'' + 'paidTotal' +'\',\''+ ${wh.itemID} + '\');'"
+                               th:onchange="'javascript:validFormEditOrderByEachField(\'' + 'paidTotal' +'\',\''+ ${wh.itemID} + '\');'"
+                               th:onpaste="'javascript:validFormEditOrderByEachField(\'' + 'paidTotal' +'\',\''+ ${wh.itemID} + '\');'">
                     </div>
 
                     <!--Stock In Date-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text date">Stock In</span>
-                        <input type="date" class="form-control" th:value="${#dates.format(wh.createdDate, 'yyyy-MM-dd')}" id="stockInDate" name="stockInDate">
+                        <input type="date" class="form-control" th:value="${#dates.format(wh.createdDate, 'yyyy-MM-dd')}" id="stockInDate" name="stockInDate"
+                               autocomplete="off"
+                               th:onkeyup="'javascript:validFormEditOrderByEachField(\'' + 'createdDate' +'\',\''+ ${wh.itemID} + '\');'"
+                               th:onchange="'javascript:validFormEditOrderByEachField(\'' + 'createdDate' +'\',\''+ ${wh.itemID} + '\');'"
+                               th:onpaste="'javascript:validFormEditOrderByEachField(\'' + 'createdDate' +'\',\''+ ${wh.itemID} + '\');'">
                     </div>
 
                     <!--Expired Date-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text date">Exp. Date</span>
-                        <input type="date" class="form-control" th:value="${#dates.format(wh.expiredDate, 'yyyy-MM-dd')}" id="expiredDate" name="expiredDate">
+                        <input type="date" class="form-control" th:value="${#dates.format(wh.expiredDate, 'yyyy-MM-dd')}" id="expiredDate" name="expiredDate"
+                               autocomplete="off"
+                               th:onkeyup="'javascript:validFormEditOrderByEachField(\'' + 'expiredDate' +'\',\''+ ${wh.itemID} + '\');'"
+                               th:onchange="'javascript:validFormEditOrderByEachField(\'' + 'expiredDate' +'\',\''+ ${wh.itemID} + '\');'"
+                               th:onpaste="'javascript:validFormEditOrderByEachField(\'' + 'expiredDate' +'\',\''+ ${wh.itemID} + '\');'">
                     </div>
 
                     <div class="modal-footer">

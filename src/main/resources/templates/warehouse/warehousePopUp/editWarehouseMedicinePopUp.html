@@ -15,32 +15,49 @@
 
             <!--Edit Med Warehouse-->
             <div class="modal-body">
-                <form th:action="@{warehouse/edit/medicine/{id} (id=${editMed.medID})}" method="POST">
+                <form th:id="'editMedicineInfoForm'+${editMed.medID}" th:action="@{warehouse/edit/medicine/{id} (id=${editMed.medID})}" method="POST"
+                      onsubmit="return validSubmitEditMedicineInfoForm(this, 'all');">
 
                     <!--Med's Name-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Name</span>
-                        <input type="text" class="form-control" th:value="${editMed.name}" id="name" name="name">
+                        <input type="text" class="form-control" th:value="${editMed.name}" id="name" name="name"
+                               autocomplete="off"
+                               th:onkeyup="'javascript:validFormEditMedicineInfoByEachField(\'' + 'name' +'\',\''+ ${editMed.medID} + '\');'"
+                               th:onpaste="'javascript:validFormEditMedicineInfoByEachField(\'' + 'name' +'\',\''+ ${editMed.medID} + '\');'">
                     </div>
 
                     <!--Price-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text date">Price</span>
-                        <input type="number" class="form-control" th:value="${editMed.price}" id="price" name="price">
+                        <input type="number" class="form-control" th:value="${editMed.price}" id="price" name="price"
+                               autocomplete="off"
+                               th:onkeyup="'javascript:validFormEditMedicineInfoByEachField(\'' + 'price' +'\',\''+ ${editMed.medID} + '\');'"
+                               th:onchange="'javascript:validFormEditMedicineInfoByEachField(\'' + 'price' +'\',\''+ ${editMed.medID} + '\');'"
+                               th:onpaste="'javascript:validFormEditMedicineInfoByEachField(\'' + 'price' +'\',\''+ ${editMed.medID} + '\');'">
                     </div>
 
                     <!--Pet's Dose & Unit-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Dose</span>
-                        <input type="text" class="form-control" th:value="${editMed.dose}" id="dose" name="dose" style="margin-right: 2px">
+                        <input type="text" class="form-control" th:value="${editMed.dose}" id="dose" name="dose" style="margin-right: 2px"
+                               autocomplete="off"
+                               th:onkeyup="'javascript:validFormEditMedicineInfoByEachField(\'' + 'dose' +'\',\''+ ${editMed.medID} + '\');'"
+                               th:onpaste="'javascript:validFormEditMedicineInfoByEachField(\'' + 'dose' +'\',\''+ ${editMed.medID} + '\');'">
                         <span class="input-group-text">Unit</span>
-                        <input type="text" class="form-control" th:value="${editMed.unit}" id="unit" name="unit">
+                        <input type="text" class="form-control" th:value="${editMed.unit}" id="unit" name="unit"
+                               autocomplete="off"
+                               th:onkeyup="'javascript:validFormEditMedicineInfoByEachField(\'' + 'unit' +'\',\''+ ${editMed.medID} + '\');'"
+                               th:onpaste="'javascript:validFormEditMedicineInfoByEachField(\'' + 'unit' +'\',\''+ ${editMed.medID} + '\');'">
                     </div>
 
                     <!--Description-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text date">Description</span>
-                        <input type="text" class="form-control" th:value="${editMed.description}" id="description" name="description">
+                        <input type="text" class="form-control" th:value="${editMed.description}" id="description" name="description"
+                               autocomplete="off"
+                               th:onkeyup="'javascript:validFormEditMedicineInfoByEachField(\'' + 'description' +'\',\''+ ${editMed.medID} + '\');'"
+                               th:onpaste="'javascript:validFormEditMedicineInfoByEachField(\'' + 'description' +'\',\''+ ${editMed.medID} + '\');'">
                     </div>
 
                     <div class="modal-footer">
