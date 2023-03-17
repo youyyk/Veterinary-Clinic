@@ -8,6 +8,8 @@ const regexOnlyCharacterWithNumber = /^[A-Za-z0-9ก-๙ ]+$/;
 const regexPhoneNumber = /^0\d{9}$/;
 const regexDate = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/
 const titleChoice = ["Mr.", "Mrs.", "Ms.", "Miss"];
+const genderChoice = ["female", "male"];
+const booleanChoice = ["true", "false"];
 const errMessageCharacter = "Input Only character";
 /*
 * Use on Files
@@ -160,6 +162,57 @@ function serviceValidEditWarehouseOrder(formEditWarehouseOrder, option){
         }
         if (option === fields[6] || option === "all") { // expiredDate
             validRegexFormat(formEditWarehouseOrder.elements[fields[6]].value, regexDate, payload, fields[6], "Choose Date");
+        }
+    }
+    return payload;
+}
+
+/*
+* Use on Files
+* - services for form in createServicePopUp
+* */
+function serviceValidNewService(formNewService, option){
+    const payload = [];
+    const fields = ["name", "price"];
+    if (formNewService != null || formNewService != undefined){
+        if (option === fields[0] || option === "all") { // name
+            validRegexFormat(formNewService.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter);
+        }
+        if (option === fields[1] || option === "all") { // price
+            validNumberInt(formNewService.elements[fields[1]].value, payload, fields[1], "Input quantityIn");
+        }
+    }
+    return payload;
+}
+
+/*
+* Use on Files
+* - infoAccount for form in createPetPopUp
+* */
+function serviceValidNewPet(formNewPet, option){
+    const payload = [];
+    const fields = ["name", "image", "doB", "petType", "breed", "gender", "sterilization", "remark"];
+    if (formNewPet != null || formNewPet != undefined){
+        if (option === fields[0] || option === "all") { // name
+            validRegexFormat(formNewPet.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter);
+        }
+        // if (option === fields[1] || option === "all") { // image
+        //     validRegexFormat(formNewPet.elements[fields[1]].value, regexOnlyCharacterWithNumber, payload, fields[1], errMessageCharacter);
+        // }
+        if (option === fields[2] || option === "all") { // dob
+            validRegexFormat(formNewPet.elements[fields[2]].value, regexDate, payload, fields[2], errMessageCharacter);
+        }
+        if (option === fields[3] || option === "all") { // petType
+            validRegexFormat(formNewPet.elements[fields[3]].value, regexOnlyCharacter, payload, fields[3], errMessageCharacter);
+        }
+        if (option === fields[4] || option === "all") { // breed
+            validRegexFormat(formNewPet.elements[fields[4]].value, regexOnlyCharacter, payload, fields[4], errMessageCharacter);
+        }
+        if (option === fields[5] || option === "all") { // gender
+            validIncludeList(formNewPet.elements[fields[5]].value, genderChoice, payload, fields[5], errMessageCharacter);
+        }
+        if (option === fields[6] || option === "all") { // sterilization
+            validIncludeList(formNewPet.elements[fields[6]].value, booleanChoice, payload, fields[6], errMessageCharacter);
         }
     }
     return payload;

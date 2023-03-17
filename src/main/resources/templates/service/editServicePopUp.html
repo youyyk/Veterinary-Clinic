@@ -11,16 +11,23 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:action="@{service/edit/{id} (id=${editService.servingID})}" method="POST">
-
+                <form th:id="'editServiceForm'+${editService.servingID}" th:action="@{service/edit/{id} (id=${editService.servingID})}" method="POST"
+                      onsubmit="return validSubmitEditServiceForm(this, 'all');">
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Name</span>
-                        <input type="text" class="form-control" th:value="${editService.name}" id="name" name="name">
+                        <input type="text" class="form-control" th:value="${editService.name}" id="name" name="name"
+                               autocomplete="off"
+                               th:onkeyup="'javascript:validFormEditServiceByEachField(\'' + 'name' +'\',\''+ ${editService.servingID} + '\');'"
+                               th:onpaste="'javascript:validFormEditServiceByEachField(\'' + 'name' +'\',\''+ ${editService.servingID} + '\');'">
                     </div>
 
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text date">Price</span>
-                        <input type="number" class="form-control" th:value="${editService.price}" id="price" name="price">
+                        <input type="number" class="form-control" th:value="${editService.price}" id="price" name="price"
+                               autocomplete="off"
+                               th:onkeyup="'javascript:validFormEditServiceByEachField(\'' + 'price' +'\',\''+ ${editService.servingID} + '\');'"
+                               th:onchange="'javascript:validFormEditServiceByEachField(\'' + 'price' +'\',\''+ ${editService.servingID} + '\');'"
+                               th:onpaste="'javascript:validFormEditServiceByEachField(\'' + 'price' +'\',\''+ ${editService.servingID} + '\');'">
                     </div>
 
                     <div class="modal-footer">

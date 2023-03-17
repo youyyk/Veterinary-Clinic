@@ -11,16 +11,22 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:action="@{service/create}" method="POST" th:object="${newService}">
+                <form id="newServiceForm" th:action="@{service/create}" method="POST" th:object="${newService}"
+                      onsubmit="return validSubmitNewServiceForm(this,'all');">
 
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Name</span>
-                        <input type="text" class="form-control" th:field="*{name}" autocomplete="off">
+                        <input type="text" class="form-control" th:field="*{name}" autocomplete="off"
+                               onkeyup="validFormNewServiceByEachField(this)"
+                               onpaste="validFormNewServiceByEachField(this)">
                     </div>
 
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text date">Price</span>
-                        <input type="number" class="form-control" th:field="*{price}">
+                        <input type="number" class="form-control" th:field="*{price}" autocomplete="off"
+                               onkeyup="validFormNewServiceByEachField(this)"
+                               onchange="validFormNewServiceByEachField(this)"
+                               onpaste="validFormNewServiceByEachField(this)">
                     </div>
 
                     <div class="modal-footer">

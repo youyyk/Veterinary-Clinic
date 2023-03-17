@@ -18,6 +18,7 @@
     <!--Table-->
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+    <script th:src="@{/js/validateModel.js}"></script>
 </head>
 <script>
     window.addEventListener('DOMContentLoaded', event => {
@@ -26,6 +27,70 @@
             new simpleDatatables.DataTable(datatablesService);
         }
     });
+</script>
+<script>
+    // createService Form
+    let realTimeValid_formNewService = false;
+
+    function validFormNewServiceByEachField(fieldElement){
+        if (realTimeValid_formNewService){
+            const formNewService = document.getElementById("newServiceForm")
+            const validatedList = serviceValidNewService(formNewService, fieldElement.id);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(formNewService.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitNewServiceForm(formNewService, option){
+        realTimeValid_formNewService = true;
+        const validatedList = serviceValidNewService(formNewService, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(formNewService.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 2){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
+<script>
+    // editService Form
+    let realTimeValid_formEditService = false;
+
+    function validFormEditServiceByEachField(fieldId, fromId){
+        if (realTimeValid_formEditService){
+            const formEditService = document.getElementById("editServiceForm"+fromId)
+            const validatedList = serviceValidNewService(formEditService, fieldId);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(formEditService.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitEditServiceForm(formEditService, option){
+        realTimeValid_formEditService = true;
+        const validatedList = serviceValidNewService(formEditService, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(formEditService.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 2){
+                return true;
+            }
+        }
+        return false;
+    }
 </script>
 <style>
 

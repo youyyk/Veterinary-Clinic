@@ -4,7 +4,7 @@
 
 <body>
 <!--Create Pet (PopUp)-->
-<div th:fragment="createPetPopUp(accId)" th:id="createPetPopUp" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div th:fragment="createPetPopUp(accId)" id="createPetPopUp" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      data-bs-backdrop="static" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -13,7 +13,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:action="@{/pets/create}" method="POST" enctype="multipart/form-data">
+                <form id="createPetPopUpForm" th:action="@{/pets/create}" method="POST" enctype="multipart/form-data"
+                      onsubmit="return validSubmitNewPetForm(this,'all');">
 
                     <!--Account ID-->
                     <input type="hidden" class="form-control" id="accId" name="accId" th:value="${accId}">
@@ -21,12 +22,16 @@
                     <!--Pet's Name-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Pet's Name</span>
-                        <input type="text" class="form-control" id="name" name="name">
+                        <input type="text" class="form-control" id="name" name="name" autocomplete="off"
+                               onkeyup="validFormNewPetByEachField(this)"
+                               onpaste="validFormNewPetByEachField(this)">
                     </div>
 
                     <!--Pet's Image-->
                     <div class="mb-3">
-                        <input class="form-control" type="file" id="image" name="image">
+                        <input class="form-control" type="file" id="image" name="image" autocomplete="off"
+                               onkeyup="validFormNewPetByEachField(this)"
+                               onpaste="validFormNewPetByEachField(this)">
                     </div>
 
                     <!--DoB-->
@@ -39,23 +44,30 @@
 
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Date of Birth</span>
-                        <input type="date" class="form-control" id="doB" name="doB">
+                        <input type="date" class="form-control" id="doB" name="doB" autocomplete="off"
+                               onkeyup="validFormNewPetByEachField(this)"
+                               onchange="validFormNewPetByEachField(this)"
+                               onpaste="validFormNewPetByEachField(this)">
                     </div>
 
 
                     <!--Pet's Type & Breed-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Pet's Type</span>
-                        <input type="text" class="form-control" id="petType" name="petType">
+                        <input type="text" class="form-control" id="petType" name="petType" autocomplete="off"
+                               onkeyup="validFormNewPetByEachField(this)"
+                               onpaste="validFormNewPetByEachField(this)">
                         <span class="input-group-text">Breed</span>
-                        <input type="text" class="form-control" id="breed" name="breed">
+                        <input type="text" class="form-control" id="breed" name="breed" autocomplete="off"
+                               onkeyup="validFormNewPetByEachField(this)"
+                               onpaste="validFormNewPetByEachField(this)">
                     </div>
 
 
                     <!--Gender-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Gender</span>
-                        <select class="form-select" id="gender" name="gender">
+                        <select class="form-select" id="gender" name="gender" onchange="validFormNewPetByEachField(this)">
                             <option selected>-------- Choose --------</option>
                             <option value="female">female</option>
                             <option value="male">male</option>
@@ -64,7 +76,7 @@
 
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Sterilization</span>
-                        <select class="form-select" id="sterilization" name="sterilization">
+                        <select class="form-select" id="sterilization" name="sterilization" onchange="validFormNewPetByEachField(this)">
                             <option selected>-------- Choose --------</option>
                             <option value="true">sterilized</option>
                             <option value="false">not sterilized</option>

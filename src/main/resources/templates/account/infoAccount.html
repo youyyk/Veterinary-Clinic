@@ -83,6 +83,73 @@
         }
     }
 </script>
+<script>
+    // New Pet Form
+    let realTimeValid_formNewPet = false;
+
+    function validFormNewPetByEachField(fieldElement){
+        if (realTimeValid_formNewPet){
+            const formNewPet = document.getElementById("createPetPopUpForm")
+            const validatedList = serviceValidNewPet(formNewPet, fieldElement.id);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(formNewPet.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitNewPetForm(formNewPet, option){
+        console.log("Test");
+        realTimeValid_formNewPet = true;
+        const validatedList = serviceValidNewPet(formNewPet, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(formNewPet.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 6){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
+<script>
+    // Edit Pet Info
+    let realTimeValid_formEditPetInfo = false;
+
+    function validFormEditPetInfoByEachField(fieldId, fromId){
+        if (realTimeValid_formEditPetInfo){
+            console.log(fieldId + fromId);
+            const editPetInfoForm = document.getElementById("editPetInfoForm"+fromId)
+            const validatedList = serviceValidNewPet(editPetInfoForm, fieldId);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(editPetInfoForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitEditPetInfoForm(editPetInfoForm, option){
+        realTimeValid_formEditPetInfo= true;
+        const validatedList = serviceValidNewPet(editPetInfoForm, option);
+        console.log(validatedList);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(editPetInfoForm.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 4){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
 <body>
 <div th:insert="fragments/header :: header"></div>
 
