@@ -1,3 +1,4 @@
-- Bill -> cancel, delete and reformat
-- Service -> delete
-- Pet -> calculate date of birth and age realtime
+- Calculate Age (y,m,d)
+- Appointment -> filter "today"
+- Bill -> delete bill condition
+- Pet -> Datalist (Create, Edit)

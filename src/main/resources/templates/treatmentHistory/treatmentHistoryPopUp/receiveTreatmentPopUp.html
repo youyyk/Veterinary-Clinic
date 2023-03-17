@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <body>
-<div th:fragment="receiveTreatmentPopUp(pet)" th:id="'receiveTreatmentPopUp'+${pet.petID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
+<div th:fragment="receiveTreatmentPopUp(pet,variable)" th:id="'receiveTreatmentPopUp'+${variable}+${pet.petID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
      data-bs-backdrop="static" aria-hidden="true">
 
     <div class="modal-dialog">

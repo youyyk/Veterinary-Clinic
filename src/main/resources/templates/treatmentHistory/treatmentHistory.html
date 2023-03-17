@@ -6,10 +6,10 @@
     <title>Treatment Histories</title>
     <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <script th:src="@{/js/bootstrap.min.js}"></script>
-    <link th:rel="stylesheet" th:href="@{/css/table-image.css}">
+    <link th:rel="stylesheet" th:href="@{/css/table-warehouse.css}">
     <link th:rel="stylesheet" th:href="@{/css/global.css}">
 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,300,1,0" />
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
@@ -24,15 +24,7 @@
         new simpleDatatables.DataTable(datatablesTreatmentHistory);
     });
 </script>
-<!--<style>-->
-<!--    #owner:hover{-->
-<!--        color: #A4CB85;-->
-<!--    }-->
-<!--    #owner{-->
-<!--        text-decoration: none;-->
-<!--        color:black;-->
-<!--    }-->
-<!--</style>-->
+
 <body>
 <div th:insert="fragments/header :: header"></div>
 
@@ -51,23 +43,23 @@
                         <div class="dropdown-menu" aria-labelledby="triggerId1">
                             <a class="dropdown-item btn" data-bs-toggle="modal"
                                th:attr="data-bs-target='#receiveTreatmentPopUp'+*{pet.petID}">
-                                <i class="fa fa-heartbeat"></i> Receive Treatment
+                                <span class="material-symbols-rounded align-middle pb-1">vaccines</span> Receive Treatment
                             </a>
                             <a class="dropdown-item btn" data-bs-toggle="modal"
                                th:attr="data-bs-target='#createAppointment'+*{pet.petID}">
-                                <i class="fa fa-calendar"></i> Create Appointment
+                                <span class="material-symbols-rounded align-middle pb-1">event_available</span> Create Appointment
                             </a>
                             <a class="dropdown-item btn" data-bs-toggle="modal"
                                th:attr="data-bs-target='#editPetPopUp'+*{pet.petID}">
-                                <i class="fa fa-pencil mr-1"></i> Edit
+                                <span class="material-symbols-rounded align-middle pb-1">edit</span> Edit
                             </a>
                         </div>
                         <!--Call Receive Treatment (PopUp)-->
-                        <th:block th:replace="treatmentHistory/treatmentHistoryPopUp/receiveTreatmentPopUp :: receiveTreatmentPopUp(${pet})">modal</th:block>
+                        <th:block th:replace="treatmentHistory/treatmentHistoryPopUp/receiveTreatmentPopUp :: receiveTreatmentPopUp(${pet},'')">modal</th:block>
                         <!-- Create Appointment  -->
                         <th:block th:replace="appointment/appointmentPopUp/createAppointment :: createAppointment(${pet})">modal</th:block>
                         <!--Call Edit pet (PopUp)-->
-                        <th:block th:replace="pet/petPopUp/editPetPopUp :: editPetPopUp(${pet.account.accId},${pet},'treatmentHistory')">modal</th:block>
+                        <th:block th:replace="pet/petPopUp/editPetPopUp :: editPetPopUp(${pet.account.accId},${pet},'treatmentHistory',${petTypeList},${breedList})">modal</th:block>
                     </div>
 
 
@@ -77,27 +69,27 @@
                     </h1>
 
                     <p class="card-text w-75" style="font-size: 1.2em;">
-                        <i class="fas fa-paw"></i> Pet's type : [[*{pet.petType}]]<span class="ms-3 me-3"> | </span>Breed : [[*{pet.breed}]]
+                        <span class="material-symbols-rounded align-middle pb-1">pets</span> Pet's type : [[*{pet.petType}]]<span class="ms-3 me-3"> | </span>Breed : [[*{pet.breed}]]
                     </p>
 
                     <p class="card-text w-75" style="font-size: 1.2em;">
-                        <i class="fa fa-calendar-alt"></i> [[${#dates.format(pet.doB, 'dd/MM/yyyy')}]]
+                        <span class="material-symbols-rounded align-middle pb-1">calendar_month</span> [[${#dates.format(pet.doB, 'dd/MM/yyyy')}]]
                         <span class="ms-3 me-3"> | </span>
-                        <span th:if="${pet.sterilization == true}"><i class="fa fa-cut"></i> sterilized</span>
-                        <span th:if="${pet.sterilization == false}"><i class="fa fa-cut"></i> not sterilized</span>
+                        <span th:if="${pet.sterilization == true}"><span class="material-symbols-rounded align-middle pb-1">cut</span> sterilized</span>
+                        <span th:if="${pet.sterilization == false}"><span class="material-symbols-rounded align-middle pb-1">cut</span> not sterilized</span>
                     </p>
 
                     <p th:if="${pet.remark} neq '-'" class="card-text w-75" style="font-size: 1.2em;">
-                        <i class="fa fa-exclamation-triangle" style="color:#FFA600;"></i> [[*{pet.remark}]]</p>
+                        <span class="material-symbols-rounded align-middle pb-1" style="color:#FFA600;">warning</span> [[*{pet.remark}]]</p>
 
                     <hr class="w-50">
 
                     <p class="card-text w-75" style="font-size: 1.2em;">
                         <a th:href="@{'/account/getInfo/'+${pet.account.accId}}" id="owner">
-                        <i class="fas fa-user-circle"></i> [[*{pet.account.firstName}]] [[*{pet.account.lastName}]]
+                            <span class="material-symbols-rounded align-middle pb-1">account_circle</span> [[*{pet.account.firstName}]] [[*{pet.account.lastName}]]
                         </a>
                     </p>
-                    <p class="card-text" style="font-size: 1.2em;"><i class="fa fa-phone-square"></i> [[*{pet.account.phone}]]</p>
+                    <p class="card-text" style="font-size: 1.2em;"><span class="material-symbols-rounded align-middle pb-1">call</span> [[*{pet.account.phone}]]</p>
                 </div>
             </div>
         </div>
@@ -126,30 +118,23 @@
                         <td th:if="${treat.bill == null}" th:text="'-'"></td>
                         <td th:if="${treat.bill != null}" th:text="${treat.bill.billID}"></td>
                         <td>[[*{treat.treatmentHisID}]]</td>
-                        <td>[[${#dates.format(treat.date, 'dd/MM/yyyy')}]]</td>
+                        <td>[[${#dates.format(treat.date, 'yyyy/MM/dd')}]]</td>
                         <td class="text-right">[[*{treat.weight}]]</td>
-<!--                        <td>-->
-<!--                            <span th:if="${treat.ourClinic == true}" style="font-size: 0.9em;" class="badge rounded-pill bg-success">YES</span>-->
-<!--                            <span th:if="${treat.ourClinic == false}" style="font-size: 0.9em;" class="badge rounded-pill bg-danger">NO</span>-->
-<!--                        </td>-->
                         <td>[[*{treat.diagnosis}]]</td>
-
-
                         <td>
                             <div class="dropdown open">
                                 <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
                                    aria-expanded="false">
-                                    <i class="fa fa-ellipsis-v"></i>
+                                    <span class="material-symbols-rounded">more_vert</span>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="triggerId1">
                                     <a class="dropdown-item btn" th:href="@{'/bill/getDetail/'+${treat.bill.billID}}">
-                                        <i class="fa fa-file-invoice"></i> Bill's Details
+                                        <span class="material-symbols-rounded align-middle pb-1">receipt_long</span> Bill's Details
                                     </a>
                                     <a class="dropdown-item btn" data-bs-toggle="modal"
                                        th:attr="data-bs-target='#editTreatmentHistory'+*{treat.treatmentHisID}">
-                                        <i class="fa fa-pencil mr-1"></i> Edit
+                                        <span class="material-symbols-rounded align-middle pb-1">edit</span> Edit
                                     </a>
-
                                 </div>
                             </div>
                             <th:block th:replace="treatmentHistory/treatmentHistoryPopUp/editTreatmentHistory :: editTreatmentHistory(${treat})">

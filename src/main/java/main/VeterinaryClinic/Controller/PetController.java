@@ -47,11 +47,11 @@ public class PetController {
                             @RequestParam("image") MultipartFile image,
                             @RequestParam("gender") String gender,
                             @RequestParam("doB") String doB,
-//                            @RequestParam("age") String age,
                             @RequestParam("sterilization") boolean sterilization,
                             @RequestParam("petType") String petType,
                             @RequestParam("breed") String breed,
                             @RequestParam("remark") String remark){
+
         System.out.println("---- Create Pet ----");
         System.out.println("ID : "+accId);
         Account account = accountService.getById(accId);

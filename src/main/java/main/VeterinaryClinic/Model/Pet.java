@@ -3,9 +3,13 @@ package main.VeterinaryClinic.Model;
 import lombok.Data;
 import main.VeterinaryClinic.Model.Account.Account;
 import main.VeterinaryClinic.Model.Bill.Bill;
+import main.VeterinaryClinic.Service.GlobalService;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -130,6 +134,45 @@ public class Pet {
         }
 
         return pet;
+    }
+
+    public String findAge(){
+        System.out.println("---- find Age ----");
+        LocalDate birthDate = this.doB.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        System.out.println("Date of Birth : "+birthDate);
+        Date todayDate = new Date();
+        LocalDate today = todayDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        System.out.println("Today : "+today);
+
+        Period period = Period.between(birthDate, today);
+        System.out.println(period.getYears()+" years "+period.getMonths()+" months "+period.getDays()+" days");
+        String age = "";
+
+        if (period.getYears() > 1){
+            age = age.concat(period.getYears()+" yrs ");
+        }
+        else if (period.getYears() == 1){
+            age = age.concat(period.getYears()+" yr ");
+        }
+
+        if(period.getMonths() > 1){
+            age = age.concat(period.getMonths()+" mos ");
+        }
+        else if (period.getMonths() == 1) {
+            age = age.concat(period.getMonths()+" mo ");
+        }
+
+        if (period.getYears() == 0 && period.getMonths() == 0 && period.getDays() > 1){
+            age = age.concat(period.getDays() + " days");
+        }
+        else if (period.getYears() == 0 && period.getMonths() == 0 && period.getDays() == 1){
+            age = age.concat(period.getDays() + " day");
+        }
+
+        return age;
+
+
+
     }
 
 

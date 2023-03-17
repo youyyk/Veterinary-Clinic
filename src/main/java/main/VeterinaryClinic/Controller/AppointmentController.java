@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
@@ -28,12 +30,23 @@ public class AppointmentController {
 //    }
 
     @GetMapping
-    public String getMeetingPage(Model model) {
+    public String getAppointmentPage(Model model) {
 
         // step 1. update model for template
         model.addAttribute("appointments", appointmentService.getAll());
+        model.addAttribute("todaySize",appointmentService.findByTodayDateOrderByPeriodDesc().size());
 
         // step 2. choose HTML template
+        return "appointment/appointment";
+    }
+
+    @GetMapping("/today")
+    public String getAppointmentToday(Model model) {
+
+        List<Appointment> todayList = appointmentService.findByTodayDateOrderByPeriodDesc();
+        model.addAttribute("appointments",todayList );
+        model.addAttribute("todaySize",todayList.size());
+
         return "appointment/appointment";
     }
 

@@ -61,22 +61,6 @@
         return false;
     }
 
-    function appointmentCheckSliderUncheck() {
-        // let appCheckbox =document.getElementById("appCheckbox");
-        let appCheckbox2 =document.getElementById("appCheckbox2");
-        let appointmentPane = document.getElementById('accAppointmentTable');
-        let petPane = document.getElementById('petPane');
-
-        if (!appCheckbox2.checked){
-            appointmentPane.style.display = show;
-            petPane.style.display = hide;
-            location.reload(true);
-        }
-        else if (appCheckbox2.checked){
-            appointmentPane.style.display = hide;
-            petPane.style.display = show;
-        }
-    }
     function calculateDate() {
         let age = document.getElementById("age").value;
         let doB =document.getElementById("doB");
@@ -147,6 +131,30 @@
         editAge.value = duration.years;
     }
 
+    function searchPet() {
+        let petSearch = document.getElementById('petSearch').value;
+        let accId = document.getElementById('accId').value;
+        console.log(petSearch);
+
+        document.getElementById('petSearch').addEventListener("keyup", function(event) {
+            // If the user presses the "Enter" key on the keyboard
+            if (event.key === "Enter") {
+                location.replace(host + '/account/getInfo/' + accId + "/search" + petSearch)
+            }
+        });
+
+        document.getElementById('btnSearch').addEventListener("click", function () {
+            location.replace(host + '/account/getInfo/' + accId + "/search" + petSearch)
+        });
+    }
+
+    function checkDate(appointmentID){
+        let petRow = document.getElementById('petRow'+appointmentID);
+        console.log(petRow);
+    }
+
+
+
 </script>
 <body>
 <div th:insert="fragments/header :: header"></div>
@@ -166,8 +174,15 @@
             </button>
             <th:block th:replace="account/accountPopUp/editInfoAccountPopUp :: editInfoAccountPopUp(${account})">modal</th:block>
             <h2 class="card-title mt-3">[[*{account.firstName}]] [[*{account.lastName}]]</h2>
-            <p class="card-text w-50 mt-3"><i class="fa fa-map-marker"></i> [[*{account.address}]]</p>
-            <p class="card-text mb-5 position-absolute bottom-0" style="font-size: 1.25em;"><i class="fa fa-phone-square"></i> [[*{account.phone}]]</p>
+            <p class="card-text w-50 mt-3">
+                <span class="material-symbols-rounded align-middle pb-1">location_on</span> [[*{account.address}]]
+            </p>
+            <p class="card-text mb-5 position-absolute bottom-0">
+                <span class="material-symbols-rounded align-middle pb-1">call</span>
+                <span style="font-size: 1.25em;">
+                   [[*{account.phone}]]
+                </span>
+            </p>
         </div>
       </div>
     </div>
@@ -193,16 +208,20 @@
     <div class="tab-content" id="myTabContent">
         <!--Warehouse Tab-->
         <div class="tab-pane fade show active" id="petTab" role="tabpanel" aria-labelledby="pet-tab">
-            <div class="ms-4 mb-3 mt-3">
+            <div class="form-inline ms-4 mt-3 me-4">
                 <span class="align-middle"><b style="font-size: 1.5em">All Pet </b></span>
-                <span class="float-end">
-                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createPetPopUp">
+                <span class="form-group mb-2 float-end">
+                    <input class="p-1 align-top" onkeyup="searchPet()" type="text" placeholder="Search..." id="petSearch" name="petSearch" th:value="${search}">
+                      <button class="btn btn-primary" type="button" id="btnSearch" name="btnSearch">
+                          <span class="material-symbols-rounded align-middle" style="font-size: 1.25em">search</span>
+                      </button>
+                    <button type="button" class="btn btn-dark ms-1" data-bs-toggle="modal" data-bs-target="#createPetPopUp">
                         + Add Pet
                     </button>
                 </span>
 
                 <!--Call Create pet (PopUp)-->
-                <th:block th:replace="pet/petPopUp/createPetPopUp :: createPetPopUp(${account.accId})">modal</th:block>
+                <th:block th:replace="pet/petPopUp/createPetPopUp :: createPetPopUp(${account.accId},${petTypeList},${breedList})">modal</th:block>
             </div>
             <div class="card-body">
                 <table class="table">
@@ -212,6 +231,7 @@
                         <th scope="col">Pet's Name</th>
                         <th scope="col">Gender</th>
                         <th scope="col">Date of Birth</th>
+                        <th scope="col">Age</th>
                         <th scope="col">Pet's Type</th>
                         <th scope="col">Breed</th>
                         <th scope="col">Sterilization</th>
@@ -221,7 +241,7 @@
                     </thead>
 
                     <tbody>
-                    <div th:each="pet : ${pets}">
+                    <div th:each="pet : ${filterPets}">
                         <tr >
                             <div>
                                 <td><img alt="" th:src="*{'data:image;base64,'+{pet.image}}" class="rounded-circle" style="width:100px;height:100px"></th>
@@ -229,6 +249,9 @@
                                 <td>[[*{pet.name}]]</td>
                                 <td>[[*{pet.gender}]]</td>
                                 <td>[[${#dates.format(pet.doB, 'yyyy/MM/dd')}]]</td>
+                                <div th:with="age=${pet.findAge()}">
+                                    <td>[[${age}]]</td>
+                                </div>
                                 <td>[[*{pet.petType}]]</td>
                                 <td>[[*{pet.breed}]]</td>
 
@@ -270,11 +293,11 @@
                                             </a>
                                         </div>
                                         <!--Call Receive Treatment (PopUp)-->
-                                        <th:block th:replace="treatmentHistory/treatmentHistoryPopUp/receiveTreatmentPopUp :: receiveTreatmentPopUp(${pet})">modal</th:block>
+                                        <th:block th:replace="treatmentHistory/treatmentHistoryPopUp/receiveTreatmentPopUp :: receiveTreatmentPopUp(${pet},'')">modal</th:block>
                                         <!--Create Appointment (PopUp)-->
                                         <th:block th:replace="appointment/appointmentPopUp/createAppointment :: createAppointment(${pet})">modal</th:block>
                                         <!--Call Edit pet (PopUp)-->
-                                        <th:block th:replace="pet/petPopUp/editPetPopUp :: editPetPopUp(${account.accId},${pet},'infoAccount')">modal</th:block>
+                                        <th:block th:replace="pet/petPopUp/editPetPopUp :: editPetPopUp(${account.accId},${pet},'infoAccount',${petTypeList},${breedList})">modal</th:block>
                                         <!--Call Delete pet (PopUp)-->
                                         <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Pet',mainPath='pets',deleteId=${pet.petID},deleteName=${pet.name},pathId=${account.accId})">
                                             modal
@@ -287,6 +310,8 @@
                     </tbody>
                 </table>
             </div>
+
+
         </div>
         <!--Tool Tab-->
         <div class="tab-pane fade" id="appointmentTab" role="tabpanel" aria-labelledby="appointment-tab">
@@ -307,7 +332,7 @@
 
                     <tbody th:if="${not #lists.isEmpty(appointments)}">
                     <div th:each="app : ${appointments}">
-                        <tr>
+                        <tr id="'petRow'+${app.appointmentID}">
                             <td>[[*{app.pet.name}]]</td>
                             <td>[[${#dates.format(app.date, 'yyyy/MM/dd')}]]</td>
                             <td>
@@ -317,24 +342,35 @@
                             <td>[[*{app.description}]]</td>
                             <td>
                                 <div class="dropdown open">
-                                    <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
+                                    <a href="#!" class="px-2" id="appDrop" data-toggle="dropdown" aria-haspopup="true"
                                        aria-expanded="false">
                                         <span class="material-symbols-rounded">more_vert</span>
                                     </a>
-                                    <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                        <a class="dropdown-item btn" data-bs-toggle="modal"
-                                           th:attr="data-bs-target='#editAppointment'+${app.appointmentID}">
-                                            <span class="material-symbols-rounded align-middle pb-1">edit</span> Edit
-                                        </a>
-                                        <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
-                                           th:attr="data-bs-target='#deletePopUpA'+${app.appointmentID}">
-                                            <span class="material-symbols-rounded align-middle pb-1">delete</span> Delete
-                                        </a>
+                                    <div th:with="today=${#dates.format(#dates.createNow(), 'yyyy/MM/dd')}">
+                                        <div th:with="appDate=${#dates.format(app.date, 'yyyy/MM/dd')}">
+                                            <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                                <a class="dropdown-item btn" data-bs-toggle="modal" id="receiveTreat"
+                                                   th:if="${(today == appDate) or (appDate > today)}"
+                                                   th:attr="data-bs-target='#receiveTreatmentPopUpA'+*{app.pet.petID}">
+                                                    <span class="material-symbols-rounded align-middle pb-1">vaccines</span> Receive Treatment
+                                                </a>
+                                                <a class="dropdown-item btn" data-bs-toggle="modal"
+                                                   th:attr="data-bs-target='#editAppointment'+${app.appointmentID}">
+                                                    <span class="material-symbols-rounded align-middle pb-1">edit</span> Edit
+                                                </a>
+                                                <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
+                                                   th:attr="data-bs-target='#deletePopUpA'+${app.appointmentID}">
+                                                    <span class="material-symbols-rounded align-middle pb-1">delete</span> Delete
+                                                </a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <!--Call Receive Treatment (PopUp)-->
+                                <th:block th:replace="treatmentHistory/treatmentHistoryPopUp/receiveTreatmentPopUp :: receiveTreatmentPopUp(${app.pet},'A')">modal</th:block>
+                                <!--Call Edit Appointment (PopUp)-->
                                 <th:block th:replace="appointment/appointmentPopUp/editAppointment :: editAppointment(${app},'account')">modal</th:block>
-                                <!--Create Appointment (PopUp)-->
+                                <!--Delete Appointment (PopUp)-->
                                 <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Appointment ('+${app.pet.name}+')',mainPath='appointment',deleteId='A'+${app.appointmentID},deleteName='this appointment',pathId=${app.pet.account.accId})">
                                     modal
                                 </th:block>

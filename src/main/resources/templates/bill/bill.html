@@ -74,7 +74,7 @@
                                     <a th:if="${bill.paidStatus == true}" class="dropdown-item btn" data-bs-toggle="modal">
                                        <span class="material-symbols-rounded align-middle pb-1">cancel</span> Cancel
                                     </a>
-                                    <a th:if="${bill.total == 0}" class="dropdown-item text-danger btn" data-bs-toggle="modal"
+                                    <a th:if="${bill.total == 0 and bill.paidStatus == false}" class="dropdown-item text-danger btn" data-bs-toggle="modal"
                                        th:attr="data-bs-target='#deletePopUp'+*{bill.billID}">
                                         <span class="material-symbols-rounded align-middle pb-1">delete</span> Delete
                                     </a>

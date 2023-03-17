@@ -10,6 +10,7 @@ import main.VeterinaryClinic.Service.AppointmentService;
 import main.VeterinaryClinic.Service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,6 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -82,16 +85,80 @@ public class AccountController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+//    @GetMapping("/getInfo/{accId}")
+//    public String getInfo(@PathVariable("accId") UUID accId,
+//            @RequestParam(defaultValue = "1") Integer pageNo,
+//            @RequestParam(defaultValue = "10") Integer pageSize,
+////            @RequestParam(defaultValue = "petID") String sortBy,
+//            Model model) {
+//
+//        System.out.println("---Get Info---");
+//        Account account = accountService.getById(accId);
+//        System.out.println(account.getFirstName()+" "+account.getLastName());
+////        List<Pet> pets = petService.findByAccountAndSoftDeleted(account,false);
+//        List<Appointment> appointments = appointmentService.findByPet_Account_AccIdOrderByDateAsc(accId);
+//
+//        Page<Pet> pagedResult = petService.getPaginationWithAccount(pageNo-1, pageSize,account);
+//        model.addAttribute("pets", pagedResult.hasContent() ? pagedResult.getContent() : new ArrayList<>());
+//        model.addAttribute("pageNo", pagedResult);
+//        model.addAttribute("currentPage", pageNo);
+//        model.addAttribute("totalPages", pagedResult.getTotalPages());
+//        model.addAttribute("totalAccounts", pagedResult.getTotalElements());
+//        model.addAttribute("account", account);
+////        model.addAttribute("pets", pets);
+//        model.addAttribute("appointments", appointments);
+//
+//        return "account/infoAccount";
+//    }
+
     @GetMapping("/getInfo/{accId}")
     public String getInfo(@PathVariable("accId") UUID accId, Model model) {
         System.out.println("---Get Info---");
         Account account = accountService.getById(accId);
-        List<Pet> pets = petService.findByAccountAndSoftDeleted(account,false);
+        List<Pet> pets = petService.findByAccountAndSoftDeletedOrderByPetID(account,false);
         List<Appointment> appointments = appointmentService.findByPet_Account_AccIdOrderByDateAsc(accId);
+
+        List<String> petTypeList = petService.petTypeUnique();
+        List<String> breedList = petService.breedUnique();
 
         System.out.println(account.getFirstName()+" "+account.getLastName());
         model.addAttribute("account", account);
         model.addAttribute("pets", pets);
+        model.addAttribute("petTypeList", petTypeList);
+        model.addAttribute("breedList", breedList);
+        model.addAttribute("filterPets", pets);
+        model.addAttribute("appointments", appointments);
+        model.addAttribute("search", "");
+
+        return "account/infoAccount";
+    }
+
+    @GetMapping("/getInfo/{accId}/search{strSearch}")
+    public String getInfo(@PathVariable("accId") UUID accId,
+                          @PathVariable("strSearch") String search,
+                          Model model) {
+        System.out.println("---Get Info (Search) : "+search+" ---");
+        Account account = accountService.getById(accId);
+        List<Pet> pets = petService.findByAccountAndSoftDeletedOrderByPetID(account,false);
+        List<Appointment> appointments = appointmentService.findByPet_Account_AccIdOrderByDateAsc(accId);
+        List<Pet> keepPet = new ArrayList<>();
+
+        search = search.trim().toLowerCase();
+
+        for (Pet pet:pets) {
+            if (pet.getName().toLowerCase().contains(search) || pet.getPetType().toLowerCase().contains(search) || pet.getBreed().toLowerCase().contains(search)){
+                keepPet.add(pet);
+            }
+        }
+        for (Pet pet:keepPet) {
+            System.out.println(pet);
+        }
+
+        System.out.println(account.getFirstName()+" "+account.getLastName());
+        model.addAttribute("account", account);
+        model.addAttribute("search", search);
+        model.addAttribute("pets", pets);
+        model.addAttribute("filterPets", keepPet);
         model.addAttribute("appointments", appointments);
 
         return "account/infoAccount";
