@@ -10,6 +10,7 @@ const regexDate = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/
 const titleChoice = ["Mr.", "Mrs.", "Ms.", "Miss"];
 const genderChoice = ["female", "male"];
 const booleanChoice = ["true", "false"];
+const periodChoice = ["morning", "afternoon"];
 const errMessageCharacter = "Input Only character";
 /*
 * Use on Files
@@ -213,6 +214,25 @@ function serviceValidNewPet(formNewPet, option){
         }
         if (option === fields[6] || option === "all") { // sterilization
             validIncludeList(formNewPet.elements[fields[6]].value, booleanChoice, payload, fields[6], errMessageCharacter);
+        }
+    }
+    return payload;
+}
+
+/*
+* Use on Files
+* - infoAccount for form in createAppointmentPopUp
+* - appointment for form in editAppointment
+* */
+function serviceValidNewAppointment(formNewAppointment, option){
+    const payload = [];
+    const fields = ["appDate", "period"];
+    if (formNewAppointment != null || formNewAppointment != undefined){
+        if (option === fields[0] || option === "all") { // name
+            validRegexFormat(formNewAppointment.elements[fields[0]].value, regexDate, payload, fields[0], errMessageCharacter);
+        }
+        if (option === fields[1] || option === "all") { // image
+            validIncludeList(formNewAppointment.elements[fields[1]].value, periodChoice, payload, fields[1], errMessageCharacter);
         }
     }
     return payload;

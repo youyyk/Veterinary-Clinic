@@ -13,7 +13,8 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form th:action="@{/appointment/edit}" method="POST" enctype="multipart/form-data">
+        <form th:id="'editAppointmentForm'+${appointment.appointmentID}" th:action="@{/appointment/edit}" method="POST" enctype="multipart/form-data"
+              onsubmit="return validSubmitEditAppointmentForm(this, 'all');">
 
           <!--Account ID-->
           <input type="hidden" class="form-control" id="appID" name="appID" th:value="${appointment.appointmentID}">
@@ -23,13 +24,18 @@
           <!--Appointment-->
           <div class="input-group input-group mb-3">
             <span class="input-group-text">Appointment Date</span>
-            <input type="date" class="form-control" id="appDate" name="appDate" th:value="${#dates.format(appointment.date, 'yyyy-MM-dd')}">
+            <input type="date" class="form-control" id="appDate" name="appDate" th:value="${#dates.format(appointment.date, 'yyyy-MM-dd')}"
+                   autocomplete="off"
+                   th:onkeyup="'javascript:validFormEditAppointmentByEachField(\'' + 'appDate' +'\',\''+ ${appointment.appointmentID} + '\');'"
+                   th:onchange="'javascript:validFormEditAppointmentByEachField(\'' + 'appDate' +'\',\''+ ${appointment.appointmentID} + '\');'"
+                   th:onpaste="'javascript:validFormEditAppointmentByEachField(\'' + 'appDate' +'\',\''+ ${appointment.appointmentID} + '\');'">
           </div>
 
           <!--Period-->
           <div class="input-group input-group mb-3">
             <span class="input-group-text">Period</span>
-            <select class="form-select" id="period" name="period">
+            <select class="form-select" id="period" name="period"
+                    th:onchange="'javascript:validFormEditAppointmentByEachField(\'' + 'appDate' +'\',\''+ ${appointment.appointmentID} + '\');'">
               <option value="morning" th:selected="${#strings.contains(appointment.period, 'morning')}">09.00 - 12.00</option>
               <option value="afternoon" th:selected="${#strings.contains(appointment.period, 'afternoon')}">13.30 - 18.00</option>
             </select>

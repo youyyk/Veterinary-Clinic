@@ -13,7 +13,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:action="@{/appointment/create}" method="POST" enctype="multipart/form-data">
+                <form th:id="'newAppointmentForm'+${pet.petID}" th:action="@{/appointment/create}" method="POST" enctype="multipart/form-data"
+                      onsubmit="return validSubmitNewAppointmentForm(this, 'all');">
 
                     <!--Account ID-->
                     <input type="hidden" class="form-control" id="petID" name="petID" th:value="${pet.petID}">
@@ -21,13 +22,18 @@
                     <!--Appointment-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Appointment Date</span>
-                        <input type="date" class="form-control" id="appDate" name="appDate">
+                        <input type="date" class="form-control" id="appDate" name="appDate"
+                               autocomplete="off"
+                               th:onkeyup="'javascript:validFormNewAppointmentByEachField(\'' + 'appDate' +'\',\''+ ${pet.petID} + '\');'"
+                               th:onchange="'javascript:validFormNewAppointmentByEachField(\'' + 'appDate' +'\',\''+ ${pet.petID} + '\');'"
+                               th:onpaste="'javascript:validFormNewAppointmentByEachField(\'' + 'appDate' +'\',\''+ ${pet.petID} + '\');'">
                     </div>
 
                     <!--Period-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Period</span>
-                        <select class="form-select" id="period" name="period">
+                        <select class="form-select" id="period" name="period"
+                                th:onchange="'javascript:validFormNewAppointmentByEachField(\'' + 'period' +'\',\''+ ${pet.petID} + '\');'">
                             <option selected>-------- Choose --------</option>
                             <option value="morning">09.00 - 12.00</option>
                             <option value="afternoon">13.30 - 18.00</option>

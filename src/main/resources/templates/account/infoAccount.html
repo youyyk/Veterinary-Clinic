@@ -134,7 +134,6 @@
     function validSubmitEditPetInfoForm(editPetInfoForm, option){
         realTimeValid_formEditPetInfo= true;
         const validatedList = serviceValidNewPet(editPetInfoForm, option);
-        console.log(validatedList);
         let count = 0;
         if (validatedList.length > 0){
             validatedList.forEach((element) => {
@@ -144,6 +143,71 @@
                 addClassValidAndInValid(editPetInfoForm.elements[element.fieldId], element.errorMessage);
             });
             if (count === 4){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
+<script>
+    // Create Appointment
+    let realTimeValid_formNewAppointment = false;
+
+    function validFormNewAppointmentByEachField(fieldId, fromId){
+        if (realTimeValid_formNewAppointment){
+            console.log(fieldId + fromId);
+            const newAppointmentForm = document.getElementById("newAppointmentForm"+fromId)
+            const validatedList = serviceValidNewAppointment(newAppointmentForm, fieldId);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(newAppointmentForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitNewAppointmentForm(newAppointmentForm, option){
+        realTimeValid_formNewAppointment= true;
+        const validatedList = serviceValidNewAppointment(newAppointmentForm, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(newAppointmentForm.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 2){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
+<script>
+    // edit Appointment
+    let realTimeValid_formEditAppointment = false;
+
+    function validFormEditAppointmentByEachField(fieldId, fromId){
+        if (realTimeValid_formEditAppointment){
+            const newAppointmentForm = document.getElementById("editAppointmentForm"+fromId)
+            const validatedList = serviceValidNewAppointment(newAppointmentForm, fieldId);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(newAppointmentForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitEditAppointmentForm(editAppointmentForm, option){
+        realTimeValid_formEditAppointment = true;
+        const validatedList = serviceValidNewAppointment(editAppointmentForm, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(editAppointmentForm.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 2){
                 return true;
             }
         }

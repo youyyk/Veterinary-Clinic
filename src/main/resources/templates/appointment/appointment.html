@@ -15,6 +15,8 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script></head>
+
+    <script th:src="@{/js/validateModel.js}"></script>
 <script>
     window.addEventListener('DOMContentLoaded', event => {
         const datatableAllAppointment = document.getElementById('datatableAllAppointment');
@@ -22,6 +24,39 @@
 
     });
 
+</script>
+<script>
+    // edit Appointment
+    let realTimeValid_formEditAppointment = false;
+
+    function validFormEditAppointmentByEachField(fieldId, fromId){
+        if (realTimeValid_formEditAppointment){
+            console.log(fieldId + fromId);
+            const newAppointmentForm = document.getElementById("editAppointmentForm"+fromId)
+            const validatedList = serviceValidNewAppointment(newAppointmentForm, fieldId);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(newAppointmentForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitEditAppointmentForm(editAppointmentForm, option){
+        realTimeValid_formEditAppointment = true;
+        const validatedList = serviceValidNewAppointment(editAppointmentForm, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(editAppointmentForm.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 2){
+                return true;
+            }
+        }
+        return false;
+    }
 </script>
 <body>
     <div th:insert="fragments/header :: header"></div>
