@@ -51,7 +51,7 @@ public class AccountController {
         model.addAttribute("sortBy", sortBy);
         model.addAttribute("totalPages", pagedResult.getTotalPages());
         model.addAttribute("totalAccounts", pagedResult.getTotalElements());
-        model.addAttribute("roles", new String[]{"ADMIN", "OFFICER", "CUSTOMER"});
+        model.addAttribute("roles", new String[]{SecurityConfig.ROLE_ADMIN, SecurityConfig.ROLE_OFFICER, SecurityConfig.ROLE_CUSTOMER});
         return "/account/accounts";
     }
 
@@ -64,7 +64,7 @@ public class AccountController {
     public ResponseEntity getUpdateUserById(@RequestBody Map<String, String> payload) {
         if (payload.containsKey("id") && payload.containsKey("newRole")){
             Account account = accountService.getById(payload.get("id"));
-            String newRole = "ROLE_" + payload.get("newRole");
+            String newRole = payload.get("newRole");
             if (account != null) {
                 account.setRoles(new HashSet<>());
                 if (newRole.equals(SecurityConfig.ROLE_ADMIN)){

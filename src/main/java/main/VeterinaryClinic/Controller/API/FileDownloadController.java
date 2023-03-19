@@ -35,7 +35,7 @@ public class FileDownloadController {
     @RequestMapping(value = "/export/receipt/{typeDoc}/{billId}", method = RequestMethod.GET)
     public void export(HttpServletResponse response, @PathVariable String typeDoc, @PathVariable long billId, @AuthenticationPrincipal AccountUserDetail accountUserDetail) {
         if (typeDoc.equals("details") || typeDoc.equals("detail")){
-            String nameExportFile = GlobalService.getStringCurrentTime()+"_"+typeDoc+"_"+billId;
+            String nameExportFile = GlobalService.getStringCurrentTime().split(" ")[0]+"_"+typeDoc+"_"+billId;
             Bill bill = mainBillService.findByBillID(billId);
             List<BillMedicine> billMedList = billMedicineService.findByBill(bill);
             List<BillTool> billToolList = billToolService.findByBill(bill);

@@ -17,9 +17,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 public class SecurityConfig  {
-    public static final String ROLE_ADMIN = "ROLE_ADMIN";
-    public static final String ROLE_OFFICER = "ROLE_OFFICER";
-    public static final String ROLE_CUSTOMER = "ROLE_CUSTOMER";
+    public static final String ROLE_ADMIN = "ADMIN";
+    public static final String ROLE_OFFICER = "OFFICER";
+    public static final String ROLE_CUSTOMER = "CUSTOMER";
     @EnableWebSecurity
     public class LineLoginSecurityConfig extends WebSecurityConfigurerAdapter {
         @Autowired
@@ -28,7 +28,11 @@ public class SecurityConfig  {
         protected void configure(HttpSecurity http) throws Exception {
             http    .csrf().disable()
                     .authorizeRequests()
-                    .antMatchers("/", "/css/**", "/js/**", "/images/**", "/account/**", "/accounts", "/warehouse", "/appointment", "/pets/**","/medicine/**").permitAll() // Don't need login can use (Home Page, CSS, JS)
+                    .antMatchers("/", "/css/**", "/js/**", "/images/**", "/account/update/role").permitAll() // Don't need login can use (Home Page, CSS, JS)
+//                    .antMatchers("/account/**", "/warehouse", "/appointment", "/pets/**","/medicine/**").hasRole(ROLE_OFFICER)
+                    .antMatchers("/account/getInfo/**","/account/register", "/download/export/receipt/detail/**").hasRole(ROLE_CUSTOMER)
+                    .antMatchers("/account/**", "/warehouse/**", "/appointment/**", "/pets/**", "/medicine/**", "/download/export/receipt/details/**").hasRole(ROLE_OFFICER)
+
 //                    .antMatchers("/authTest").access("hasRole('ROLE_ADMIN')")
                     .anyRequest().authenticated() // Other path need login
             .and()
