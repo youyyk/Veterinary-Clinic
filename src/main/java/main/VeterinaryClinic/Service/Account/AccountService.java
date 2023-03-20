@@ -71,6 +71,11 @@ public class AccountService {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
         return accountRepository.findAll(paging);
     }
+
+    public Page<Account> getBySearch(Integer pageNo, Integer pageSize, String sortBy,String search) {
+        Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
+        return accountRepository.findBySearching(search,paging);
+    }
     public List<Account> getAccountWithSort(String field) {
         return accountRepository.findAll(Sort.by(Sort.Direction.ASC, field));
     }

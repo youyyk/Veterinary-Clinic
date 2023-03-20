@@ -15,6 +15,14 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script></head>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+<!--    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <script>
     let host = window.location.origin;
 
@@ -25,22 +33,78 @@
         document.getElementById('link-filter-today').href = host + "/appointment/today";
         document.getElementById('link-filter-clear').href = host + "/appointment";
 
+
+        // document.getElementById('dateRange').daterangepicker();
+
+    });
+
+    // $(function() {
+    //     var currentYear = moment().year();
+    //     console.log(currentYear);
+    //     $('input[name="dateRange"]').daterangepicker({
+    //         opens: 'left',
+    //         showDropdowns: true,
+    //         minYear: currentYear-5,
+    //         maxYear: currentYear+2,
+    //         locale: {
+    //             separator : " - ",
+    //             format : 'YYYY/MM/DD',
+    //         }
+    //     }
+    //         , function(start, end, label) {
+    //             console.log("Start : "+moment(start).format('YYYY/MM/DD'));
+    //             console.log("Start : "+moment(end).format('YYYY/MM/DD'));
+    //         $('input[name="dateRange"]').val(start.format('YYYY/MM/DD') + ' - ' + end.format('YYYY/MM/DD'));
+    //     });
+    //     $('input[name="dateRange"]').on('apply.daterangepicker', function(ev, picker) {
+    //         var startDate = picker.startDate.format('YYYY/MM/DD');
+    //         var endDate = picker.endDate.format('YYYY/MM/DD');
+    //         // Update the date range in the input field
+    //         $('input[name="dateRange"]').val(startDate + ' - ' + endDate);
+    //         // You can perform any desired actions with the selected date range here, such as updating a chart or table on the page
+    //     });
+    //
+    // });
+    $(function() {
+        var currentYear = moment().year();
+        $('input[name="dateRange"]').daterangepicker({
+            opens: 'left',
+            showDropdowns: true,
+            minYear: currentYear-5,
+            maxYear: currentYear+2,
+            locale: {
+                format: 'YYYY/MM/DD',
+                separator: ' - ',
+                // calendar: 'gregorian' // Set the calendar to AD
+            }
+        }, function(start, end, label) {
+            $('input[name="dateRange"]').val(start.format('YYYY/MM/DD') + ' - ' + end.format('YYYY/MM/DD'));
+        });
+
+        $('input[name="dateRange"]').on('apply.daterangepicker', function(ev, picker) {
+            var startDate = picker.startDate.format('YYYY/MM/DD');
+            var endDate = picker.endDate.format('YYYY/MM/DD');
+            // Update the date range in the input field
+            $('input[name="dateRange"]').val(startDate + ' - ' + endDate);
+            // You can perform any desired actions with the selected date range here, such as updating a chart or table on the page
+        });
     });
 
 </script>
 <body>
     <div th:insert="fragments/header :: header"></div>
-    <div class="container">
+    <div class="container" th:with="startDate = ${#dates.format('2022/04/01','yyyy/MM/dd')},endDate = ${#dates.format('2023/09/21','yyyy/MM/dd')}">
         <h1>All Appointments</h1>
         <div class="card mb-4 container">
             <div class="tab-content">
             <div class="mb-0">
                 <div class="float-end mt-4 mb-0 ms-4">
+<!--                    <input type="text" class="form-control" id="dateRange" name="dateRange" th:value="${startDate}+' - '+${endDate}">-->
                     <a id="link-filter-today" class="btn btn-warning position-relative me-3" role="button">
                         Today
                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary"
-                              th:text="${todaySize}"
-                        ></span>
+                              th:text="${todaySize}">
+                        </span>
                     </a>
                     <a id="link-filter-clear" class="btn btn-secondary position-relative me-3" role="button">
                         Clear

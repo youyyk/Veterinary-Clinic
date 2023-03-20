@@ -9,12 +9,13 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit</h5>
+                <h5 class="modal-title" th:id="'editHeader'+${pet.petID}">Edit Pet</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
 <!--                [[${#dates.format(pet.doB, 'dd/MM/yyyy')}]]-->
                 <form th:id="'editPetForm'+${pet.petID}" th:action="@{/pets/edit}" method="POST" enctype="multipart/form-data">
+                    <div th:id="'editPetPane'+${pet.petID}">
                     <!--Pet ID-->
                     <input type="hidden" class="form-control" id="petID" name="petID" th:value="${pet.petID}">
                     <!--Account ID-->
@@ -103,9 +104,19 @@
 
                     <!--button-->
                     <div class="modal-footer">
-                            <button class="btn btn-primary" type="submit">save</button>
+                            <button th:attr="onclick='clickEdit(\'' + ${pet.petID} +  '\');'" class="btn btn-primary" type="button">save</button>
                             <button class="btn btn-secondary" type="reset">clear</button>
                     </div>
+                    </div>
+
+                    <div th:id="'editConfirm'+${pet.petID}" style="display: none" class="text-start">
+                        <p>Are you sure you want to edit <b th:id="'editName'+${pet.petID}"></b> ?</p>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" type="submit">Yes</button>
+                            <button th:attr="onclick='clickEditNo(\'' + ${pet.petID} +  '\');'" type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        </div>
+                    </div>
+
 
                 </form>
             </div>

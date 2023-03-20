@@ -11,92 +11,92 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Pet</h5>
+                <h5 class="modal-title" id="createHeader">Add Pet</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form th:action="@{/pets/create}" method="POST" enctype="multipart/form-data">
 
-                    <!--Account ID-->
-                    <input type="hidden" class="form-control" id="accId" name="accId" th:value="${accId}">
+                    <div id="createPetPane">
+                        <!--Account ID-->
+                        <input type="hidden" class="form-control" id="accId" name="accId" th:value="${accId}">
 
-                    <!--Pet's Name-->
-                    <div class="input-group input-group mb-3">
-                        <span class="input-group-text">Pet's Name</span>
-                        <input type="text" class="form-control" id="name" name="name">
+                        <!--Pet's Name-->
+                        <div class="input-group input-group mb-3">
+                            <span class="input-group-text">Pet's Name</span>
+                            <input type="text" class="form-control" id="name" name="name">
+                        </div>
+
+                        <!--Pet's Image-->
+                        <div class="mb-3">
+                            <input class="form-control" type="file" id="image" name="image">
+                        </div>
+
+                        <!--DoB-->
+                        <div class="input-group input-group mb-3">
+                            <span class="input-group-text date">Date of Birth</span>
+                            <input onblur="calculateAge()" type="date" class="form-control" id="doB" name="doB">
+                            <span class="input-group-text" >Age</span>
+                            <input onchange="calculateDate()" type="text" id="age" name="age" class="form-control">
+                        </div>
+
+
+                        <div class="input-group input-group mb-3">
+                            <span class="input-group-text">Pet's Type</span>
+                            <input class="form-control" list="typeDatalistOptions" id="petType" name="petType" placeholder="Choose..." autocomplete="off">
+                            <datalist id="typeDatalistOptions">
+                                <div th:each="petType : ${petTypeList}" >
+                                    <option th:value="${petType}"/>
+                                </div>
+                            </datalist>
+                            <span class="input-group-text">Breed</span>
+                            <input class="form-control" list="breedDatalistOptions" id="breed" name="breed" placeholder="Choose..." autocomplete="off">
+                            <datalist id="breedDatalistOptions">
+                                <div th:each="breed : ${breedList}" >
+                                    <option th:value="${breed}"/>
+                                </div>
+                            </datalist>
+                        </div>
+
+                        <!--Gender-->
+                        <div class="input-group input-group mb-3">
+                            <span class="input-group-text">Gender</span>
+                            <select class="form-select" id="gender" name="gender">
+                                <option selected>Choose...</option>
+                                <option value="female">female</option>
+                                <option value="male">male</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group input-group mb-3">
+                            <span class="input-group-text">Sterilization</span>
+                            <select class="form-select" id="sterilization" name="sterilization">
+                                <option selected>Choose...</option>
+                                <option value="true">sterilized</option>
+                                <option value="false">not sterilized</option>
+                            </select>
+                        </div>
+
+
+                        <!--Remark-->
+                        <div class="input-group input-group mb-3">
+                            <span class="input-group-text">Remark</span>
+                            <input type="text" class="form-control" id="remark" name="remark">
+                        </div>
+
+                        <!--button-->
+                        <div class="modal-footer">
+                                <button onclick="clickCreate()" type="button" class="btn btn-primary">save</button>
+                                <button class="btn btn-secondary" type="reset">clear</button>
+                        </div>
                     </div>
 
-                    <!--Pet's Image-->
-                    <div class="mb-3">
-                        <input class="form-control" type="file" id="image" name="image">
-                    </div>
-
-                    <!--DoB-->
-                    <div class="input-group input-group mb-3">
-                        <span class="input-group-text date">Date of Birth</span>
-                        <input onblur="calculateAge()" type="date" class="form-control" id="doB" name="doB">
-                        <span class="input-group-text" >Age</span>
-                        <input onchange="calculateDate()" type="text" id="age" name="age" class="form-control">
-                    </div>
-
-
-                    <div class="input-group input-group mb-3">
-                        <span class="input-group-text">Pet's Type</span>
-                        <input class="form-control" list="typeDatalistOptions" id="petType" name="petType" placeholder="Choose..." autocomplete="off">
-                        <datalist id="typeDatalistOptions">
-                            <div th:each="petType : ${petTypeList}" >
-                                <option th:value="${petType}"/>
-                            </div>
-                        </datalist>
-                        <span class="input-group-text">Breed</span>
-                        <input class="form-control" list="breedDatalistOptions" id="breed" name="breed" placeholder="Choose..." autocomplete="off">
-                        <datalist id="breedDatalistOptions">
-                            <div th:each="breed : ${breedList}" >
-                                <option th:value="${breed}"/>
-                            </div>
-                        </datalist>
-                    </div>
-
-
-                    <!--Pet's Type & Breed-->
-<!--                    <div class="input-group input-group mb-3">-->
-<!--                        <span class="input-group-text">Pet's Type</span>-->
-<!--                        <input type="text" class="form-control" id="petType" name="petType">-->
-<!--                        <span class="input-group-text">Breed</span>-->
-<!--                        <input type="text" class="form-control" id="breed" name="breed">-->
-<!--                    </div>-->
-
-
-                    <!--Gender-->
-                    <div class="input-group input-group mb-3">
-                        <span class="input-group-text">Gender</span>
-                        <select class="form-select" id="gender" name="gender">
-                            <option selected>Choose...</option>
-                            <option value="female">female</option>
-                            <option value="male">male</option>
-                        </select>
-                    </div>
-
-                    <div class="input-group input-group mb-3">
-                        <span class="input-group-text">Sterilization</span>
-                        <select class="form-select" id="sterilization" name="sterilization">
-                            <option selected>Choose...</option>
-                            <option value="true">sterilized</option>
-                            <option value="false">not sterilized</option>
-                        </select>
-                    </div>
-
-
-                    <!--Remark-->
-                    <div class="input-group input-group mb-3">
-                        <span class="input-group-text">Remark</span>
-                        <input type="text" class="form-control" id="remark" name="remark">
-                    </div>
-
-                    <!--button-->
-                    <div class="modal-footer">
-                            <button class="btn btn-primary" type="submit">save</button>
-                            <button class="btn btn-secondary" type="reset">clear</button>
+                    <div id="createConfirm" style="display: none">
+                        <p>Are you sure you want to add <b id="createName"></b> ?</p>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" type="submit">Yes</button>
+                            <button onclick="clickCreateNo()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        </div>
                     </div>
 
                 </form>

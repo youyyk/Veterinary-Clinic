@@ -56,6 +56,7 @@ public class PetController {
         System.out.println("ID : "+accId);
         Account account = accountService.getById(accId);
         System.out.println(account);
+        if (remark == null || remark.isEmpty() || remark.isBlank()) remark = "-";
         Pet pet = new Pet(account,name,gender, GlobalService.convertStringToDate(doB),sterilization,petType,breed,remark);
         String filename = StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename()));
         if (filename.contains("..")){

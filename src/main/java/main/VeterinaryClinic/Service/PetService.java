@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -56,7 +57,18 @@ public class PetService {
 
     public Page<Pet> getPaginationWithAccount(Integer pageNo, Integer pageSize,Account account) {
         Pageable paging = PageRequest.of(pageNo, pageSize);
-        return repository.findAllByAccount(paging,account);
+        return repository.findAllByAccountAndSoftDeletedIsFalseOrderByPetID(account,paging);
     }
 
+    public Page<Pet> getPaginationWithAccountSearch(String search, UUID accId, Integer pageNo, Integer pageSize) {
+//        System.out.println("pagesize : "+pageSize);
+//        Pageable pageable = PageRequest.of(pageNo, pageSize);
+//        Page<Pet> page = new PageImpl<>(pets,pageable, pets.size());
+//        return page;
+        Pageable paging = PageRequest.of(pageNo, pageSize);
+//        System.out.println(" ++++++++++ Page ++++++++++");
+//        System.out.println(repository.findByAccountBySearching(search,accId,paging));
+//        System.out.println("+++++++++++++++++++++++++++");
+        return repository.findByAccountBySearching(search,accId,paging);
+    }
 }

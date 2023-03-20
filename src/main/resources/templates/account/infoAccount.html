@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <title>Account View</title>
@@ -153,6 +153,56 @@
         console.log(petRow);
     }
 
+    // ---- Create Pet ----
+    function clickCreate(){
+        let createPane = document.getElementById("createPetPane");
+        let createConfirm = document.getElementById("createConfirm");
+        let createName = document.getElementById("createName");
+        let header = document.getElementById("createHeader");
+
+        header.innerHTML = "Add Pet Confirmation";
+        createName.innerHTML = document.getElementById("name").value;
+        createConfirm.style.display = show;
+        createPane.style.display = hide;
+    }
+    function clickCreateNo() {
+        setTimeout(function (){
+            let createPane = document.getElementById("createPetPane");
+            let createConfirm = document.getElementById("createConfirm");
+            let header = document.getElementById("createHeader");
+
+            header.innerHTML = "Add Pet";
+            createConfirm.style.display = hide;
+            createPane.style.display = show;
+        },1000);
+    }
+    // ---- Edit Pet ----
+    function clickEdit(petID){
+        const formEdit = document.getElementById("editPetForm"+petID);
+        let editPane = document.getElementById("editPetPane"+petID);
+        let header = document.getElementById("editHeader"+petID);
+        let editConfirm = document.getElementById("editConfirm"+petID);
+        let editName = document.getElementById("editName"+petID);
+
+        header.innerHTML = "Edit Pet Confirmation";
+        console.log("check : "+formEdit.name.value)
+        editName.innerHTML = formEdit.name.value;
+
+        editConfirm.style.display = show;
+        editPane.style.display = hide;
+
+    }
+    function clickEditNo(petID) {
+        setTimeout(function (){
+            let editPane = document.getElementById("editPetPane"+petID);
+            let header = document.getElementById("editHeader"+petID);
+            let editConfirm = document.getElementById("editConfirm"+petID);
+
+            header.innerHTML = "Edit Pet";
+            editConfirm.style.display = hide;
+            editPane.style.display = show;
+        },1000);
+    }
 
 
 </script>
@@ -309,9 +359,32 @@
                     </div>
                     </tbody>
                 </table>
+                <nav aria-label="Page navigation example" style="text-align: center">
+                    <div style="display: inline-block">
+                        <ul class="pagination pagination-gap">
+
+                            <li class="page-item" th:classappend="${currentPage==1} ? disabled : ''">
+                                <a th:if="${search.isEmpty()}" th:with="getInfo=${'/account/getInfo/'+account.accId}" class="page-link"
+                                   th:href="@{${getInfo}(pageNo=${currentPage -1})}">Previous</a>
+                                <a th:if="${not search.isEmpty()}" th:with="getInfo=${'/account/getInfo/'+account.accId+'/search'+search}" class="page-link"
+                                   th:href="@{${getInfo}(pageNo=${currentPage -1})}">Previous</a>
+                            </li>
+                            <li  class="page-item" th:each="i: ${#numbers.sequence(1, totalPages)}" th:classappend="${i==currentPage} ? active : ''">
+                                <a th:if="${search.isEmpty()}" th:with="getInfo=${'/account/getInfo/'+account.accId}"class="page-link"
+                                   th:href="@{${getInfo}(pageNo=${i})}" >[[${i}]]</a>
+                                <a th:if="${not search.isEmpty()}" th:with="getInfo=${'/account/getInfo/'+account.accId+'/search'+search}"
+                                   class="page-link" th:href="@{${getInfo}(pageNo=${i})}" >[[${i}]]</a>
+                            </li>
+                            <li class="page-item" th:classappend="${currentPage==totalPages} ? disabled : ''">
+                                <a th:if="${search.isEmpty()}" th:with="getInfo=${'/account/getInfo/'+account.accId}" class="page-link"
+                                   th:href="@{${getInfo}(pageNo=${currentPage +1})}">Next</a>
+                                <a th:if="${not search.isEmpty()}" th:with="getInfo=${'/account/getInfo/'+account.accId+'/search'+search}" class="page-link"
+                                   th:href="@{${getInfo}(pageNo=${currentPage +1})}">Next</a>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
             </div>
-
-
         </div>
         <!--Tool Tab-->
         <div class="tab-pane fade" id="appointmentTab" role="tabpanel" aria-labelledby="appointment-tab">
