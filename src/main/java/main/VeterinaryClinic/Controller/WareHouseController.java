@@ -1,6 +1,7 @@
 package main.VeterinaryClinic.Controller;
 
 import main.VeterinaryClinic.Model.Medicine;
+import main.VeterinaryClinic.Model.Pet;
 import main.VeterinaryClinic.Model.Tool;
 import main.VeterinaryClinic.Model.WareHouse;
 import main.VeterinaryClinic.Service.GlobalService;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
+
 @Controller
 @RequestMapping("/warehouse")
 public class WareHouseController {
@@ -27,7 +30,7 @@ public class WareHouseController {
 
     @GetMapping
     public String getWarehousePage(Model model) {
-        List<WareHouse> wareHouses = wareHouseService.getAll();
+        List<WareHouse> wareHouses = wareHouseService.findBySoftDeletedOrderByExpiredDateAsc(false);
         int expiredCount = 0;
         int almostCount = 0;
         for (WareHouse wh : wareHouses) {
@@ -38,13 +41,14 @@ public class WareHouseController {
                 almostCount++;
             }
         }
+        wareHouses.addAll(wareHouseService.findBySoftDeletedOrderByExpiredDateAsc(true));
         addAttributeModelWarehouse(model, wareHouses, expiredCount, almostCount);
         return "warehouse/warehouses";
     }
 
     @GetMapping("/status/{value}")
     public String getWarehousePageFilterExpired(@PathVariable String value, Model model) {
-        List<WareHouse> wareHouses = wareHouseService.getAll();
+        List<WareHouse> wareHouses = wareHouseService.findBySoftDeletedOrderByExpiredDateAsc(false);
         List<WareHouse> needWareHouse = new ArrayList<>();
         int expiredCount = 0;
         int almostCount = 0;
@@ -58,6 +62,7 @@ public class WareHouseController {
                 almostCount++;
             }
         }
+        wareHouses.addAll(wareHouseService.findBySoftDeletedOrderByExpiredDateAsc(true));
         addAttributeModelWarehouse(model, needWareHouse, expiredCount, almostCount);
         return "warehouse/warehouses";
     }
@@ -150,6 +155,38 @@ public class WareHouseController {
                                      @RequestParam("expiredDate") String expiredDate){
         updateOrder(id, toolId, -1, quantityIn, quantityLeft, paidTotal, stockInDate, expiredDate);
         return "redirect:/warehouse";
+    }
+
+    @RequestMapping(path = "/delete", method = POST)
+    public String deleteWarehouse(@RequestParam("id") long id,
+                                  @RequestParam("pathId") String pathId){
+        WareHouse wareHouse = wareHouseService.getById(id);
+        if (wareHouse != null && wareHouse.isCanDelete()){
+            wareHouseService.delete(wareHouse);
+        }
+        return  "redirect:/warehouse";
+    }
+
+    @RequestMapping(path = "/stockOut", method = POST)
+    public String stockOutWarehouse(@RequestParam("id") long id){
+        WareHouse wareHouse = wareHouseService.getById(id);
+        if (wareHouse != null){
+            wareHouse.setSoftDeleted(true);
+            wareHouse.setSoftDeletedDate(GlobalService.getCurrentTime());
+            wareHouseService.save(wareHouse);
+        }
+        return  "redirect:/warehouse";
+    }
+
+    @RequestMapping(path = "/restore", method = POST)
+    public String restoreWarehouse(@RequestParam("id") long id){
+        WareHouse wareHouse = wareHouseService.getById(id);
+        if (wareHouse != null){
+            wareHouse.setSoftDeleted(false);
+            wareHouse.setSoftDeletedDate(null);
+            wareHouseService.save(wareHouse);
+        }
+        return  "redirect:/warehouse";
     }
 
     private void updateOrder(long warehouseId, long toolId, long medicineId, String quantityIn, String quantityLeft, String paidTotal, String stockInDate, String expiredDate){

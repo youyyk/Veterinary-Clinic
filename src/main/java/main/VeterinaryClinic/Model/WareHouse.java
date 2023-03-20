@@ -111,4 +111,26 @@ public class WareHouse {
         return  0; // Normal
     }
 
+    public boolean isCanDelete(){
+        return billMed.size() == 0 && billTool.size() == 0 ? true : false;
+    }
+
+    @Override
+    public String toString() {
+        return "WareHouse{" +
+                "itemID=" + itemID +
+                ", medicine=" + medicine +
+                ", tool=" + tool +
+                ", quantityIn=" + quantityIn +
+                ", quantityLeft=" + quantityLeft +
+                ", type='" + type + '\'' +
+                ", paidTotal=" + paidTotal +
+                ", createdDate=" + createdDate +
+                ", expiredDate=" + expiredDate +
+                ", softDeletedDate=" + softDeletedDate +
+                ", softDeleted=" + softDeleted +
+                ", billMed=" + billMed.size() +
+                ", billTool=" + billTool.size() +
+                '}';
+    }
 }

@@ -43,6 +43,9 @@ public class WareHouseService {
         return repository.findByItemID(itemID);
     }
 
+    public List<WareHouse> findBySoftDeletedOrderByExpiredDateAsc(boolean want) {return repository.findBySoftDeletedOrderByExpiredDateAsc(want);}
+    public List<WareHouse> findBySoftDeletedOrderByExpiredDateDesc(boolean want) {return repository.findBySoftDeletedOrderByExpiredDateDesc(want);}
+
     public List<WareHouse> findByMedicineAndExpiredDateBeforeOrderByExpiredDateAsc(Medicine medicine, Date expiredDate){
         return repository.findByMedicineAndSoftDeletedAndExpiredDateBeforeOrderByExpiredDateAsc(medicine,false,expiredDate);
     }
@@ -331,4 +334,5 @@ public class WareHouseService {
     public WareHouse save(WareHouse wareHouse) {
         return repository.save(wareHouse);
     }
+    public void delete(WareHouse wareHouse){repository.delete(wareHouse);}
 }

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+<div th:fragment="stockOutPopUp(warehouseId, stockName)" th:id="'stockOutPopUp'+${warehouseId}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
+     data-bs-backdrop="static" aria-hidden="true">
+
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Remove Qty. Warehouse</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{'/warehouse'+'/stockOut'}" method="POST">
+                    <!--ID-->
+                    <input type="hidden" class="form-control" id="id" name="id" th:value="${warehouseId}">
+
+                    <p>Are you sure you want to remove stock qty. [[*{stockName}]]</p>
+                    <!--button-->
+                    <div class="modal-footer">
+<!--                        <button class="btn btn-secondary" type="reset">cancel</button>-->
+<!--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>-->
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">close</button>
+                        <button class="btn btn-danger" type="submit">remove</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

@@ -23,6 +23,8 @@ public interface WareHouseRepository extends JpaRepository<WareHouse, Long> {
 
     List<WareHouse> findByToolAndSoftDeletedAndExpiredDateBeforeOrderByExpiredDateAsc(Tool tool,boolean softDeleted, Date expiredDate);
     List<WareHouse> findByToolAndSoftDeletedAndExpiredDateAfterOrderByExpiredDateAsc(Tool tool,boolean softDeleted, Date expiredDate);
+    List<WareHouse> findBySoftDeletedOrderByExpiredDateAsc(boolean softDeleted);
+    List<WareHouse> findBySoftDeletedOrderByExpiredDateDesc(boolean softDeleted);
 
 
 
