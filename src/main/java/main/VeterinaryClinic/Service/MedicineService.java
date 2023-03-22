@@ -22,5 +22,25 @@ public class MedicineService {
 
     public Medicine findByMedID(long medID){return repository.findByMedID(medID);}
 
+    public List<Medicine> findBySoftDeleted(boolean want){return repository.findBySoftDeleted(want);}
 
+    public void updateMedicine(Medicine oldMedicine, Medicine newMedicine){
+        if (oldMedicine.getPrice() != newMedicine.getPrice()){
+            delete(oldMedicine);
+            repository.save(newMedicine);
+        } else {
+            oldMedicine.updateFieldForEdit(newMedicine.getName(), newMedicine.getUnit(), newMedicine.getPrice(), newMedicine.getDescription(), newMedicine.getDose());
+            repository.save(oldMedicine);
+        }
+    }
+    public boolean delete(Medicine medicine){
+        if (medicine.isCanDelete()){
+            repository.delete(medicine);
+            return true;
+        }
+        medicine.setSoftDeleted(true);
+        medicine.setSoftDeletedDate(GlobalService.getCurrentTime());
+        repository.save(medicine);
+        return false;
+    }
 }

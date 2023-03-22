@@ -334,5 +334,11 @@ public class WareHouseService {
     public WareHouse save(WareHouse wareHouse) {
         return repository.save(wareHouse);
     }
-    public void delete(WareHouse wareHouse){repository.delete(wareHouse);}
+    public boolean delete(WareHouse wareHouse){
+        if (wareHouse.isCanDelete()){
+            repository.delete(wareHouse);
+            return true;
+        }
+        return false;
+    }
 }

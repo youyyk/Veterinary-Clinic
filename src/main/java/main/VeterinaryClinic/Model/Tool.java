@@ -41,13 +41,21 @@ public class Tool {
     }
 
     public String getNameForShow(){
-        return name + " (" + description + ")";
+        String name =  this.name;
+        if (!description.isEmpty() && !description.isBlank()){
+            name += " (" + description + ")";
+        }
+        return name;
     }
 
     public void updateFieldForEdit(String name, double price, String description){
         this.name = name;
         this.price = price;
         this.description = description;
+    }
+
+    public boolean isCanDelete(){
+        return items.size()==0?true:false;
     }
 }
 

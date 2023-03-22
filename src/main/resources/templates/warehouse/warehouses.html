@@ -197,7 +197,7 @@
                 }
                 addClassValidAndInValid(newToolForm.elements[element.fieldId], element.errorMessage);
             });
-            if (count === 3){
+            if (count === 2){
                 return true;
             }
         }
@@ -328,7 +328,7 @@
                 }
                 addClassValidAndInValid(editToolInfoForm.elements[element.fieldId], element.errorMessage);
             });
-            if (count === 4){
+            if (count === 2){
                 return true;
             }
         }
@@ -383,7 +383,7 @@
                         <a id="link-filter-clear" class="btn btn-secondary position-relative me-3" role="button">
                             Clear
                         </a>
-                        <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createWarehousePopUp">
+                        <button th:if="${nowAccount.isAdmin()}" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createWarehousePopUp">
                             + Add Item
                         </button>
                     </div>
@@ -402,28 +402,28 @@
                             <th>Stock In</th>
                             <th>Expired Date</th>
                             <th>Status</th>
-                            <th>Action</th>
+                            <th th:if="${nowAccount.isAdmin()}">Action</th>
                         </tr>
                         </thead>
                         <tbody>
                             <tr th:each="wh : ${warehouses}">
                                 <td>
-                                    <p th:text="${ '#' + wh.itemID}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}"/>
+                                    <p th:text="${ '#' + wh.itemID}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}" style="text-align: left"/>
                                 </td>
                                 <td th:if="${wh.medicine != null}">
-                                    <p th:text="${ 'M' + wh.medicine.getMedID}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}"/>
+                                    <p th:text="${ 'M' + wh.medicine.getMedID}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}" style="text-align: left"/>
                                 </td>
                                 <td th:if="${wh.tool != null}">
-                                    <p th:text="${ 'T' + wh.tool.getToolID}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}"/>
+                                    <p th:text="${ 'T' + wh.tool.getToolID}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}" style="text-align: left"/>
                                 </td>
                                 <td th:if="${wh.medicine != null}">
-                                    <p th:text="${wh.medicine.getNameForShow}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}"/>
+                                    <p th:text="${wh.medicine.getNameForShow}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}" style="text-align: left"/>
                                 </td>
                                 <td th:if="${wh.tool != null}">
-                                    <p th:text="${wh.tool.getNameForShow}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}"/>
+                                    <p th:text="${wh.tool.getNameForShow}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}" style="text-align: left"/>
                                 </td>
                                 <td>
-                                    <p th:text="${wh.type}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}"/>
+                                    <p th:text="${wh.type}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}" style="text-align: left"/>
                                 </td>
                                 <td>
                                     <p th:text="${#numbers.formatDecimal(wh.paidTotal, 1, 'COMMA', 2, 'POINT')}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}"/>
@@ -434,18 +434,18 @@
                                     <p th:text="${#numbers.formatDecimal(wh.quantityLeft, 1, 'COMMA', 0, 'POINT')}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}"/>
                                 </td>
                                 <td>
-                                    <p th:text="${#dates.format(wh.createdDate, 'yyyy/MM/dd')}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}"/>
+                                    <p th:text="${#dates.format(wh.createdDate, 'yyyy/MM/dd')}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}" style="text-align: left"/>
                                 </td>
                                 <td>
-                                    <p th:text="${#dates.format(wh.expiredDate, 'yyyy/MM/dd')}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}"/>
+                                    <p th:text="${#dates.format(wh.expiredDate, 'yyyy/MM/dd')}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}" style="text-align: left"/>
                                 </td>
                                 <td th:switch="${wh.isExpired()}">
-                                    <span th:case="-1" th:text="Expired" th:class="'badge rounded-pill bg-danger '+${wh.isSoftDeleted() ? 'opacitySoft' : ''}"/>
-                                    <span th:case="1" th:text="Almost" th:class="'badge rounded-pill bg-warning text-dark '+${wh.isSoftDeleted() ? 'opacitySoft' : ''}"/>
-                                    <span th:case="0" th:text="Normal" th:class="'badge rounded-pill bg-secondary '+${wh.isSoftDeleted() ? 'opacitySoft' : ''}"/>
+                                    <span th:case="-1" th:text="Expired" th:class="'badge rounded-pill bg-danger '+${wh.isSoftDeleted() ? 'opacitySoft' : ''}" style="text-align: center"/>
+                                    <span th:case="1" th:text="Almost" th:class="'badge rounded-pill bg-warning text-dark '+${wh.isSoftDeleted() ? 'opacitySoft' : ''}" style="text-align: center"/>
+                                    <span th:case="0" th:text="Normal" th:class="'badge rounded-pill bg-secondary '+${wh.isSoftDeleted() ? 'opacitySoft' : ''}" style="text-align: center"/>
                                 </td>
 
-                                <td>
+                                <td th:if="${nowAccount.isAdmin()}">
                                     <div class="col-md-12 text-center">
                                         <div class="dropdown open">
                                             <a href="#!" class="px-2" data-toggle="dropdown" aria-haspopup="true"
@@ -462,7 +462,7 @@
                                                 <a th:if="${wh.isExpired() == -1 && !wh.softDeleted}" class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#stockOutPopUp'+*{wh.itemID}">
                                                     <i class="material-symbols-rounded align-middle">inventory_2</i> Stock Out
                                                 </a>
-                                                <a th:if="${wh.isExpired() != -1 && wh.isCanDelete()}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+*{wh.itemID}">
+                                                <a th:if="${wh.quantityIn==wh.quantityLeft && wh.isCanDelete()}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+*{wh.itemID}">
                                                     <i class="material-symbols-rounded align-middle">delete</i> Delete
                                                 </a>
                                             </div>
@@ -487,7 +487,7 @@
                 </div>
                 <div class="mb-0">
                     <div class="float-end mt-4 mb-0 ms-4">
-                        <button id="btn-add-med" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createWarehousePopUp" onclick="switchTabActive(this)">
+                        <button th:if="${nowAccount.isAdmin()}" id="btn-add-med" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createWarehousePopUp" onclick="switchTabActive(this)">
                             + Add Item
                         </button>
                     </div>
@@ -502,7 +502,7 @@
                             <th>Unit</th>
                             <th>Price</th>
                             <th>Description</th>
-                            <th>Action</th>
+                            <th th:if="${nowAccount.isAdmin()}">Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -517,7 +517,7 @@
                                     <p th:text="${#numbers.formatDecimal(med.price, 1, 'COMMA', 2, 'POINT')}"/>
                                 </td>
                                 <td th:text="${ med.description}"></td>
-                                <td>
+                                <td th:if="${nowAccount.isAdmin()}">
                                     <div class="col-md-12 text-center">
                                         <div class="dropdown open">
                                             <a href="#!" class="px-2" data-toggle="dropdown" aria-haspopup="true"
@@ -528,7 +528,7 @@
                                                 <a class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editWarehouseMedicinePopUp'+ *{med.medID}" role="button">
                                                     <i class="material-symbols-rounded align-middle">edit</i> Edit
                                                 </a>
-                                                <a class="dropdown-item text-danger" href="#">
+                                                <a class="dropdown-item text-danger" th:classappend="${!med.isCanDelete() ? 'disabled opacitySoft' : ''}" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+'-1'+*{med.medID}">
                                                     <i class="material-symbols-rounded align-middle">delete</i> Delete
                                                 </a>
                                             </div>
@@ -536,6 +536,7 @@
                                     </div>
                                 </td>
                                 <th:block th:replace="warehouse/warehousePopUp/editWarehouseMedicinePopUp :: editWarehouseMedicinePopUp(${med})">modal</th:block>
+                                <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Medicine',mainPath='warehouse/medicine',deleteId='-1'+${med.medID},deleteName=${med.name},pathId=${med.medID})">modal</th:block>
                             </tr>
                         </tbody>
                     </table>
@@ -549,7 +550,7 @@
                 </div>
                 <div class="mb-0">
                     <div class="float-end mt-4 mb-0 ms-4">
-                        <button id="btn-add-tool" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createWarehousePopUp" onclick="switchTabActive(this)">
+                        <button th:if="${nowAccount.isAdmin()}" id="btn-add-tool" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createWarehousePopUp" onclick="switchTabActive(this)">
                             + Add Item
                         </button>
                     </div>
@@ -562,7 +563,7 @@
                             <th>Name</th>
                             <th>Price</th>
                             <th>Description</th>
-                            <th>Action</th>
+                            <th th:if="${nowAccount.isAdmin()}">Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -573,7 +574,7 @@
                                 <p th:text="${#numbers.formatDecimal(tool.price, 1, 'COMMA', 2, 'POINT')}"/>
                             </td>
                             <td th:text="${ tool.description}"></td>
-                            <td>
+                            <td th:if="${nowAccount.isAdmin()}">
                                 <div class="col-md-12 text-center">
                                     <div class="dropdown open">
                                         <a href="#!" class="px-2" data-toggle="dropdown" aria-haspopup="true"
@@ -584,7 +585,7 @@
                                             <a class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editWarehouseToolPopUp'+ *{tool.toolID}" role="button">
                                                 <i class="material-symbols-rounded align-middle">edit</i> Edit
                                             </a>
-                                            <a class="dropdown-item text-danger" href="#">
+                                            <a class="dropdown-item text-danger" th:classappend="${!tool.isCanDelete() ? 'opacitySoft' : ''}" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+'-2'+*{tool.ToolID}">
                                                 <i class="material-symbols-rounded align-middle">delete</i> Delete
                                             </a>
                                         </div>
@@ -592,6 +593,7 @@
                                 </div>
                             </td>
                             <th:block th:replace="warehouse/warehousePopUp/editWarehouseToolPopUp :: editWarehouseToolPopUp(${tool})">modal</th:block>
+                            <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Tool',mainPath='warehouse/tool',deleteId='-2'+${tool.ToolID},deleteName=${tool.name},pathId=${tool.ToolID})">modal</th:block>
                         </tr>
                         </tbody>
                     </table>

@@ -1,5 +1,7 @@
 package main.VeterinaryClinic.Controller;
 
+import main.VeterinaryClinic.Model.Account.Account;
+import main.VeterinaryClinic.Model.Account.AccountUserDetail;
 import main.VeterinaryClinic.Model.Medicine;
 import main.VeterinaryClinic.Model.Pet;
 import main.VeterinaryClinic.Model.Tool;
@@ -9,6 +11,7 @@ import main.VeterinaryClinic.Service.MedicineService;
 import main.VeterinaryClinic.Service.ToolService;
 import main.VeterinaryClinic.Service.WareHouseService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +32,7 @@ public class WareHouseController {
     private ToolService toolService;
 
     @GetMapping
-    public String getWarehousePage(Model model) {
+    public String getWarehousePage(Model model, @AuthenticationPrincipal AccountUserDetail accountUserDetail) {
         List<WareHouse> wareHouses = wareHouseService.findBySoftDeletedOrderByExpiredDateAsc(false);
         int expiredCount = 0;
         int almostCount = 0;
@@ -42,12 +45,12 @@ public class WareHouseController {
             }
         }
         wareHouses.addAll(wareHouseService.findBySoftDeletedOrderByExpiredDateAsc(true));
-        addAttributeModelWarehouse(model, wareHouses, expiredCount, almostCount);
+        addAttributeModelWarehouse(model, wareHouses, expiredCount, almostCount, accountUserDetail.getAccount());
         return "warehouse/warehouses";
     }
 
     @GetMapping("/status/{value}")
-    public String getWarehousePageFilterExpired(@PathVariable String value, Model model) {
+    public String getWarehousePageFilterExpired(@PathVariable String value, Model model, @AuthenticationPrincipal AccountUserDetail accountUserDetail) {
         List<WareHouse> wareHouses = wareHouseService.findBySoftDeletedOrderByExpiredDateAsc(false);
         List<WareHouse> needWareHouse = new ArrayList<>();
         int expiredCount = 0;
@@ -63,16 +66,17 @@ public class WareHouseController {
             }
         }
         wareHouses.addAll(wareHouseService.findBySoftDeletedOrderByExpiredDateAsc(true));
-        addAttributeModelWarehouse(model, needWareHouse, expiredCount, almostCount);
+        addAttributeModelWarehouse(model, needWareHouse, expiredCount, almostCount, accountUserDetail.getAccount());
         return "warehouse/warehouses";
     }
 
-    private void addAttributeModelWarehouse(Model model, List<WareHouse> wareHouses, int expiredCount, int almostCount){
+    private void addAttributeModelWarehouse(Model model, List<WareHouse> wareHouses, int expiredCount, int almostCount, Account nowAccount){
+        model.addAttribute("nowAccount", nowAccount);
         model.addAttribute("warehouses", wareHouses);
         model.addAttribute("expiredCount", expiredCount);
         model.addAttribute("almostCount", almostCount);
-        model.addAttribute("medicines", medicineService.getAll());
-        model.addAttribute("tools", toolService.getAll());
+        model.addAttribute("medicines", medicineService.findBySoftDeleted(false));
+        model.addAttribute("tools", toolService.findBySoftDeleted(false));
         model.addAttribute("newMedForm", new Medicine());
         model.addAttribute("newToolForm", new Tool());
         model.addAttribute("newWarehouseMedForm", new WareHouse());
@@ -96,8 +100,19 @@ public class WareHouseController {
                                         @RequestParam("description") String description){
         Medicine medicine = medicineService.findByMedID(id);
         if (medicine != null) {
-            medicine.updateFieldForEdit(name, unit, price, description, dose);
-            medicineService.save(medicine);
+            Medicine editMedicine = new Medicine();
+            editMedicine.updateFieldForEdit(name, unit, price, description, dose);
+            medicineService.updateMedicine(medicine, editMedicine);
+        }
+        return "redirect:/warehouse";
+    }
+
+    @RequestMapping(path = "/medicine/delete", method = POST)
+    public String deleteMedicine(@RequestParam("id") long id,
+                                  @RequestParam("pathId") String pathId){
+        Medicine medicine = medicineService.findByMedID(Long.parseLong(pathId));
+        if (medicine != null){
+            medicineService.delete(medicine);
         }
         return "redirect:/warehouse";
     }
@@ -117,8 +132,19 @@ public class WareHouseController {
                                     @RequestParam("description") String description){
         Tool tool = toolService.findByToolID(id);
         if (tool != null) {
-            tool.updateFieldForEdit(name, price, description);
-            toolService.save(tool);
+            Tool editTool = new Tool();
+            editTool.updateFieldForEdit(name, price, description);
+            toolService.updateTool(tool, editTool);
+        }
+        return "redirect:/warehouse";
+    }
+
+    @RequestMapping(path = "/tool/delete", method = POST)
+    public String deleteTool(@RequestParam("id") long id,
+                                 @RequestParam("pathId") String pathId){
+        Tool tool = toolService.findByToolID(Long.parseLong(pathId));
+        if (tool != null){
+            toolService.delete(tool);
         }
         return "redirect:/warehouse";
     }
@@ -161,7 +187,7 @@ public class WareHouseController {
     public String deleteWarehouse(@RequestParam("id") long id,
                                   @RequestParam("pathId") String pathId){
         WareHouse wareHouse = wareHouseService.getById(id);
-        if (wareHouse != null && wareHouse.isCanDelete()){
+        if (wareHouse != null){
             wareHouseService.delete(wareHouse);
         }
         return  "redirect:/warehouse";

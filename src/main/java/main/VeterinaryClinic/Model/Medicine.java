@@ -86,6 +86,10 @@ public class Medicine {
         }
     }
 
+    public boolean isCanDelete(){
+        return items.size()==0?true:false;
+    }
+
     @Override
     public String toString() {
         return "Medicine{" +
