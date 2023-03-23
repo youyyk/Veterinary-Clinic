@@ -71,7 +71,7 @@ public class BillToolController {
     public String editToolFromBill(@RequestParam("billID") long billID,
                                        @RequestParam("toolID") long toolID,
                                        @RequestParam("oldAmount") int oldAmount,
-                                       @RequestParam("newAmount") int newAmount) throws ParseException {
+                                       @RequestParam("cureAmount") int newAmount) throws ParseException {
         System.out.println("----- Edit Tool from Bill "+billID+" -----");
 
         Bill bill = mainBillService.findByBillID(billID);

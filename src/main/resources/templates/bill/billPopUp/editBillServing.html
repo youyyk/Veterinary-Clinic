@@ -12,7 +12,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:action="@{/billService/edit}" method="POST" enctype="multipart/form-data">
+                <form th:id="'editBillServingForm'+${serving.servingID}" th:action="@{/billService/edit}" method="POST" enctype="multipart/form-data"
+                      onsubmit="return validSubmitEditBillServiceForm(this, 'all');">
 
                     <!--Bill ID-->
                     <input type="hidden" class="form-control" id="billID" name="billID" th:value="${billID}">
@@ -20,7 +21,11 @@
 
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Amount</span>
-                        <input type="number" class="form-control" id="amount" name="amount" th:value="${amount}">
+                        <input type="number" class="form-control" id="cureAmount" name="cureAmount" th:value="${amount}"
+                               autocomplete="off"
+                               th:onkeyup="'javascript:validFormEditBillServiceFormByEachField(\'' + 'cureAmount' +'\',\''+ ${serving.servingID} + '\');'"
+                               th:onchange="'javascript:validFormEditBillServiceFormByEachField(\'' + 'cureAmount' +'\',\''+ ${serving.servingID} + '\');'"
+                               th:onpaste="'javascript:validFormEditBillServiceFormByEachField(\'' + 'cureAmount' +'\',\''+ ${serving.servingID} + '\');'">
                     </div>
 
                     <!--button-->

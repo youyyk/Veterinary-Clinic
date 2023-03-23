@@ -13,7 +13,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:action="@{/billMedicine/add}" method="POST" enctype="multipart/form-data">
+                <form id="addMedToBillForm" th:action="@{/billMedicine/add}" method="POST" enctype="multipart/form-data"
+                      onsubmit="return validSubmitAddMedToBillForm(this, 'all');">
 
                     <!--Account ID-->
                     <input type="hidden" class="form-control" id="billID" name="billID" th:value="${billID}">
@@ -22,8 +23,8 @@
                     <!-- Choose Medicine-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Medicine</span>
-                        <select class="form-select" aria-label="Select Medicine" id="medID" name="medID" onchange="showDescription()">
-                            <option value=0 selected >-------- Choose --------</option>
+                        <select class="form-select" aria-label="Select Medicine" id="medID" name="medID" onchange="showDescription(this)">
+                            <option value="#" selected >-------- Choose --------</option>
                             <div th:each="med : ${medicines}">
                                 <option th:if="${#strings.isEmpty(med.dose)}" th:value="${med.medID}" th:text="${med.name}+' ('+${med.unit}+')'"/>
                                 <option th:if="${not #strings.isEmpty(med.dose)}" th:value="${med.medID}" th:text="${med.name}+' ('+${med.dose}+' / '+${med.unit}+')'"/>
@@ -34,13 +35,21 @@
                     <div id="descriptionPane"  style="display: none">
                         <div class="input-group input-group mb-3">
                             <span class="input-group-text">Description</span>
-                            <input type="text" class="form-control" id="newDescription" name="newDescription">
+                            <input type="text" class="form-control" id="newDescription" name="newDescription"
+                                   autocomplete="off"
+                                   onkeyup="validFormAddMedToBillByEachField(this)"
+                                   onchange="validFormAddMedToBillByEachField(this)"
+                                   onpaste="validFormAddMedToBillByEachField(this)">
                         </div>
                     </div>
 
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Amount</span>
-                        <input type="number" class="form-control" id="cureAmount" name="cureAmount">
+                        <input type="number" class="form-control" id="cureAmount" name="cureAmount"
+                               autocomplete="off"
+                               onkeyup="validFormAddMedToBillByEachField(this)"
+                               onchange="validFormAddMedToBillByEachField(this)"
+                               onpaste="validFormAddMedToBillByEachField(this)">
                     </div>
 
                     <!--button-->

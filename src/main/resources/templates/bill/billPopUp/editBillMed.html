@@ -13,7 +13,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:action="@{/billMedicine/edit}" method="POST" enctype="multipart/form-data">
+                <form th:id="'editBillMedForm'+${medicine.medID}" th:action="@{/billMedicine/edit}" method="POST" enctype="multipart/form-data"
+                      onsubmit="return validSubmitEditBillMedForm(this, 'all');">
 
                     <!--Bill ID-->
                     <input type="hidden" class="form-control" id="billID" name="billID" th:value="${billID}">
@@ -22,13 +23,20 @@
 
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Description</span>
-                        <input type="text" class="form-control" id="description" name="description" th:value="${description}">
+                        <input type="text" class="form-control" id="newDescription" name="newDescription" th:value="${description}"
+                               autocomplete="off"
+                               th:onkeyup="'javascript:validFormEditBillMedFormByEachField(\'' + 'newDescription' +'\',\''+ ${medicine.medID} + '\');'"
+                               th:onpaste="'javascript:validFormEditBillMedFormByEachField(\'' + 'newDescription' +'\',\''+ ${medicine.medID} + '\');'">
                     </div>
 
 
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Amount</span>
-                        <input type="number" class="form-control" id="newAmount" name="newAmount" th:value="${amount}">
+                        <input type="number" class="form-control" id="cureAmount" name="cureAmount" th:value="${amount}"
+                               autocomplete="off"
+                               th:onkeyup="'javascript:validFormEditBillMedFormByEachField(\'' + 'cureAmount' +'\',\''+ ${medicine.medID} + '\');'"
+                               th:onchange="'javascript:validFormEditBillMedFormByEachField(\'' + 'cureAmount' +'\',\''+ ${medicine.medID} + '\');'"
+                               th:onpaste="'javascript:validFormEditBillMedFormByEachField(\'' + 'cureAmount' +'\',\''+ ${medicine.medID} + '\');'">
                     </div>
 
                     <!--button-->

@@ -65,7 +65,7 @@ public class BillServiceController {
     @RequestMapping(path = "/edit", method = POST)
     public String editToolFromBill(@RequestParam("billID") long billID,
                                    @RequestParam("servingID") long servingID,
-                                   @RequestParam("amount") int amount ){
+                                   @RequestParam("cureAmount") int amount ){
         System.out.println("----- Edit Service from Bill "+billID+" -----");
 
         BillServing billServing = billServiceService.findByBillIDAndServingID(billID,servingID);

@@ -70,9 +70,9 @@ public class BillMedicineController {
     @RequestMapping(path = "/edit", method = POST)
     public String editMedicineFromBill(@RequestParam("billID") long billID,
                                        @RequestParam("medID") long medID,
-                                       @RequestParam("description") String description,
+                                       @RequestParam("newDescription") String description,
                                        @RequestParam("oldAmount") int oldAmount,
-                                       @RequestParam("newAmount") int newAmount) throws ParseException {
+                                       @RequestParam("cureAmount") int newAmount) throws ParseException {
         System.out.println("----- Edit Medicine from Bill "+billID+" -----");
 
         Bill bill = mainBillService.findByBillID(billID);

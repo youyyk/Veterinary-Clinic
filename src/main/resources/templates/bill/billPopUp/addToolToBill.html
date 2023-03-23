@@ -13,7 +13,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:action="@{/billTool/add}" method="POST" enctype="multipart/form-data">
+                <form id="addToolToBillForm" th:action="@{/billTool/add}" method="POST" enctype="multipart/form-data"
+                      onsubmit="return validSubmitAddToolToBillForm(this, 'all');">
 
                     <!--Account ID-->
                     <input type="hidden" class="form-control" id="billID" name="billID" th:value="${billID}">
@@ -21,8 +22,8 @@
                     <!-- Choose Tool-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Tool</span>
-                        <select class="form-select" aria-label="Select Medicine" id="toolID" name="toolID">
-                            <option value=0 selected >-------- Choose --------</option>
+                        <select class="form-select" aria-label="Select Medicine" id="toolID" name="toolID" onchange="validFormAddToolToBillByEachField(this)">
+                            <option value="#" selected >-------- Choose --------</option>
                             <div th:each="tool : ${tools}">
                                 <option th:value="${tool.toolID}" th:text="${tool.name}+' ('+${tool.description}+')'"/>
                             </div>
@@ -31,7 +32,11 @@
 
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Amount</span>
-                        <input type="number" class="form-control" id="cureAmount" name="cureAmount">
+                        <input type="number" class="form-control" id="cureAmount" name="cureAmount"
+                               autocomplete="off"
+                               onkeyup="validFormAddToolToBillByEachField(this)"
+                               onchange="validFormAddToolToBillByEachField(this)"
+                               onpaste="validFormAddToolToBillByEachField(this)">
                     </div>
 
                     <!--button-->

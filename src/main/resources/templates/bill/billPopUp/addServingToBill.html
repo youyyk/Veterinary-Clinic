@@ -13,7 +13,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:action="@{/billService/add}" method="POST" enctype="multipart/form-data">
+                <form id="addServiceToBillForm" th:action="@{/billService/add}" method="POST" enctype="multipart/form-data"
+                      onsubmit="return validSubmitAddServiceToBillForm(this, 'all');">
 
                     <!--Account ID-->
                     <input type="hidden" class="form-control" id="billID" name="billID" th:value="${billID}">
@@ -21,15 +22,20 @@
                     <!-- Choose Medicine-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Service</span>
-                        <select class="form-select" aria-label="Select Medicine" id="servingID" name="servingID">
-                            <option value=0 selected >-------- Choose --------</option>
+                        <select class="form-select" aria-label="Select Medicine" id="servingID" name="servingID"
+                                onchange="validFormAddServiceToBillByEachField(this)">
+                            <option value="#" selected >-------- Choose --------</option>
                             <option th:each="serving : ${servings}" th:value="${serving.servingID}" th:text="${serving.name}"/>
                         </select>
                     </div>
 
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Amount</span>
-                        <input type="number" class="form-control" id="cureAmount" name="cureAmount">
+                        <input type="number" class="form-control" id="cureAmount" name="cureAmount"
+                               autocomplete="off"
+                               onkeyup="validFormAddServiceToBillByEachField(this)"
+                               onchange="validFormAddServiceToBillByEachField(this)"
+                               onpaste="validFormAddServiceToBillByEachField(this)">
                     </div>
 
                     <!--button-->

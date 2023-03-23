@@ -5,6 +5,7 @@ function payloadValid(fieldId, errorMessage) {
 const regexOnlyCharacter = /^[A-Za-zก-๙ ]+$/;
 const regexAddress = /^[0-9A-Za-zก-๙ ,]+$/;
 const regexOnlyCharacterWithNumber = /^[A-Za-z0-9ก-๙ ]+$/;
+const regexOnlyNumber = /^[0-9]+$/;
 const regexPhoneNumber = /^0\d{9}$/;
 const regexDate = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/
 const titleChoice = ["Mr.", "Mrs.", "Ms.", "Miss"];
@@ -238,6 +239,66 @@ function serviceValidNewAppointment(formNewAppointment, option){
     return payload;
 }
 
+/*
+* Use on Files
+* - billDetail for form in addMedToBill
+* - billDetail for form in editBillMed
+* */
+function serviceValidAddMedToBill(formMedToBill, option){
+    const payload = [];
+    const fields = ["medID", "newDescription", "cureAmount"];
+    if (formMedToBill != null || formMedToBill != undefined){
+        if (option === fields[0] || option === "all") { // medId
+            validRegexFormat(formMedToBill.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter)
+        }
+        if (option === fields[1] || option === "all") { // Description
+            validRegexFormat(formMedToBill.elements[fields[1]].value, regexOnlyCharacterWithNumber, payload, fields[1], errMessageCharacter);
+        }
+        if (option === fields[2] || option === "all") { // cureAmount
+            validNumberInt(formMedToBill.elements[fields[2]].value, payload, fields[2], "Input quantityIn");
+        }
+    }
+    return payload;
+}
+
+/*
+* Use on Files
+* - billDetail for form in addToolToBill
+* - billDetail for form in editBillTool
+* */
+function serviceValidAddToolToBill(formToolToBill, option){
+    const payload = [];
+    const fields = ["toolID", "cureAmount"];
+    if (formToolToBill != null || formToolToBill != undefined){
+        if (option === fields[0] || option === "all") { // medId
+            validRegexFormat(formToolToBill.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter)
+        }
+        if (option === fields[1] || option === "all") { // cureAmount
+            validNumberInt(formToolToBill.elements[fields[1]].value, payload, fields[1], "Input quantityIn");
+        }
+    }
+    return payload;
+}
+
+/*
+* Use on Files
+* - billDetail for form in addToolToBill
+* - billDetail for form in editBillService
+* */
+function serviceValidAddServiceToBill(formServiceToBill, option){
+    const payload = [];
+    const fields = ["servingID", "cureAmount"];
+    if (formServiceToBill != null || formServiceToBill != undefined){
+        if (option === fields[0] || option === "all") { // medId
+            validRegexFormat(formServiceToBill.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter)
+        }
+        if (option === fields[1] || option === "all") { // cureAmount
+            validNumberInt(formServiceToBill.elements[fields[1]].value, payload, fields[1], "Input quantityIn");
+        }
+    }
+    return payload;
+}
+
 function validIncludeList(value, listCheck, payload, fieldName, errorMessage){
     if (value != null && value != undefined){
         if (!listCheck.includes(value)){
@@ -262,7 +323,7 @@ function validRegexFormat(value, regex, payload, fieldName, errorMessage){
 function validNumberInt(value, payload, fieldName, errorMessage){
     if (value != null && value != undefined){
         try {
-            if (parseInt(value) && parseInt(value) > 0){
+            if (parseInt(value) > 0){
                 return payload.push(new payloadValid(fieldName, "valid"))
             }
         } catch (e) {

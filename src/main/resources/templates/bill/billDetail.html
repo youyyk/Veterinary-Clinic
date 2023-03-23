@@ -19,6 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"></script>
+    <script th:src="@{/js/validateModel.js}"></script>
 </head>
 <script>
     let host = window.location.origin;
@@ -46,6 +47,55 @@
         // });
     });
 
+    let realTimeCheckFormPayment = false;
+
+    function validSubmitPaymentPopUp(formPayment){
+        realTimeCheckFormPayment = true;
+        const validatedList = [];
+        let validCount = 1;
+        let discount = formPayment.discount.value;
+        let total = formPayment.total.value;
+        let receive = formPayment.receive.value;
+        try {
+            if (parseInt(discount) >= 0 && parseInt(discount) <= parseInt(total)){
+                validatedList.push(new payloadValid("discount", "valid"))
+            } else {
+                validatedList.push(new payloadValid("discount", "invalid"))
+            }
+        } catch (e) {
+            validatedList.push(new payloadValid("discount", "invalid"))
+        }
+        if (document.getElementById("cash").checked) {
+            validCount = 2;
+            try {
+                if (parseInt(receive) >= parseInt(total)-parseInt(discount) && receive != ""){
+                    validatedList.push(new payloadValid("receive", "valid"))
+                } else {
+                    validatedList.push(new payloadValid("receive", "invalid"))
+                }
+            } catch (e) {
+                validatedList.push(new payloadValid("receive", "invalid"))
+            }
+        }
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(formPayment.elements[element.fieldId], element.errorMessage);
+            });
+
+            if (count === validCount){
+                if (validCount == 1 && !document.getElementById("prompt").checked){
+                    return false;
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
     // PaymentPopUp
     function displayRadioValue() {
         let radioValue = document.getElementsByName('payType');
@@ -63,6 +113,9 @@
         let receive = document.getElementById('receive').value;
         let total = document.getElementById('total').value;
         let discount = document.getElementById('discount').value;
+        if (realTimeCheckFormPayment){
+            validSubmitPaymentPopUp(document.getElementById('formPaymentPopUp'));
+        }
 
         if (!discount){
             discount = 0;
@@ -99,10 +152,13 @@
 
     //PaymentPopUp
     function discountKeyUp() {
-        let discount = document.getElementById('discount').value;
         let total = document.getElementById('total').value;
         let oldTotal = document.getElementById('oldTotal');
         let netTotal = document.getElementById('netTotal');
+        let discount = document.getElementById('discount').value;
+        if (realTimeCheckFormPayment){
+            validSubmitPaymentPopUp(document.getElementById('formPaymentPopUp'));
+        }
 
         oldTotal.style.display = hide;
         netTotal.style.display = show;
@@ -135,27 +191,218 @@
     }
 
     //AddMedToBill
-    async function showDescription() {
-        let medID = document.getElementById('medID').value;
+    async function showDescription(fieldElement) {
         let newDescription = document.getElementById("newDescription");
         let descriptionPane = document.getElementById("descriptionPane");
-        console.log(medID);
-        console.log(newDescription)
-
-        const response= await fetch(host + '/medicine/'+medID);
-        console.log(response);
-        const data= await response.json();
-        console.log(data.description);
-
-        newDescription.value = data.description;
-        descriptionPane.style.display = show;
-
+        if (fieldElement.value !== "#"){
+            let medID = document.getElementById('medID').value;
+            const response= await fetch(host + '/medicine/'+medID);
+            const data= await response.json();
+            newDescription.value = data.description;
+            descriptionPane.style.display = show;
+        } else {
+            descriptionPane.style.display = hide;
+        }
+        validFormAddMedToBillByEachField(newDescription);
+        validFormAddMedToBillByEachField(fieldElement);
     }
 
     function setDisplay(elements, displayType) {
         elements.forEach((element) => {
             element.style.display = displayType;
         });
+    }
+</script>
+<script>
+    // Add med to bill
+    let realTimeValid_formAddMedToBill = false;
+
+    function validFormAddMedToBillByEachField(fieldElement){
+        if (realTimeValid_formAddMedToBill){
+            const thisForm = document.getElementById("addMedToBillForm")
+            const validatedList =serviceValidAddMedToBill(thisForm, fieldElement.id);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(thisForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitAddMedToBillForm(thisForm, option){
+        realTimeValid_formAddMedToBill = true;
+        const validatedList = serviceValidAddMedToBill(thisForm, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(thisForm.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 3){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
+<script>
+    // Add tool to bill
+    let realTimeValid_formAddToolToBill = false;
+
+    function validFormAddToolToBillByEachField(fieldElement){
+        if (realTimeValid_formAddToolToBill){
+            const thisForm = document.getElementById("addToolToBillForm")
+            const validatedList = serviceValidAddToolToBill(thisForm, fieldElement.id);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(thisForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitAddToolToBillForm(thisForm, option){
+        realTimeValid_formAddToolToBill = true;
+        const validatedList = serviceValidAddToolToBill(thisForm, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(thisForm.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 2){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
+<script>
+    // Add service to bill
+    let realTimeValid_formAddServiceToBill = false;
+
+    function validFormAddServiceToBillByEachField(fieldElement){
+        if (realTimeValid_formAddServiceToBill){
+            const thisForm = document.getElementById("addServiceToBillForm")
+            const validatedList = serviceValidAddServiceToBill(thisForm, fieldElement.id);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(thisForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitAddServiceToBillForm(thisForm, option){
+        realTimeValid_formAddServiceToBill = true;
+        const validatedList = serviceValidAddServiceToBill(thisForm, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(thisForm.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 2){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
+<script>
+    // Edit Bill Med Form
+    let realTimeValid_formEditBillMed = false;
+
+    function validFormEditBillMedFormByEachField(fieldId, fromId){
+        if (realTimeValid_formEditBillMed){
+            const thisForm = document.getElementById("editBillMedForm"+fromId)
+            const validatedList = serviceValidAddMedToBill(thisForm, fieldId);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(thisForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitEditBillMedForm(thisForm, option){
+        realTimeValid_formEditBillMed= true;
+        const validatedList = serviceValidAddMedToBill(thisForm, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(thisForm.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 3){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
+<script>
+    // Edit Bill Tool Form
+    let realTimeValid_formEditBillTool = false;
+
+    function validFormEditBillToolFormByEachField(fieldId, fromId){
+        if (realTimeValid_formEditBillTool){
+            const thisForm = document.getElementById("editBillToolForm"+fromId)
+            const validatedList = serviceValidAddToolToBill(thisForm, fieldId);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(thisForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitEditBillToolForm(thisForm, option){
+        realTimeValid_formEditBillTool= true;
+        const validatedList = serviceValidAddToolToBill(thisForm, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(thisForm.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 2){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
+<script>
+    // Edit Bill Service Form
+    let realTimeValid_formEditBillService = false;
+
+    function validFormEditBillServiceFormByEachField(fieldId, fromId){
+        if (realTimeValid_formEditBillService){
+            const thisForm = document.getElementById("editBillServingForm"+fromId)
+            const validatedList = serviceValidAddServiceToBill(thisForm, fieldId);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(thisForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitEditBillServiceForm(thisForm, option){
+        realTimeValid_formEditBillService= true;
+        const validatedList = serviceValidAddServiceToBill(thisForm, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(thisForm.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 2){
+                return true;
+            }
+        }
+        return false;
     }
 </script>
 <style>

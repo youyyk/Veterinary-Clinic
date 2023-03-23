@@ -8,12 +8,12 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Payment Details</h5>
+        <h5 class="modal-title" th:text="'Payment Details (' + ${bill.total} + ' ฿)'"></h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
         <div th:with="discount=${0}"></div>
       <div class="modal-body">
-          <form th:action="@{/bill/paid}" method="POST">
+          <form id="formPaymentPopUp" th:action="@{/bill/paid}" method="POST" onsubmit="return validSubmitPaymentPopUp(this)">
               <!--Bill ID-->
               <input type="hidden" class="form-control" id="billID" name="billID" th:value="${bill.billID}">
               <input type="hidden" id="total" name="total" th:value="${bill.total}">
@@ -28,7 +28,7 @@
                   <label for="receive" class="col-sm-2 col-form-label"><b>Discount </b></label>
                   <div class="col-sm-9">
                       <div class="input-group mb-2">
-                          <input type="number"onkeyup="discountKeyUp()" class="form-control" style="text-align: right" id="discount" name="discount" th:value="0">
+                          <input type="number"onkeyup="discountKeyUp()" onchange="discountKeyUp()" onpaste="discountKeyUp()" min=0 class="form-control" style="text-align: right" id="discount" name="discount" th:value="0">
                           <div class="input-group-prepend">
                               <div class="input-group-text">฿</div>
                           </div>
@@ -36,7 +36,7 @@
                   </div>
               </div>
               <p>
-                  <b>Total :
+                  <b>Net Total :
                       <span id="oldTotal" class="float-end" style="font-size: 1.1em" th:text="${#numbers.formatDecimal(bill.total, 1, 'COMMA', 2, 'POINT')}+' ฿'"></span>
                       <span id="netTotal" class="float-end" style="font-size: 1.1em;display: none"></span>
                   </b>
@@ -64,7 +64,7 @@
                       <label for="receive" class="col-sm-2 col-form-label"><b>Receive </b></label>
                       <div class="col-sm-9">
                           <div class="input-group mb-2">
-                              <input type="number"onkeyup="receiveKeyUp()" class="form-control" style="text-align: right" id="receive" name="receive">
+                              <input type="number"onkeyup="receiveKeyUp()" onchange="receiveKeyUp()" onpaste="receiveKeyUp()" min=0 class="form-control" style="text-align: right" id="receive" name="receive">
                               <div class="input-group-prepend">
                                   <div class="input-group-text">฿</div>
                               </div>
