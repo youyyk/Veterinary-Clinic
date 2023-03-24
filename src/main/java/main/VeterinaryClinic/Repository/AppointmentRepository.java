@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,6 +16,9 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     @Transactional
     Appointment findByAppointmentID(long appointmentID);
+
+    @Transactional
+    List<Appointment> findByDate(Date date);
 
     @Transactional
     void deleteByAppointmentID(long appointmentID);

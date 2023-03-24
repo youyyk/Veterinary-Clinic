@@ -5,6 +5,7 @@ import main.VeterinaryClinic.Repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -23,6 +24,10 @@ public class AppointmentService {
 
     public Appointment findByAppointmentID(long appointmentID) {
         return repository.findByAppointmentID(appointmentID);
+    }
+
+    public List<Appointment> findByDate(Date date) {
+        return repository.findByDate(date);
     }
 
     public void deleteByAppointmentID(long appointmentID){repository.deleteByAppointmentID(appointmentID);}

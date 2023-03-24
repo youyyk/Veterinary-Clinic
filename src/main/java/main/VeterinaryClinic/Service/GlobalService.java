@@ -101,11 +101,11 @@ public class GlobalService {
             accountService.create("Test"+i, "user"+i,null);
         }
         //------------- Pet --------------
-        Pet pet = new Pet(accountService.getByLineId("user1"),"Mini","female", GlobalService.convertStringToDate("2022-05-27"),
+        Pet pet = new Pet(accountService.getByLineId("Ua740d4c84ff34de6a233ae21b0db03ab"),"Mini","female", GlobalService.convertStringToDate("2022-05-27"),
                 true,"Dog","Pom","");
         petService.save(pet);
 
-        pet = new Pet(accountService.getByLineId("user1"),"Lupin","male", GlobalService.convertStringToDate("2022-03-12"),
+        pet = new Pet(accountService.getByLineId("Ua740d4c84ff34de6a233ae21b0db03ab"),"Lupin","male", GlobalService.convertStringToDate("2022-03-12"),
                 true,"Cat","Persia","");
         petService.save(pet);
 
@@ -193,10 +193,10 @@ public class GlobalService {
     //        ------------- Appointment --------------
 
         pet = petService.findByPetID(1);
-        Appointment appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-04-01"),"morning","ดูแผล");
+        Appointment appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-03-25"),"morning","ดูแผล");
         appointmentService.save(appointment);
         pet = petService.findByPetID(1);
-        appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-05-16"),"morning","vaccine");
+        appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-03-25"),"morning","vaccine");
         appointmentService.save(appointment);
 
 

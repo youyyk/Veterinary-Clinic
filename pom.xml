@@ -84,13 +84,6 @@
 			<artifactId>postgresql</artifactId>
 		</dependency>
 
-		<!-- Line Bot -->
-<!--		<dependency>-->
-<!--			<groupId>com.linecorp.bot</groupId>-->
-<!--			<artifactId>line-bot-spring-boot</artifactId>-->
-<!--			<version>5.0.3</version>-->
-<!--		</dependency>-->
-
 		<!-- PDF Generator -->
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
