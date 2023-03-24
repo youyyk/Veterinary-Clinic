@@ -21,10 +21,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
 
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<!--    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>-->
+<!--    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />-->
 <script>
     let host = window.location.origin;
+    const hide = "none";
+    const show = "block";
 
     window.addEventListener('DOMContentLoaded', event => {
         const datatableAllAppointment = document.getElementById('datatableAllAppointment');
@@ -32,9 +34,6 @@
 
         document.getElementById('link-filter-today').href = host + "/appointment/today";
         document.getElementById('link-filter-clear').href = host + "/appointment";
-
-
-        // document.getElementById('dateRange').daterangepicker();
 
     });
 
@@ -65,30 +64,30 @@
     //     });
     //
     // });
-    $(function() {
-        var currentYear = moment().year();
-        $('input[name="dateRange"]').daterangepicker({
-            opens: 'left',
-            showDropdowns: true,
-            minYear: currentYear-5,
-            maxYear: currentYear+2,
-            locale: {
-                format: 'YYYY/MM/DD',
-                separator: ' - ',
-                // calendar: 'gregorian' // Set the calendar to AD
-            }
-        }, function(start, end, label) {
-            $('input[name="dateRange"]').val(start.format('YYYY/MM/DD') + ' - ' + end.format('YYYY/MM/DD'));
-        });
-
-        $('input[name="dateRange"]').on('apply.daterangepicker', function(ev, picker) {
-            var startDate = picker.startDate.format('YYYY/MM/DD');
-            var endDate = picker.endDate.format('YYYY/MM/DD');
-            // Update the date range in the input field
-            $('input[name="dateRange"]').val(startDate + ' - ' + endDate);
-            // You can perform any desired actions with the selected date range here, such as updating a chart or table on the page
-        });
-    });
+    // $(function() {
+    //     var currentYear = moment().year();
+    //     $('input[name="dateRange"]').daterangepicker({
+    //         opens: 'left',
+    //         showDropdowns: true,
+    //         minYear: currentYear-5,
+    //         maxYear: currentYear+2,
+    //         locale: {
+    //             format: 'YYYY/MM/DD',
+    //             separator: ' - ',
+    //             // calendar: 'gregorian' // Set the calendar to AD
+    //         }
+    //     }, function(start, end, label) {
+    //         $('input[name="dateRange"]').val(start.format('YYYY/MM/DD') + ' - ' + end.format('YYYY/MM/DD'));
+    //     });
+    //
+    //     $('input[name="dateRange"]').on('apply.daterangepicker', function(ev, picker) {
+    //         var startDate = picker.startDate.format('YYYY/MM/DD');
+    //         var endDate = picker.endDate.format('YYYY/MM/DD');
+    //         // Update the date range in the input field
+    //         $('input[name="dateRange"]').val(startDate + ' - ' + endDate);
+    //         // You can perform any desired actions with the selected date range here, such as updating a chart or table on the page
+    //     });
+    // });
 
 </script>
 <body>

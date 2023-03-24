@@ -8,11 +8,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Account</h5>
+                <h5 class="modal-title" id="editAccountHeader">Edit Account</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="editAccountForm" th:action="@{/account/edit}" method="POST" onsubmit="return validSubmitEditAccountForm(this, 'all');">
+                <form id="editAccountForm" th:action="@{/account/edit}" method="POST" >
+                    <div id="editAccountPane">
                     <!--Account ID-->
                     <input type="hidden" class="form-control" id="accId" name="accId" th:value="${account.accId}">
 
@@ -60,8 +61,19 @@
                     <!--button-->
                     <div class="modal-footer">
                         <div class="col-md-12 text-center">
-                            <button class="btn btn-primary" type="submit">Edit</button>
-                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">Cancel</button>
+                            <button onclick="clickEditAccount()" class="btn btn-primary" type="button">save</button>
+                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">cancel</button>
+                        </div>
+                    </div>
+                    </div>
+
+                    <div id="editAccountConfirm" style="display: none">
+                        <p>Are you sure you want to edit this account ?</p>
+                        <div class="modal-footer">
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-primary" type="submit">Yes</button>
+                                <button onclick="clickEditAccountNo()" type="reset" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                            </div>
                         </div>
                     </div>
 

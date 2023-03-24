@@ -9,7 +9,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" th:id="'editHeader'+${pet.petID}">Edit Pet</h5>
+                <h5 class="modal-title" th:id="'editPetHeader'+${pet.petID}">Edit Pet</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -104,16 +104,16 @@
 
                     <!--button-->
                     <div class="modal-footer">
-                            <button th:attr="onclick='clickEdit(\'' + ${pet.petID} +  '\');'" class="btn btn-primary" type="button">save</button>
+                            <button th:attr="onclick='clickEditPet(\'' + ${pet.petID} +  '\');'" class="btn btn-primary" type="button">save</button>
                             <button class="btn btn-secondary" type="reset">clear</button>
                     </div>
                     </div>
 
-                    <div th:id="'editConfirm'+${pet.petID}" style="display: none" class="text-start">
-                        <p>Are you sure you want to edit <b th:id="'editName'+${pet.petID}"></b> ?</p>
+                    <div th:id="'editPetConfirm'+${pet.petID}" style="display: none" class="text-start">
+                        <p >Are you sure you want to edit [[${pet.name}]] ?</p>
                         <div class="modal-footer">
                             <button class="btn btn-primary" type="submit">Yes</button>
-                            <button th:attr="onclick='clickEditNo(\'' + ${pet.petID} +  '\');'" type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                            <button th:attr="onclick='clickEditPetNo(\'' + ${pet.petID} +  '\');'" type="reset" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                         </div>
                     </div>
 

@@ -18,6 +18,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <script>
+    let host = window.location.origin;
+    const hide = "none";
+    const show = "block";
+
     window.addEventListener('DOMContentLoaded', event => {
         const datatableAppointment = document.getElementById('datatableAppointment');
         new simpleDatatables.DataTable(datatableAppointment);

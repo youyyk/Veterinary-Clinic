@@ -8,6 +8,7 @@
   <link th:rel="stylesheet" th:href="@{/css/table-image.css}">
   <script th:src="@{/js/validateModel.js}"></script>
     <link th:rel="stylesheet" th:href="@{/css/table-warehouse.css}">
+    <script th:src="@{/js/confirmPopUp.js}"></script>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -24,6 +25,7 @@
 <script>
     let realTimeValid = false;
     let host = window.location.origin;
+
     const hide = "none";
     const show = "block";
 
@@ -32,6 +34,7 @@
         new simpleDatatables.DataTable(datatableAppointment);
 
     });
+
 
     function validFormEditAccountByEachField(fieldElement){
         if (realTimeValid){
@@ -44,6 +47,7 @@
     }
 
     function validSubmitEditAccountForm(formEditAccount, option){
+        console.log("Validate")
         realTimeValid = true;
         const validatedList = serviceValidEditAccount(formEditAccount, option);
         let count = 0;
@@ -64,13 +68,6 @@
     function calculateDate() {
         let age = document.getElementById("age").value;
         let doB =document.getElementById("doB");
-
-        // let splitYear = age.split("y");
-        // console.log("Year : "+splitYear[0]);
-        // let splitMonth = splitYear[1].split("m");
-        // console.log("Month : "+splitMonth[0]);
-        // let splitDay = splitMonth[1].split("d");
-        // console.log("Day : "+splitDay[0]);
 
         const date = new Date();
         console.log("Today Date : "+date);
@@ -153,57 +150,6 @@
         console.log(petRow);
     }
 
-    // ---- Create Pet ----
-    function clickCreate(){
-        let createPane = document.getElementById("createPetPane");
-        let createConfirm = document.getElementById("createConfirm");
-        let createName = document.getElementById("createName");
-        let header = document.getElementById("createHeader");
-
-        header.innerHTML = "Add Pet Confirmation";
-        createName.innerHTML = document.getElementById("name").value;
-        createConfirm.style.display = show;
-        createPane.style.display = hide;
-    }
-    function clickCreateNo() {
-        setTimeout(function (){
-            let createPane = document.getElementById("createPetPane");
-            let createConfirm = document.getElementById("createConfirm");
-            let header = document.getElementById("createHeader");
-
-            header.innerHTML = "Add Pet";
-            createConfirm.style.display = hide;
-            createPane.style.display = show;
-        },1000);
-    }
-    // ---- Edit Pet ----
-    function clickEdit(petID){
-        const formEdit = document.getElementById("editPetForm"+petID);
-        let editPane = document.getElementById("editPetPane"+petID);
-        let header = document.getElementById("editHeader"+petID);
-        let editConfirm = document.getElementById("editConfirm"+petID);
-        let editName = document.getElementById("editName"+petID);
-
-        header.innerHTML = "Edit Pet Confirmation";
-        console.log("check : "+formEdit.name.value)
-        editName.innerHTML = formEdit.name.value;
-
-        editConfirm.style.display = show;
-        editPane.style.display = hide;
-
-    }
-    function clickEditNo(petID) {
-        setTimeout(function (){
-            let editPane = document.getElementById("editPetPane"+petID);
-            let header = document.getElementById("editHeader"+petID);
-            let editConfirm = document.getElementById("editConfirm"+petID);
-
-            header.innerHTML = "Edit Pet";
-            editConfirm.style.display = hide;
-            editPane.style.display = show;
-        },1000);
-    }
-
 
 </script>
 <body>
@@ -227,7 +173,7 @@
             <p class="card-text w-50 mt-3">
                 <span class="material-symbols-rounded align-middle pb-1">location_on</span> [[*{account.address}]]
             </p>
-            <p class="card-text mb-5 position-absolute bottom-0">
+            <p class="card-text mb-3 bottom-0">
                 <span class="material-symbols-rounded align-middle pb-1">call</span>
                 <span style="font-size: 1.25em;">
                    [[*{account.phone}]]
@@ -298,7 +244,8 @@
 
                                 <td>[[*{pet.name}]]</td>
                                 <td>[[*{pet.gender}]]</td>
-                                <td>[[${#dates.format(pet.doB, 'yyyy/MM/dd')}]]</td>
+                                <td>[[${#dates.format(pet.doB,'yyyy/MM/dd')}]]</td>
+<!--                                <td> <span temporal:format="${#temporals.format(#temporals.toGregorian(#dates.create(pet.doB).atZone('Asia/Bangkok').toLocalDate()), 'yyyy/MM/dd', 'en_US')}"></span></td>-->
                                 <div th:with="age=${pet.findAge()}">
                                     <td>[[${age}]]</td>
                                 </div>

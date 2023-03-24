@@ -18,8 +18,13 @@
     <!--Table-->
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+
+    <script th:src="@{/js/confirmPopUp.js}"></script>
 </head>
 <script>
+    let host = window.location.origin;
+    const hide = "none";
+    const show = "block";
     window.addEventListener('DOMContentLoaded', event => {
         const datatablesService = document.getElementById('datatablesService');
         if (datatablesService) {

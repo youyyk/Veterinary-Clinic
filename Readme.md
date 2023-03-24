@@ -1,5 +1,1 @@
-- Pet   
-  - Confirm PopUp
-  - filter "search" with paginate
-- Account 
-  - filter "search" with paginate
+- Confirm Pop Up

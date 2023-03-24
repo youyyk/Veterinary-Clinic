@@ -11,11 +11,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="createHeader">Add Pet</h5>
+                <h5 class="modal-title" id="createPetHeader">Add Pet</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:action="@{/pets/create}" method="POST" enctype="multipart/form-data">
+                <form th:action="@{/pets/create}" method="POST" enctype="multipart/form-data" id="createPetForm">
 
                     <div id="createPetPane">
                         <!--Account ID-->
@@ -86,16 +86,20 @@
 
                         <!--button-->
                         <div class="modal-footer">
-                                <button onclick="clickCreate()" type="button" class="btn btn-primary">save</button>
+                            <div class="col-md-12 text-center">
+                                <button onclick="clickCreatePet()" type="button" class="btn btn-primary">save</button>
                                 <button class="btn btn-secondary" type="reset">clear</button>
+                            </div>
                         </div>
                     </div>
 
-                    <div id="createConfirm" style="display: none">
+                    <div id="createPetConfirm" style="display: none">
                         <p>Are you sure you want to add <b id="createName"></b> ?</p>
                         <div class="modal-footer">
+                            <div class="col-md-12 text-center">
                             <button class="btn btn-primary" type="submit">Yes</button>
-                            <button onclick="clickCreateNo()" type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                            <button onclick="clickCreatePetNo()" type="reset" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                            </div>
                         </div>
                     </div>
 
