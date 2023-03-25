@@ -12,6 +12,8 @@
 	<parameter name="RECEIPT_PAY_RETURN" class="java.lang.Double"/>
 	<parameter name="RECEIPT_CASHIER_NAME" class="java.lang.String"/>
 	<parameter name="RECEIPT_LOGO_FILE" class="java.lang.String"/>
+	<parameter name="RECEIPT_WHO_RECEIVE" class="java.lang.String"/>
+	<parameter name="RECEIPT_NEXT_APPOINTMENT" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -36,7 +38,7 @@
 เวลาทำการ 09.00 - 21.00 น.]]></text>
 			</staticText>
 			<image>
-				<reportElement x="15" y="15" width="50" height="50" uuid="789d144b-bde9-47d1-ab23-09409d1855a6"/>
+				<reportElement x="10" y="8" width="65" height="65" uuid="789d144b-bde9-47d1-ab23-09409d1855a6"/>
 				<imageExpression><![CDATA[$P{RECEIPT_LOGO_FILE}]]></imageExpression>
 			</image>
 		</band>
@@ -129,7 +131,7 @@
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="82">
+		<band height="100">
 			<rectangle>
 				<reportElement x="0" y="0" width="380" height="20" uuid="1c1c85d8-2075-4ce8-8f5d-a7c6272dd637"/>
 			</rectangle>
@@ -171,14 +173,14 @@
 				<textFieldExpression><![CDATA[$P{RECEIPT_NET_TOTAL}]]></textFieldExpression>
 			</textField>
 			<rectangle>
-				<reportElement x="0" y="40" width="555" height="42" uuid="c0f98488-fd74-4306-989d-d5703cd41394"/>
+				<reportElement x="0" y="40" width="555" height="60" uuid="c0f98488-fd74-4306-989d-d5703cd41394"/>
 			</rectangle>
 			<textField>
-				<reportElement x="3" y="40" width="548" height="42" uuid="70aa347e-b600-4bf1-a6c5-a3f21a6ed99f"/>
+				<reportElement x="3" y="40" width="548" height="60" uuid="70aa347e-b600-4bf1-a6c5-a3f21a6ed99f"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Sarabun"/>
 				</textElement>
-				<textFieldExpression><![CDATA["ชำระด้วย (Paid With) : "+$P{RECEIPT_PAY_TYPE}+"\n"+"การชำระเงิน (Payment Detail) : รับเงิน "+$P{RECEIPT_PAY_RECEIVE} + " บาท ทอน "+$P{RECEIPT_PAY_RETURN}  + " บาท"]]></textFieldExpression>
+				<textFieldExpression><![CDATA["ชำระด้วย (Paid With) : "+$P{RECEIPT_PAY_TYPE}+"\n"+"การชำระเงิน (Payment Detail) : รับเงิน "+$P{RECEIPT_PAY_RECEIVE} + " บาท ทอน "+$P{RECEIPT_PAY_RETURN}  + " บาท" + "\n" + "ผู้รับเงิน (Cashier) : " + $P{RECEIPT_WHO_RECEIVE}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>

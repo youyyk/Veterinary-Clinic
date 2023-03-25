@@ -123,7 +123,8 @@ public class BillController {
     public String deletePet(@RequestParam("billID") long billID,
                             @RequestParam(defaultValue = "-1") double receive,
                             @RequestParam(defaultValue = "0") double discount,
-                            @RequestParam("payType") String payType){
+                            @RequestParam("payType") String payType,
+                            @AuthenticationPrincipal AccountUserDetail accountUserDetail){
         System.out.println("----- Paid -----");
 
         Bill bill = mainBillService.findByBillID(billID);
@@ -144,6 +145,7 @@ public class BillController {
         bill.setDiscount(discount);
         bill.setPaidStatus(true);
         bill.setEndDate(GlobalService.getCurrentTime());
+        bill.setCashier(accountUserDetail.getAccount().getFullName());
 
         mainBillService.save(bill);
 

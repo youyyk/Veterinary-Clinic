@@ -60,6 +60,7 @@ public class GenerateFileService {
             JasperReport jasperReport = JasperCompileManager.compileReport(file.getAbsolutePath());
             JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(descriptionBodyList);
             Map<String, Object> parameters = new HashMap<>();
+            parameters.put("RECEIPT_LOGO_FILE",  ResourceUtils.getFile("classpath:jasper/images/logo.png").getAbsolutePath());
             parameters.put("RECEIPT_HEAD_INFO", "วันที่ออกใบเสร็จ (Date) : " + GlobalService.getStringCurrentTime() + " ใบเสร็จเลขที่ (Bill No.) : " + bill.getBillID());
             parameters.put("RECEIPT_PET_NAME", bill.getTreatmentHistory().getPet().getName());
             parameters.put("RECEIPT_CUSTOMER_NAME", bill.getTreatmentHistory().getPet().getAccount().getFullName());
@@ -70,7 +71,8 @@ public class GenerateFileService {
             parameters.put("RECEIPT_PAY_RECEIVE", bill.getReceive());
             double returnValue = bill.getReceive()-bill.getTotal();
             parameters.put("RECEIPT_PAY_RETURN", returnValue >= 0 ? returnValue : 0 );
-            parameters.put("RECEIPT_LOGO_FILE",  ResourceUtils.getFile("classpath:jasper/images/logo.png").getAbsolutePath());
+            parameters.put("RECEIPT_WHO_RECEIVE",  bill.getCashier());
+//            parameters.put("RECEIPT_NEXT_APPOINTMENT",  "2019/12/5");
 
             JasperPrint jasperPrint = JasperFillManager.fillReport( jasperReport, parameters, dataSource);
             return jasperPrint;
