@@ -18,9 +18,14 @@
     <!--Table-->
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
+
+    <script th:src="@{/js/confirmPopUp.js}"></script>
     <script th:src="@{/js/validateModel.js}"></script>
 </head>
 <script>
+    let host = window.location.origin;
+    const hide = "none";
+    const show = "block";
     window.addEventListener('DOMContentLoaded', event => {
         const datatablesService = document.getElementById('datatablesService');
         if (datatablesService) {
@@ -96,10 +101,11 @@
 
 </style>
 <body>
-<div th:insert="fragments/header :: header"></div>
-<div class="container">
+    <div th:insert="fragments/header :: header"></div>
+    <div class="container">
     <h1>All Services</h1>
     <div class="card mb-4 container">
+        <div class="tab-content">
         <div class="mb-0">
             <div class="float-end mt-4 mb-0 ms-4">
                 <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createServicePopUp">
@@ -130,11 +136,13 @@
                                     <i class="fa fa-ellipsis-v"></i>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                    <a class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editServicePopUp'+ *{service.servingID}" role="button">
+                                    <a class="dropdown-item" data-bs-toggle="modal"
+                                       th:attr="data-bs-target='#editServicePopUp'+ *{service.servingID}" role="button">
                                         <i class="fa fa-pencil mr-1"></i> Edit
                                     </a>
 
-                                    <a class="dropdown-item text-danger" href="#">
+                                    <a class="dropdown-item text-danger" data-bs-toggle="modal"
+                                       th:attr="data-bs-target='#deletePopUp'+*{service.servingID}">
                                         <i class="fa fa-trash mr-1"></i> Delete
                                     </a>
                                 </div>
@@ -142,12 +150,17 @@
                         </div>
                     </td>
                     <th:block th:replace="service/editServicePopUp :: editServicePopUp(${service})">modal</th:block>
+                    <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Service',mainPath='service',deleteId=${service.servingID},deleteName=${service.name},pathId='service')">
+                        modal
+                    </th:block>
+
                 </tr>
                 </tbody>
             </table>
         </div>
         <th:block th:replace="service/createServicePopUp :: createServicePopUp">modal</th:block>
     </div>
-</div>
+    </div>
+    </div>
 </body>
 </html>

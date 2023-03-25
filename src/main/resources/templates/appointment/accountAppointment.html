@@ -18,6 +18,10 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
 <script>
+    let host = window.location.origin;
+    const hide = "none";
+    const show = "block";
+
     window.addEventListener('DOMContentLoaded', event => {
         const datatableAppointment = document.getElementById('datatableAppointment');
         new simpleDatatables.DataTable(datatableAppointment);
@@ -33,7 +37,7 @@
         <span><b style="font-size: 1.5em">Appointment</b></span>
 
         <span class="form-switch form-check-inline float-end mt-2">
-              <input onchange="appointmentCheckSliderUncheck()" class="form-check-input" type="checkbox" id="appCheckbox2" checked>
+              <input  class="form-check-input" type="checkbox" id="appCheckbox2" checked>
               <label class="form-check-label" for="appCheckbox2">Appointment</label>
           </span>
 

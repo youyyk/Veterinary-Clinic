@@ -9,13 +9,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Service</h5>
+                <h5 class="modal-title" id="addServiceToBillHeader">Add Service</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="addServiceToBillForm" th:action="@{/billService/add}" method="POST" enctype="multipart/form-data"
-                      onsubmit="return validSubmitAddServiceToBillForm(this, 'all');">
-
+                <form th:action="@{/billService/add}" method="POST" enctype="multipart/form-data" id="addServiceToBillForm">
+                    <div id="addServiceToBillPane">
                     <!--Account ID-->
                     <input type="hidden" class="form-control" id="billID" name="billID" th:value="${billID}">
 
@@ -39,9 +38,22 @@
                     </div>
 
                     <!--button-->
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" type="submit">save</button>
-                        <button class="btn btn-secondary" type="reset">clear</button>
+                        <div class="modal-footer">
+                            <div class="col-md-12 text-center">
+                                <button th:attr="onclick='clickAddItemToBill(\''+'Service' +'\');'" type="button" class="btn btn-primary">save</button>
+                                <button class="btn btn-secondary" type="reset">clear</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="addServiceToBillConfirm" style="display: none">
+                        <p>Are you sure you want to add <b id="addServiceToBillName"></b> ?</p>
+                        <div class="modal-footer">
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-primary" type="submit">Yes</button>
+                                <button th:attr="onclick='clickAddItemToBillNo(\''+'Service' +'\');'" type="reset" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                            </div>
+                        </div>
                     </div>
 
                 </form>

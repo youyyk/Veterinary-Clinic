@@ -4,11 +4,11 @@ import main.VeterinaryClinic.Model.Appointment;
 import main.VeterinaryClinic.Repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
+@Transactional
 @Service
 public class AppointmentService {
     @Autowired
@@ -35,6 +35,21 @@ public class AppointmentService {
     public List<Appointment> findByPet_Account_AccIdOrderByDateAsc(UUID accID) {
         return repository.findByPet_Account_AccIdOrderByDateAsc(accID);
     }
+
+    public List<Appointment> findByTodayDateOrderByPeriodDesc() {
+        Calendar calStart = new GregorianCalendar();
+        calStart.setTime(new Date());
+        calStart.set(Calendar.HOUR_OF_DAY, 0);
+        calStart.set(Calendar.MINUTE, 0);
+        calStart.set(Calendar.SECOND, 0);
+        calStart.set(Calendar.MILLISECOND, 0);
+        Date date = calStart.getTime();
+        System.out.println("today (find by) : "+date);
+        return repository.findByDateOrderByPeriodDesc(date);
+    }
+
+
+
 
 
 }

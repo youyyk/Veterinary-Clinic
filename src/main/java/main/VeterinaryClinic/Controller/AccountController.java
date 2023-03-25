@@ -10,6 +10,7 @@ import main.VeterinaryClinic.Service.AppointmentService;
 import main.VeterinaryClinic.Service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,6 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
@@ -49,6 +52,28 @@ public class AccountController {
         model.addAttribute("pageNo", pagedResult);
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("sortBy", sortBy);
+        model.addAttribute("search", "");
+        model.addAttribute("totalPages", pagedResult.getTotalPages());
+        model.addAttribute("totalAccounts", pagedResult.getTotalElements());
+        model.addAttribute("roles", new String[]{"ADMIN", "OFFICER", "CUSTOMER"});
+        return "/account/accounts";
+    }
+
+    @GetMapping("/search{strSearch}")
+    public String searchAccount(
+            @RequestParam(defaultValue = "1") Integer pageNo,
+            @RequestParam(defaultValue = "3") Integer pageSize,
+            @RequestParam(defaultValue = "firstName") String sortBy,
+            @PathVariable("strSearch") String search,
+            Model model) {
+        search = search.trim().toLowerCase();
+        if (search.isBlank() || search.isEmpty() || search.equals(null))return "redirect:/account";
+        Page<Account> pagedResult = accountService.getBySearch(pageNo-1, pageSize, sortBy,search);
+        model.addAttribute("accounts", pagedResult.hasContent() ? pagedResult.getContent() : new ArrayList<>());
+        model.addAttribute("pageNo", pagedResult);
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("sortBy", sortBy);
+        model.addAttribute("search", search);
         model.addAttribute("totalPages", pagedResult.getTotalPages());
         model.addAttribute("totalAccounts", pagedResult.getTotalElements());
         model.addAttribute("roles", new String[]{SecurityConfig.ROLE_ADMIN, SecurityConfig.ROLE_OFFICER, SecurityConfig.ROLE_CUSTOMER});
@@ -82,16 +107,71 @@ public class AccountController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
+
     @GetMapping("/getInfo/{accId}")
-    public String getInfo(@PathVariable("accId") UUID accId, Model model) {
+    public String getInfo(@RequestParam(defaultValue = "1") Integer pageNo,
+                          @RequestParam(defaultValue = "3") Integer pageSize,
+                          @PathVariable("accId") UUID accId,
+                          Model model) {
         System.out.println("---Get Info---");
         Account account = accountService.getById(accId);
-        List<Pet> pets = petService.findByAccountAndSoftDeleted(account,false);
+        System.out.println(account.getFirstName()+" "+account.getLastName());
+
+//        List<Pet> pets = petService.findByAccountAndSoftDeletedOrderByPetID(account,false);
         List<Appointment> appointments = appointmentService.findByPet_Account_AccIdOrderByDateAsc(accId);
 
-        System.out.println(account.getFirstName()+" "+account.getLastName());
+        List<String> petTypeList = petService.petTypeUnique();
+        List<String> breedList = petService.breedUnique();
+
+        Page<Pet> pagedResult = petService.getPaginationWithAccount(pageNo-1, pageSize,account);
+        model.addAttribute("pets", pagedResult.hasContent() ? pagedResult.getContent() : new ArrayList<>());
+        model.addAttribute("pageNo", pagedResult);
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", pagedResult.getTotalPages());
+        model.addAttribute("totalAccounts", pagedResult.getTotalElements());
+
         model.addAttribute("account", account);
+//        model.addAttribute("pets", pets);
+        model.addAttribute("petTypeList", petTypeList);
+        model.addAttribute("breedList", breedList);
+        model.addAttribute("filterPets", pagedResult.hasContent() ? pagedResult.getContent() : new ArrayList<>());
+        model.addAttribute("appointments", appointments);
+        model.addAttribute("search", "");
+
+        return "account/infoAccount";
+    }
+
+    @GetMapping("/getInfo/{accId}/search{strSearch}")
+    public String getInfo(@RequestParam(defaultValue = "1") Integer pageNo,
+                          @RequestParam(defaultValue = "3") Integer pageSize,
+                          @PathVariable("accId") UUID accId,
+                          @PathVariable("strSearch") String search,
+                          Model model) {
+        System.out.println("---Get Info (Search) : "+search+" ---");
+        Account account = accountService.getById(accId);
+        List<Pet> pets = petService.findByAccountAndSoftDeletedOrderByPetID(account,false);
+        List<Appointment> appointments = appointmentService.findByPet_Account_AccIdOrderByDateAsc(accId);
+
+        search = search.trim().toLowerCase();
+
+        System.out.println(account.getFirstName()+" "+account.getLastName());
+
+        Page<Pet> pagedResult = petService.getPaginationWithAccountSearch(search,accId,pageNo-1, pageSize);
+
+        System.out.println("--------- test ---------");
+        System.out.println(pagedResult.toString());
+        System.out.println("-------------------------");
+
         model.addAttribute("pets", pets);
+        model.addAttribute("pageNo", pagedResult);
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", pagedResult.getTotalPages());
+        model.addAttribute("totalAccounts", pagedResult.getTotalElements());
+
+        model.addAttribute("account", account);
+        model.addAttribute("search", search);
+//        model.addAttribute("pets", pets);
+        model.addAttribute("filterPets", pagedResult.hasContent() ? pagedResult.getContent() : new ArrayList<>());
         model.addAttribute("appointments", appointments);
 
         return "account/infoAccount";

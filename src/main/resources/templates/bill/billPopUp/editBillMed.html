@@ -9,13 +9,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit [[${medicine.name}]]</h5>
+                <h5 class="modal-title" th:id="'editMedBillHeader'+${medicine.medID}">Edit [[${medicine.name}]]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:id="'editBillMedForm'+${medicine.medID}" th:action="@{/billMedicine/edit}" method="POST" enctype="multipart/form-data"
-                      onsubmit="return validSubmitEditBillMedForm(this, 'all');">
-
+                <form th:action="@{/billMedicine/edit}" method="POST" enctype="multipart/form-data" th:id="'editMedBillForm'+${medicine.medID}">
+                    <div th:id="'editMedBillPane'+${medicine.medID}">
                     <!--Bill ID-->
                     <input type="hidden" class="form-control" id="billID" name="billID" th:value="${billID}">
                     <input type="hidden" class="form-control" id="medID" name="medID" th:value="${medicine.medID}">
@@ -40,9 +39,22 @@
                     </div>
 
                     <!--button-->
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" type="submit">save</button>
-                        <button class="btn btn-secondary" type="reset">clear</button>
+                        <div class="modal-footer">
+                            <div class="col-md-12 text-center">
+                                <button th:attr="onclick='clickEditBill(\''+'Med'+'\',\''+${medicine.medID} +'\');'" type="button" class="btn btn-primary">save</button>
+                                <button class="btn btn-secondary" type="reset">clear</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div th:id="'editMedBillConfirm'+${medicine.medID}" style="display: none">
+                        <p>Are you sure you want to edit <b>[[${medicine.name}]]</b> ?</p>
+                        <div class="modal-footer">
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-primary" type="submit">Yes</button>
+                                <button th:attr="onclick='clickEditBillNo(\''+'Med' +'\',\''+${medicine.medID}+'\',\''+${medicine.name} +'\');'" type="reset" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                            </div>
+                        </div>
                     </div>
 
                 </form>

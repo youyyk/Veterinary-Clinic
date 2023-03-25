@@ -4,13 +4,241 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+<!--    <link th:rel="stylesheet" th:href="@{/css/table-warehouse.css}">-->
     <script th:src="@{/js/bootstrap.min.js}"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,300,1,0" />
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script th:src="@{/js/confirmPopUp.js}"></script>
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 </head>
-<body>
+    <script>
+        window.addEventListener('DOMContentLoaded', event => {
+            const datatablesWarehouse = document.getElementById('warehouseTable');
+            new simpleDatatables.DataTable(datatablesWarehouse,{
+                paging:false,
+                scrollY: "calc(70vh - 100px)",
+                scrollX:true,
+                rowNavigation: true,
+                tabIndex: 1
+            });
 
-    <div th:insert="fragments/header :: header"></div>
+            const appointmentTable = document.getElementById('appointmentTable');
+            new simpleDatatables.DataTable(appointmentTable,{
+                paging:false,
+                scrollY: "calc(35vh - 100px)",
+                rowNavigation: true,
+                tabIndex: 1
+            });
 
-    <h1>Welcome to Veterinary Clinic Website</h1>
-<!--    <p th:text="|${greeting}, ${user}|"></p>-->
+            const billTable = document.getElementById('billTable');
+            new simpleDatatables.DataTable(billTable,{
+                paging:false,
+                scrollY: "calc(35vh - 100px)",
+                rowNavigation: true,
+                tabIndex: 1
+            });
+
+
+        });
+
+
+
+    </script>
+<body style="background-color: #e9f3ec;">
+
+<div th:insert="fragments/header :: header"></div>
+
+<div>
+<h1>Welcome to Veterinary Clinic Website</h1>
+
+<div class="m-4">
+    <div class="row">
+        <div class="col-5 me-2">
+            <div class="row">
+                <div class="col-12 rounded-2" style="background-color: white;">
+                    <h3 class="mb-0 float-start pt-2"><span class="material-symbols-rounded align-middle pb-1">event_available</span>Today's Appointment</h3>
+                    <table id="appointmentTable">
+                        <thead>
+                        <tr>
+                            <th>Owner</th>
+                            <th>Phone no.</th>
+                            <th>Pet's Name</th>
+                            <th>Period</th>
+                            <th>Description</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+
+                        <tbody th:if="${not #lists.isEmpty(appointments)}" class="overflow-auto">
+                        <div th:each="app : ${appointments}">
+                            <tr>
+                                <td>[[*{app.pet.account.firstName}]]</td>
+                                <td>[[*{app.pet.account.phone}]]</td>
+                                <td>[[*{app.pet.name}]]</td>
+                                <td>
+                                    <span th:if="${#strings.contains(app.period, 'morning')}">09.00 - 12.00</span>
+                                    <span th:if="${#strings.contains(app.period, 'afternoon')}">13.30 - 18.00</span>
+                                </td>
+                                <td>[[*{app.description}]]</td>
+                                <td>
+                                    <div class="dropdown open">
+                                        <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
+                                           aria-expanded="false">
+                                            <span class="material-symbols-rounded">more_vert</span>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                            <a class="dropdown-item btn" data-bs-toggle="modal"
+                                               th:attr="data-bs-target='#editAppointment'+${app.appointmentID}">
+                                                <span class="material-symbols-rounded align-middle pb-1">edit</span> Edit
+                                            </a>
+                                            <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
+                                               th:attr="data-bs-target='#deletePopUpA'+${app.appointmentID}">
+                                                <span class="material-symbols-rounded align-middle pb-1">delete</span> Delete
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!--Call Receive Treatment (PopUp)-->
+                                    <th:block th:replace="appointment/appointmentPopUp/editAppointment :: editAppointment(${app},'appointment')">modal</th:block>
+                                    <!--Create Appointment (PopUp)-->
+                                    <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Appointment ('+${app.pet.name}+')',mainPath='appointment',deleteId='A'+${app.appointmentID},deleteName='this appointment',pathId='appointment')">
+                                        modal
+                                    </th:block>
+                                </td>
+                            </tr>
+                        </div>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-12 mt-3 rounded-2" style="background-color: white;">
+                    <h3 class="mb-0 float-start pt-2"><span class="material-symbols-rounded align-middle pb-1">receipt_long</span>Unpaid Bills</h3>
+                    <table id="billTable">
+                        <thead>
+                        <tr>
+                            <th>Bill ID</th>
+                            <th>Owner</th>
+                            <th>Phone no.</th>
+                            <th>Start Date</th>
+                            <th>Total</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody th:if="${not #lists.isEmpty(bills)}">
+                        <div th:each="bill : ${bills}">
+                            <tr>
+                                <td>[[*{bill.billID}]]</td>
+                                <td>[[*{bill.treatmentHistory.pet.account.firstName}]]</td>
+                                <td>[[*{bill.treatmentHistory.pet.account.phone}]]</td>
+                                <td>[[${#dates.format(bill.startDate, 'yyyy/MM/dd')}]]</td>
+                                <td>[[*{bill.total}]]</td>
+                                <td>
+                                    <div class="dropdown open">
+                                        <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
+                                           aria-expanded="false">
+                                            <span class="material-symbols-rounded">more_vert</span>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                            <a class="dropdown-item btn" th:href="@{'/bill/getDetail/'+${bill.billID}}">
+                                                <span class="material-symbols-rounded align-middle pb-1">receipt_long</span> Bill's Details
+                                            </a>
+                                            <a th:if="${bill.paidStatus == true}" class="dropdown-item btn" data-bs-toggle="modal">
+                                                <span class="material-symbols-rounded align-middle pb-1">cancel</span> Cancel
+                                            </a>
+                                            <a th:if="${bill.total == 0 and bill.paidStatus == false}" class="dropdown-item text-danger btn" data-bs-toggle="modal"
+                                               th:attr="data-bs-target='#deletePopUp'+*{bill.billID}">
+                                                <span class="material-symbols-rounded align-middle pb-1">delete</span> Delete
+                                            </a>
+                                        </div>
+                                        <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Bill',mainPath='bill',deleteId=${bill.billID},deleteName='Bill ID '+${bill.billID},pathId='bill')">
+                                            modal
+                                        </th:block>
+                                    </div>
+                                </td>
+
+                            </tr>
+                        </div>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-6 rounded-2" style="background-color: white;">
+            <h3 class="mb-0 float-start pt-2">
+                <span class="material-symbols-rounded align-middle pb-1">notification_important</span>Warehouse's Notification
+            </h3>
+            <div>
+            <table id="warehouseTable">
+                <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Item ID</th>
+                    <th>Name</th>
+                    <th>Qty Left</th>
+                    <th>Expired Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="wh : ${warehouses}">
+                    <td th:text="${ '#' + wh.itemID}"></td>
+                    <td th:if="${wh.medicine != null}" th:text="${ 'M' + wh.medicine.getMedID}"></td>
+                    <td th:if="${wh.tool != null}" th:text="${ 'T' + wh.tool.getToolID}"></td>
+                    <td th:if="${wh.medicine != null}" th:text="${wh.medicine.getNameForShow}"></td>
+                    <td th:if="${wh.tool != null}" th:text="${wh.tool.getNameForShow}"></td>
+                    <td th:text="${wh.quantityLeft}"></td>
+                    <td th:text="${#dates.format(wh.expiredDate, 'yyyy/MM/dd')}"></td>
+                    <td th:switch="${wh.isExpired()}">
+                        <span th:case="-1" class="badge rounded-pill bg-danger">Expired</span>
+                        <span th:case="1" class="badge rounded-pill bg-warning text-dark">Almost</span>
+                        <span th:case="0" class="badge rounded-pill bg-secondary">Normal</span>
+                    </td>
+                    <td>
+                        <div class="col-md-12 text-center">
+                            <div class="dropdown open">
+                                <a href="#!" class="px-2" data-toggle="dropdown" aria-haspopup="true"
+                                   aria-expanded="false">
+                                    <span class="material-symbols-rounded">more_vert</span>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                    <a class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editWarehouseOrderPopUp'+ *{wh.itemID}" role="button">
+                                        <i class="material-symbols-rounded align-middle pb-1">edit</i> Edit
+                                    </a>
+
+                                    <a th:if="${wh.isExpired()}" class="dropdown-item" href="#">
+                                        <i class="fa fa-pencil mr-1"></i> Stock Out
+                                    </a>
+
+                                    <a class="dropdown-item text-danger" href="#">
+                                        <i class="fa fa-trash mr-1"></i> Delete
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <th:block th:if="wh.medicine != null" th:replace="warehouse/warehousePopUp/editWarehouseOrderPopUp :: editWarehouseOrderPopUp(${wh}, ${medicines}, ${tools})">modal</th:block>
+                    <!--                            <th:block th:replace="warehouse/warehousePopUp/editWarehouseToolPopUp :: editWarehouseToolPopUp(${wh}, ${tools})">modal</th:block>-->
+                </tr>
+<!--                <tr th:each="i: ${#numbers.sequence(0, 99)}">-->
+<!--                    <td>[[${i}]]</td>-->
+<!--                    <td>[[${i}]]</td>-->
+<!--                    <td>[[${i}]]</td>-->
+<!--                    <td>[[${i}]]</td>-->
+<!--                    <td>[[${i}]]</td>-->
+<!--                    <td>[[${i}]]</td>-->
+<!--                    <td>[[${i}]]</td>-->
+<!--                </tr>-->
+                </tbody>
+            </table>
+        </div>
+        </div>
+
+    </div>
+
+</div>
+</div>
+
 </body>
 </html>

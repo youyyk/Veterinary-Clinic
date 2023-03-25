@@ -9,15 +9,15 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit</h5>
+                <h5 class="modal-title" th:id="'editToolHeader'+${editTool.toolID}">Edit [[${editTool.name}]]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <!--Edit Tool Warehouse-->
             <div class="modal-body">
-                <form th:id="'editToolInfoForm'+${editTool.toolID}" th:action="@{warehouse/edit/tool/{id} (id=${editTool.toolID})}" method="POST"
-                      onsubmit="return validSubmitEditToolInfoForm(this, 'all');">
-
+                <form th:action="@{warehouse/edit/tool/{id} (id=${editTool.toolID})}" method="POST"
+                      th:id="'editToolForm'+${editTool.toolID}">
+                    <div th:id="'editToolPane'+${editTool.toolID}">
                     <!--Tool's Name-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Name</span>
@@ -45,10 +45,20 @@
                                th:onkeyup="'javascript:validFormEditToolInfoByEachField(\'' + 'description' +'\',\''+ ${editTool.toolID} + '\');'"
                                th:onpaste="'javascript:validFormEditToolInfoByEachField(\'' + 'description' +'\',\''+ ${editTool.toolID} + '\');'">
                     </div>
+                        <div class="modal-footer">
+                            <div class="col-md-12 text-center">
+                                <button th:attr="onclick='clickEditItem(\''+'Tool' +'\',\''+${editTool.ToolID} +  '\');'" class="btn btn-primary" type="button">save</button>
+                            </div>
+                        </div>
+                    </div>
 
-                    <div class="modal-footer">
-                        <div class="col-md-12 text-center">
-                            <button class="btn btn-primary" type="submit">Save</button>
+                    <div th:id="'editToolConfirm'+ ${editTool.ToolID}" style="display: none" class="text-start">
+                        <p >Are you sure you want to edit <b>[[${editTool.name}]]</b> ?</p>
+                        <div class="modal-footer">
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-primary" type="submit">Yes</button>
+                                <button th:attr="onclick='clickEditItemNo(\''+'Tool' +'\',\''+${editTool.ToolID} +  '\');'" type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                            </div>
                         </div>
                     </div>
                 </form>

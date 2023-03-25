@@ -152,9 +152,36 @@ public class BillController {
         return "redirect:/bill/getDetail/"+billID;
     }
 
+    @RequestMapping(path = "/paid/cancel", method = POST)
+    public String deletePet(@RequestParam("billID") long billID){
+        System.out.println("----- Cancel Paid -----");
 
+        Bill bill = mainBillService.findByBillID(billID);
 
+        System.out.println("Before Cancel : "+bill);
+        bill.setPayType(null);
+        bill.setReceive(0);
+        bill.setDiscount(0);
+        bill.setPaidStatus(false);
+        bill.setEndDate(null);
 
+        System.out.println("After Cancel : "+bill);
+
+        mainBillService.save(bill);
+
+        return "redirect:/bill/getDetail/"+billID;
+    }
+
+    @RequestMapping(path = "/delete", method = POST)
+    public String deletePet(@RequestParam("id") long id,
+                            @RequestParam("pathId") String pathId){
+        System.out.println("---- Delete Bill ----");
+        System.out.println("Delete "+mainBillService.findByBillID(id));
+        mainBillService.deleteBillByBillID(id);
+
+        return "redirect:/bill";
+
+    }
 
 
 }

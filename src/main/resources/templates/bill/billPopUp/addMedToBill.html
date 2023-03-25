@@ -9,16 +9,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Medicine</h5>
+                <h5 class="modal-title" id="addMedToBillHeader">Add Medicine</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="addMedToBillForm" th:action="@{/billMedicine/add}" method="POST" enctype="multipart/form-data"
-                      onsubmit="return validSubmitAddMedToBillForm(this, 'all');">
-
+                <form th:action="@{/billMedicine/add}" method="POST" enctype="multipart/form-data" id="addMedToBillForm">
+                    <div id="addMedToBillPane">
                     <!--Account ID-->
                     <input type="hidden" class="form-control" id="billID" name="billID" th:value="${billID}">
-
 
                     <!-- Choose Medicine-->
                     <div class="input-group input-group mb-3">
@@ -53,9 +51,22 @@
                     </div>
 
                     <!--button-->
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" type="submit">save</button>
-                        <button class="btn btn-secondary" type="reset">clear</button>
+                        <div class="modal-footer">
+                            <div class="col-md-12 text-center">
+                                <button th:attr="onclick='clickAddItemToBill(\''+'Med' +'\');'" type="button" class="btn btn-primary">save</button>
+                                <button class="btn btn-secondary" type="reset">clear</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="addMedToBillConfirm" style="display: none">
+                        <p>Are you sure you want to add <b id="addMedToBillName"></b> ?</p>
+                        <div class="modal-footer">
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-primary" type="submit">Yes</button>
+                                <button th:attr="onclick='clickAddItemToBillNo(\''+'Med' +'\');'" type="reset" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                            </div>
+                        </div>
                     </div>
 
                 </form>

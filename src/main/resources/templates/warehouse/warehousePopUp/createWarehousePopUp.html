@@ -7,10 +7,11 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Medicine / Tool</h5>
+                <h5 class="modal-title" id="createWarehouseHeader">Add Medicine / Tool</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <div id="chooseDropdown">
                 <ul class="nav bg-light nav-pills rounded nav-fill mb-3" id="ex-with-icons" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link active" id="tab-pane-med" data-bs-toggle="tab" href="#create-med" role="tab"
@@ -30,11 +31,15 @@
                     <option value=1 >New Medicine</option>
                     <option value=3 >Stock In</option>
                 </select>
+                </div>
 
                 <div class="tab-content" id="ex-with-icons-content">
                     <div id="tab-body-med" class="tab-pane fade show active" aria-labelledby="ex-with-icons-tab-1">
                         <div name="medicineForm" style="display: none">
-                            <form id="newMedicineForm" th:action="@{warehouse/create/medicine}" method="POST" th:object="${newMedForm}" onsubmit="return validSubmitNewMedicineForm(this, 'all');">
+                            <form th:action="@{warehouse/create/medicine}" method="POST"
+                                  th:object="${newMedForm}" id="createMedicineForm">
+
+                                <div id="createMedicinePane">
 
                                 <!--Med's Name-->
                                 <div class="input-group input-group mb-3">
@@ -67,15 +72,29 @@
 
                                 <div class="modal-footer">
                                     <div class="col-md-12 text-center">
-                                        <button class="btn btn-primary" type="submit">Submit</button>
-                                        <button class="btn btn-secondary" type="reset">Clear</button>
+                                        <button th:attr="onclick='clickCreateItem(\'' +'Medicine' +  '\');'" class="btn btn-primary" type="button">save</button>
+                                        <button class="btn btn-secondary" type="reset">clear</button>
                                     </div>
                                 </div>
+                                </div>
+
+                                <div id="createMedicineConfirm" style="display: none" class="text-start">
+                                    <p >Are you sure you want to add <b id="createMedicineName"></b> ?</p>
+                                    <div class="modal-footer">
+                                        <div class="col-md-12 text-center">
+                                            <button class="btn btn-primary" type="submit">Yes</button>
+                                            <button th:attr="onclick='clickCreateItemNo(\'' + 'Medicine' +  '\');'" type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </form>
                         </div>
 
                         <div name="medicineForm" style="display: none">
-                            <form id="newWarehouseMedicineForm" th:action="@{warehouse/create/order}" method="POST" th:object="${newWarehouseMedForm}" onsubmit="return validSubmitNewWarehouseMedicineForm(this, 'all');">
+                            <form th:action="@{warehouse/create/order}" method="POST"
+                                  th:object="${newWarehouseMedForm}" id="createMedicineOrderForm">
+                                <div id="createMedicineOrderPane">
                                 <!--Warehouse Med-->
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text">Medicine</span>
@@ -109,18 +128,32 @@
                                     <input type="date" class="form-control" th:field="*{expiredDate}" autocomplete="off" onkeyup="validFormNewWarehouseMedicineByEachField(this)" onchange="validFormNewWarehouseMedicineByEachField(this)" onpaste="validFormNewWarehouseMedicineByEachField(this)">
                                 </div>
 
-                                <div class="modal-footer">
-                                    <div class="col-md-12 text-center">
-                                        <button class="btn btn-primary" type="submit">Submit</button>
-                                        <button class="btn btn-secondary" type="reset">Clear</button>
+                                    <div class="modal-footer">
+                                        <div class="col-md-12 text-center">
+                                            <button th:attr="onclick='clickCreateItem(\'' +'MedicineOrder' +  '\');'" class="btn btn-primary" type="button">save</button>
+                                            <button class="btn btn-secondary" type="reset">clear</button>
+                                        </div>
                                     </div>
                                 </div>
+
+                                <div id="createMedicineOrderConfirm" style="display: none" class="text-start">
+                                    <p >Are you sure you want to add <b id="createMedicineOrderName"></b> ?</p>
+                                    <div class="modal-footer">
+                                        <div class="col-md-12 text-center">
+                                            <button class="btn btn-primary" type="submit">Yes</button>
+                                            <button th:attr="onclick='clickCreateItemNo(\'' + 'MedicineOrder' +  '\');'" type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </form>
                         </div>
                     </div>
                     <div id="tab-body-tool" class="tab-pane fade" aria-labelledby="ex-with-icons-tab-2">
                         <div name="toolForm" style="display: none">
-                            <form id="newToolForm" th:action="@{warehouse/create/tool}" method="POST" th:object="${newToolForm}" onsubmit="return validSubmitNewToolForm(this, 'all');">
+                            <form th:action="@{warehouse/create/tool}" method="POST"
+                                  th:object="${newToolForm}" id="createToolForm">
+                                <div id="createToolPane">
                                 <!--Tool's Name-->
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text">Name</span>
@@ -142,16 +175,29 @@
                                     <input type="text" class="form-control" th:field="*{description}" autocomplete="off" onkeyup="validFormNewToolByEachField(this)" onchange="validFormNewToolByEachField(this)" onpaste="validFormNewToolByEachField(this)">
                                 </div>
 
-                                <div class="modal-footer">
-                                    <div class="col-md-12 text-center">
-                                        <button class="btn btn-primary" type="submit">Submit</button>
-                                        <button class="btn btn-secondary" type="reset">Clear</button>
+                                    <div class="modal-footer">
+                                        <div class="col-md-12 text-center">
+                                            <button th:attr="onclick='clickCreateItem(\'' +'Tool' +  '\');'" class="btn btn-primary" type="button">save</button>
+                                            <button class="btn btn-secondary" type="reset">clear</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="createToolConfirm" style="display: none" class="text-start">
+                                    <p >Are you sure you want to add <b id="createToolName"></b> ?</p>
+                                    <div class="modal-footer">
+                                        <div class="col-md-12 text-center">
+                                            <button class="btn btn-primary" type="submit">Yes</button>
+                                            <button th:attr="onclick='clickCreateItemNo(\'' + 'Tool' +  '\');'" type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                                        </div>
                                     </div>
                                 </div>
                             </form>
                         </div>
                         <div name="toolForm" style="display: none">
-                            <form id="newWarehouseToolForm" th:action="@{warehouse/create/order}" method="POST" th:object="${newWarehouseToolForm}" onsubmit="return validSubmitNewWarehouseToolForm(this, 'all');">
+                            <form th:action="@{warehouse/create/order}" method="POST"
+                                  th:object="${newWarehouseToolForm}" id="createToolOrderForm">
+                                <div id="createToolOrderPane">
                                 <!--Warehouse Tool-->
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text">Tool</span>
@@ -185,10 +231,21 @@
                                     <input type="date" class="form-control" th:field="*{expiredDate}" autocomplete="off" onkeyup="validFormNewWarehouseToolByEachField(this)" onchange="validFormNewWarehouseToolByEachField(this)" onpaste="validFormNewWarehouseToolByEachField(this)">
                                 </div>
 
-                                <div class="modal-footer">
-                                    <div class="col-md-12 text-center">
-                                        <button class="btn btn-primary" type="submit">Submit</button>
-                                        <button class="btn btn-secondary" type="reset">Clear</button>
+                                    <div class="modal-footer">
+                                        <div class="col-md-12 text-center">
+                                            <button th:attr="onclick='clickCreateItem(\'' +'ToolOrder' +  '\');'" class="btn btn-primary" type="button">save</button>
+                                            <button class="btn btn-secondary" type="reset">clear</button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="createToolOrderConfirm" style="display: none" class="text-start">
+                                    <p >Are you sure you want to add <b id="createToolOrderName"></b> ?</p>
+                                    <div class="modal-footer">
+                                        <div class="col-md-12 text-center">
+                                            <button class="btn btn-primary" type="submit">Yes</button>
+                                            <button th:attr="onclick='clickCreateItemNo(\'' + 'ToolOrder' +  '\');'" type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                                        </div>
                                     </div>
                                 </div>
                             </form>

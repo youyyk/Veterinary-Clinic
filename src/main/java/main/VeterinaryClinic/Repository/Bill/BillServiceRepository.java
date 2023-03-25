@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface BillServiceRepository extends JpaRepository<BillServing, BillServingID> {
+    @Transactional
     BillServing findByPairedID_BillAndPairedID_Serving(long billID, long tooID);
 
     @Transactional

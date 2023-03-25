@@ -3,19 +3,19 @@
 
 <body>
 <!--edit Pet (PopUp)-->
-<div th:fragment="editPetPopUp(accId,pet,page)" th:id="'editPetPopUp'+${pet.petID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
+<div th:fragment="editPetPopUp(accId,pet,page,petTypeList,breedList)" th:id="'editPetPopUp'+${pet.petID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
      data-bs-backdrop="static" aria-hidden="true">
 
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit</h5>
+                <h5 class="modal-title" th:id="'editPetHeader'+${pet.petID}">Edit Pet</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
 <!--                [[${#dates.format(pet.doB, 'dd/MM/yyyy')}]]-->
-                <form th:id="'editPetInfoForm'+${pet.petID}" th:action="@{/pets/edit}" method="POST" enctype="multipart/form-data"
-                      onsubmit="return validSubmitEditPetInfoForm(this, 'all');">
+                <form th:id="'editPetForm'+${pet.petID}" th:action="@{/pets/edit}" method="POST" enctype="multipart/form-data">
+                    <div th:id="'editPetPane'+${pet.petID}">
                     <!--Pet ID-->
                     <input type="hidden" class="form-control" id="petID" name="petID" th:value="${pet.petID}">
                     <!--Account ID-->
@@ -42,27 +42,30 @@
                     <!--DoB-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text date">Date of Birth</span>
-                        <input type="date" class="form-control" id="doB" name="doB" th:value="${#dates.format(pet.doB, 'yyyy-MM-dd')}"
-                               autocomplete="off"
-                               th:onkeyup="'javascript:validFormEditPetInfoByEachField(\'' + 'doB' +'\',\''+ ${pet.petID} + '\');'"
-                               th:onchange="'javascript:validFormEditPetInfoByEachField(\'' + 'doB' +'\',\''+ ${pet.petID} + '\');'"
-                               th:onpaste="'javascript:validFormEditPetInfoByEachField(\'' + 'doB' +'\',\''+ ${pet.petID} + '\');'">
+                        <input th:attr="onblur='calculateEditAge(\'' + ${pet.petID} +  '\');'" type="date" class="form-control" id="doB" name="doB" th:value="${#dates.format(pet.doB, 'yyyy-MM-dd')}">
+                        <span class="input-group-text">Age</span>
+                        <input th:attr="onchange='calculateEditDate(\'' + ${pet.petID} +  '\');'" type="text" class="form-control" id="age" name="age" >
                     </div>
+
                     <!--Pet's Type & Breed-->
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Pet's Type</span>
-                        <input type="text" class="form-control" id="petType" name="petType" th:value="${pet.petType}"
-                               autocomplete="off"
-                               th:onkeyup="'javascript:validFormEditPetInfoByEachField(\'' + 'petType' +'\',\''+ ${pet.petID} + '\');'"
-                               th:onchange="'javascript:validFormEditPetInfoByEachField(\'' + 'petType' +'\',\''+ ${pet.petID} + '\');'"
-                               th:onpaste="'javascript:validFormEditPetInfoByEachField(\'' + 'petType' +'\',\''+ ${pet.petID} + '\');'">
+                        <input class="form-control" list="typeDatalistOptions" id="petType" name="petType" placeholder="Choose..." autocomplete="off" th:value="${pet.petType}">
+                        <datalist id="typeDatalistOptions">
+                            <div th:each="petType : ${petTypeList}" >
+                                <option th:value="${petType}"/>
+                            </div>
+                        </datalist>
                         <span class="input-group-text">Breed</span>
-                        <input type="text" class="form-control" id="breed" name="breed" th:value="${pet.breed}"
-                               autocomplete="off"
-                               th:onkeyup="'javascript:validFormEditPetInfoByEachField(\'' + 'breed' +'\',\''+ ${pet.petID} + '\');'"
-                               th:onchange="'javascript:validFormEditPetInfoByEachField(\'' + 'breed' +'\',\''+ ${pet.petID} + '\');'"
-                               th:onpaste="'javascript:validFormEditPetInfoByEachField(\'' + 'breed' +'\',\''+ ${pet.petID} + '\');'">
+                        <input class="form-control" list="breedDatalistOptions" id="breed" name="breed" placeholder="Choose..." autocomplete="off" th:value="${pet.breed}">
+                        <datalist id="breedDatalistOptions">
+                            <div th:each="breed : ${breedList}" >
+                                <option th:value="${breed}"/>
+                            </div>
+                        </datalist>
                     </div>
+
+
 
                     <!--Gender-->
 <!--                    Pet's Gender => [[${pet.gender}]]-->
@@ -107,9 +110,19 @@
 
                     <!--button-->
                     <div class="modal-footer">
-                            <button class="btn btn-primary" type="submit">save</button>
+                            <button th:attr="onclick='clickEditPet(\'' + ${pet.petID} +  '\');'" class="btn btn-primary" type="button">save</button>
                             <button class="btn btn-secondary" type="reset">clear</button>
                     </div>
+                    </div>
+
+                    <div th:id="'editPetConfirm'+${pet.petID}" style="display: none" class="text-start">
+                        <p >Are you sure you want to edit [[${pet.name}]] ?</p>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" type="submit">Yes</button>
+                            <button th:attr="onclick='clickEditPetNo(\'' + ${pet.petID} +  '\');'" type="reset" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        </div>
+                    </div>
+
 
                 </form>
             </div>

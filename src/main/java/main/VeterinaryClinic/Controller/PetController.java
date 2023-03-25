@@ -47,15 +47,16 @@ public class PetController {
                             @RequestParam("image") MultipartFile image,
                             @RequestParam("gender") String gender,
                             @RequestParam("doB") String doB,
-//                            @RequestParam("age") String age,
                             @RequestParam("sterilization") boolean sterilization,
                             @RequestParam("petType") String petType,
                             @RequestParam("breed") String breed,
                             @RequestParam("remark") String remark){
+
         System.out.println("---- Create Pet ----");
         System.out.println("ID : "+accId);
         Account account = accountService.getById(accId);
         System.out.println(account);
+        if (remark == null || remark.isEmpty() || remark.isBlank()) remark = "-";
         Pet pet = new Pet(account,name,gender, GlobalService.convertStringToDate(doB),sterilization,petType,breed,remark);
         String filename = StringUtils.cleanPath(Objects.requireNonNull(image.getOriginalFilename()));
         if (filename.contains("..")){
@@ -118,7 +119,7 @@ public class PetController {
         }
         else if (page.equals("treatmentHistory")) {
             System.out.println("++++ Redirect to TreatmentHistory ++++");
-            return "redirect:/treatmentHistory/"+petID;
+            return "redirect:/treatmentHistory/pet"+petID;
         }
         else {
             System.out.println("---- Cannot Redirect ----");

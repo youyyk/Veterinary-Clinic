@@ -20,6 +20,7 @@
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 
     <script th:src="@{/js/validateModel.js}"></script>
+    <script th:src="@{/js/confirmPopUp.js}"></script>
 </head>
 <script>
     let host = window.location.origin;
@@ -345,6 +346,7 @@
 </style>
 <body>
     <div th:insert="fragments/header :: header"></div>
+    <div class="container">
     <h1>All warehouses</h1>
     <div class="card mb-4 container">
 
@@ -603,5 +605,6 @@
         </div>
     </div>
     <th:block th:replace="warehouse/warehousePopUp/createWarehousePopUp :: createWarehousePopUp">modal</th:block>
+    </div>
 </body>
 </html>

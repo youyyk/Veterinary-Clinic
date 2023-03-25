@@ -9,13 +9,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit [[${tool.name}]]</h5>
+                <h5 class="modal-title" th:id="'editToolBillHeader'+${tool.toolID}">Edit [[${tool.name}]]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:id="'editBillToolForm'+${tool.toolID}" th:action="@{/billTool/edit}" method="POST" enctype="multipart/form-data"
-                      onsubmit="return validSubmitEditBillToolForm(this, 'all');">
-
+                <form th:action="@{/billTool/edit}" method="POST" enctype="multipart/form-data" th:id="'editToolBillForm'+${tool.toolID}">
+                    <div th:id="'editToolBillPane'+${tool.toolID}">
                     <!--Bill ID-->
                     <input type="hidden" class="form-control" id="billID" name="billID" th:value="${billID}">
                     <input type="hidden" class="form-control" id="toolID" name="toolID" th:value="${tool.toolID}">
@@ -31,9 +30,22 @@
                     </div>
 
                     <!--button-->
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" type="submit">save</button>
-                        <button class="btn btn-secondary" type="reset">clear</button>
+                        <div class="modal-footer">
+                            <div class="col-md-12 text-center">
+                                <button th:attr="onclick='clickEditBill(\''+'Tool'+'\',\''+${tool.toolID} +'\');'" type="button" class="btn btn-primary">save</button>
+                                <button class="btn btn-secondary" type="reset">clear</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div th:id="'editToolBillConfirm'+${tool.toolID}" style="display: none">
+                        <p>Are you sure you want to edit <b>[[${tool.name}]]</b> ?</p>
+                        <div class="modal-footer">
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-primary" type="submit">Yes</button>
+                                <button th:attr="onclick='clickEditBillNo(\''+'Tool' +'\',\''+${tool.toolID}+'\',\''+${tool.name} +'\');'" type="reset" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                            </div>
+                        </div>
                     </div>
 
                 </form>

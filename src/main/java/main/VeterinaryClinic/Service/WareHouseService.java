@@ -50,6 +50,10 @@ public class WareHouseService {
         return repository.findByMedicineAndSoftDeletedAndExpiredDateBeforeOrderByExpiredDateAsc(medicine,false,expiredDate);
     }
 
+    public List<WareHouse> getAllBySoftDeletedIsFalseOrderByExpiredDateAsc(){
+        return repository.getAllBySoftDeletedIsFalseOrderByExpiredDateAsc();
+    }
+
     public List<WareHouse> findByMedicineAndExpiredDateAfterOrderByExpiredDateAsc(Medicine medicine, Date expiredDate){
         return repository.findByMedicineAndSoftDeletedAndExpiredDateAfterOrderByExpiredDateAsc(medicine,false,expiredDate);
     }

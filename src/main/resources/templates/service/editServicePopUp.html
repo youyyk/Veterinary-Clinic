@@ -7,12 +7,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit Service</h5>
+                <h5 class="modal-title" th:id="'editServiceHeader'+${editService.servingID}">Edit Service</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:id="'editServiceForm'+${editService.servingID}" th:action="@{service/edit/{id} (id=${editService.servingID})}" method="POST"
-                      onsubmit="return validSubmitEditServiceForm(this, 'all');">
+                <form th:action="@{service/edit/{id} (id=${editService.servingID})}" method="POST" th:id="'editServiceForm'+${editService.servingID}">
+                    <div th:id="'editServicePane'+${editService.servingID}">
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Name</span>
                         <input type="text" class="form-control" th:value="${editService.name}" id="name" name="name"
@@ -32,9 +32,21 @@
 
                     <div class="modal-footer">
                         <div class="col-md-12 text-center">
-                            <button class="btn btn-primary" type="submit">Save</button>
+                            <button th:attr="onclick='clickEditService(\'' + ${editService.servingID} +  '\');'" class="btn btn-primary" type="button">save</button>
                         </div>
                     </div>
+                    </div>
+
+                    <div th:id="'editServiceConfirm'+ ${editService.servingID}" style="display: none" class="text-start">
+                        <p >Are you sure you want to edit Service ID [[${editService.servingID}]] ?</p>
+                        <div class="modal-footer">
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-primary" type="submit">Yes</button>
+                                <button th:attr="onclick='clickEditServiceNo(\'' + ${editService.servingID} +  '\');'" type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                            </div>
+                        </div>
+                    </div>
+
                 </form>
             </div>
         </div>

@@ -8,13 +8,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Edit [[${serving.name}]]</h5>
+                <h5 class="modal-title" th:id="'editServiceBillHeader'+${serving.servingID}">Edit [[${serving.name}]]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:id="'editBillServingForm'+${serving.servingID}" th:action="@{/billService/edit}" method="POST" enctype="multipart/form-data"
-                      onsubmit="return validSubmitEditBillServiceForm(this, 'all');">
-
+                <form th:action="@{/billService/edit}" method="POST" enctype="multipart/form-data" th:id="'editServiceBillForm'+${serving.servingID}">
+                    <div th:id="'editServiceBillPane'+${serving.servingID}">
                     <!--Bill ID-->
                     <input type="hidden" class="form-control" id="billID" name="billID" th:value="${billID}">
                     <input type="hidden" class="form-control" id="servingID" name="servingID" th:value="${serving.servingID}">
@@ -29,9 +28,22 @@
                     </div>
 
                     <!--button-->
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" type="submit">save</button>
-                        <button class="btn btn-secondary" type="reset">clear</button>
+                        <div class="modal-footer">
+                            <div class="col-md-12 text-center">
+                                <button th:attr="onclick='clickEditBill(\''+'Service'+'\',\''+${serving.servingID} +'\');'" type="button" class="btn btn-primary">save</button>
+                                <button class="btn btn-secondary" type="reset">clear</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div th:id="'editServiceBillConfirm'+${serving.servingID}" style="display: none">
+                        <p>Are you sure you want to edit <b>[[${serving.name}]]</b> ?</p>
+                        <div class="modal-footer">
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-primary" type="submit">Yes</button>
+                                <button th:attr="onclick='clickEditBillNo(\''+'Service' +'\',\''+${serving.servingID}+'\',\''+${serving.name} +'\');'" type="reset" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                            </div>
+                        </div>
                     </div>
 
                 </form>

@@ -38,8 +38,13 @@ public class TreatmentHistoryController {
         List<TreatmentHistory> treatmentHistories = treatmentHistoryService.findByPet(pet);
         System.out.println(treatmentHistories);
 
+        List<String> petTypeList = petService.petTypeUnique();
+        List<String> breedList = petService.breedUnique();
+
         model.addAttribute("pet", pet);
         model.addAttribute("treatmentHistories", treatmentHistories);
+        model.addAttribute("petTypeList", petTypeList);
+        model.addAttribute("breedList", breedList);
 
         return "treatmentHistory/treatmentHistory";
     }

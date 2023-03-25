@@ -23,5 +23,8 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Transactional
     void deleteByAppointmentID(long appointmentID);
 
+    @Transactional
+    List<Appointment> findByDateOrderByPeriodDesc(Date date);
+
 
 }

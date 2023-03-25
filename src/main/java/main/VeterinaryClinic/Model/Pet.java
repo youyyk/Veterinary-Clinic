@@ -3,9 +3,13 @@ package main.VeterinaryClinic.Model;
 import lombok.Data;
 import main.VeterinaryClinic.Model.Account.Account;
 import main.VeterinaryClinic.Model.Bill.Bill;
+import main.VeterinaryClinic.Service.GlobalService;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 
@@ -71,6 +75,8 @@ public class Pet {
         this.softDeletedDate = null;
     }
 
+
+
     public Pet(Account account, String name, String gender, Date doB, boolean sterilization, String petType, String breed, String remark) {
         this.account = account;
         this.name = name;
@@ -80,6 +86,19 @@ public class Pet {
         this.petType = petType;
         this.breed = breed;
         this.remark = remark;
+        this.softDeleted = false;
+        this.softDeletedDate = null;
+    }
+
+    public Pet(Account account, String name, String gender, Date doB, boolean sterilization, String petType, String breed) {
+        this.account = account;
+        this.name = name;
+        this.gender = gender;
+        this.doB = doB;
+        this.sterilization = sterilization;
+        this.petType = petType;
+        this.breed = breed;
+        this.remark = "-";
         this.softDeleted = false;
         this.softDeletedDate = null;
     }
@@ -95,18 +114,6 @@ public class Pet {
         this.softDeleted = false;
         this.softDeletedDate = null;
     }
-
-//    public Pet(String name, String gender, String doB, String petType, String breed, String remark){
-//        this.name = name;
-//        this.gender = gender;
-//        this.doB = GlobalService.convertStringToDate(doB);
-//        this.sterilization = false;
-//        this.petType = petType;
-//        this.breed = breed;
-//        this.remark = remark;
-//        this.softDeleted = false;
-//        this.softDeletedDate = null;
-//    }
 
 
     public Pet setAll(Pet pet,Pet newPet,long id) {
@@ -127,6 +134,45 @@ public class Pet {
         }
 
         return pet;
+    }
+
+    public String findAge(){
+        System.out.println("---- find Age ----");
+        LocalDate birthDate = this.doB.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        System.out.println("Date of Birth : "+birthDate);
+        Date todayDate = new Date();
+        LocalDate today = todayDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        System.out.println("Today : "+today);
+
+        Period period = Period.between(birthDate, today);
+        System.out.println(period.getYears()+" years "+period.getMonths()+" months "+period.getDays()+" days");
+        String age = "";
+
+        if (period.getYears() > 1){
+            age = age.concat(period.getYears()+" yrs ");
+        }
+        else if (period.getYears() == 1){
+            age = age.concat(period.getYears()+" yr ");
+        }
+
+        if(period.getMonths() > 1){
+            age = age.concat(period.getMonths()+" mos ");
+        }
+        else if (period.getMonths() == 1) {
+            age = age.concat(period.getMonths()+" mo ");
+        }
+
+        if (period.getYears() == 0 && period.getMonths() == 0 && period.getDays() > 1){
+            age = age.concat(period.getDays() + " days");
+        }
+        else if (period.getYears() == 0 && period.getMonths() == 0 && period.getDays() == 1){
+            age = age.concat(period.getDays() + " day");
+        }
+
+        return age;
+
+
+
     }
 
 

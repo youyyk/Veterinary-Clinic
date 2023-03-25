@@ -17,6 +17,8 @@ public interface WareHouseRepository extends JpaRepository<WareHouse, Long> {
 
     WareHouse findByItemID(long itemID);
 
+    List<WareHouse> getAllBySoftDeletedIsFalseOrderByExpiredDateAsc();
+
     List<WareHouse> findByMedicineAndSoftDeletedAndExpiredDateBeforeOrderByExpiredDateAsc(Medicine medicine,boolean softDeleted, Date expiredDate);
 
     List<WareHouse> findByMedicineAndSoftDeletedAndExpiredDateAfterOrderByExpiredDateAsc(Medicine medicine,boolean softDeleted, Date expiredDate);

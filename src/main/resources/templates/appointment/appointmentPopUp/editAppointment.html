@@ -9,13 +9,12 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Edit Appointment ([[*{appointment.pet.name}]])</h5>
+        <h5 class="modal-title" th:id="'editAppointmentHeader'+${appointment.appointmentID}">Edit Appointment ([[*{appointment.pet.name}]])</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form th:id="'editAppointmentForm'+${appointment.appointmentID}" th:action="@{/appointment/edit}" method="POST" enctype="multipart/form-data"
-              onsubmit="return validSubmitEditAppointmentForm(this, 'all');">
-
+        <form th:action="@{/appointment/edit}" method="POST" enctype="multipart/form-data" th:id="'editAppointmentForm'+${appointment.appointmentID}">
+        <div th:id="'editAppointmentPane'+${appointment.appointmentID}">
           <!--Account ID-->
           <input type="hidden" class="form-control" id="appID" name="appID" th:value="${appointment.appointmentID}">
 <!--          [[${page}]]-->
@@ -50,9 +49,22 @@
 
           <!--button-->
           <div class="modal-footer">
-            <button class="btn btn-primary" type="submit">save</button>
-            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">cancel</button>
+            <div class="col-md-12 text-center">
+              <button th:attr="onclick='clickEditAppointment(\'' + ${appointment.appointmentID} +  '\');'" class="btn btn-primary" type="button">save</button>
+              <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">cancel</button>
+            </div>
           </div>
+        </div>
+          <div th:id="'editAppointmentConfirm'+ ${appointment.appointmentID}" style="display: none" class="text-start">
+            <p >Are you sure you want to edit appointment ID [[${appointment.appointmentID}]] ?</p>
+            <div class="modal-footer">
+              <div class="col-md-12 text-center">
+                <button class="btn btn-primary" type="submit">Yes</button>
+                <button th:attr="onclick='clickEditAppointmentNo(\'' + ${appointment.appointmentID} +  '\');'" type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+              </div>
+            </div>
+          </div>
+
 
         </form>
       </div>

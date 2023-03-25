@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <meta charset="UTF-8">
+  <title>Account View</title>
+  <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <script th:src="@{/js/bootstrap.min.js}"></script>
+  <link th:rel="stylesheet" th:href="@{/css/table-image.css}">
+  <script th:src="@{/js/validateModel.js}"></script>
+    <link th:rel="stylesheet" th:href="@{/css/table-warehouse.css}">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+
+<script>
+    let realTimeValid = false;
+
+    function validFormEditAccountByEachField(fieldElement){
+        if (realTimeValid){
+            const formEditAccount = document.getElementById("editAccountForm")
+            const validatedList = serviceValidEditAccount(formEditAccount, fieldElement.id);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(formEditAccount.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitEditAccountForm(formEditAccount, option){
+        realTimeValid = true;
+        const validatedList = serviceValidEditAccount(formEditAccount, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(formEditAccount.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 5){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
+<script>
+    let host = window.location.origin;
+    const hide = "none";
+    const show = "block";
+
+    function appointmentCheckSliderCheck() {
+        let appCheckbox =document.getElementById("appCheckbox");
+        let appCheckbox2 =document.getElementById("appCheckbox2");
+        let appointmentPane = document.getElementById('accAppointmentTable');
+        let petPane = document.getElementById('petPane');
+
+        if (appCheckbox.checked){
+            appointmentPane.style.display = show;
+            petPane.style.display = hide;
+        }
+        else if (!appCheckbox.checked){
+            appointmentPane.style.display = hide;
+            petPane.style.display = show;
+        }
+    }
+    function appointmentCheckSliderUncheck() {
+        // let appCheckbox =document.getElementById("appCheckbox");
+        let appCheckbox2 =document.getElementById("appCheckbox2");
+        let appointmentPane = document.getElementById('accAppointmentTable');
+        let petPane = document.getElementById('petPane');
+
+        if (!appCheckbox2.checked){
+            appointmentPane.style.display = show;
+            petPane.style.display = hide;
+            location.reload(true);
+        }
+        else if (appCheckbox2.checked){
+            appointmentPane.style.display = hide;
+            petPane.style.display = show;
+        }
+    }
+</script>
+<body>
+<div th:insert="fragments/header :: header"></div>
+
+<div class="container">
+<!--  Account's Card  -->
+  <div class="card">
+    <div class="row g-0">
+      <div class="col-md-3 mb-3 mt-3 ms-5">
+        <img class="img-fluid rounded-circle w-75 shadow rounded" th:if="${account.img_path != null}" th:src="${account.img_path}" />
+        <img class="img-fluid rounded-circle w-75" th:unless="${account.img_path != null}" th:src="@{/images/no-image.jpg}" />
+      </div>
+      <div class="col-md-8 ms-auto">
+        <div class="card-body">
+            <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#editInfoAccountPopUp">
+                <i class="fa fa-pencil mr-1"></i>  Edit
+            </button>
+            <th:block th:replace="account/accountPopUp/editInfoAccountPopUp :: editInfoAccountPopUp(${account})">modal</th:block>
+            <h2 class="card-title mt-3">[[*{account.firstName}]] [[*{account.lastName}]]</h2>
+            <p class="card-text w-50 mt-3"><i class="fa fa-map-marker"></i> [[*{account.address}]]</p>
+            <p class="card-text mb-5 position-absolute bottom-0" style="font-size: 1.25em;"><i class="fa fa-phone-square"></i> [[*{account.phone}]]</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Pet's Table -->
+    <div th:id="petPane">
+      <div class="mb-5 mt-3">
+          <span><b style="font-size: 1.5em">All Pet </b></span>
+
+          <span class="float-end">
+              <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createPetPopUp">
+                  + Add Pet
+              </button>
+          </span>
+
+          <span class="form-switch form-check-inline float-end mt-2">
+              <input onchange="appointmentCheckSliderCheck()" class="form-check-input" type="checkbox" id="appCheckbox">
+              <label class="form-check-label" for="appCheckbox">Appointment</label>
+          </span>
+
+          <!--Call Create pet (PopUp)-->
+          <th:block th:replace="pet/petPopUp/createPetPopUp :: createPetPopUp(${account.accId})">modal</th:block>
+      </div>
+
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Image</th>
+            <th scope="col">Pet's Name</th>
+            <th scope="col">Gender</th>
+            <th scope="col">Date of Birth</th>
+            <th scope="col">Pet's Type</th>
+            <th scope="col">Breed</th>
+            <th scope="col">Sterilization</th>
+            <th scope="col">Remark</th>
+            <th scope="col">Actions</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <div th:each="pet : ${pets}">
+        <tr >
+            <div>
+            <td><img alt="" th:src="*{'data:image;base64,'+{pet.image}}" class="rounded-circle" style="width:100px;height:100px"></th>
+
+            <td>[[*{pet.name}]]</td>
+            <td>[[*{pet.gender}]]</td>
+            <td>[[${#dates.format(pet.doB, 'dd/MM/yyyy')}]]</td>
+            <td>[[*{pet.petType}]]</td>
+            <td>[[*{pet.breed}]]</td>
+
+            <td>
+                <span th:if="${pet.sterilization == true}" style="font-size: 0.9em;" class="badge rounded-pill bg-success">STERILIZED</span>
+                <span th:if="${pet.sterilization == false}" style="font-size: 0.9em;" class="badge rounded-pill bg-secondary">NOT STERILIZED</span>
+            </td>
+
+            <td>
+                <span th:if="${pet.remark} neq '-'" style="font-size: 0.9em;" class="badge rounded-pill bg-warning">REMARK</span>
+            </td>
+
+            <td>
+                <div class="dropdown open">
+                    <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
+                       aria-expanded="false">
+                        <i class="fa fa-ellipsis-v"></i>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="triggerId1">
+                        <a class="dropdown-item btn" data-bs-toggle="modal"
+                           th:attr="data-bs-target='#receiveTreatmentPopUp'+*{pet.petID}">
+                            <i class="fa fa-heartbeat"></i> Receive Treatment
+                        </a>
+                        <a class="dropdown-item btn" data-bs-toggle="modal"
+                           th:attr="data-bs-target='#createAppointment'+*{pet.petID}">
+                            <i class="fa fa-calendar"></i> Create Appointment
+                        </a>
+                        <a class="dropdown-item btn" th:href="@{'/treatmentHistory/pet'+${pet.petID}}">
+                            <i class="fa fa-folder"></i> Treatment Histories
+                        </a>
+                        <a class="dropdown-item btn" data-bs-toggle="modal"
+                           th:attr="data-bs-target='#editPetPopUp'+*{pet.petID}">
+                            <i class="fa fa-pencil mr-1"></i> Edit
+                        </a>
+                        <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
+                           th:attr="data-bs-target='#deletePopUp'+*{pet.petID}">
+                            <i class="fa fa-trash mr-1"></i> Delete
+                        </a>
+                    </div>
+                    <!--Call Receive Treatment (PopUp)-->
+                    <th:block th:replace="treatmentHistory/treatmentHistoryPopUp/receiveTreatmentPopUp :: receiveTreatmentPopUp(${pet})">modal</th:block>
+                    <!--Create Appointment (PopUp)-->
+                    <th:block th:replace="appointment/appointmentPopUp/createAppointment :: createAppointment(${pet})">modal</th:block>
+                    <!--Call Edit pet (PopUp)-->
+                    <th:block th:replace="pet/petPopUp/editPetPopUp :: editPetPopUp(${account.accId},${pet},'infoAccount')">modal</th:block>
+                    <!--Call Delete pet (PopUp)-->
+                    <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Pet',mainPath='pets',deleteId=${pet.petID},deleteName=${pet.name},pathId=${account.accId})">
+                        modal
+                    </th:block>
+                </div>
+            </td>
+            </div>
+
+
+        </tr>
+        </div>
+        </tbody>
+    </table>
+    </div>
+
+    <div th:id="accAppointmentTable" th:insert="appointment/accountAppointment :: accountAppointment" style="display: none"></div>
+
+</div>
+
+<!-- ---------------------------------------------------------- -->
+
+<div class="card mb-4 container">
+
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="warehouse-tab" data-bs-toggle="tab" data-bs-target="#warehouseTab" type="button" role="tab" aria-controls="home" aria-selected="true">Warehouse</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="medicine-tab" data-bs-toggle="tab" data-bs-target="#medicineTab" type="button" role="tab" aria-controls="profile" aria-selected="false">Medicine</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="tool-tab" data-bs-toggle="tab" data-bs-target="#toolTab" type="button" role="tab" aria-controls="contact" aria-selected="false">Tool</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <!--Warehouse Tab-->
+        <div class="tab-pane fade show active" id="warehouseTab" role="tabpanel" aria-labelledby="warehouse-tab">
+            <div class="card-header">
+                <i class="fas fa-table"></i>
+                Warehouse
+            </div>
+            <div class="mb-0">
+                <div class="float-end mt-4 mb-0 ms-4">
+                    <a id="link-filter-almost" class="btn btn-warning position-relative me-3" role="button">
+                        Almost
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary"
+                              th:text="${almostCount}"
+                        ></span>
+                    </a>
+                    <a id="link-filter-expired" class="btn btn-danger position-relative me-3" role="button">
+                        Expired
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary"
+                              th:text="${expiredCount}"
+                        ></span>
+                    </a>
+                    <a id="link-filter-clear" class="btn btn-secondary position-relative me-3" role="button">
+                        Clear
+                    </a>
+                    <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createWarehousePopUp">
+                        + Add Item
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <table id="datatablesWarehouse" class="table">
+                    <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Item ID</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Paid Total</th>
+                        <th>Quantity In</th>
+                        <th>Quantity Left</th>
+                        <th>Stock In</th>
+                        <th>Expired Date</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="wh : ${warehouses}">
+                        <td th:text="${ '#' + wh.itemID}"></td>
+                        <td th:if="${wh.medicine != null}" th:text="${ 'M' + wh.medicine.getMedID}"></td>
+                        <td th:if="${wh.tool != null}" th:text="${ 'T' + wh.tool.getToolID}"></td>
+                        <td th:if="${wh.medicine != null}" th:text="${wh.medicine.getNameForShow}"></td>
+                        <td th:if="${wh.tool != null}" th:text="${wh.tool.getNameForShow}"></td>
+                        <td th:text="${wh.type}"></td>
+                        <td th:text="${wh.paidTotal}"></td>
+                        <td th:text="${wh.quantityIn}"></td>
+                        <td th:text="${wh.quantityLeft}"></td>
+                        <td th:text="${#dates.format(wh.createdDate, 'yyyy/MM/dd')}"></td>
+                        <td th:text="${#dates.format(wh.expiredDate, 'yyyy/MM/dd')}"></td>
+                        <!--                            <td>-->
+                        <!--                                <span th:if="${wh.isExpired() eq 0}" >Normal</span>-->
+                        <!--                                <span th:if="${wh.isExpired() eq -1}" >Expired</span>-->
+                        <!--                                <span th:if="${wh.isExpired() eq 1}" >Almost</span>-->
+                        <!--                            </td>-->
+                        <td th:switch="${wh.isExpired()}">
+                            <span th:case="-1" class="badge rounded-pill bg-danger">Expired</span>
+                            <span th:case="1" class="badge rounded-pill bg-warning text-dark">Almost</span>
+                            <span th:case="0" class="badge rounded-pill bg-secondary">Normal</span>
+                        </td>
+                        <td>
+                            <div class="col-md-12 text-center">
+                                <div class="dropdown open">
+                                    <a href="#!" class="px-2" data-toggle="dropdown" aria-haspopup="true"
+                                       aria-expanded="false">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                        <a class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editWarehouseOrderPopUp'+ *{wh.itemID}" role="button">
+                                            <i class="material-symbols-rounded align-middle pb-1">edit</i> Edit
+                                        </a>
+
+                                        <a th:if="${wh.isExpired()}" class="dropdown-item" href="#">
+                                            <i class="fa fa-pencil mr-1"></i> Stock Out
+                                        </a>
+
+                                        <a class="dropdown-item text-danger" href="#">
+                                            <i class="fa fa-trash mr-1"></i> Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <th:block th:if="wh.medicine != null" th:replace="warehouse/warehousePopUp/editWarehouseOrderPopUp :: editWarehouseOrderPopUp(${wh}, ${medicines}, ${tools})">modal</th:block>
+                        <!--                            <th:block th:replace="warehouse/warehousePopUp/editWarehouseToolPopUp :: editWarehouseToolPopUp(${wh}, ${tools})">modal</th:block>-->
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--Medicine Tab-->
+        <div class="tab-pane fade" id="medicineTab" role="tabpanel" aria-labelledby="medicine-tab">
+            <div class="card-header">
+                <i class="fas fa-table"></i>
+                Medicine
+            </div>
+            <div class="mb-0">
+                <div class="float-end mt-4 mb-0 ms-4">
+                    <button id="btn-add-med" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createWarehousePopUp" onclick="switchTabActive(this)">
+                        + Add Item
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <table id="datatablesMedicine" class="table">
+                    <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Name</th>
+                        <th>Dose</th>
+                        <th>Unit</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="med : ${medicines}">
+                        <td th:text="${ 'M' + med.medID}"></td>
+                        <td th:text="${ med.name}"></td>
+                        <td th:text="${ med.dose}"></td>
+                        <td th:text="${ med.unit}"></td>
+                        <td th:text="${ med.price}"></td>
+                        <td th:text="${ med.description}"></td>
+                        <td>
+                            <div class="col-md-12 text-center">
+                                <div class="dropdown open">
+                                    <a href="#!" class="px-2" data-toggle="dropdown" aria-haspopup="true"
+                                       aria-expanded="false">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                        <a class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editWarehouseMedicinePopUp'+ *{med.medID}" role="button">
+                                            <i class="fa fa-pencil mr-1"></i> Edit
+                                        </a>
+                                        <a class="dropdown-item text-danger" href="#">
+                                            <i class="fa fa-trash mr-1"></i> Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <th:block th:replace="warehouse/warehousePopUp/editWarehouseMedicinePopUp :: editWarehouseMedicinePopUp(${med})">modal</th:block>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--Tool Tab-->
+        <div class="tab-pane fade" id="toolTab" role="tabpanel" aria-labelledby="tool-tab">
+            <div class="card-header">
+                <i class="fas fa-table"></i>
+                Tool
+            </div>
+            <div class="mb-0">
+                <div class="float-end mt-4 mb-0 ms-4">
+                    <button id="btn-add-tool" type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createWarehousePopUp" onclick="switchTabActive(this)">
+                        + Add Item
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <table id="datatablesTool" class="table">
+                    <thead>
+                    <tr>
+                        <th>Item ID</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="tool : ${tools}">
+                        <td th:text="${ 'T' + tool.ToolID}"></td>
+                        <td th:text="${ tool.name}"></td>
+                        <td th:text="${ tool.price}"></td>
+                        <td th:text="${ tool.description}"></td>
+                        <td>
+                            <div class="col-md-12 text-center">
+                                <div class="dropdown open">
+                                    <a href="#!" class="px-2" data-toggle="dropdown" aria-haspopup="true"
+                                       aria-expanded="false">
+                                        <i class="fa fa-ellipsis-v"></i>
+                                    </a>
+                                    <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                        <a class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editWarehouseToolPopUp'+ *{tool.toolID}" role="button">
+                                            <i class="fa fa-pencil mr-1"></i> Edit
+                                        </a>
+                                        <a class="dropdown-item text-danger" href="#">
+                                            <i class="fa fa-trash mr-1"></i> Delete
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <th:block th:replace="warehouse/warehousePopUp/editWarehouseToolPopUp :: editWarehouseToolPopUp(${tool})">modal</th:block>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+</body>
+</html>

@@ -2,17 +2,18 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <body>
-<div th:fragment="receiveTreatmentPopUp(pet)" th:id="'receiveTreatmentPopUp'+${pet.petID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
+<div th:fragment="receiveTreatmentPopUp(pet,variable)" th:id="'receiveTreatmentPopUp'+${variable}+${pet.petID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
      data-bs-backdrop="static" aria-hidden="true">
 
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Receive Treatment</h5>
+                <h5 class="modal-title" th:id="'receiveTreatHeader'+${pet.petID}">Receive Treatment</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:action="@{'/treatmentHistory/receive/treatment'}" method="POST">
+                <form th:action="@{'/treatmentHistory/receive/treatment'}" method="POST" th:id="'receiveTreatForm'+${pet.petID}">
+                    <div th:id="'receiveTreatPane'+${pet.petID}">
                     <!--ID-->
                     <input type="hidden" class="form-control" id="petID" name="petID" th:value="${pet.petID}">
 
@@ -27,8 +28,17 @@
                     </div>
                     <!--button-->
                     <div class="modal-footer">
-                        <button class="btn btn-primary" type="submit">save</button>
+                        <button th:attr="onclick='clickReceiveTreat(\'' + ${pet.petID} +  '\');'" class="btn btn-primary" type="button">save</button>
                         <button class="btn btn-secondary" data-bs-dismiss="modal">cancel</button>
+                    </div>
+                    </div>
+
+                    <div th:id="'receiveTreatConfirm'+${pet.petID}" style="display: none" class="text-start">
+                        <p>Are you sure <b>[[${pet.name}]]</b> need to receive treatment ?</p>
+                        <div class="modal-footer">
+                            <button class="btn btn-primary" type="submit">Yes</button>
+                            <button th:attr="onclick='clickReceiveTreatNo(\'' + ${pet.petID} +  '\');'" type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                        </div>
                     </div>
 
                 </form>

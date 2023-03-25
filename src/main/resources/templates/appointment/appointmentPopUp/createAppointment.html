@@ -9,15 +9,16 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Create Appointment ([[*{pet.name}]])</h5>
+                <h5 class="modal-title" th:id="'createAppointmentHeader'+${pet.petID}">Create Appointment ([[*{pet.name}]])</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form th:id="'newAppointmentForm'+${pet.petID}" th:action="@{/appointment/create}" method="POST" enctype="multipart/form-data"
-                      onsubmit="return validSubmitNewAppointmentForm(this, 'all');">
+                <form th:action="@{/appointment/create}" method="POST" enctype="multipart/form-data" th:id="'createAppointmentForm'+${pet.petID}">
 
+                    <div th:id="'createAppointmentPane'+${pet.petID}">
                     <!--Account ID-->
                     <input type="hidden" class="form-control" id="petID" name="petID" th:value="${pet.petID}">
+                        <input type="hidden" class="form-control" id="name" name="name" th:value="${pet.name}">
 
                     <!--Appointment-->
                     <div class="input-group input-group mb-3">
@@ -49,9 +50,23 @@
 
                     <!--button-->
                     <div class="modal-footer">
-                        <button class="btn btn-primary" type="submit">save</button>
-                        <button class="btn btn-secondary" type="reset">clear</button>
+                        <div class="col-md-12 text-center">
+                            <button th:attr="onclick='clickCreateAppointment(\'' + ${pet.petID} + '\');'" class="btn btn-primary" type="button">save</button>
+                            <button class="btn btn-secondary" type="reset">clear</button>
+                        </div>
                     </div>
+                    </div>
+
+                    <div th:id="'createAppointmentConfirm'+${pet.petID}" style="display: none">
+                        <p class="text-start">Are you sure you want to create appointment ?</p>
+                        <div class="modal-footer">
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-primary" type="submit">Yes</button>
+                                <button th:attr="onclick='clickCreateAppointmentNo(\'' + ${pet.petID} + '\');'" type="reset" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                            </div>
+                        </div>
+                    </div>
+
 
                 </form>
             </div>

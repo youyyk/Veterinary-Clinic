@@ -17,13 +17,15 @@
                     <input type="hidden" class="form-control" id="id" name="id" th:value="${deleteId}">
                     <input type="hidden" class="form-control" id="pathId" name="pathId" th:value="${pathId}">
 
-                    <p>Are you sure you want to delete [[*{deleteName}]]</p>
+                    <p class="text-start">Are you sure you want to delete
+                        <b>[[*{deleteName}]]</b> ?
+                    </p>
                     <!--button-->
                     <div class="modal-footer">
-<!--                        <button class="btn btn-secondary" type="reset">cancel</button>-->
-<!--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>-->
+                        <div class="col-md-12 text-center">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">close</button>
                         <button class="btn btn-danger" type="submit">delete</button>
+                        </div>
                     </div>
 
                 </form>

@@ -9,14 +9,14 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Edit</h5>
+                <h5 class="modal-title" th:id="'editOrderHeader'+${wh.itemID}">Edit Order ID [[${wh.itemID}]]</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
 
             <!--Edit Med Warehouse-->
             <div class="modal-body">
-                <form th:id="'editWarehouseOrderForm'+${wh.itemID}" th:action="@{warehouse/edit/{type}/order/{id} (id=${wh.itemID}, type=${wh.medicine != null ? 'medicine' : 'tool'})}" method="POST"
-                      onsubmit="return validSubmitEditOrderWarehouseToolForm(this, 'all');">
+                <form th:id="'editOrderForm'+${wh.itemID}" th:action="@{warehouse/edit/{type}/order/{id} (id=${wh.itemID}, type=${wh.medicine != null ? 'medicine' : 'tool'})}" method="POST">
+                    <div th:id="'editOrderPane'+${wh.itemID}">
                     <!--Warehouse Med-->
                     <div th:if="${wh.medicine != null}" class="input-group input-group mb-3">
                         <span class="input-group-text">Medicine</span>
@@ -85,11 +85,23 @@
                                th:onpaste="'javascript:validFormEditOrderByEachField(\'' + 'expiredDate' +'\',\''+ ${wh.itemID} + '\');'">
                     </div>
 
-                    <div class="modal-footer">
-                        <div class="col-md-12 text-center">
-                            <button class="btn btn-primary" type="submit">Save</button>
+                        <div class="modal-footer">
+                            <div class="col-md-12 text-center">
+                                <button th:attr="onclick='clickEditItem(\''+'Order' +'\',\''+${wh.itemID} +  '\');'" class="btn btn-primary" type="button">save</button>
+                            </div>
                         </div>
                     </div>
+
+                    <div th:id="'editOrderConfirm'+ ${wh.itemID}" style="display: none" class="text-start">
+                        <p >Are you sure you want to edit Order ID [[${wh.itemID}]] ?</p>
+                        <div class="modal-footer">
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-primary" type="submit">Yes</button>
+                                <button th:attr="onclick='clickEditItemNo(\''+'Order' +'\',\''+${wh.itemID} +  '\');'" type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                            </div>
+                        </div>
+                    </div>
+
                 </form>
             </div>
         </div>
