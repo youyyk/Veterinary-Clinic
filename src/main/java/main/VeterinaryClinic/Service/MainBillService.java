@@ -20,6 +20,8 @@ public class MainBillService {
         return repository.findAll();
     }
 
+    public  List<Bill> findByPaidStatusIsFalseOrderByStartDateAsc(){return repository.findByPaidStatusIsFalseOrderByStartDateAsc();}
+
     public Bill save(Bill bill) {
         return repository.save(bill);
     }
