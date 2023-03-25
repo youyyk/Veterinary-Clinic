@@ -1,4 +1,1 @@
-- Regis Page
-- Validation
-- Dynamic Warehouse
-- Appointment -> create, edit and delete
+- Merge you to develop (Not have conflict)
