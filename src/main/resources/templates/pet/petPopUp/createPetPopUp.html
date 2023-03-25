@@ -39,29 +39,36 @@
                         <!--DoB-->
                         <div class="input-group input-group mb-3">
                             <span class="input-group-text date">Date of Birth</span>
-                            <input onblur="calculateAge()" type="date" class="form-control" id="doB" name="doB">
+                            <input onblur="calculateAge()" type="date" class="form-control" id="doB" name="doB"
+                                   onkeyup="validFormNewPetByEachField(this)"
+                                   onchange="validFormNewPetByEachField(this)"
+                                   onpaste="validFormNewPetByEachField(this)">
                             <span class="input-group-text" >Age</span>
                             <input onchange="calculateDate()" type="text" id="age" name="age" class="form-control">
                         </div>
 
-                    <div class="input-group input-group mb-3">
-                        <span class="input-group-text">Date of Birth</span>
-                        <input type="date" class="form-control" id="doB" name="doB" autocomplete="off"
-                               onkeyup="validFormNewPetByEachField(this)"
-                               onchange="validFormNewPetByEachField(this)"
-                               onpaste="validFormNewPetByEachField(this)">
-                    </div>
+<!--                    <div class="input-group input-group mb-3">-->
+<!--                        <span class="input-group-text">Date of Birth</span>-->
+<!--                        <input type="date" class="form-control" id="doB" name="doB" autocomplete="off"-->
+<!--                               onkeyup="validFormNewPetByEachField(this)"-->
+<!--                               onchange="validFormNewPetByEachField(this)"-->
+<!--                               onpaste="validFormNewPetByEachField(this)">-->
+<!--                    </div>-->
 
                         <div class="input-group input-group mb-3">
                             <span class="input-group-text">Pet's Type</span>
-                            <input class="form-control" list="typeDatalistOptions" id="petType" name="petType" placeholder="Choose..." autocomplete="off">
+                            <input class="form-control" list="typeDatalistOptions" id="petType" name="petType" placeholder="Choose..." autocomplete="off"
+                                   onkeyup="validFormNewPetByEachField(this)"
+                                   onpaste="validFormNewPetByEachField(this)">
                             <datalist id="typeDatalistOptions">
                                 <div th:each="petType : ${petTypeList}" >
                                     <option th:value="${petType}"/>
                                 </div>
                             </datalist>
                             <span class="input-group-text">Breed</span>
-                            <input class="form-control" list="breedDatalistOptions" id="breed" name="breed" placeholder="Choose..." autocomplete="off">
+                            <input class="form-control" list="breedDatalistOptions" id="breed" name="breed" placeholder="Choose..." autocomplete="off"
+                                   onkeyup="validFormNewPetByEachField(this)"
+                                   onpaste="validFormNewPetByEachField(this)">
                             <datalist id="breedDatalistOptions">
                                 <div th:each="breed : ${breedList}" >
                                     <option th:value="${breed}"/>
@@ -69,26 +76,18 @@
                             </datalist>
                         </div>
 
-                    <!--Pet's Type & Breed-->
-                    <div class="input-group input-group mb-3">
-                        <span class="input-group-text">Pet's Type</span>
-                        <input type="text" class="form-control" id="petType" name="petType" autocomplete="off"
-                               onkeyup="validFormNewPetByEachField(this)"
-                               onpaste="validFormNewPetByEachField(this)">
-                        <span class="input-group-text">Breed</span>
-                        <input type="text" class="form-control" id="breed" name="breed" autocomplete="off"
-                               onkeyup="validFormNewPetByEachField(this)"
-                               onpaste="validFormNewPetByEachField(this)">
-                    </div>
+<!--                    &lt;!&ndash;Pet's Type & Breed&ndash;&gt;-->
+<!--                    <div class="input-group input-group mb-3">-->
+<!--                        <span class="input-group-text">Pet's Type</span>-->
+<!--                        <input type="text" class="form-control" id="petType" name="petType" autocomplete="off"-->
+<!--                               onkeyup="validFormNewPetByEachField(this)"-->
+<!--                               onpaste="validFormNewPetByEachField(this)">-->
+<!--                        <span class="input-group-text">Breed</span>-->
+<!--                        <input type="text" class="form-control" id="breed" name="breed" autocomplete="off"-->
+<!--                               onkeyup="validFormNewPetByEachField(this)"-->
+<!--                               onpaste="validFormNewPetByEachField(this)">-->
+<!--                    </div>-->
 
-                        <div class="input-group input-group mb-3">
-                            <span class="input-group-text">Sterilization</span>
-                            <select class="form-select" id="sterilization" name="sterilization">
-                                <option selected>Choose...</option>
-                                <option value="true">sterilized</option>
-                                <option value="false">not sterilized</option>
-                            </select>
-                        </div>
 
                     <!--Gender-->
                     <div class="input-group input-group mb-3">
@@ -107,6 +106,11 @@
                             <option value="true">sterilized</option>
                             <option value="false">not sterilized</option>
                         </select>
+                    </div>
+
+                    <div class="input-group input-group mb-3">
+                        <span class="input-group-text">Remark</span>
+                        <input type="text" class="form-control" id="remark" name="remark">
                     </div>
 
                         <!--button-->

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
-<!--    <link th:rel="stylesheet" th:href="@{/css/table-warehouse.css}">-->
+    <link th:rel="stylesheet" th:href="@{/css/table-warehouse.css}">
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,300,1,0" />
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
@@ -21,24 +21,18 @@
                 paging:false,
                 scrollY: "calc(70vh - 100px)",
                 scrollX:true,
-                rowNavigation: true,
-                tabIndex: 1
             });
 
             const appointmentTable = document.getElementById('appointmentTable');
             new simpleDatatables.DataTable(appointmentTable,{
                 paging:false,
                 scrollY: "calc(35vh - 100px)",
-                rowNavigation: true,
-                tabIndex: 1
             });
 
             const billTable = document.getElementById('billTable');
             new simpleDatatables.DataTable(billTable,{
                 paging:false,
                 scrollY: "calc(35vh - 100px)",
-                rowNavigation: true,
-                tabIndex: 1
             });
 
 
@@ -56,11 +50,11 @@
 
 <div class="m-4">
     <div class="row">
-        <div class="col-5 me-2">
+        <div class="col-6">
             <div class="row">
                 <div class="col-12 rounded-2" style="background-color: white;">
                     <h3 class="mb-0 float-start pt-2"><span class="material-symbols-rounded align-middle pb-1">event_available</span>Today's Appointment</h3>
-                    <table id="appointmentTable">
+                    <table id="appointmentTable" class="table">
                         <thead>
                         <tr>
                             <th>Owner</th>
@@ -114,7 +108,7 @@
                 </div>
                 <div class="col-12 mt-3 rounded-2" style="background-color: white;">
                     <h3 class="mb-0 float-start pt-2"><span class="material-symbols-rounded align-middle pb-1">receipt_long</span>Unpaid Bills</h3>
-                    <table id="billTable">
+                    <table id="billTable" class="table">
                         <thead>
                         <tr>
                             <th>Bill ID</th>
@@ -164,12 +158,13 @@
                 </div>
             </div>
         </div>
-        <div class="col-6 rounded-2" style="background-color: white;">
+        <div class="col-6">
+            <div class="rounded-2 ps-3" style="background-color: white;">
             <h3 class="mb-0 float-start pt-2">
                 <span class="material-symbols-rounded align-middle pb-1">notification_important</span>Warehouse's Notification
             </h3>
             <div>
-            <table id="warehouseTable">
+            <table id="warehouseTable" class="table">
                 <thead>
                 <tr>
                     <th>Order ID</th>
@@ -178,7 +173,7 @@
                     <th>Qty Left</th>
                     <th>Expired Date</th>
                     <th>Status</th>
-                    <th>Action</th>
+                    <th th:if="${nowAccount.isAdmin()}">Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -195,24 +190,25 @@
                         <span th:case="1" class="badge rounded-pill bg-warning text-dark">Almost</span>
                         <span th:case="0" class="badge rounded-pill bg-secondary">Normal</span>
                     </td>
-                    <td>
+                    <td th:if="${nowAccount.isAdmin()}">
                         <div class="col-md-12 text-center">
                             <div class="dropdown open">
                                 <a href="#!" class="px-2" data-toggle="dropdown" aria-haspopup="true"
                                    aria-expanded="false">
-                                    <span class="material-symbols-rounded">more_vert</span>
+                                    <i class="material-symbols-rounded align-middle">more_vert</i>
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                    <a class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editWarehouseOrderPopUp'+ *{wh.itemID}" role="button">
-                                        <i class="material-symbols-rounded align-middle pb-1">edit</i> Edit
+                                    <a th:if="${!wh.softDeleted}" class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editWarehouseOrderPopUp'+ *{wh.itemID}" role="button">
+                                        <i class="material-symbols-rounded align-middle">edit</i> Edit
                                     </a>
-
-                                    <a th:if="${wh.isExpired()}" class="dropdown-item" href="#">
-                                        <i class="fa fa-pencil mr-1"></i> Stock Out
+                                    <a th:if="${wh.softDeleted}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#restorePopUp'+*{wh.itemID}">
+                                        <i class="material-symbols-rounded align-middle">settings_backup_restore</i> restore
                                     </a>
-
-                                    <a class="dropdown-item text-danger" href="#">
-                                        <i class="fa fa-trash mr-1"></i> Delete
+                                    <a th:if="${wh.isExpired() == -1 && !wh.softDeleted}" class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#stockOutPopUp'+*{wh.itemID}">
+                                        <i class="material-symbols-rounded align-middle">inventory_2</i> Stock Out
+                                    </a>
+                                    <a th:if="${wh.quantityIn==wh.quantityLeft && wh.isCanDelete()}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+*{wh.itemID}">
+                                        <i class="material-symbols-rounded align-middle">delete</i> Delete
                                     </a>
                                 </div>
                             </div>
@@ -221,17 +217,18 @@
                     <th:block th:if="wh.medicine != null" th:replace="warehouse/warehousePopUp/editWarehouseOrderPopUp :: editWarehouseOrderPopUp(${wh}, ${medicines}, ${tools})">modal</th:block>
                     <!--                            <th:block th:replace="warehouse/warehousePopUp/editWarehouseToolPopUp :: editWarehouseToolPopUp(${wh}, ${tools})">modal</th:block>-->
                 </tr>
-<!--                <tr th:each="i: ${#numbers.sequence(0, 99)}">-->
-<!--                    <td>[[${i}]]</td>-->
-<!--                    <td>[[${i}]]</td>-->
-<!--                    <td>[[${i}]]</td>-->
-<!--                    <td>[[${i}]]</td>-->
-<!--                    <td>[[${i}]]</td>-->
-<!--                    <td>[[${i}]]</td>-->
-<!--                    <td>[[${i}]]</td>-->
-<!--                </tr>-->
+                <tr th:each="i: ${#numbers.sequence(0, 99)}">
+                    <td>[[${i}]]</td>
+                    <td>[[${i}]]</td>
+                    <td>[[${i}]]</td>
+                    <td>[[${i}]]</td>
+                    <td>[[${i}]]</td>
+                    <td>[[${i}]]</td>
+                    <td>[[${i}]]</td>
+                </tr>
                 </tbody>
             </table>
+        </div>
         </div>
         </div>
 

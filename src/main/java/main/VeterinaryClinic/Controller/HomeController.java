@@ -53,11 +53,13 @@ public class HomeController {
 //
         List<Bill> bills = mainBillService.findByPaidStatusIsFalseOrderByStartDateAsc();
 
+
         model.addAttribute("appointments",todayAppointment );
         model.addAttribute("warehouses",needWareHouse );
         model.addAttribute("bills",bills );
         model.addAttribute("expiredCount",expiredCount );
         model.addAttribute("almostCount",almostCount );
+        model.addAttribute("nowAccount",accountUserDetail.getAccount());
 
 
 

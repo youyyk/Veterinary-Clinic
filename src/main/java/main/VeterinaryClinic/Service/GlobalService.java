@@ -97,6 +97,9 @@ public class GlobalService {
         Account uTest = new Account("me", "Ua740d4c84ff34de6a233ae21b0db03ab", "");
         accountService.save(uTest);
         accountService.addRoleAdmin(uTest);
+        Account pTest = new Account("peang", "Udfc07b467d731d48428a2bcb0167abc6", "");
+        accountService.save(pTest);
+        accountService.addRoleAdmin(pTest);
         for (int i=1; i<=5; i++){
             accountService.create("Test"+i, "user"+i,null);
         }
