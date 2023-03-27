@@ -10,7 +10,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" th:id="'editMedBillHeader'+${medicine.medID}">Edit [[${medicine.name}]]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        th:attr="onclick='clickEditBillNo(\''+'Med' +'\',\''+${medicine.medID}+'\',\''+${medicine.name} +'\');'"></button>
             </div>
             <div class="modal-body">
                 <form th:action="@{/billMedicine/edit}" method="POST" enctype="multipart/form-data" th:id="'editMedBillForm'+${medicine.medID}">
@@ -41,8 +42,8 @@
                     <!--button-->
                         <div class="modal-footer">
                             <div class="col-md-12 text-center">
-                                <button th:attr="onclick='clickEditBill(\''+'Med'+'\',\''+${medicine.medID} +'\');'" type="button" class="btn btn-primary">save</button>
-                                <button class="btn btn-secondary" type="reset">clear</button>
+                                <button th:attr="onclick='clickEditBill(\''+'Med'+'\',\''+${medicine.medID} +'\');'" type="button" class="btn btn-primary">Save</button>
+                                <button th:onclick="'validSubmitEditBillMedForm(\'' + 'editMedBillForm'+ ${medicine.medID} +'\',\''+ 'reset' + '\');'" class="btn btn-secondary" type="reset">Reset</button>
                             </div>
                         </div>
                     </div>
@@ -52,7 +53,7 @@
                         <div class="modal-footer">
                             <div class="col-md-12 text-center">
                                 <button class="btn btn-primary" type="submit">Yes</button>
-                                <button th:attr="onclick='clickEditBillNo(\''+'Med' +'\',\''+${medicine.medID}+'\',\''+${medicine.name} +'\');'" type="reset" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                                <button th:attr="onclick='clickEditBillNo(\''+'Med' +'\',\''+${medicine.medID}+'\',\''+${medicine.name} +'\');'" type="reset" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                             </div>
                         </div>
                     </div>

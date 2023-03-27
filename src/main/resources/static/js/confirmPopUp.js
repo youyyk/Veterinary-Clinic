@@ -366,6 +366,9 @@ function clickAddItemToBill(item){
     let addItemName = document.getElementById("add"+item+"ToBillName");
 
     if (item.includes("Med")){
+        if (!validSubmitAddMedToBillForm(document.getElementById("addMedToBillForm"),'all')){
+            return false;
+        }
         header.innerHTML = "Add Medicine (Confirmation)";
         let chooseDropdown = document.getElementById("add"+item+"ToBillForm").medID;
         chooseDropdown = (chooseDropdown[chooseDropdown.selectedIndex].text).split("(")[0].trim();
@@ -373,6 +376,9 @@ function clickAddItemToBill(item){
         console.log(chooseDropdown)
     }
     else if(item.includes("Tool")){
+        if (!validSubmitAddToolToBillForm(document.getElementById("addToolToBillForm"),'all')){
+            return false;
+        }
         header.innerHTML = "Add Tool (Confirmation)";
         let chooseDropdown = document.getElementById("add"+item+"ToBillForm").toolID;
         chooseDropdown = (chooseDropdown[chooseDropdown.selectedIndex].text).split("(")[0].trim();
@@ -380,6 +386,9 @@ function clickAddItemToBill(item){
         console.log(chooseDropdown)
     }
     else if(item.includes("Service")){
+        if (!validSubmitAddServiceToBillForm(document.getElementById("addServiceToBillForm"),'all')){
+            return false;
+        }
         header.innerHTML = "Add Service (Confirmation)";
         let chooseDropdown = document.getElementById("add"+item+"ToBillForm").servingID;
         chooseDropdown = (chooseDropdown[chooseDropdown.selectedIndex].text).trim();
@@ -397,12 +406,15 @@ function clickAddItemToBillNo(item) {
         let addItemConfirm = document.getElementById("add"+item+"ToBillConfirm");
 
         if (item.includes("Med")){
+            validSubmitAddMedToBillForm('addMedToBillForm','reset');
             header.innerHTML = "Add Medicine";
         }
         else if(item.includes("Tool")){
+            validSubmitAddToolToBillForm('addToolToBillForm', 'reset');
             header.innerHTML = "Add Tool";
         }
         else if(item.includes("Service")){
+            validSubmitAddServiceToBillForm('addServiceToBillForm', 'reset');
             header.innerHTML = "Add Service";
         }
         addItemConfirm.style.display = hide;
@@ -417,12 +429,21 @@ function clickEditBill(item,id){
     let addItemName = document.getElementById("edit"+item+"BillName"+id);
 
     if (item.includes("Med")){
+        if (!validSubmitEditBillMedForm(document.getElementById("editMedBillForm"+id),'all')){
+            return false;
+        }
         header.innerHTML = "Edit Medicine (Confirmation)";
     }
     else if(item.includes("Tool")){
+        if (!validSubmitEditBillToolForm(document.getElementById("editToolBillForm"+id),'all')){
+            return false;
+        }
         header.innerHTML = "Edit Tool (Confirmation)";
     }
     else if(item.includes("Service")){
+        if (!validSubmitEditBillServiceForm(document.getElementById("editServiceBillForm"+id),'all')){
+            return false;
+        }
         header.innerHTML = "Edit Service (Confirmation)";
     }
 
@@ -434,6 +455,16 @@ function clickEditBillNo(item,id,name) {
         let header = document.getElementById("edit"+item+"BillHeader"+id);
         let addItemPane = document.getElementById("edit"+item+"BillPane"+id);
         let addItemConfirm = document.getElementById("edit"+item+"BillConfirm"+id);
+
+        if (item.includes("Med")){
+            validSubmitEditBillMedForm("editMedBillForm"+id,'reset');
+        }
+        else if(item.includes("Tool")){
+            validSubmitEditBillToolForm("editToolBillForm"+id, 'reset');
+        }
+        else if(item.includes("Service")){
+            validSubmitEditBillServiceForm("editServiceBillForm"+id, 'reset');
+        }
 
         header.innerHTML = "Edit "+name;
 
@@ -466,6 +497,9 @@ function clickEditTreatBillNo(detail) {
 }
 // ------------- Payment --------------
 function clickPay(billID){
+    if (!validSubmitPaymentPopUp(document.getElementById("paymentForm"+billID),'all')){
+        return false;
+    }
     let paymentPane = document.getElementById("paymentPane"+billID);
     let paymentConfirm = document.getElementById("paymentConfirm"+billID);
     let header = document.getElementById("paymentHeader"+billID);
@@ -476,6 +510,7 @@ function clickPay(billID){
 }
 function clickPayNo(billID) {
     setTimeout(function (){
+        clearPaymentForm();
         let paymentPane = document.getElementById("paymentPane"+billID);
         let paymentConfirm = document.getElementById("paymentConfirm"+billID);
         let header = document.getElementById("paymentHeader"+billID);

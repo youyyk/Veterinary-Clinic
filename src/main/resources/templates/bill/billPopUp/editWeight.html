@@ -10,7 +10,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="editWeightHeader">Edit Weight</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                th:attr="onclick='clickEditTreatBillNo(\''+'Weight' +'\');'"></button>
       </div>
       <div class="modal-body">
         <form th:action="@{/treatmentHistory/diagnosis/edit}" method="POST" enctype="multipart/form-data" id="editWeightForm">
@@ -26,7 +27,8 @@
           <!--button-->
             <div class="modal-footer">
               <div class="col-md-12 text-center">
-                <button th:attr="onclick='clickEditTreatBill(\''+'Weight'+'\');'" type="button" class="btn btn-primary">save</button>
+                <button th:attr="onclick='clickEditTreatBill(\''+'Weight'+'\');'" min=0 type="button" class="btn btn-primary">Save</button>
+                <button  class="btn btn-secondary" type="reset">Reset</button>
               </div>
             </div>
           </div>
@@ -36,7 +38,7 @@
             <div class="modal-footer">
               <div class="col-md-12 text-center">
                 <button class="btn btn-primary" type="submit">Yes</button>
-                <button th:attr="onclick='clickEditTreatBillNo(\''+'Weight' +'\');'" type="reset" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                <button th:attr="onclick='clickEditTreatBillNo(\''+'Weight' +'\');'" type="reset" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
               </div>
             </div>
           </div>

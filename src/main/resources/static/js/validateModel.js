@@ -300,6 +300,12 @@ function serviceValidAddMedToBill(formMedToBill, option){
     const payload = [];
     const fields = ["medID", "newDescription", "cureAmount"];
     if (formMedToBill != null || formMedToBill != undefined){
+        if (option === "reset") {
+            realTimeValid_formAddMedToBill = false;
+            realTimeValid_formEditBillMed = false;
+            resetForm(formMedToBill, fields, true, true);
+            return payload;
+        }
         if (option === fields[0] || option === "all") { // medId
             validRegexFormat(formMedToBill.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter)
         }
@@ -322,6 +328,12 @@ function serviceValidAddToolToBill(formToolToBill, option){
     const payload = [];
     const fields = ["toolID", "cureAmount"];
     if (formToolToBill != null || formToolToBill != undefined){
+        if (option === "reset") {
+            realTimeValid_formAddToolToBill = false;
+            realTimeValid_formEditBillTool = false;
+            resetForm(formToolToBill, fields, true, true);
+            return payload;
+        }
         if (option === fields[0] || option === "all") { // medId
             validRegexFormat(formToolToBill.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter)
         }
@@ -341,6 +353,12 @@ function serviceValidAddServiceToBill(formServiceToBill, option){
     const payload = [];
     const fields = ["servingID", "cureAmount"];
     if (formServiceToBill != null || formServiceToBill != undefined){
+        if (option === "reset") {
+            realTimeValid_formAddServiceToBill = false;
+            realTimeValid_formEditBillService = false;
+            resetForm(formServiceToBill, fields, true, true);
+            return payload;
+        }
         if (option === fields[0] || option === "all") { // medId
             validRegexFormat(formServiceToBill.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter)
         }

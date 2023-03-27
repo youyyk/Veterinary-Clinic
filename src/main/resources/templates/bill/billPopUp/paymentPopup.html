@@ -9,7 +9,8 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" th:id="'paymentHeader'+${bill.billID}">Payment Details ([[${bill.Total}]])</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                th:attr="onclick='clickPayNo(\''+${bill.billID}+'\');'"></button>
       </div>
         <div th:with="discount=${0}"></div>
       <div class="modal-body">
@@ -29,7 +30,10 @@
                   <label for="receive" class="col-sm-2 col-form-label"><b>Discount </b></label>
                   <div class="col-sm-9">
                       <div class="input-group mb-2">
-                          <input type="number"onkeyup="discountKeyUp()" onchange="discountKeyUp()" onpaste="discountKeyUp()" min=0 class="form-control" style="text-align: right" id="discount" name="discount" th:value="0">
+                          <input type="number" min=0 class="form-control" style="text-align: right" id="discount" name="discount" th:value="0"
+                                 th:onkeyup="'discountKeyUp(\'' + ${bill.billID} + '\');'"
+                                 th:onchange="'discountKeyUp(\'' + ${bill.billID} + '\');'"
+                                 th:onpaste="'discountKeyUp(\'' + ${bill.billID} + '\');'">
                           <div class="input-group-prepend">
                               <div class="input-group-text">฿</div>
                           </div>
@@ -65,7 +69,10 @@
                       <label for="receive" class="col-sm-2 col-form-label"><b>Receive </b></label>
                       <div class="col-sm-9">
                           <div class="input-group mb-2">
-                              <input type="number"onkeyup="receiveKeyUp()" onchange="receiveKeyUp()" onpaste="receiveKeyUp()" min=0 class="form-control" style="text-align: right" id="receive" name="receive">
+                              <input type="number" min=0 class="form-control" style="text-align: right" id="receive" name="receive"
+                                     th:onkeyup="'receiveKeyUp(\'' + ${bill.billID} + '\');'"
+                                     th:onchange="'receiveKeyUp(\'' + ${bill.billID} + '\');'"
+                                     th:onpaste="'receiveKeyUp(\'' + ${bill.billID} + '\');'">
                               <div class="input-group-prepend">
                                   <div class="input-group-text">฿</div>
                               </div>
@@ -83,8 +90,8 @@
               <!--button-->
                   <div class="modal-footer">
                       <div class="col-md-12 text-center">
-                          <button th:attr="onclick='clickPay(\''+${bill.billID} +'\');'" type="button" class="btn btn-primary">save</button>
-                          <button class="btn btn-secondary" type="reset">clear</button>
+                          <button th:attr="onclick='clickPay(\''+${bill.billID} +'\');'" type="button" class="btn btn-primary">Save</button>
+                          <button onclick="clearPaymentForm()" class="btn btn-secondary" type="reset">Clear</button>
                       </div>
                   </div>
               </div>
@@ -94,7 +101,7 @@
                   <div class="modal-footer">
                       <div class="col-md-12 text-center">
                           <button class="btn btn-primary" type="submit">Yes</button>
-                          <button th:attr="onclick='clickPayNo(\''+${bill.billID}+'\');'" type="reset" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                          <button th:attr="onclick='clickPayNo(\''+${bill.billID}+'\');'" type="reset" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                       </div>
                   </div>
               </div>

@@ -10,7 +10,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addServiceToBillHeader">Add Service</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        th:attr="onclick='clickAddItemToBillNo(\''+'Service' +'\');'"></button>
             </div>
             <div class="modal-body">
                 <form th:action="@{/billService/add}" method="POST" enctype="multipart/form-data" id="addServiceToBillForm">
@@ -23,7 +24,7 @@
                         <span class="input-group-text">Service</span>
                         <select class="form-select" aria-label="Select Medicine" id="servingID" name="servingID"
                                 onchange="validFormAddServiceToBillByEachField(this)">
-                            <option value="#" selected >-------- Choose --------</option>
+                            <option value="#" selected >Choose...</option>
                             <option th:each="serving : ${servings}" th:value="${serving.servingID}" th:text="${serving.name}"/>
                         </select>
                     </div>
@@ -40,8 +41,8 @@
                     <!--button-->
                         <div class="modal-footer">
                             <div class="col-md-12 text-center">
-                                <button th:attr="onclick='clickAddItemToBill(\''+'Service' +'\');'" type="button" class="btn btn-primary">save</button>
-                                <button class="btn btn-secondary" type="reset">clear</button>
+                                <button th:attr="onclick='clickAddItemToBill(\''+'Service' +'\');'" type="button" class="btn btn-primary">Save</button>
+                                <button onclick="validSubmitAddServiceToBillForm('addServiceToBillForm', 'reset');" class="btn btn-secondary" type="reset">Clear</button>
                             </div>
                         </div>
                     </div>
@@ -51,7 +52,7 @@
                         <div class="modal-footer">
                             <div class="col-md-12 text-center">
                                 <button class="btn btn-primary" type="submit">Yes</button>
-                                <button th:attr="onclick='clickAddItemToBillNo(\''+'Service' +'\');'" type="reset" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                                <button th:attr="onclick='clickAddItemToBillNo(\''+'Service' +'\');'" type="reset" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                             </div>
                         </div>
                     </div>
