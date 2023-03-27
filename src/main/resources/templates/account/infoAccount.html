@@ -9,6 +9,7 @@
   <script th:src="@{/js/validateModel.js}"></script>
     <link th:rel="stylesheet" th:href="@{/css/table-warehouse.css}">
     <script th:src="@{/js/confirmPopUp.js}"></script>
+    <link th:rel="stylesheet" th:href="@{/css/global.css}">
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -286,9 +287,9 @@
 <body>
 <div th:insert="fragments/header :: header"></div>
 
-<div class="container">
+<div class="container mt-2">
 <!--  Account's Card  -->
-  <div class="card mb-4">
+  <div id="tablePane" class="card mb-1">
     <div class="row g-0">
       <div class="col-md-3 mb-3 mt-3 ms-5">
         <img class="img-fluid rounded-circle w-75 shadow rounded" th:if="${account.img_path != null}" th:src="${account.img_path}" />
@@ -318,9 +319,9 @@
 
 <!-- ---------------------------- Tab Pane ------------------------------ -->
 
-<div class="pb-3">
-<div class="card mb-4 container">
-    <ul class="nav nav-tabs pt-2" id="myTab" role="tablist">
+<div>
+<div id="tablePane" class="card  container">
+    <ul class="nav nav-tabs pt-1" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
             <button class="nav-link active" id="pet-tab" data-bs-toggle="tab" data-bs-target="#petTab" type="button" role="tab" aria-controls="home" aria-selected="true">
                 <span class="material-symbols-rounded align-middle pb-1">pets</span> All Pets
@@ -337,7 +338,7 @@
         <div class="tab-pane fade show active" id="petTab" role="tabpanel" aria-labelledby="pet-tab">
             <div class="form-inline ms-4 mt-3 me-4">
                 <span class="align-middle"><b style="font-size: 1.5em">All Pet </b></span>
-                <span class="form-group mb-2 float-end">
+                <span class="form-group mb-1 float-end">
                     <input class="p-1 align-top" onkeyup="searchPet()" type="text" placeholder="Search..." id="petSearch" name="petSearch" th:value="${search}">
                       <button class="btn btn-primary" type="button" id="btnSearch" name="btnSearch">
                           <span class="material-symbols-rounded align-middle" style="font-size: 1.25em">search</span>
@@ -371,7 +372,7 @@
                     <div th:each="pet : ${filterPets}">
                         <tr >
                             <div>
-                                <td><img alt="" th:src="*{'data:image;base64,'+{pet.image}}" class="rounded-circle" style="width:100px;height:100px"></th>
+                                <td><img alt="" th:src="*{'data:image;base64,'+{pet.image}}" class="rounded-circle" style="width:80px;height:80px"></th>
 
                                 <td>[[*{pet.name}]]</td>
                                 <td>[[*{pet.gender}]]</td>
@@ -437,10 +438,9 @@
                     </div>
                     </tbody>
                 </table>
-                <nav aria-label="Page navigation example" style="text-align: center">
-                    <div style="display: inline-block">
-                        <ul class="pagination pagination-gap">
-
+                <nav aria-label="Page navigation example mb-0" style="text-align: center">
+                    <div style="display: inline-block" class="pb-0">
+                        <ul class="pagination ">
                             <li class="page-item" th:classappend="${currentPage==1} ? disabled : ''">
                                 <a th:if="${search.isEmpty()}" th:with="getInfo=${'/account/getInfo/'+account.accId}" class="page-link"
                                    th:href="@{${getInfo}(pageNo=${currentPage -1})}">Previous</a>

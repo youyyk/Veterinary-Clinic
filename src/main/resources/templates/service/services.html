@@ -21,6 +21,7 @@
 
     <script th:src="@{/js/confirmPopUp.js}"></script>
     <script th:src="@{/js/validateModel.js}"></script>
+    <link th:rel="stylesheet" th:href="@{/css/global.css}">
 </head>
 <script>
     let host = window.location.origin;
@@ -102,65 +103,67 @@
 </style>
 <body>
     <div th:insert="fragments/header :: header"></div>
-    <div class="container">
-    <h1>All Services</h1>
-    <div class="card mb-4 container">
-        <div class="tab-content">
-        <div class="mb-0">
-            <div class="float-end mt-4 mb-0 ms-4">
-                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createServicePopUp">
-                    + Add Service
-                </button>
+    <div class="separateContent">
+        <div class="container">
+    <!--    <h1>All Services</h1>-->
+            <div id="tablePane" class="card mb-4 container rounded-2">
+                <div class="tab-content">
+                    <div class="mb-0">
+                        <div class="float-end mt-4 mb-0 ms-4">
+                            <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#createServicePopUp">
+                                + Add Service
+                            </button>
+                        </div>
+                    </div>
+                <div class="card-body">
+                    <table id="datatablesService" class="table">
+                        <thead>
+                        <tr>
+                            <th>Service ID</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="service : ${services}">
+                            <td th:text="${ '#' + service.servingID}"></td>
+                            <td th:text="${service.name}"></td>
+                            <td th:text="${service.price}"></td>
+                            <td>
+                                <div class="col-md-12 text-center">
+                                    <div class="dropdown open">
+                                        <a href="#!" class="px-2" data-toggle="dropdown" aria-haspopup="true"
+                                           aria-expanded="false">
+                                            <i class="fa fa-ellipsis-v"></i>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                               th:attr="data-bs-target='#editServicePopUp'+ *{service.servingID}" role="button">
+                                                <i class="fa fa-pencil mr-1"></i> Edit
+                                            </a>
+
+                                            <a class="dropdown-item text-danger" data-bs-toggle="modal"
+                                               th:attr="data-bs-target='#deletePopUp'+*{service.servingID}">
+                                                <i class="fa fa-trash mr-1"></i> Delete
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <th:block th:replace="service/editServicePopUp :: editServicePopUp(${service})">modal</th:block>
+                            <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Service',mainPath='service',deleteId=${service.servingID},deleteName=${service.name},pathId='service')">
+                                modal
+                            </th:block>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <th:block th:replace="service/createServicePopUp :: createServicePopUp">modal</th:block>
+                </div>
             </div>
         </div>
-        <div class="card-body">
-            <table id="datatablesService" class="table">
-                <thead>
-                <tr>
-                    <th>Service ID</th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="service : ${services}">
-                    <td th:text="${ '#' + service.servingID}"></td>
-                    <td th:text="${service.name}"></td>
-                    <td th:text="${service.price}"></td>
-                    <td>
-                        <div class="col-md-12 text-center">
-                            <div class="dropdown open">
-                                <a href="#!" class="px-2" data-toggle="dropdown" aria-haspopup="true"
-                                   aria-expanded="false">
-                                    <i class="fa fa-ellipsis-v"></i>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                    <a class="dropdown-item" data-bs-toggle="modal"
-                                       th:attr="data-bs-target='#editServicePopUp'+ *{service.servingID}" role="button">
-                                        <i class="fa fa-pencil mr-1"></i> Edit
-                                    </a>
-
-                                    <a class="dropdown-item text-danger" data-bs-toggle="modal"
-                                       th:attr="data-bs-target='#deletePopUp'+*{service.servingID}">
-                                        <i class="fa fa-trash mr-1"></i> Delete
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </td>
-                    <th:block th:replace="service/editServicePopUp :: editServicePopUp(${service})">modal</th:block>
-                    <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Service',mainPath='service',deleteId=${service.servingID},deleteName=${service.name},pathId='service')">
-                        modal
-                    </th:block>
-
-                </tr>
-                </tbody>
-            </table>
         </div>
-        <th:block th:replace="service/createServicePopUp :: createServicePopUp">modal</th:block>
-    </div>
-    </div>
-    </div>
 </body>
 </html>

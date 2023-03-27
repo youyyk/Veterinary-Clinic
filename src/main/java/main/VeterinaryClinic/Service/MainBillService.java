@@ -5,6 +5,7 @@ import main.VeterinaryClinic.Model.Bill.Bill;
 import main.VeterinaryClinic.Model.TreatmentHistory;
 import main.VeterinaryClinic.Repository.Bill.BillRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -17,7 +18,7 @@ public class MainBillService {
     private BillRepository repository;
 
     public List<Bill> getAll() {
-        return repository.findAll();
+        return repository.findAll(Sort.by(Sort.Direction.ASC, "billID"));
     }
 
     public  List<Bill> findByPaidStatusIsFalseOrderByStartDateAsc(){return repository.findByPaidStatusIsFalseOrderByStartDateAsc();}

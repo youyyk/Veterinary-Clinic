@@ -5,3 +5,34 @@
     text-decoration: none;
     color:black;
 }
+
+body{
+    background-image: url('../images/dogDiagonal.jpg');
+    background-repeat: repeat;
+    background-size: 40%
+}
+
+#tablePane{
+    background-color: white;
+    padding: 10px;
+    box-shadow: 5px 5px 10px #ababab;"
+}
+
+.separateContent {
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.nav-link{
+    text-decoration: none;
+    color:black;
+}
+.nav-link:hover{
+    text-decoration: none;
+    color: #f4ffd0;
+}
+.nav-link.active{
+    text-decoration: none;
+    color: white;
+
+}

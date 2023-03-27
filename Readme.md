@@ -1,2 +1,3 @@
-- Dashboard (home)
-- Merge you to develop (Not have conflict)
+- Navbar (Add Profile's dropdown and Decoration)
+- Main page (Decoration)
+- Date Range

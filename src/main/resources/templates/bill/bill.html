@@ -20,9 +20,16 @@
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
 </head>
 <script>
+    let host = window.location.origin;
+    const hide = "none";
+    const show = "block";
+
     window.addEventListener('DOMContentLoaded', event => {
         const datatableBills = document.getElementById('datatableBills');
         new simpleDatatables.DataTable(datatableBills);
+
+        document.getElementById('link-filter-unpaid').href = host + "/bill/unpaid";
+        document.getElementById('link-filter-clear').href = host + "/bill";
 
     });
 
@@ -30,73 +37,92 @@
 
 <body>
 <div th:insert="fragments/header :: header"></div>
-<div class="container">
-    <h1>All Bills</h1>
-    <div class="card mb-4 container">
-        <div class="card-body">
-            <table id="datatableBills" class="table">
-                <thead>
-                <tr>
-                    <th>Bill ID</th>
-                    <th>Treatment ID</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Pay Type</th>
-                    <th>Total</th>
-                    <th>Paid Status</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
 
-                <tbody th:if="${not #lists.isEmpty(bills)}">
-                <div th:each="bill : ${bills}">
-                    <tr>
-                        <td>[[*{bill.billID}]]</td>
-                        <td>[[*{bill.treatmentHistory.treatmentHisID}]]</td>
-                        <td>[[${#dates.format(bill.startDate, 'yyyy/MM/dd')}]]</td>
-                        <td>[[${#dates.format(bill.endDate, 'yyyy/MM/dd')}]]</td>
-                        <td>[[*{bill.payType}]]</td>
-                        <td>[[*{bill.total}]]</td>
-                        <td>
-                            <span th:if="${bill.paidStatus == true}" style="font-size: 0.9em;" class="badge rounded-pill bg-success">PAID</span>
-                            <span th:if="${bill.paidStatus == false}" style="font-size: 0.9em;" class="badge rounded-pill bg-danger">UNPAID</span>
-                        </td>
-                        <td>
-                            <div class="dropdown open">
-                                <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
-                                   aria-expanded="false">
-                                    <span class="material-symbols-rounded">more_vert</span>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                    <a class="dropdown-item btn" th:href="@{'/bill/getDetail/'+${bill.billID}}">
-                                        <span class="material-symbols-rounded align-middle pb-1">receipt_long</span> Bill's Details
-                                    </a>
-                                    <a th:if="${bill.paidStatus == true}" class="dropdown-item btn" data-bs-toggle="modal">
-                                       <span class="material-symbols-rounded align-middle pb-1">cancel</span> Cancel
-                                    </a>
-                                    <a th:if="${bill.total == 0 and bill.paidStatus == false}" class="dropdown-item text-danger btn" data-bs-toggle="modal"
-                                       th:attr="data-bs-target='#deletePopUp'+*{bill.billID}">
-                                        <span class="material-symbols-rounded align-middle pb-1">delete</span> Delete
-                                    </a>
-                                </div>
-                                <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Bill',mainPath='bill',deleteId=${bill.billID},deleteName='Bill ID '+${bill.billID},pathId='bill')">
-                                    modal
-                                </th:block>
-                            </div>
-                        </td>
-
-
-                    </tr>
+<div class="separateContent">
+    <div class="container">
+    <!--    <h1>All Bills</h1>-->
+        <div id="tablePane" class="card mb-4 container rounded-2">
+            <div class="tab-content">
+                <div class="mb-0">
+                    <div class="float-end mt-4 mb-0 ms-4">
+                        <!--                    <input type="text" class="form-control" id="dateRange" name="dateRange" th:value="${startDate}+' - '+${endDate}">-->
+                        <a id="link-filter-unpaid" class="btn btn-danger position-relative me-3" role="button">
+                            Unpaid
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary"
+                                  th:text="${unpaidSize}">
+                            </span>
+                        </a>
+                        <a id="link-filter-clear" class="btn btn-secondary position-relative me-3" role="button">
+                            Clear
+                        </a>
+                    </div>
                 </div>
-                </tbody>
+                <div class="card-body">
+                    <table id="datatableBills" class="table">
+                        <thead>
+                        <tr>
+                            <th>Bill ID</th>
+                            <th>Owner</th>
+                            <th>Phone no.</th>
+                            <th>Pet's Name</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Pay Type</th>
+                            <th>Total</th>
+                            <th>Paid Status</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
 
-            </table>
+                        <tbody th:if="${not #lists.isEmpty(bills)}">
+                        <div th:each="bill : ${bills}">
+                            <tr>
+                                <td>#[[*{bill.billID}]]</td>
+                                <td>[[*{bill.treatmentHistory.pet.account.firstName}]]</td>
+                                <td>[[*{bill.treatmentHistory.pet.account.phone}]]</td>
+                                <td>[[*{bill.treatmentHistory.pet.name}]]</td>
+                                <td>[[${#dates.format(bill.startDate, 'yyyy/MM/dd')}]]</td>
+                                <td>[[${#dates.format(bill.endDate, 'yyyy/MM/dd')}]]</td>
+                                <td>[[*{bill.payType}]]</td>
+                                <td><p style="text-align: right">[[${#numbers.formatDecimal(bill.total, 1, 'COMMA', 2, 'POINT')}]]</p></td>
+                                <td>
+                                    <span th:if="${bill.paidStatus == true}" style="font-size: 0.9em;" class="badge rounded-pill bg-success">PAID</span>
+                                    <span th:if="${bill.paidStatus == false}" style="font-size: 0.9em;" class="badge rounded-pill bg-danger">UNPAID</span>
+                                </td>
+                                <td>
+                                    <div class="dropdown open">
+                                        <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
+                                           aria-expanded="false">
+                                            <span class="material-symbols-rounded">more_vert</span>
+                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                            <a class="dropdown-item btn" th:href="@{'/bill/getDetail/'+${bill.billID}}">
+                                                <span class="material-symbols-rounded align-middle pb-1">receipt_long</span> Bill's Details
+                                            </a>
+                                            <a th:if="${bill.paidStatus == true}" class="dropdown-item btn" data-bs-toggle="modal">
+                                               <span class="material-symbols-rounded align-middle pb-1">cancel</span> Cancel
+                                            </a>
+                                            <a th:if="${bill.total == 0 and bill.paidStatus == false}" class="dropdown-item text-danger btn" data-bs-toggle="modal"
+                                               th:attr="data-bs-target='#deletePopUp'+*{bill.billID}">
+                                                <span class="material-symbols-rounded align-middle pb-1">delete</span> Delete
+                                            </a>
+                                        </div>
+                                        <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Bill',mainPath='bill',deleteId=${bill.billID},deleteName='Bill ID '+${bill.billID},pathId='bill')">
+                                            modal
+                                        </th:block>
+                                    </div>
+                                </td>
+
+
+                            </tr>
+                        </div>
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-
-
-
-
 </div>
 
 </body>

@@ -3,6 +3,7 @@ package main.VeterinaryClinic.Service;
 import main.VeterinaryClinic.Model.Appointment;
 import main.VeterinaryClinic.Repository.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,8 +15,14 @@ public class AppointmentService {
     @Autowired
     private AppointmentRepository repository;
 
+
     public List<Appointment> getAll() {
-        return repository.findAll();
+        Sort sort = Sort.by("date").ascending().and(Sort.by("period").descending());
+        return repository.findAll(sort);
+    }
+
+    public List<Appointment> findByDateBetween(Date startDate,Date endDate) {
+        return repository.findByDateBetween(startDate,endDate);
     }
 
     public Appointment save(Appointment appointment) {

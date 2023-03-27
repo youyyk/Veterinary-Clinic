@@ -3,9 +3,6 @@ package main.VeterinaryClinic.Service;
 import main.VeterinaryClinic.Model.*;
 import main.VeterinaryClinic.Model.Account.Account;
 import main.VeterinaryClinic.Model.Bill.Bill;
-import main.VeterinaryClinic.Model.Bill.BillMedicine;
-import main.VeterinaryClinic.Model.Bill.BillServing;
-import main.VeterinaryClinic.Model.Bill.BillTool;
 import org.springframework.stereotype.Service;
 import main.VeterinaryClinic.Service.Account.AccountService;
 import main.VeterinaryClinic.Service.SubBill.BillMedicineService;
@@ -15,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 
 @Service
@@ -57,7 +56,21 @@ public class GlobalService {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         return date;
     }
+
+    public static String convertStringToDateSlash(Date date) {
+        try {
+            SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            String strDate = formatter.format(date);
+            System.out.println("Convert : "+ strDate);
+            return strDate;
+        }
+        catch(Exception e){
+            System.out.println("Global : Cannot Convert String to Date");
+        }
+        return null;
+    }
     public static Date convertStringToDate(String strDate) {
+        System.out.println("Before : "+strDate);
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = formatter.parse(strDate);
@@ -68,6 +81,7 @@ public class GlobalService {
         }
         return null;
     }
+
 
     public static String handleRedirectPageForAccountByRole(Account account){
         if (account.isRegisAccount()) {

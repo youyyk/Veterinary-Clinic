@@ -51,6 +51,22 @@ public class BillController {
 
         // step 1. update model for template
         model.addAttribute("bills", mainBillService.getAll());
+        model.addAttribute("unpaidSize",mainBillService.findByPaidStatusIsFalseOrderByStartDateAsc().size());
+
+        // step 2. choose HTML template
+        return "bill/bill";
+    }
+
+    @GetMapping("/unpaid")
+    public String getAppointmentToday(Model model) {
+
+        System.out.println("-- Unpaid Bills Page ---");
+
+        List<Bill> bills = mainBillService.findByPaidStatusIsFalseOrderByStartDateAsc();
+
+        // step 1. update model for template
+        model.addAttribute("bills", bills);
+        model.addAttribute("unpaidSize",bills.size());
 
         // step 2. choose HTML template
         return "bill/bill";

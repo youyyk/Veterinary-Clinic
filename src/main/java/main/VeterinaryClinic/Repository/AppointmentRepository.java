@@ -14,11 +14,14 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
 
     List<Appointment> findByPet_Account_AccIdOrderByDateAsc(UUID accID);
 
+    List<Appointment> findByDateBetween(Date starDate,Date endDate);
+
     @Transactional
     Appointment findByAppointmentID(long appointmentID);
 
     @Transactional
     List<Appointment> findByDate(Date date);
+
 
     @Transactional
     void deleteByAppointmentID(long appointmentID);

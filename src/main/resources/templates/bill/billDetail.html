@@ -411,12 +411,13 @@
 <body>
 <div th:insert="fragments/header :: header"></div>
 
-<div class="container">
-    <h1 style="display:inline-block" class="mt-2">Bill's Details <span style="font-size: 0.75em;">( [[${#dates.format(bill.startDate, 'yyyy/MM/dd')}]] )</span></h1>
-    <a th:if="${!nowAccount.isOfficer()}" class="btn btn-primary mb-2" role="button" target="_blank" style="display:inline-block" th:href="@{/download/export/receipt/detail/{billId}(billId=${bill.getBillID()})}">
-        <i class="material-symbols-rounded align-middle me-1">download</i> PDF
+
+<div class="container pb-4">
+    <h1 style="display:inline-block" class="mt-3">Bill's Details <span style="font-size: 0.75em;">( [[${#dates.format(bill.startDate, 'yyyy/MM/dd')}]] )</span></h1>
+    <a th:if="${!nowAccount.isOfficer()}" class="btn btn-primary mb-2 pb-2" role="button" target="_blank" style="display:inline-block" th:href="@{/download/export/receipt/detail/{billId}(billId=${bill.getBillID()})}">
+        <i class="material-symbols-rounded align-middle">download</i> PDF
     </a>
-    <div th:if="${nowAccount.isOfficer()}" class="btn-group" style="display:inline-block">
+    <div th:if="${nowAccount.isOfficer()}" class="btn-group pb-3" style="display:inline-block">
         <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" style="display:inline-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="material-symbols-rounded align-middle">download</i> PDF
         </button>
@@ -428,7 +429,7 @@
     <div id="loading-circle" class="" style="display: none;">
         <div class="lds-ring"><div></div><div></div><div></div><div></div></div>
     </div>
-    <div class="pb-4 mb-4" style="background-color: #EEF5E8">
+    <div class="pb-4 mb-5" style="background-color: #EEF5E8;box-shadow: 5px 5px 10px #ababab;">
     <div class="m-3">
         <p class="pt-3" style="font-size: 1.2em;">
             <b>Customer's name : </b>
@@ -685,7 +686,7 @@
                             <td>[[${serving.servingTotal}]]</td>
                             <td>[[${#numbers.formatDecimal(serving.serving.price, 1, 'COMMA', 2, 'POINT')}]]</td>
                             <td th:text="${#numbers.formatDecimal((serving.servingTotal*serving.serving.price), 1, 'COMMA', 2, 'POINT')}"></td>
-                            <td>
+                            <td th:if="${bill.paidStatus == false}">
                                 <div class="dropdown open">
                                     <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
                                        aria-expanded="false">
