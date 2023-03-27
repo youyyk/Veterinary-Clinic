@@ -33,13 +33,13 @@
         }
     });
 </script>
+<!--createService Form-->
 <script>
-    // createService Form
     let realTimeValid_formNewService = false;
 
     function validFormNewServiceByEachField(fieldElement){
         if (realTimeValid_formNewService){
-            const formNewService = document.getElementById("newServiceForm")
+            const formNewService = document.getElementById("createServiceForm")
             const validatedList = serviceValidNewService(formNewService, fieldElement.id);
             if (validatedList.length === 1){
                 addClassValidAndInValid(formNewService.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
@@ -65,8 +65,8 @@
         return false;
     }
 </script>
+<!--editService Form-->
 <script>
-    // editService Form
     let realTimeValid_formEditService = false;
 
     function validFormEditServiceByEachField(fieldId, fromId){

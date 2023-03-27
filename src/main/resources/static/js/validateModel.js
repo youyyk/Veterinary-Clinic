@@ -18,23 +18,29 @@ const errMessageCharacter = "Input Only character";
 * - infoAccount for form in editInfoAccountPopUp
 * - registerAccount
 * */
-function serviceValidEditAccount(formEditAccount, option){
+function serviceValidEditAccount(formEditAccount, option) {
     const payload = [];
-    if (formEditAccount != null || formEditAccount != undefined){
+    const fields = ["title", "firstName", "lastName", "address", "phone"];
+    if (formEditAccount != null || formEditAccount != undefined) {
+        if (option === "reset") {
+            realTimeValid = false;
+            resetForm(formEditAccount, fields, true, true);
+            return payload;
+        }
         if (option === "title" || option === "all") {
-            validIncludeList(formEditAccount.title.value, titleChoice, payload, "title", "Choose your title")
+            validIncludeList(formEditAccount.elements[fields[0]].value, titleChoice, payload, fields[0], "Choose your title")
         }
         if (option === "firstName" || option === "all") {
-            validRegexFormat(formEditAccount.firstName.value, regexOnlyCharacter, payload, "firstName", errMessageCharacter);
+            validRegexFormat(formEditAccount.elements[fields[1]].value, regexOnlyCharacter, payload, fields[1], errMessageCharacter);
         }
         if (option === "lastName" || option === "all") {
-            validRegexFormat(formEditAccount.lastName.value, regexOnlyCharacter, payload, "lastName", errMessageCharacter);
+            validRegexFormat(formEditAccount.elements[fields[2]].value, regexOnlyCharacter, payload, fields[2], errMessageCharacter);
         }
         if (option === "address" || option === "all") {
-            validRegexFormat(formEditAccount.address.value, regexAddress, payload, "address", errMessageCharacter);
+            validRegexFormat(formEditAccount.elements[fields[3]].value, regexAddress, payload, fields[3], errMessageCharacter);
         }
         if (option === "phone" || option === "all") {
-            validRegexFormat(formEditAccount.phone.value, regexPhoneNumber, payload, "phone", "Input format 0xxxxxxxxx");
+            validRegexFormat(formEditAccount.elements[fields[4]].value, regexPhoneNumber, payload, fields[4], "Input format 0xxxxxxxxx");
         }
     }
     return payload;
@@ -177,6 +183,12 @@ function serviceValidNewService(formNewService, option){
     const payload = [];
     const fields = ["name", "price"];
     if (formNewService != null || formNewService != undefined){
+        if (option === "reset") {
+            realTimeValid_formNewService = false;
+            realTimeValid_formEditService = false;
+            resetForm(formNewService, fields, true, true);
+            return payload;
+        }
         if (option === fields[0] || option === "all") { // name
             validRegexFormat(formNewService.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter);
         }
@@ -195,6 +207,12 @@ function serviceValidNewPet(formNewPet, option){
     const payload = [];
     const fields = ["name", "image", "doB", "petType", "breed", "gender", "sterilization", "remark"];
     if (formNewPet != null || formNewPet != undefined){
+        if (option === "reset") {
+            realTimeValid_formNewPet = false;
+            realTimeValid_formEditPetInfo = false;
+            resetForm(formNewPet, fields, true, true);
+            return payload;
+        }
         if (option === fields[0] || option === "all") { // name
             validRegexFormat(formNewPet.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter);
         }
@@ -229,6 +247,12 @@ function serviceValidNewAppointment(formNewAppointment, option){
     const payload = [];
     const fields = ["appDate", "period"];
     if (formNewAppointment != null || formNewAppointment != undefined){
+        if (option === "reset") {
+            realTimeValid_formNewAppointment = false;
+            realTimeValid_formEditAppointment = false;
+            resetForm(formNewAppointment, fields, true, true);
+            return payload;
+        }
         if (option === fields[0] || option === "all") { // name
             validRegexFormat(formNewAppointment.elements[fields[0]].value, regexDate, payload, fields[0], errMessageCharacter);
         }
@@ -355,5 +379,18 @@ function addClassValidAndInValid(element, errorMessage){
             element.classList.remove(errorMessage === "valid" ? "is-invalid" : "is-valid")
             element.classList.add(errorMessage === "valid" ? "is-valid" : "is-invalid")
         }
+    }
+}
+
+function resetForm(formName, fields, removeClassValid, clearTextInput){
+    let form = document.getElementById(formName);
+    fields.forEach((fieldName) => {
+        if (removeClassValid) {
+            form.elements[fieldName].classList.remove("is-valid");
+            form.elements[fieldName].classList.remove("is-invalid");
+        }
+    });
+    if (clearTextInput) {
+        form.reset();
     }
 }

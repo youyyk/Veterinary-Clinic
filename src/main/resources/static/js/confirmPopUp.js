@@ -12,7 +12,9 @@ window.addEventListener('keydown', function(event)
 });
 // -------------- Create Pet --------------
 function clickCreatePet(){
-
+    if (!validSubmitNewPetForm(document.getElementById("createPetForm"),'all')){
+        return false;
+    }
     let createPane = document.getElementById("createPetPane");
     let createConfirm = document.getElementById("createPetConfirm");
     let header = document.getElementById("createPetHeader");
@@ -25,6 +27,7 @@ function clickCreatePet(){
 }
 function clickCreatePetNo() {
     setTimeout(function (){
+        validSubmitNewPetForm('createPetForm','reset');
         let createPane = document.getElementById("createPetPane");
         let createConfirm = document.getElementById("createPetConfirm");
         let header = document.getElementById("createPetHeader");
@@ -36,6 +39,9 @@ function clickCreatePetNo() {
 }
 // ------------- Edit Pet --------------
 function clickEditPet(petID){
+    if (!validSubmitEditPetInfoForm(document.getElementById('editPetForm'+petID), 'all')){
+        return false;
+    }
     const formEdit = document.getElementById("editPetForm"+petID);
     let editPane = document.getElementById("editPetPane"+petID);
     let header = document.getElementById("editPetHeader"+petID);
@@ -50,6 +56,7 @@ function clickEditPet(petID){
 }
 function clickEditPetNo(petID) {
     setTimeout(function (){
+        validSubmitEditPetInfoForm('editPetForm'+petID,'reset');
         let editPane = document.getElementById("editPetPane"+petID);
         let header = document.getElementById("editPetHeader"+petID);
         let editConfirm = document.getElementById("editPetConfirm"+petID);
@@ -72,6 +79,8 @@ function clickReceiveTreat(petID){
 }
 function clickReceiveTreatNo(petID) {
     setTimeout(function (){
+        let receiveTreatForm = document.getElementById("receiveTreatForm"+petID);
+        receiveTreatForm.reset();
         let receiveTreatPane = document.getElementById("receiveTreatPane"+petID);
         let receiveTreatConfirm = document.getElementById("receiveTreatConfirm"+petID);
         let header = document.getElementById("receiveTreatHeader"+petID);
@@ -105,6 +114,9 @@ function clickEditTreatNo(treatID) {
 }
 // ------------- Create Service --------------
 function clickCreateService(){
+    if (!validSubmitNewServiceForm(document.getElementById("createServiceForm"),'all')){
+        return false;
+    }
     let createPane = document.getElementById("createServicePane");
     let createConfirm = document.getElementById("createServiceConfirm");
     let header = document.getElementById("createServiceHeader");
@@ -117,6 +129,7 @@ function clickCreateService(){
 }
 function clickCreateServiceNo() {
     setTimeout(function (){
+        validSubmitNewServiceForm('createServiceForm','reset');
         let createPane = document.getElementById("createServicePane");
         let createConfirm = document.getElementById("createServiceConfirm");
         let header = document.getElementById("createServiceHeader");
@@ -128,6 +141,9 @@ function clickCreateServiceNo() {
 }
 // ------------- Edit Service --------------
 function clickEditService(serviceID){
+    if (!validSubmitEditServiceForm(document.getElementById("editServiceForm"+serviceID),'all')){
+        return false;
+    }
     let editTreatPane = document.getElementById("editServicePane"+serviceID);
     let editTreatConfirm = document.getElementById("editServiceConfirm"+serviceID);
     let header = document.getElementById("editServiceHeader"+serviceID);
@@ -138,6 +154,7 @@ function clickEditService(serviceID){
 }
 function clickEditServiceNo(serviceID) {
     setTimeout(function (){
+        validSubmitEditServiceForm('editServiceForm'+serviceID,'reset');
         let editTreatPane = document.getElementById("editServicePane"+serviceID);
         let editTreatConfirm = document.getElementById("editServiceConfirm"+serviceID);
         let header = document.getElementById("editServiceHeader"+serviceID);
@@ -149,6 +166,9 @@ function clickEditServiceNo(serviceID) {
 }
 // ------------- Create Appointment --------------
 function clickCreateAppointment(petID){
+    if (!validSubmitNewAppointmentForm(document.getElementById("createAppointmentForm"+petID),'all')){
+        return false;
+    }
     let createPane = document.getElementById("createAppointmentPane"+petID);
     let createConfirm = document.getElementById("createAppointmentConfirm"+petID);
     let header = document.getElementById("createAppointmentHeader"+petID);
@@ -163,6 +183,7 @@ function clickCreateAppointment(petID){
 }
 function clickCreateAppointmentNo(petID) {
     setTimeout(function (){
+        validSubmitNewAppointmentForm('createAppointmentForm'+petID,'reset');
         let createPane = document.getElementById("createAppointmentPane"+petID);
         let createConfirm = document.getElementById("createAppointmentConfirm"+petID);
         let header = document.getElementById("createAppointmentHeader"+petID);
@@ -174,6 +195,9 @@ function clickCreateAppointmentNo(petID) {
 }
 // ------------- Edit Appointment --------------
 function clickEditAppointment(appID){
+    if (!validSubmitEditAppointmentForm(document.getElementById("editAppointmentForm"+appID),'all')){
+        return false;
+    }
     let editAppointmentPane = document.getElementById("editAppointmentPane"+appID);
     let editAppointmentConfirm = document.getElementById("editAppointmentConfirm"+appID);
     let header = document.getElementById("editAppointmentHeader"+appID);
@@ -184,6 +208,7 @@ function clickEditAppointment(appID){
 }
 function clickEditAppointmentNo(appID) {
     setTimeout(function (){
+        validSubmitEditAppointmentForm('editAppointmentForm'+appID,'reset');
         let editAppointmentPane = document.getElementById("editAppointmentPane"+appID);
         let editAppointmentConfirm = document.getElementById("editAppointmentConfirm"+appID);
         let header = document.getElementById("editAppointmentHeader"+appID);
@@ -208,6 +233,7 @@ function clickEditAccount(){
 }
 function clickEditAccountNo() {
     setTimeout(function (){
+        validSubmitEditAccountForm('editAccountForm','reset');
         let createPane = document.getElementById("editAccountPane");
         let createConfirm = document.getElementById("editAccountConfirm");
         let header = document.getElementById("editAccountHeader");

@@ -10,57 +10,59 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" th:id="'editAppointmentHeader'+${appointment.appointmentID}">Edit Appointment ([[*{appointment.pet.name}]])</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                th:attr="onclick='clickEditAppointmentNo(\'' + ${appointment.appointmentID} +  '\');'"></button>
       </div>
       <div class="modal-body">
         <form th:action="@{/appointment/edit}" method="POST" enctype="multipart/form-data" th:id="'editAppointmentForm'+${appointment.appointmentID}">
-        <div th:id="'editAppointmentPane'+${appointment.appointmentID}">
-          <!--Account ID-->
-          <input type="hidden" class="form-control" id="appID" name="appID" th:value="${appointment.appointmentID}">
-<!--          [[${page}]]-->
-          <input type="hidden" class="form-control" id="page" name="page" th:value="${page}">
+          <div th:id="'editAppointmentPane'+${appointment.appointmentID}">
+            <!--Account ID-->
+            <input type="hidden" class="form-control" id="appID" name="appID" th:value="${appointment.appointmentID}">
+  <!--          [[${page}]]-->
+            <input type="hidden" class="form-control" id="page" name="page" th:value="${page}">
 
-          <!--Appointment-->
-          <div class="input-group input-group mb-3">
-            <span class="input-group-text">Appointment Date</span>
-            <input type="date" class="form-control" id="appDate" name="appDate" th:value="${#dates.format(appointment.date, 'yyyy-MM-dd')}"
-                   autocomplete="off"
-                   th:onkeyup="'javascript:validFormEditAppointmentByEachField(\'' + 'appDate' +'\',\''+ ${appointment.appointmentID} + '\');'"
-                   th:onchange="'javascript:validFormEditAppointmentByEachField(\'' + 'appDate' +'\',\''+ ${appointment.appointmentID} + '\');'"
-                   th:onpaste="'javascript:validFormEditAppointmentByEachField(\'' + 'appDate' +'\',\''+ ${appointment.appointmentID} + '\');'">
-          </div>
+            <!--Appointment-->
+            <div class="input-group input-group mb-3">
+              <span class="input-group-text">Appointment Date</span>
+              <input type="date" class="form-control" id="appDate" name="appDate" th:value="${#dates.format(appointment.date, 'yyyy-MM-dd')}"
+                     autocomplete="off"
+                     th:onkeyup="'javascript:validFormEditAppointmentByEachField(\'' + 'appDate' +'\',\''+ ${appointment.appointmentID} + '\');'"
+                     th:onchange="'javascript:validFormEditAppointmentByEachField(\'' + 'appDate' +'\',\''+ ${appointment.appointmentID} + '\');'"
+                     th:onpaste="'javascript:validFormEditAppointmentByEachField(\'' + 'appDate' +'\',\''+ ${appointment.appointmentID} + '\');'">
+            </div>
 
-          <!--Period-->
-          <div class="input-group input-group mb-3">
-            <span class="input-group-text">Period</span>
-            <select class="form-select" id="period" name="period"
-                    th:onchange="'javascript:validFormEditAppointmentByEachField(\'' + 'appDate' +'\',\''+ ${appointment.appointmentID} + '\');'">
-              <option value="morning" th:selected="${#strings.contains(appointment.period, 'morning')}">09.00 - 12.00</option>
-              <option value="afternoon" th:selected="${#strings.contains(appointment.period, 'afternoon')}">13.30 - 18.00</option>
-            </select>
-          </div>
+            <!--Period-->
+            <div class="input-group input-group mb-3">
+              <span class="input-group-text">Period</span>
+              <select class="form-select" id="period" name="period"
+                      th:onchange="'javascript:validFormEditAppointmentByEachField(\'' + 'appDate' +'\',\''+ ${appointment.appointmentID} + '\');'">
+                <option value="morning" th:selected="${#strings.contains(appointment.period, 'morning')}">09.00 - 12.00</option>
+                <option value="afternoon" th:selected="${#strings.contains(appointment.period, 'afternoon')}">13.30 - 18.00</option>
+              </select>
+            </div>
 
-          <!--Description-->
-          <div class="input-group input-group mb-3">
-            <span class="input-group-text">Description</span>
-            <input type="text" class="form-control" id="description" name="description" th:value="${appointment.description}">
-          </div>
+            <!--Description-->
+            <div class="input-group input-group mb-3">
+              <span class="input-group-text">Description</span>
+              <input type="text" class="form-control" id="description" name="description" th:value="${appointment.description}">
+            </div>
 
 
-          <!--button-->
-          <div class="modal-footer">
-            <div class="col-md-12 text-center">
-              <button th:attr="onclick='clickEditAppointment(\'' + ${appointment.appointmentID} +  '\');'" class="btn btn-primary" type="button">save</button>
-              <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">cancel</button>
+            <!--button-->
+            <div class="modal-footer">
+              <div class="col-md-12 text-center">
+                <button th:attr="onclick='clickEditAppointment(\'' + ${appointment.appointmentID} +  '\');'" class="btn btn-primary" type="button">Save</button>
+                <button class="btn btn-secondary" type="button"
+                        th:onclick="'validSubmitEditAppointmentForm(\'' + 'editAppointmentForm'+ ${appointment.appointmentID} +'\',\''+ 'reset' + '\');'">Reset</button>
+              </div>
             </div>
           </div>
-        </div>
           <div th:id="'editAppointmentConfirm'+ ${appointment.appointmentID}" style="display: none" class="text-start">
             <p >Are you sure you want to edit appointment ID [[${appointment.appointmentID}]] ?</p>
             <div class="modal-footer">
               <div class="col-md-12 text-center">
                 <button class="btn btn-primary" type="submit">Yes</button>
-                <button th:attr="onclick='clickEditAppointmentNo(\'' + ${appointment.appointmentID} +  '\');'" type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                <button th:attr="onclick='clickEditAppointmentNo(\'' + ${appointment.appointmentID} +  '\');'" type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
               </div>
             </div>
           </div>

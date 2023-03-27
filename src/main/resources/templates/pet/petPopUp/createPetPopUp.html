@@ -12,7 +12,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="createPetHeader">Add Pet</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button onclick="clickCreatePetNo()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form th:action="@{/pets/create}" method="POST" enctype="multipart/form-data" id="createPetForm">
@@ -93,7 +93,7 @@
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Gender</span>
                         <select class="form-select" id="gender" name="gender" onchange="validFormNewPetByEachField(this)">
-                            <option selected>-------- Choose --------</option>
+                            <option selected>Choose...</option>
                             <option value="female">female</option>
                             <option value="male">male</option>
                         </select>
@@ -102,7 +102,7 @@
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text">Sterilization</span>
                         <select class="form-select" id="sterilization" name="sterilization" onchange="validFormNewPetByEachField(this)">
-                            <option selected>-------- Choose --------</option>
+                            <option selected>Choose...</option>
                             <option value="true">sterilized</option>
                             <option value="false">not sterilized</option>
                         </select>
@@ -116,8 +116,8 @@
                         <!--button-->
                         <div class="modal-footer">
                             <div class="col-md-12 text-center">
-                                <button onclick="clickCreatePet()" type="button" class="btn btn-primary">save</button>
-                                <button class="btn btn-secondary" type="reset">clear</button>
+                                <button onclick="clickCreatePet()" type="button" class="btn btn-primary">Save</button>
+                                <button onclick="validSubmitNewPetForm('createPetForm', 'reset')" class="btn btn-secondary" type="reset">Clear</button>
                             </div>
                         </div>
                     </div>
@@ -127,7 +127,7 @@
                         <div class="modal-footer">
                             <div class="col-md-12 text-center">
                             <button class="btn btn-primary" type="submit">Yes</button>
-                            <button onclick="clickCreatePetNo()" type="reset" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                            <button onclick="clickCreatePetNo()" type="reset" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                             </div>
                         </div>
                     </div>
