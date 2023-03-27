@@ -10,7 +10,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" th:id="'editOrderHeader'+${wh.itemID}">Edit Order ID [[${wh.itemID}]]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        th:attr="onclick='clickEditItemNo(\''+'Order' +'\',\''+${wh.itemID} +  '\');'"></button>
             </div>
 
             <!--Edit Med Warehouse-->
@@ -21,7 +22,7 @@
                     <div th:if="${wh.medicine != null}" class="input-group input-group mb-3">
                         <span class="input-group-text">Medicine</span>
                         <select class="form-select" aria-label="Select Medicine" id="medicine" name="medicine" th:onchange="'javascript:validFormEditOrderByEachField(\'' + 'medicine' +'\',\''+ ${wh.itemID} + '\');'">
-                            <option value=0 selected >Choose...</option>
+                            <option value="#" selected >Choose...</option>
                             <option th:each="med : ${medicines}" th:value="${med.medID}" th:text="${med.name}" th:selected="${med.medID == wh.medicine.medID}"/>
                         </select>
                     </div>
@@ -30,7 +31,7 @@
                     <div th:if="${wh.tool != null}" class="input-group input-group mb-3">
                         <span class="input-group-text">Tool</span>
                         <select class="form-select" aria-label="Select Medicine" id="tool" name="tool" th:onchange="'javascript:validFormEditOrderByEachField(\'' + 'tool' +'\',\''+ ${wh.itemID} + '\');'">
-                            <option value=0 selected >Choose...</option>
+                            <option value="#" selected >Choose...</option>
                             <option th:each="tool : ${tools}" th:value="${tool.ToolID}" th:text="${tool.name}" th:selected="${tool.ToolID == wh.tool.ToolID}"/>
                         </select>
                     </div>
@@ -87,7 +88,8 @@
 
                         <div class="modal-footer">
                             <div class="col-md-12 text-center">
-                                <button th:attr="onclick='clickEditItem(\''+'Order' +'\',\''+${wh.itemID} +  '\');'" class="btn btn-primary" type="button">save</button>
+                                <button th:attr="onclick='clickEditItem(\''+'Order' +'\',\''+ ${wh.itemID} +  '\');'" class="btn btn-primary" type="button">Save</button>
+                                <button th:onclick="'validSubmitEditOrderWarehouseForm(\'' + 'editOrderForm'+ ${wh.itemID} +'\',\''+ 'reset' + '\');'" class="btn btn-secondary" type="reset">Reset</button>
                             </div>
                         </div>
                     </div>
@@ -97,7 +99,7 @@
                         <div class="modal-footer">
                             <div class="col-md-12 text-center">
                                 <button class="btn btn-primary" type="submit">Yes</button>
-                                <button th:attr="onclick='clickEditItemNo(\''+'Order' +'\',\''+${wh.itemID} +  '\');'" type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                                <button th:attr="onclick='clickEditItemNo(\''+'Order' +'\',\''+${wh.itemID} +  '\');'" type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                             </div>
                         </div>
                     </div>

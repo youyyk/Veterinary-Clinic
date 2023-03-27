@@ -64,6 +64,9 @@ public class Bill {
         this.endDate = null;
     }
 
+    public boolean isCanDelete(){
+        return medUsed.size()==0 && toolUsed.size()==0 && serviceUsed.size()==0 && total==0 && paidStatus==false ? true : false;
+    }
 
     @Override
     public String toString() {

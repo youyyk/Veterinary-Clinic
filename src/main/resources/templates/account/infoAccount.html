@@ -419,7 +419,7 @@
                                             </a>
                                         </div>
                                         <!--Call Receive Treatment (PopUp)-->
-                                        <th:block th:replace="treatmentHistory/treatmentHistoryPopUp/receiveTreatmentPopUp :: receiveTreatmentPopUp(${pet},'')">modal</th:block>
+                                        <th:block th:replace="treatmentHistory/treatmentHistoryPopUp/receiveTreatmentPopUp :: receiveTreatmentPopUp(${pet},-1)">modal</th:block>
                                         <!--Create Appointment (PopUp)-->
                                         <th:block th:replace="appointment/appointmentPopUp/createAppointment :: createAppointment(${pet})">modal</th:block>
                                         <!--Call Edit pet (PopUp)-->

@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 
 <body>
-<div th:fragment="receiveTreatmentPopUp(pet,variable)" th:id="'receiveTreatmentPopUp'+${variable}+${pet.petID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
+<div th:fragment="receiveTreatmentPopUp(pet,appointmentId)" th:id="'receiveTreatmentPopUp'+${pet.petID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
      data-bs-backdrop="static" aria-hidden="true">
 
     <div class="modal-dialog">
@@ -17,7 +17,7 @@
                     <div th:id="'receiveTreatPane'+${pet.petID}">
                         <!--ID-->
                         <input type="hidden" class="form-control" id="petID" name="petID" th:value="${pet.petID}">
-
+                        <input type="hidden" class="form-control" id="appointmentId" name="appointmentId" th:value="${appointmentId}">
     <!--                    <p>Are you sure <b>[[${pet.name}]]</b> want to receive treatment ?</p>-->
 
                         <div class="input-group input-group mb-3">

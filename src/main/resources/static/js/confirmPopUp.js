@@ -245,13 +245,28 @@ function clickEditAccountNo() {
 }
 // ------------- Create Warehouse --------------
 function clickCreateItem(wareType){
+    if (wareType === "Medicine"){
+        if (!validSubmitNewMedicineForm(document.getElementById("create"+wareType+"Form"),'all')){
+            return false;
+        }
+    } else if (wareType === "MedicineOrder") {
+        if (!validSubmitNewWarehouseMedicineForm(document.getElementById("create"+wareType+"Form"),'all')){
+            return false;
+        }
+    } else if (wareType === "Tool") {
+        if (!validSubmitNewToolForm(document.getElementById("create"+wareType+"Form"),'all')){
+            return false;
+        }
+    } else if (wareType === "ToolOrder") {
+        if (!validSubmitNewWarehouseToolForm(document.getElementById("create"+wareType+"Form"),'all')){
+            return false;
+        }
+    }
     let header = document.getElementById("createWarehouseHeader");
     let createPane = document.getElementById("create"+wareType+"Pane");
     let createConfirm = document.getElementById("create"+wareType+"Confirm");
     let createName = document.getElementById("create"+wareType+"Name");
     let chooseDropdown = document.getElementById("chooseDropdown");
-
-    console.log(document.getElementById("create"+wareType+"Form").name.value)
 
     if (wareType.includes("Medicine")){
         header.innerHTML = "Add Medicine (Confirmation)";
@@ -266,21 +281,53 @@ function clickCreateItem(wareType){
 }
 function clickCreateItemNo(wareType) {
     setTimeout(function (){
-        let header = document.getElementById("createWarehouseHeader");
-        let createPane = document.getElementById("create"+wareType+"Pane");
-        let createConfirm = document.getElementById("create"+wareType+"Confirm");
-        let chooseDropdown = document.getElementById("chooseDropdown");
-
-        header.innerHTML = "Add Medicine / Tool ";
-        createConfirm.style.display = hide;
-        createPane.style.display = show;
-        chooseDropdown.style.display = show;
+        if (wareType === "Medicine" || wareType === "allAddWH"){
+            validSubmitNewMedicineForm("createMedicineForm",'reset');
+            warehouseConfirmHelper("Medicine");
+;        }
+        if (wareType === "MedicineOrder" || wareType === "allAddWH") {
+            validSubmitNewWarehouseMedicineForm("createMedicineOrderForm",'reset');
+            warehouseConfirmHelper("MedicineOrder");
+        }
+        if (wareType === "Tool" || wareType === "allAddWH") {
+            validSubmitNewToolForm("createToolForm",'reset');
+            warehouseConfirmHelper("Tool");
+        }
+        if (wareType === "ToolOrder" || wareType === "allAddWH") {
+            validSubmitNewWarehouseToolForm("createToolOrderForm",'reset');
+            warehouseConfirmHelper("ToolOrder");
+        }
     },1000);
+}
+
+function warehouseConfirmHelper(wareType){
+    let header = document.getElementById("createWarehouseHeader");
+    let createPane = document.getElementById("create"+wareType+"Pane");
+    let createConfirm = document.getElementById("create"+wareType+"Confirm");
+    let chooseDropdown = document.getElementById("chooseDropdown");
+
+    header.innerHTML = "Add Medicine / Tool ";
+    createConfirm.style.display = hide;
+    createPane.style.display = show;
+    chooseDropdown.style.display = show;
 }
 // ------------- Edit Item --------------
 function clickEditItem(wareType,id){
-    console.log(wareType)
-    console.log(id)
+    if (wareType === "Order"){
+        if (!validSubmitEditOrderWarehouseForm(document.getElementById("editOrderForm"+id),'all')){
+            return false;
+        }
+    }
+    else if(wareType === "Medicine"){
+        if (!validSubmitEditMedicineInfoForm(document.getElementById("editMedicineForm"+id),'all')){
+            return false;
+        }
+    }
+    else if(wareType === "Tool"){
+        if (!validSubmitEditToolInfoForm(document.getElementById("editToolForm"+id),'all')){
+            return false;
+        }
+    }
     let editItemPane = document.getElementById("edit"+wareType+"Pane"+id);
     let editItemConfirm = document.getElementById("edit"+wareType+"Confirm"+id);
     let header = document.getElementById("edit"+wareType+"Header"+id);
@@ -297,8 +344,14 @@ function clickEditItemNo(wareType,id) {
 
         if (wareType === "Order"){
             header.innerHTML = "Edit Order ID "+id;
+            validSubmitEditOrderWarehouseForm("editOrderForm"+id,'reset');
         }
         else if(wareType === "Medicine" || wareType === "Tool"){
+            if (wareType === "Medicine"){
+                validSubmitEditMedicineInfoForm("editMedicineForm"+id,'reset');
+            } else {
+                validSubmitEditToolInfoForm("editToolForm"+id,'reset');
+            }
             header.innerHTML = "Edit "+wareType+" ("+document.getElementById("edit"+wareType+"Form"+id).name.value+")";
         }
         editItemConfirm.style.display = hide;

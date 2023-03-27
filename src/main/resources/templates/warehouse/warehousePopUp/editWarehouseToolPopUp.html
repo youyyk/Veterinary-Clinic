@@ -10,7 +10,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" th:id="'editToolHeader'+${editTool.toolID}">Edit [[${editTool.name}]]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        th:attr="onclick='clickEditItemNo(\''+'Tool' +'\',\''+${editTool.ToolID} +  '\');'"></button>
             </div>
 
             <!--Edit Tool Warehouse-->
@@ -48,6 +49,7 @@
                         <div class="modal-footer">
                             <div class="col-md-12 text-center">
                                 <button th:attr="onclick='clickEditItem(\''+'Tool' +'\',\''+${editTool.ToolID} +  '\');'" class="btn btn-primary" type="button">save</button>
+                                <button th:onclick="'validSubmitEditToolInfoForm(\'' + 'editToolForm'+ ${editTool.ToolID} +'\',\''+ 'reset' + '\');'" class="btn btn-secondary" type="reset">Reset</button>
                             </div>
                         </div>
                     </div>
@@ -57,7 +59,7 @@
                         <div class="modal-footer">
                             <div class="col-md-12 text-center">
                                 <button class="btn btn-primary" type="submit">Yes</button>
-                                <button th:attr="onclick='clickEditItemNo(\''+'Tool' +'\',\''+${editTool.ToolID} +  '\');'" type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                                <button th:attr="onclick='clickEditItemNo(\''+'Tool' +'\',\''+${editTool.ToolID} +  '\');'" type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                             </div>
                         </div>
                     </div>

@@ -3,6 +3,7 @@ function payloadValid(fieldId, errorMessage) {
     this.errorMessage = errorMessage;
 }
 const regexOnlyCharacter = /^[A-Za-zก-๙ ]+$/;
+const regexOnlyCharacterWithNumberWithSlash = /^[A-Za-zก-๙ /]+$/;
 const regexAddress = /^[0-9A-Za-zก-๙ ,]+$/;
 const regexOnlyCharacterWithNumber = /^[A-Za-z0-9ก-๙ ]+$/;
 const regexOnlyNumber = /^[0-9]+$/;
@@ -54,8 +55,14 @@ function serviceValidNewMedicine(formNewMedicine, option){
     const payload = [];
     const fields = ["name", "price", "dose", "unit", "description"];
     if (formNewMedicine != null || formNewMedicine != undefined){
+        if (option === "reset") {
+            realTimeValid_formNewMedicine = false;
+            realTimeValid_formEditMedicineInfo = false;
+            resetForm(formNewMedicine, fields, true, true);
+            return payload;
+        }
         if (option === fields[0] || option === "all") { // name
-            validRegexFormat(formNewMedicine.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter)
+            validRegexFormat(formNewMedicine.elements[fields[0]].value, regexOnlyCharacterWithNumberWithSlash, payload, fields[0], errMessageCharacter)
         }
         if (option === fields[1] || option === "all") { // price
             validNumberDouble(formNewMedicine.elements[fields[1]].value, payload, fields[1], errMessageCharacter);
@@ -81,6 +88,11 @@ function serviceValidNewWarehouseMedicine(formNewWarehouseMedicine, option){
     const payload = [];
     const fields = ["medicine", "quantityIn", "paidTotal", "expiredDate"];
     if (formNewWarehouseMedicine != null || formNewWarehouseMedicine != undefined){
+        if (option === "reset") {
+            realTimeValid_formNewWarehouseMedicine = false;
+            resetForm(formNewWarehouseMedicine, fields, true, true);
+            return payload;
+        }
         if (option === fields[0] || option === "all") { // medicine
             validRegexFormat(formNewWarehouseMedicine.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter)
         }
@@ -105,8 +117,14 @@ function serviceValidNewTool(formNewTool, option){
     const payload = [];
     const fields = ["name", "price", "description"];
     if (formNewTool != null || formNewTool != undefined){
+        if (option === "reset") {
+            realTimeValid_formNewTool = false;
+            realTimeValid_formEditToolInfo = false;
+            resetForm(formNewTool, fields, true, true);
+            return payload;
+        }
         if (option === fields[0] || option === "all") { // name
-            validRegexFormat(formNewTool.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter)
+            validRegexFormat(formNewTool.elements[fields[0]].value, regexOnlyCharacterWithNumberWithSlash, payload, fields[0], errMessageCharacter)
         }
         if (option === fields[1] || option === "all") { // price
             validNumberInt(formNewTool.elements[fields[1]].value, payload, fields[1], "Input quantityIn");
@@ -126,6 +144,11 @@ function serviceValidNewWarehouseTool(formNewWarehouseTool, option){
     const payload = [];
     const fields = ["tool", "quantityIn", "paidTotal", "expiredDate"];
     if (formNewWarehouseTool != null || formNewWarehouseTool != undefined){
+        if (option === "reset") {
+            realTimeValid_formNewWarehouseTool = false;
+            resetForm(formNewWarehouseTool, fields, true, true);
+            return payload;
+        }
         if (option === fields[0] || option === "all") { // tool
             validRegexFormat(formNewWarehouseTool.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter)
         }
@@ -150,6 +173,11 @@ function serviceValidEditWarehouseOrder(formEditWarehouseOrder, option){
     const payload = [];
     const fields = ["medicine", "tool", "quantityIn", "quantityLeft", "paidTotal", "stockInDate", "expiredDate"];
     if (formEditWarehouseOrder != null || formEditWarehouseOrder != undefined){
+        if (option === "reset") {
+            realTimeValid_formEditOrder = false;
+            resetForm(formEditWarehouseOrder, fields, true, true);
+            return payload;
+        }
         if ((option === fields[0] || option === "all") && formEditWarehouseOrder.elements[fields[0]] != null) { // medicine
             validRegexFormat(formEditWarehouseOrder.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter)
         }
@@ -190,7 +218,7 @@ function serviceValidNewService(formNewService, option){
             return payload;
         }
         if (option === fields[0] || option === "all") { // name
-            validRegexFormat(formNewService.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter);
+            validRegexFormat(formNewService.elements[fields[0]].value, regexOnlyCharacterWithNumberWithSlash, payload, fields[0], errMessageCharacter);
         }
         if (option === fields[1] || option === "all") { // price
             validNumberInt(formNewService.elements[fields[1]].value, payload, fields[1], "Input quantityIn");
@@ -386,8 +414,10 @@ function resetForm(formName, fields, removeClassValid, clearTextInput){
     let form = document.getElementById(formName);
     fields.forEach((fieldName) => {
         if (removeClassValid) {
-            form.elements[fieldName].classList.remove("is-valid");
-            form.elements[fieldName].classList.remove("is-invalid");
+            if (form.elements[fieldName] != null || form.elements[fieldName] != undefined){
+                form.elements[fieldName].classList.remove("is-valid");
+                form.elements[fieldName].classList.remove("is-invalid");
+            }
         }
     });
     if (clearTextInput) {
