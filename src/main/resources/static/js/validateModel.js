@@ -369,6 +369,49 @@ function serviceValidAddServiceToBill(formServiceToBill, option){
     return payload;
 }
 
+/*
+* Use on Files
+* - billDetail for form in editWeight
+* */
+function serviceValidReceiveTreatment(formReceiveTreatment, option){
+    const payload = [];
+    const fields = ["weight"];
+    if (formReceiveTreatment != null || formReceiveTreatment != undefined){
+        if (option === "reset") {
+            realTimeValid_formReceiveTreatment = false;
+            resetForm(formReceiveTreatment, fields, true, true);
+            return payload;
+        }
+        if (option === fields[0] || option === "all") { // medId
+            validNumberDouble(formReceiveTreatment.elements[fields[0]].value, payload, fields[0], errMessageCharacter)
+        }
+    }
+    return payload;
+}
+
+/*
+* Use on Files
+* - billDetail for form in editWeight
+* */
+function serviceValidEditTreatment(formEditTreatment, option){
+    const payload = [];
+    const fields = ["diagnosis", "weight"];
+    if (formEditTreatment != null || formEditTreatment != undefined){
+        if (option === "reset") {
+            realTimeValid_formEditTreatment = false;
+            resetForm(formEditTreatment, fields, true, true);
+            return payload;
+        }
+        if (option === 'all'){
+            payload.push(new payloadValid(fields[0], 'valid'));
+        }
+        if (option === fields[1] || option === "all") { // medId
+            validNumberDouble(formEditTreatment.elements[fields[1]].value, payload, fields[1], errMessageCharacter)
+        }
+    }
+    return payload;
+}
+
 function validIncludeList(value, listCheck, payload, fieldName, errorMessage){
     if (value != null && value != undefined){
         if (!listCheck.includes(value)){

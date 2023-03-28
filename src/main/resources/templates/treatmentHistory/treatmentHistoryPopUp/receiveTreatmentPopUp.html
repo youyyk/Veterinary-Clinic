@@ -22,7 +22,11 @@
 
                         <div class="input-group input-group mb-3">
                             <span class="input-group-text">Weight</span>
-                            <input type="number" class="form-control" id="weight" name="weight" value=0 min=0 required>
+                            <input type="number" class="form-control" id="weight" name="weight" min=0
+                                   autocomplete="off"
+                                   th:onkeyup="'javascript:validFormReceiveTreatmentByEachField(\'' + 'weight' +'\',\''+ ${pet.petID} + '\');'"
+                                   th:onchange="'javascript:validFormReceiveTreatmentByEachField(\'' + 'weight' +'\',\''+ ${pet.petID} + '\');'"
+                                   th:onpaste="'javascript:validFormReceiveTreatmentByEachField(\'' + 'weight' +'\',\''+ ${pet.petID} + '\');'">
                             <div class="input-group-prepend">
                                 <div class="input-group-text">kg</div>
                             </div>
@@ -31,7 +35,7 @@
                         <div class="modal-footer">
                             <div class="col-md-12 text-center">
                                 <button th:attr="onclick='clickReceiveTreat(\'' + ${pet.petID} +  '\');'" class="btn btn-primary" type="button">Save</button>
-                                <button class="btn btn-secondary" type="reset" data-bs-dismiss="modal" aria-label="Close">Close</button>
+                                <button th:onclick="'validSubmitReceiveTreatmentForm(\'' + 'receiveTreatForm'+ ${pet.petID} +'\',\''+ 'reset' + '\');'" class="btn btn-secondary" type="reset">Clear</button>
                             </div>
                         </div>
                     </div>

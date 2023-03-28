@@ -433,6 +433,38 @@
         return false;
     }
 </script>
+<!--Edit Weight-->
+<script>
+    let realTimeValid_formReceiveTreatment = false;
+
+    function validFormEditWeightByEachField(fieldElement){
+        if (realTimeValid_formReceiveTreatment){
+            const receiveTreatmentForm = document.getElementById("editWeightForm")
+            const validatedList = serviceValidReceiveTreatment(receiveTreatmentForm, fieldElement.id);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(receiveTreatmentForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitReceiveTreatmentForm(receiveTreatmentForm, option){
+        realTimeValid_formReceiveTreatment = true;
+        const validatedList = serviceValidReceiveTreatment(receiveTreatmentForm, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(receiveTreatmentForm.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 1){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
 <style>
 
 </style>
@@ -441,10 +473,12 @@
 
 <div class="container">
     <h1 style="display:inline-block" class="mt-2">Bill's Details <span style="font-size: 0.75em;">( [[${#dates.format(bill.startDate, 'yyyy/MM/dd')}]] )</span></h1>
+    <!-- Download For Customer-->
     <a th:if="${!nowAccount.isOfficer()}" class="btn btn-primary mb-2" role="button" target="_blank" style="display:inline-block" th:href="@{/download/export/receipt/detail/{billId}(billId=${bill.getBillID()})}">
         <i class="material-symbols-rounded align-middle me-1">download</i> PDF
     </a>
-    <div th:if="${nowAccount.isOfficer()}" class="btn-group" style="display:inline-block">
+    <!-- Download For Officer/Admin-->
+    <div th:if="${nowAccount.isOfficer() && bill.isPaidStatus()}" class="btn-group" style="display:inline-block">
         <button type="button" class="btn btn-primary dropdown-toggle dropdown-toggle-split" style="display:inline-block" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="material-symbols-rounded align-middle">download</i> PDF
         </button>

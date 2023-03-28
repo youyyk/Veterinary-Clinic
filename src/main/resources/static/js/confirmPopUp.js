@@ -69,6 +69,9 @@ function clickEditPetNo(petID) {
 
 // ------------- Receive Treatment --------------
 function clickReceiveTreat(petID){
+    if (!validSubmitReceiveTreatmentForm(document.getElementById("receiveTreatForm"+petID),'all')){
+        return false;
+    }
     let receiveTreatPane = document.getElementById("receiveTreatPane"+petID);
     let receiveTreatConfirm = document.getElementById("receiveTreatConfirm"+petID);
     let header = document.getElementById("receiveTreatHeader"+petID);
@@ -79,6 +82,7 @@ function clickReceiveTreat(petID){
 }
 function clickReceiveTreatNo(petID) {
     setTimeout(function (){
+        validSubmitReceiveTreatmentForm("receiveTreatForm"+petID,'reset');
         let receiveTreatForm = document.getElementById("receiveTreatForm"+petID);
         receiveTreatForm.reset();
         let receiveTreatPane = document.getElementById("receiveTreatPane"+petID);
@@ -93,6 +97,9 @@ function clickReceiveTreatNo(petID) {
 
 // ------------- Edit Treatment --------------
 function clickEditTreat(treatID){
+    if (!validSubmitEditTreatmentForm(document.getElementById("editTreatForm"+treatID),'all')){
+        return false;
+    }
     let editTreatPane = document.getElementById("editTreatPane"+treatID);
     let editTreatConfirm = document.getElementById("editTreatConfirm"+treatID);
     let header = document.getElementById("editTreatHeader"+treatID);
@@ -103,6 +110,7 @@ function clickEditTreat(treatID){
 }
 function clickEditTreatNo(treatID) {
     setTimeout(function (){
+        validSubmitEditTreatmentForm("editTreatForm"+treatID,'reset');
         let editTreatPane = document.getElementById("editTreatPane"+treatID);
         let editTreatConfirm = document.getElementById("editTreatConfirm"+treatID);
         let header = document.getElementById("editTreatHeader"+treatID);
@@ -474,6 +482,9 @@ function clickEditBillNo(item,id,name) {
 }
 // ------------- Edit Treat Bill --------------
 function clickEditTreatBill(detail){
+    if (!validSubmitReceiveTreatmentForm(document.getElementById('editWeightForm'),'all')){
+        return false;
+    }
     let header = document.getElementById("edit"+detail+"Header");
     let addItemPane = document.getElementById("edit"+detail+"Pane");
     let addItemConfirm = document.getElementById("edit"+detail+"Confirm");
@@ -485,6 +496,7 @@ function clickEditTreatBill(detail){
 }
 function clickEditTreatBillNo(detail) {
     setTimeout(function (){
+        validSubmitReceiveTreatmentForm('editWeightForm','reset');
         let header = document.getElementById("edit"+detail+"Header");
         let addItemPane = document.getElementById("edit"+detail+"Pane");
         let addItemConfirm = document.getElementById("edit"+detail+"Confirm");

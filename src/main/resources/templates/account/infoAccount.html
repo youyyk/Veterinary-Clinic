@@ -281,6 +281,38 @@
         return false;
     }
 </script>
+<!--Receive Treatment-->
+<script>
+    let realTimeValid_formReceiveTreatment = false;
+
+    function validFormReceiveTreatmentByEachField(fieldId, fromId){
+        if (realTimeValid_formReceiveTreatment){
+            const receiveTreatmentForm = document.getElementById("receiveTreatForm"+fromId)
+            const validatedList = serviceValidReceiveTreatment(receiveTreatmentForm, fieldId);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(receiveTreatmentForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitReceiveTreatmentForm(receiveTreatmentForm, option){
+        realTimeValid_formReceiveTreatment = true;
+        const validatedList = serviceValidReceiveTreatment(receiveTreatmentForm, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(receiveTreatmentForm.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 1){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
 <body>
 <div th:insert="fragments/header :: header"></div>
 

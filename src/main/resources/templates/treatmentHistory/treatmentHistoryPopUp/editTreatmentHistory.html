@@ -10,39 +10,47 @@
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" th:id="'editTreatHeader'+ ${treat.treatmentHisID}">Edit Diagnosis</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                th:attr="onclick='clickEditTreatNo(\'' + ${treat.treatmentHisID} +  '\');'"></button>
       </div>
       <div class="modal-body">
         <form th:action="@{/treatmentHistory/edit}" method="POST" enctype="multipart/form-data" th:id="'editTreatForm'+${treat.treatmentHisID}">
           <div th:id="'editTreatPane'+${treat.treatmentHisID}">
-          <!--Bill ID-->
-          <input type="hidden" class="form-control" id="treatmentHisID" name="treatmentHisID" th:value="${treat.treatmentHisID}">
+            <!--Bill ID-->
+            <input type="hidden" class="form-control" id="treatmentHisID" name="treatmentHisID" th:value="${treat.treatmentHisID}">
 
-          <div class="input-group input-group mb-3">
-            <span class="input-group-text">Diagnosis</span>
-            <input type="text" class="form-control" id="diagnosis" name="diagnosis" th:value="${treat.diagnosis}">
-          </div>
+            <div class="input-group input-group mb-3">
+              <span class="input-group-text">Diagnosis</span>
+              <input type="text" class="form-control" id="diagnosis" name="diagnosis" th:value="${treat.diagnosis}">
+            </div>
 
-          <div class="input-group input-group mb-3">
-            <span class="input-group-text">Weight</span>
-            <input type="number" class="form-control" id="weight" name="weight" th:value="${treat.weight}">
-          </div>
+            <div class="input-group input-group mb-3">
+              <span class="input-group-text">Weight</span>
+              <input type="number" class="form-control" id="weight" name="weight" th:value="${treat.weight}"
+                     autocomplete="off"
+                     th:onkeyup="'javascript:validFormEditTreatmentByEachField(\'' + 'weight' +'\',\''+ ${treat.treatmentHisID} + '\');'"
+                     th:onchange="'javascript:validFormEditTreatmentByEachField(\'' + 'weight' +'\',\''+ ${treat.treatmentHisID} + '\');'"
+                     th:onpaste="'javascript:validFormEditTreatmentByEachField(\'' + 'weight' +'\',\''+ ${treat.treatmentHisID} + '\');'">
+            </div>
 
-          <!--button-->
-          <div class="modal-footer">
-            <button th:attr="onclick='clickEditTreat(\'' + ${treat.treatmentHisID} +  '\');'" class="btn btn-primary" type="button">save</button>
-            <button class="btn btn-secondary" type="reset">clear</button>
-          </div>
-          </div>
-
-          <div th:id="'editTreatConfirm'+ ${treat.treatmentHisID}" style="display: none" class="text-start">
-            <p >Are you sure you want to edit treatment ID [[${treat.treatmentHisID}]] ?</p>
+            <!--button-->
             <div class="modal-footer">
-              <button class="btn btn-primary" type="submit">Yes</button>
-              <button th:attr="onclick='clickEditTreatNo(\'' + ${treat.treatmentHisID} +  '\');'" type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+              <div class="col-md-12 text-center">
+                <button th:attr="onclick='clickEditTreat(\'' + ${treat.treatmentHisID} +  '\');'" class="btn btn-primary" type="button">Save</button>
+                <button th:onclick="'validSubmitEditTreatmentForm(\'' + 'editTreatForm'+ ${treat.treatmentHisID} +'\',\''+ 'reset' + '\');'"  class="btn btn-secondary" type="reset">Reset</button>
+              </div>
             </div>
           </div>
 
+          <div th:id="'editTreatConfirm'+ ${treat.treatmentHisID}" style="display: none" class="text-start">
+            <p>Are you sure you want to edit treatment ID [[${treat.treatmentHisID}]] ?</p>
+            <div class="modal-footer">
+              <div class="col-md-12 text-center">
+                <button class="btn btn-primary" type="submit">Yes</button>
+                <button th:attr="onclick='clickEditTreatNo(\'' + ${treat.treatmentHisID} +  '\');'" type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+              </div>
+            </div>
+          </div>
         </form>
       </div>
     </div>
