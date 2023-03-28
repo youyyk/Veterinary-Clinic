@@ -152,11 +152,9 @@ public class AccountController {
         List<Pet> pets = petService.findByAccountAndSoftDeletedOrderByPetID(account,false);
         List<Appointment> appointments = appointmentService.findByPet_Account_AccIdOrderByDateAsc(accId);
 
-        search = search.trim().toLowerCase();
-
         System.out.println(account.getFirstName()+" "+account.getLastName());
 
-        Page<Pet> pagedResult = petService.getPaginationWithAccountSearch(search,accId,pageNo-1, pageSize);
+        Page<Pet> pagedResult = petService.getPaginationWithAccountSearch(search.trim().toLowerCase(),accId,pageNo-1, pageSize);
 
         System.out.println("--------- test ---------");
         System.out.println(pagedResult.toString());

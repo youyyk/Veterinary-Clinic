@@ -3,6 +3,7 @@ function payloadValid(fieldId, errorMessage) {
     this.errorMessage = errorMessage;
 }
 const regexOnlyCharacter = /^[A-Za-zก-๙ ]+$/;
+const regexOnlyCharacterWithNumberWithSlash = /^[A-Za-zก-๙ /]+$/;
 const regexAddress = /^[0-9A-Za-zก-๙ ,]+$/;
 const regexOnlyCharacterWithNumber = /^[A-Za-z0-9ก-๙ ]+$/;
 const regexOnlyNumber = /^[0-9]+$/;
@@ -18,23 +19,29 @@ const errMessageCharacter = "Input Only character";
 * - infoAccount for form in editInfoAccountPopUp
 * - registerAccount
 * */
-function serviceValidEditAccount(formEditAccount, option){
+function serviceValidEditAccount(formEditAccount, option) {
     const payload = [];
-    if (formEditAccount != null || formEditAccount != undefined){
+    const fields = ["title", "firstName", "lastName", "address", "phone"];
+    if (formEditAccount != null || formEditAccount != undefined) {
+        if (option === "reset") {
+            realTimeValid = false;
+            resetForm(formEditAccount, fields, true, true);
+            return payload;
+        }
         if (option === "title" || option === "all") {
-            validIncludeList(formEditAccount.title.value, titleChoice, payload, "title", "Choose your title")
+            validIncludeList(formEditAccount.elements[fields[0]].value, titleChoice, payload, fields[0], "Choose your title")
         }
         if (option === "firstName" || option === "all") {
-            validRegexFormat(formEditAccount.firstName.value, regexOnlyCharacter, payload, "firstName", errMessageCharacter);
+            validRegexFormat(formEditAccount.elements[fields[1]].value, regexOnlyCharacter, payload, fields[1], errMessageCharacter);
         }
         if (option === "lastName" || option === "all") {
-            validRegexFormat(formEditAccount.lastName.value, regexOnlyCharacter, payload, "lastName", errMessageCharacter);
+            validRegexFormat(formEditAccount.elements[fields[2]].value, regexOnlyCharacter, payload, fields[2], errMessageCharacter);
         }
         if (option === "address" || option === "all") {
-            validRegexFormat(formEditAccount.address.value, regexAddress, payload, "address", errMessageCharacter);
+            validRegexFormat(formEditAccount.elements[fields[3]].value, regexAddress, payload, fields[3], errMessageCharacter);
         }
         if (option === "phone" || option === "all") {
-            validRegexFormat(formEditAccount.phone.value, regexPhoneNumber, payload, "phone", "Input format 0xxxxxxxxx");
+            validRegexFormat(formEditAccount.elements[fields[4]].value, regexPhoneNumber, payload, fields[4], "Input format 0xxxxxxxxx");
         }
     }
     return payload;
@@ -48,8 +55,14 @@ function serviceValidNewMedicine(formNewMedicine, option){
     const payload = [];
     const fields = ["name", "price", "dose", "unit", "description"];
     if (formNewMedicine != null || formNewMedicine != undefined){
+        if (option === "reset") {
+            realTimeValid_formNewMedicine = false;
+            realTimeValid_formEditMedicineInfo = false;
+            resetForm(formNewMedicine, fields, true, true);
+            return payload;
+        }
         if (option === fields[0] || option === "all") { // name
-            validRegexFormat(formNewMedicine.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter)
+            validRegexFormat(formNewMedicine.elements[fields[0]].value, regexOnlyCharacterWithNumberWithSlash, payload, fields[0], errMessageCharacter)
         }
         if (option === fields[1] || option === "all") { // price
             validNumberDouble(formNewMedicine.elements[fields[1]].value, payload, fields[1], errMessageCharacter);
@@ -75,6 +88,11 @@ function serviceValidNewWarehouseMedicine(formNewWarehouseMedicine, option){
     const payload = [];
     const fields = ["medicine", "quantityIn", "paidTotal", "expiredDate"];
     if (formNewWarehouseMedicine != null || formNewWarehouseMedicine != undefined){
+        if (option === "reset") {
+            realTimeValid_formNewWarehouseMedicine = false;
+            resetForm(formNewWarehouseMedicine, fields, true, true);
+            return payload;
+        }
         if (option === fields[0] || option === "all") { // medicine
             validRegexFormat(formNewWarehouseMedicine.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter)
         }
@@ -99,8 +117,14 @@ function serviceValidNewTool(formNewTool, option){
     const payload = [];
     const fields = ["name", "price", "description"];
     if (formNewTool != null || formNewTool != undefined){
+        if (option === "reset") {
+            realTimeValid_formNewTool = false;
+            realTimeValid_formEditToolInfo = false;
+            resetForm(formNewTool, fields, true, true);
+            return payload;
+        }
         if (option === fields[0] || option === "all") { // name
-            validRegexFormat(formNewTool.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter)
+            validRegexFormat(formNewTool.elements[fields[0]].value, regexOnlyCharacterWithNumberWithSlash, payload, fields[0], errMessageCharacter)
         }
         if (option === fields[1] || option === "all") { // price
             validNumberInt(formNewTool.elements[fields[1]].value, payload, fields[1], "Input quantityIn");
@@ -120,6 +144,11 @@ function serviceValidNewWarehouseTool(formNewWarehouseTool, option){
     const payload = [];
     const fields = ["tool", "quantityIn", "paidTotal", "expiredDate"];
     if (formNewWarehouseTool != null || formNewWarehouseTool != undefined){
+        if (option === "reset") {
+            realTimeValid_formNewWarehouseTool = false;
+            resetForm(formNewWarehouseTool, fields, true, true);
+            return payload;
+        }
         if (option === fields[0] || option === "all") { // tool
             validRegexFormat(formNewWarehouseTool.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter)
         }
@@ -144,6 +173,11 @@ function serviceValidEditWarehouseOrder(formEditWarehouseOrder, option){
     const payload = [];
     const fields = ["medicine", "tool", "quantityIn", "quantityLeft", "paidTotal", "stockInDate", "expiredDate"];
     if (formEditWarehouseOrder != null || formEditWarehouseOrder != undefined){
+        if (option === "reset") {
+            realTimeValid_formEditOrder = false;
+            resetForm(formEditWarehouseOrder, fields, true, true);
+            return payload;
+        }
         if ((option === fields[0] || option === "all") && formEditWarehouseOrder.elements[fields[0]] != null) { // medicine
             validRegexFormat(formEditWarehouseOrder.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter)
         }
@@ -177,8 +211,14 @@ function serviceValidNewService(formNewService, option){
     const payload = [];
     const fields = ["name", "price"];
     if (formNewService != null || formNewService != undefined){
+        if (option === "reset") {
+            realTimeValid_formNewService = false;
+            realTimeValid_formEditService = false;
+            resetForm(formNewService, fields, true, true);
+            return payload;
+        }
         if (option === fields[0] || option === "all") { // name
-            validRegexFormat(formNewService.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter);
+            validRegexFormat(formNewService.elements[fields[0]].value, regexOnlyCharacterWithNumberWithSlash, payload, fields[0], errMessageCharacter);
         }
         if (option === fields[1] || option === "all") { // price
             validNumberInt(formNewService.elements[fields[1]].value, payload, fields[1], "Input quantityIn");
@@ -195,6 +235,12 @@ function serviceValidNewPet(formNewPet, option){
     const payload = [];
     const fields = ["name", "image", "doB", "petType", "breed", "gender", "sterilization", "remark"];
     if (formNewPet != null || formNewPet != undefined){
+        if (option === "reset") {
+            realTimeValid_formNewPet = false;
+            realTimeValid_formEditPetInfo = false;
+            resetForm(formNewPet, fields, true, true);
+            return payload;
+        }
         if (option === fields[0] || option === "all") { // name
             validRegexFormat(formNewPet.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter);
         }
@@ -229,6 +275,12 @@ function serviceValidNewAppointment(formNewAppointment, option){
     const payload = [];
     const fields = ["appDate", "period"];
     if (formNewAppointment != null || formNewAppointment != undefined){
+        if (option === "reset") {
+            realTimeValid_formNewAppointment = false;
+            realTimeValid_formEditAppointment = false;
+            resetForm(formNewAppointment, fields, true, true);
+            return payload;
+        }
         if (option === fields[0] || option === "all") { // name
             validRegexFormat(formNewAppointment.elements[fields[0]].value, regexDate, payload, fields[0], errMessageCharacter);
         }
@@ -248,6 +300,12 @@ function serviceValidAddMedToBill(formMedToBill, option){
     const payload = [];
     const fields = ["medID", "newDescription", "cureAmount"];
     if (formMedToBill != null || formMedToBill != undefined){
+        if (option === "reset") {
+            realTimeValid_formAddMedToBill = false;
+            realTimeValid_formEditBillMed = false;
+            resetForm(formMedToBill, fields, true, true);
+            return payload;
+        }
         if (option === fields[0] || option === "all") { // medId
             validRegexFormat(formMedToBill.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter)
         }
@@ -270,6 +328,12 @@ function serviceValidAddToolToBill(formToolToBill, option){
     const payload = [];
     const fields = ["toolID", "cureAmount"];
     if (formToolToBill != null || formToolToBill != undefined){
+        if (option === "reset") {
+            realTimeValid_formAddToolToBill = false;
+            realTimeValid_formEditBillTool = false;
+            resetForm(formToolToBill, fields, true, true);
+            return payload;
+        }
         if (option === fields[0] || option === "all") { // medId
             validRegexFormat(formToolToBill.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter)
         }
@@ -289,11 +353,60 @@ function serviceValidAddServiceToBill(formServiceToBill, option){
     const payload = [];
     const fields = ["servingID", "cureAmount"];
     if (formServiceToBill != null || formServiceToBill != undefined){
+        if (option === "reset") {
+            realTimeValid_formAddServiceToBill = false;
+            realTimeValid_formEditBillService = false;
+            resetForm(formServiceToBill, fields, true, true);
+            return payload;
+        }
         if (option === fields[0] || option === "all") { // medId
             validRegexFormat(formServiceToBill.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter)
         }
         if (option === fields[1] || option === "all") { // cureAmount
             validNumberInt(formServiceToBill.elements[fields[1]].value, payload, fields[1], "Input quantityIn");
+        }
+    }
+    return payload;
+}
+
+/*
+* Use on Files
+* - billDetail for form in editWeight
+* */
+function serviceValidReceiveTreatment(formReceiveTreatment, option){
+    const payload = [];
+    const fields = ["weight"];
+    if (formReceiveTreatment != null || formReceiveTreatment != undefined){
+        if (option === "reset") {
+            realTimeValid_formReceiveTreatment = false;
+            resetForm(formReceiveTreatment, fields, true, true);
+            return payload;
+        }
+        if (option === fields[0] || option === "all") { // medId
+            validNumberDouble(formReceiveTreatment.elements[fields[0]].value, payload, fields[0], errMessageCharacter)
+        }
+    }
+    return payload;
+}
+
+/*
+* Use on Files
+* - billDetail for form in editWeight
+* */
+function serviceValidEditTreatment(formEditTreatment, option){
+    const payload = [];
+    const fields = ["diagnosis", "weight"];
+    if (formEditTreatment != null || formEditTreatment != undefined){
+        if (option === "reset") {
+            realTimeValid_formEditTreatment = false;
+            resetForm(formEditTreatment, fields, true, true);
+            return payload;
+        }
+        if (option === 'all'){
+            payload.push(new payloadValid(fields[0], 'valid'));
+        }
+        if (option === fields[1] || option === "all") { // medId
+            validNumberDouble(formEditTreatment.elements[fields[1]].value, payload, fields[1], errMessageCharacter)
         }
     }
     return payload;
@@ -355,5 +468,20 @@ function addClassValidAndInValid(element, errorMessage){
             element.classList.remove(errorMessage === "valid" ? "is-invalid" : "is-valid")
             element.classList.add(errorMessage === "valid" ? "is-valid" : "is-invalid")
         }
+    }
+}
+
+function resetForm(formName, fields, removeClassValid, clearTextInput){
+    let form = document.getElementById(formName);
+    fields.forEach((fieldName) => {
+        if (removeClassValid) {
+            if (form.elements[fieldName] != null || form.elements[fieldName] != undefined){
+                form.elements[fieldName].classList.remove("is-valid");
+                form.elements[fieldName].classList.remove("is-invalid");
+            }
+        }
+    });
+    if (clearTextInput) {
+        form.reset();
     }
 }

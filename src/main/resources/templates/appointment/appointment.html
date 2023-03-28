@@ -120,13 +120,12 @@
             <div id="tablePane" class="card mb-4 container rounded-2">
                 <div class="tab-content">
                 <div class="mb-0">
-                    <div class="row g-3 float-end mt-2 mb-0 ms-1 me-2">
-                        <div class="col-auto me-0">
+                    <div class="row g-3 float-end mt-2 mb-0 ms-3 me-2">
+                        <div class="col-auto me-3">
                             <input th:if="${dateRange == ''}" type="text" id="datepicker" class="form-control ps-0 pe-0 pb-2 me-1" style="width: 102%;border: 1px solid #878787;" th:placeholder="'- - - - - date range - - - - -'">
                             <input th:if="${dateRange != ''}" type="text" id="datepicker" class="form-control ps-0 pe-0 pb-2 me-1" style="width: 102%;border: 1px solid #878787;" th:placeholder="${dateRange}">
-
                         </div>
-                        <a id="link-filter-today" class="btn btn-warning position-relative col-auto me-1" role="button">
+                        <a id="link-filter-today" class="btn btn-warning position-relative col-auto me-3" role="button">
                             Today
                             <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary"
                                   th:text="${todaySize}">

@@ -8,7 +8,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="createServiceHeader">Add Service</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        onclick="clickCreateServiceNo()"></button>
             </div>
             <div class="modal-body">
                 <form th:action="@{service/create}" method="POST" th:object="${newService}" id="createServiceForm">
@@ -22,7 +23,7 @@
 
                     <div class="input-group input-group mb-3">
                         <span class="input-group-text date">Price</span>
-                        <input type="number" class="form-control" th:field="*{price}" autocomplete="off"
+                        <input type="number" class="form-control" th:field="*{price}" min=0 autocomplete="off"
                                onkeyup="validFormNewServiceByEachField(this)"
                                onchange="validFormNewServiceByEachField(this)"
                                onpaste="validFormNewServiceByEachField(this)">
@@ -30,8 +31,8 @@
 
                     <div class="modal-footer">
                         <div class="col-md-12 text-center">
-                            <button onclick="clickCreateService()" type="button" class="btn btn-primary">save</button>
-                            <button class="btn btn-secondary" type="reset">clear</button>
+                            <button onclick="clickCreateService()" type="button" class="btn btn-primary">Save</button>
+                            <button onclick="validSubmitNewServiceForm('createServiceForm', 'reset')" class="btn btn-secondary" type="reset">Clear</button>
                         </div>
                     </div>
                     </div>
@@ -41,7 +42,7 @@
                         <div class="modal-footer">
                             <div class="col-md-12 text-center">
                             <button class="btn btn-primary" type="submit">Yes</button>
-                            <button onclick="clickCreateServiceNo()" type="reset" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                            <button onclick="clickCreateServiceNo()" type="reset" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                             </div>
                         </div>
                     </div>

@@ -10,7 +10,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" th:id="'editMedicineHeader'+${editMed.medID}">Edit [[${editMed.name}]]</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        th:attr="onclick='clickEditItemNo(\''+'Medicine' +'\',\''+${editMed.medID} +  '\');'"></button>
             </div>
 
             <!--Edit Med Warehouse-->
@@ -64,6 +65,7 @@
                         <div class="modal-footer">
                             <div class="col-md-12 text-center">
                                 <button th:attr="onclick='clickEditItem(\''+'Medicine' +'\',\''+${editMed.medID} +  '\');'" class="btn btn-primary" type="button">save</button>
+                                <button th:onclick="'validSubmitEditMedicineInfoForm(\'' + 'editMedicineForm'+ ${editMed.medID} +'\',\''+ 'reset' + '\');'" class="btn btn-secondary" type="reset">Reset</button>
                             </div>
                         </div>
                     </div>
@@ -73,7 +75,7 @@
                         <div class="modal-footer">
                             <div class="col-md-12 text-center">
                                 <button class="btn btn-primary" type="submit">Yes</button>
-                                <button th:attr="onclick='clickEditItemNo(\''+'Medicine' +'\',\''+${editMed.medID} +  '\');'" type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                                <button th:attr="onclick='clickEditItemNo(\''+'Medicine' +'\',\''+${editMed.medID} +  '\');'" type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                             </div>
                         </div>
                     </div>

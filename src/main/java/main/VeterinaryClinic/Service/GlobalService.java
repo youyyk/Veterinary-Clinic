@@ -210,10 +210,10 @@ public class GlobalService {
     //        ------------- Appointment --------------
 
         pet = petService.findByPetID(1);
-        Appointment appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-03-25"),"morning","ดูแผล");
+        Appointment appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-03-27"),"morning","ดูแผล");
         appointmentService.save(appointment);
         pet = petService.findByPetID(1);
-        appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-03-25"),"morning","vaccine");
+        appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-03-27"),"morning","vaccine");
         appointmentService.save(appointment);
 
 

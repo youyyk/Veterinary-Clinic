@@ -9,62 +9,62 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editAccountHeader">Edit Account</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button onclick="clickEditAccountNo();" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="editAccountForm" th:action="@{/account/edit}" method="POST" >
                     <div id="editAccountPane">
-                    <!--Account ID-->
-                    <input type="hidden" class="form-control" id="accId" name="accId" th:value="${account.accId}">
+                        <!--Account ID-->
+                        <input type="hidden" class="form-control" id="accId" name="accId" th:value="${account.accId}">
 
-                    <!--Title-->
-                    <div class="input-group input-group mb-3">
-                        <span class="input-group-text">Title</span>
-                        <select class="form-select" id="title" name="title" aria-label="Default select example" autocomplete="off" onchange="validFormEditAccountByEachField(this)">
-                            <option th:value="dummy" th:text="Choose..."
-                                    th:selected="${#strings.contains(account.title, 'Choose...')}"/>
-                            <option th:value="Mr." th:text="Mr."
-                                    th:selected="${#strings.contains(account.title, 'Mr.')}"/>
-                            <option th:value="Mrs." th:text="Mrs."
-                                    th:selected="${#strings.contains(account.title, 'Mrs.')}"/>
-                            <option th:value="Ms." th:text="Ms."
-                                    th:selected="${#strings.contains(account.title, 'Ms.')}"/>
-                            <option th:value="Miss" th:text="Miss"
-                                    th:selected="${#strings.contains(account.title, 'Miss')}"/>
-                        </select>
-                    </div>
-
-                    <!--FirstName-->
-                    <div class="input-group input-group mb-3">
-                        <span class="input-group-text">Firstname</span>
-                        <input type="text" class="form-control" id="firstName" name="firstName" th:value="${account.firstName}" autocomplete="off" onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
-                    </div>
-
-                    <!--LastName-->
-                    <div class="input-group input-group mb-3">
-                        <span class="input-group-text">Lastname</span>
-                        <input type="text" class="form-control" id="lastName" name="lastName" th:value="${account.lastName}" autocomplete="off" onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
-                    </div>
-
-                    <!--Address-->
-                    <div class="input-group input-group mb-3">
-                        <span class="input-group-text">Address</span>
-                        <input type="text" class="form-control" id="address" name="address" th:value="${account.address}" autocomplete="off" onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
-                    </div>
-
-                    <!--Phone No.-->
-                    <div class="input-group input-group mb-3">
-                        <span class="input-group-text">Phone No.</span>
-                        <input type="text" class="form-control" id="phone" name="phone" maxlength="10" th:value="${account.phone}" autocomplete="off" onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
-                    </div>
-
-                    <!--button-->
-                    <div class="modal-footer">
-                        <div class="col-md-12 text-center">
-                            <button onclick="clickEditAccount()" class="btn btn-primary" type="button">save</button>
-                            <button class="btn btn-secondary" type="button" data-bs-dismiss="modal">cancel</button>
+                        <!--Title-->
+                        <div class="input-group input-group mb-3">
+                            <span class="input-group-text">Title</span>
+                            <select class="form-select" id="title" name="title" aria-label="Default select example" autocomplete="off" onchange="validFormEditAccountByEachField(this)">
+                                <option th:value="dummy" th:text="Choose..."
+                                        th:selected="${#strings.contains(account.title, 'Choose...')}"/>
+                                <option th:value="Mr." th:text="Mr."
+                                        th:selected="${#strings.contains(account.title, 'Mr.')}"/>
+                                <option th:value="Mrs." th:text="Mrs."
+                                        th:selected="${#strings.contains(account.title, 'Mrs.')}"/>
+                                <option th:value="Ms." th:text="Ms."
+                                        th:selected="${#strings.contains(account.title, 'Ms.')}"/>
+                                <option th:value="Miss" th:text="Miss"
+                                        th:selected="${#strings.contains(account.title, 'Miss')}"/>
+                            </select>
                         </div>
-                    </div>
+
+                        <!--FirstName-->
+                        <div class="input-group input-group mb-3">
+                            <span class="input-group-text">Firstname</span>
+                            <input type="text" class="form-control" id="firstName" name="firstName" th:value="${account.firstName}" autocomplete="off" onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
+                        </div>
+
+                        <!--LastName-->
+                        <div class="input-group input-group mb-3">
+                            <span class="input-group-text">Lastname</span>
+                            <input type="text" class="form-control" id="lastName" name="lastName" th:value="${account.lastName}" autocomplete="off" onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
+                        </div>
+
+                        <!--Address-->
+                        <div class="input-group input-group mb-3">
+                            <span class="input-group-text">Address</span>
+                            <input type="text" class="form-control" id="address" name="address" th:value="${account.address}" autocomplete="off" onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
+                        </div>
+
+                        <!--Phone No.-->
+                        <div class="input-group input-group mb-3">
+                            <span class="input-group-text">Phone No.</span>
+                            <input type="text" class="form-control" id="phone" name="phone" maxlength="10" th:value="${account.phone}" autocomplete="off" onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
+                        </div>
+
+                        <!--button-->
+                        <div class="modal-footer">
+                            <div class="col-md-12 text-center">
+                                <button onclick="clickEditAccount()" class="btn btn-primary" type="button">Save</button>
+                                <button onclick="validSubmitEditAccountForm('editAccountForm', 'reset')" class="btn btn-secondary" type="reset">Reset</button>
+                            </div>
+                        </div>
                     </div>
 
                     <div id="editAccountConfirm" style="display: none">
@@ -72,15 +72,13 @@
                         <div class="modal-footer">
                             <div class="col-md-12 text-center">
                                 <button class="btn btn-primary" type="submit">Yes</button>
-                                <button onclick="clickEditAccountNo()" type="reset" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                                <button onclick="clickEditAccountNo()" type="reset" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                             </div>
                         </div>
                     </div>
-
                 </form>
             </div>
         </div>
-
     </div>
 </div>
 

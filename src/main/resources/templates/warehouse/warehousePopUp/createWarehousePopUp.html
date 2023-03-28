@@ -8,7 +8,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="createWarehouseHeader">Add Medicine / Tool</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        th:attr="onclick='clickCreateItemNo(\'' + 'allAddWH' +  '\');'"></button>
             </div>
             <div class="modal-body">
                 <div id="chooseDropdown">
@@ -38,44 +39,42 @@
                         <div name="medicineForm" style="display: none">
                             <form th:action="@{warehouse/create/medicine}" method="POST"
                                   th:object="${newMedForm}" id="createMedicineForm">
-
                                 <div id="createMedicinePane">
-
-                                <!--Med's Name-->
-                                <div class="input-group input-group mb-3">
-                                    <span class="input-group-text">Name</span>
-                                    <input type="text" class="form-control" maxlength="30" th:field="*{name}" autocomplete="off" onkeyup="validFormNewMedicineByEachField(this)" onpaste="validFormNewMedicineByEachField(this)">
-                                </div>
-
-                                <!--Price-->
-                                <div class="input-group input-group mb-3">
-                                    <span class="input-group-text date">Price</span>
-                                    <input type="number" class="form-control" th:field="*{price}" min="0" autocomplete="off"
-                                           onkeyup="validFormNewMedicineByEachField(this)"
-                                           onchange="validFormNewMedicineByEachField(this)"
-                                           onpaste="validFormNewMedicineByEachField(this)">
-                                </div>
-
-                                <!--Pet's Dose & Unit-->
-                                <div class="input-group input-group mb-3">
-                                    <span class="input-group-text">Dose</span>
-                                    <input type="text" class="form-control" maxlength="30" th:field="*{dose}" style="margin-right: 2px" autocomplete="off" onkeyup="validFormNewMedicineByEachField(this)" onpaste="validFormNewMedicineByEachField(this)">
-                                    <span class="input-group-text">Unit</span>
-                                    <input type="text" class="form-control" maxlength="15" th:field="*{unit}" autocomplete="off" onkeyup="validFormNewMedicineByEachField(this)" onpaste="validFormNewMedicineByEachField(this)">
-                                </div>
-
-                                <!--Description-->
-                                <div class="input-group input-group mb-3">
-                                    <span class="input-group-text date">Description</span>
-                                    <input type="text" class="form-control" th:field="*{description}" autocomplete="off" onkeyup="validFormNewMedicineByEachField(this)" onpaste="validFormNewMedicineByEachField(this)">
-                                </div>
-
-                                <div class="modal-footer">
-                                    <div class="col-md-12 text-center">
-                                        <button th:attr="onclick='clickCreateItem(\'' +'Medicine' +  '\');'" class="btn btn-primary" type="button">save</button>
-                                        <button class="btn btn-secondary" type="reset">clear</button>
+                                    <!--Med's Name-->
+                                    <div class="input-group input-group mb-3">
+                                        <span class="input-group-text">Name</span>
+                                        <input type="text" class="form-control" maxlength="30" th:field="*{name}" autocomplete="off" onkeyup="validFormNewMedicineByEachField(this)" onpaste="validFormNewMedicineByEachField(this)">
                                     </div>
-                                </div>
+
+                                    <!--Price-->
+                                    <div class="input-group input-group mb-3">
+                                        <span class="input-group-text date">Price</span>
+                                        <input type="number" class="form-control" th:field="*{price}" min="0" autocomplete="off"
+                                               onkeyup="validFormNewMedicineByEachField(this)"
+                                               onchange="validFormNewMedicineByEachField(this)"
+                                               onpaste="validFormNewMedicineByEachField(this)">
+                                    </div>
+
+                                    <!--Pet's Dose & Unit-->
+                                    <div class="input-group input-group mb-3">
+                                        <span class="input-group-text">Dose</span>
+                                        <input type="text" class="form-control" maxlength="30" th:field="*{dose}" style="margin-right: 2px" autocomplete="off" onkeyup="validFormNewMedicineByEachField(this)" onpaste="validFormNewMedicineByEachField(this)">
+                                        <span class="input-group-text">Unit</span>
+                                        <input type="text" class="form-control" maxlength="15" th:field="*{unit}" autocomplete="off" onkeyup="validFormNewMedicineByEachField(this)" onpaste="validFormNewMedicineByEachField(this)">
+                                    </div>
+
+                                    <!--Description-->
+                                    <div class="input-group input-group mb-3">
+                                        <span class="input-group-text date">Description</span>
+                                        <input type="text" class="form-control" th:field="*{description}" autocomplete="off" onkeyup="validFormNewMedicineByEachField(this)" onpaste="validFormNewMedicineByEachField(this)">
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <div class="col-md-12 text-center">
+                                            <button th:attr="onclick='clickCreateItem(\'' +'Medicine' +  '\');'" class="btn btn-primary" type="button">Save</button>
+                                            <button onclick="validSubmitNewMedicineForm('createMedicineForm', 'reset')" class="btn btn-secondary" type="reset">Clear</button>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <div id="createMedicineConfirm" style="display: none" class="text-start">
@@ -83,7 +82,7 @@
                                     <div class="modal-footer">
                                         <div class="col-md-12 text-center">
                                             <button class="btn btn-primary" type="submit">Yes</button>
-                                            <button th:attr="onclick='clickCreateItemNo(\'' + 'Medicine' +  '\');'" type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                                            <button th:attr="onclick='clickCreateItemNo(\'' + 'Medicine' +  '\');'" type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                                         </div>
                                     </div>
                                 </div>
@@ -99,7 +98,7 @@
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text">Medicine</span>
                                     <select class="form-select" aria-label="Select Medicine" th:field="*{medicine}" autocomplete="off" onchange="validFormNewWarehouseMedicineByEachField(this)">
-                                        <option value=0 selected >Choose...</option>
+                                        <option value="#" selected >Choose...</option>
                                         <option th:each="med : ${medicines}" th:value="${med.medID}" th:text="${med.getNameForShow}"/>
                                     </select>
                                 </div>
@@ -130,8 +129,8 @@
 
                                     <div class="modal-footer">
                                         <div class="col-md-12 text-center">
-                                            <button th:attr="onclick='clickCreateItem(\'' +'MedicineOrder' +  '\');'" class="btn btn-primary" type="button">save</button>
-                                            <button class="btn btn-secondary" type="reset">clear</button>
+                                            <button th:attr="onclick='clickCreateItem(\'' +'MedicineOrder' +  '\');'" class="btn btn-primary" type="button">Save</button>
+                                            <button onclick="validSubmitNewWarehouseMedicineForm('createMedicineOrderForm', 'reset')" class="btn btn-secondary" type="reset">Clear</button>
                                         </div>
                                     </div>
                                 </div>
@@ -141,7 +140,7 @@
                                     <div class="modal-footer">
                                         <div class="col-md-12 text-center">
                                             <button class="btn btn-primary" type="submit">Yes</button>
-                                            <button th:attr="onclick='clickCreateItemNo(\'' + 'MedicineOrder' +  '\');'" type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                                            <button th:attr="onclick='clickCreateItemNo(\'' + 'MedicineOrder' +  '\');'" type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                                         </div>
                                     </div>
                                 </div>
@@ -177,8 +176,8 @@
 
                                     <div class="modal-footer">
                                         <div class="col-md-12 text-center">
-                                            <button th:attr="onclick='clickCreateItem(\'' +'Tool' +  '\');'" class="btn btn-primary" type="button">save</button>
-                                            <button class="btn btn-secondary" type="reset">clear</button>
+                                            <button th:attr="onclick='clickCreateItem(\'' +'Tool' +  '\');'" class="btn btn-primary" type="button">Save</button>
+                                            <button onclick="validSubmitNewToolForm('createToolForm', 'reset')" class="btn btn-secondary" type="reset">Clear</button>
                                         </div>
                                     </div>
                                 </div>
@@ -202,7 +201,7 @@
                                 <div class="input-group input-group mb-3">
                                     <span class="input-group-text">Tool</span>
                                     <select class="form-select" aria-label="Select Medicine" th:field="*{tool}" autocomplete="off" onchange="validFormNewWarehouseToolByEachField(this)">
-                                        <option value=0 selected >Choose...</option>
+                                        <option value="#" selected >Choose...</option>
                                         <option th:each="tool : ${tools}" th:value="${tool.ToolID}" th:text="${tool.getNameForShow}"/>
                                     </select>
                                 </div>
@@ -233,8 +232,8 @@
 
                                     <div class="modal-footer">
                                         <div class="col-md-12 text-center">
-                                            <button th:attr="onclick='clickCreateItem(\'' +'ToolOrder' +  '\');'" class="btn btn-primary" type="button">save</button>
-                                            <button class="btn btn-secondary" type="reset">clear</button>
+                                            <button th:attr="onclick='clickCreateItem(\'' +'ToolOrder' +  '\');'" class="btn btn-primary" type="button">Save</button>
+                                            <button onclick="validSubmitNewWarehouseToolForm('createToolOrderForm', 'reset')" class="btn btn-secondary" type="reset">Clear</button>
                                         </div>
                                     </div>
                                 </div>

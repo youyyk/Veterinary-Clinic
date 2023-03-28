@@ -1,14 +1,13 @@
 package main.VeterinaryClinic.Controller;
 
 import main.VeterinaryClinic.Model.Account.Account;
+import main.VeterinaryClinic.Model.Appointment;
 import main.VeterinaryClinic.Model.Bill.Bill;
 import main.VeterinaryClinic.Model.TreatmentHistory;
 import main.VeterinaryClinic.Model.Pet;
-import main.VeterinaryClinic.Service.GlobalService;
-import main.VeterinaryClinic.Service.MainBillService;
-import main.VeterinaryClinic.Service.TreatmentHistoryService;
-import main.VeterinaryClinic.Service.PetService;
+import main.VeterinaryClinic.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +24,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class TreatmentHistoryController {
     @Autowired
     private TreatmentHistoryService treatmentHistoryService;
+    @Autowired
+    private AppointmentService appointmentService;
     @Autowired
     private PetService petService;
     @Autowired
@@ -51,9 +52,17 @@ public class TreatmentHistoryController {
 
     @RequestMapping(path = "/receive/treatment", method = POST)
     public String editAccount(@RequestParam("petID") long petID,
-                              @RequestParam("weight") double weight) {
+                              @RequestParam("weight") double weight,
+                              @Param("appointmentId") long appointmentId) {
         System.out.println("---Receive Treatment---");
-
+        System.out.println(appointmentId);
+        if (appointmentId >= 0) {
+            Appointment appointment = appointmentService.findByAppointmentID(appointmentId);
+            if (appointment != null){
+                appointment.setStatus(true);
+            }
+            appointmentService.save(appointment);
+        }
         TreatmentHistory treatmentHistory = new TreatmentHistory(petService.findByPetID(petID),
                 GlobalService.getCurrentTime(),weight);
         Bill bill = new Bill();

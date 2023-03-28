@@ -9,8 +9,9 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" th:id="'editPetHeader'+${pet.petID}">Edit Pet</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5 class="modal-title" th:id="'editPetHeader'+${pet.petID}">Edit Pet1</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                        th:attr="onclick='clickEditPetNo(\'' + ${pet.petID} +  '\');'"></button>
             </div>
             <div class="modal-body">
 <!--                [[${#dates.format(pet.doB, 'dd/MM/yyyy')}]]-->
@@ -109,10 +110,13 @@
                     </div>
 
                     <!--button-->
-                    <div class="modal-footer">
-                            <button th:attr="onclick='clickEditPet(\'' + ${pet.petID} +  '\');'" class="btn btn-primary" type="button">save</button>
-                            <button class="btn btn-secondary" type="reset">clear</button>
-                    </div>
+                        <div class="modal-footer">
+                            <div class="col-md-12 text-center">
+                                <button th:attr="onclick='clickEditPet(\'' + ${pet.petID} +  '\');'" class="btn btn-primary" type="button">Save</button>
+                                <button class="btn btn-secondary" type="reset"
+                                        th:onclick="'validSubmitEditPetInfoForm(\'' + 'editPetForm'+ ${pet.petID} +'\',\''+ 'reset' + '\');'">Reset</button>
+                            </div>
+                        </div>
                     </div>
 
                     <div th:id="'editPetConfirm'+${pet.petID}" style="display: none" class="text-start">
@@ -122,8 +126,6 @@
                             <button th:attr="onclick='clickEditPetNo(\'' + ${pet.petID} +  '\');'" type="reset" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
                         </div>
                     </div>
-
-
                 </form>
             </div>
         </div>

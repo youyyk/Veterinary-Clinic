@@ -110,13 +110,13 @@
         });
     }
 </script>
+<!--New Medicine Form-->
 <script>
-    // New Medicine Form
     let realTimeValid_formNewMedicine = false;
 
     function validFormNewMedicineByEachField(fieldElement){
         if (realTimeValid_formNewMedicine){
-            const formNewMedicine = document.getElementById("newMedicineForm")
+            const formNewMedicine = document.getElementById("createMedicineForm")
             const validatedList = serviceValidNewMedicine(formNewMedicine, fieldElement.id);
             if (validatedList.length === 1){
                 addClassValidAndInValid(formNewMedicine.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
@@ -142,13 +142,13 @@
         return false;
     }
 </script>
+<!--New Order Medicine Form-->
 <script>
-    // New Order Medicine Form
     let realTimeValid_formNewWarehouseMedicine = false;
 
     function validFormNewWarehouseMedicineByEachField(fieldElement){
         if (realTimeValid_formNewWarehouseMedicine){
-            const newWarehouseMedicineForm = document.getElementById("newWarehouseMedicineForm")
+            const newWarehouseMedicineForm = document.getElementById("createMedicineOrderForm")
             const validatedList =serviceValidNewWarehouseMedicine(newWarehouseMedicineForm, fieldElement.id);
             if (validatedList.length === 1){
                 addClassValidAndInValid(newWarehouseMedicineForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
@@ -174,13 +174,13 @@
         return false;
     }
 </script>
+<!--New Tool Form-->
 <script>
-    // New Tool Form
     let realTimeValid_formNewTool = false;
 
     function validFormNewToolByEachField(fieldElement){
         if (realTimeValid_formNewTool){
-            const newToolForm = document.getElementById("newToolForm")
+            const newToolForm = document.getElementById("createToolForm")
             const validatedList = serviceValidNewTool(newToolForm, fieldElement.id);
             if (validatedList.length === 1){
                 addClassValidAndInValid(newToolForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
@@ -206,13 +206,13 @@
         return false;
     }
 </script>
+<!--New Order Tool Form-->
 <script>
-    // New Order Tool Form
     let realTimeValid_formNewWarehouseTool = false;
 
     function validFormNewWarehouseToolByEachField(fieldElement){
         if (realTimeValid_formNewWarehouseTool){
-            const newWarehouseToolForm = document.getElementById("newWarehouseToolForm")
+            const newWarehouseToolForm = document.getElementById("createToolOrderForm")
             const validatedList =serviceValidNewWarehouseTool(newWarehouseToolForm, fieldElement.id);
             if (validatedList.length === 1){
                 addClassValidAndInValid(newWarehouseToolForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
@@ -238,14 +238,14 @@
         return false;
     }
 </script>
+<!--Edit order form-->
 <script>
-    // Edit order form
     let realTimeValid_formEditOrder = false;
 
     function validFormEditOrderByEachField(fieldId, fromId){
         if (realTimeValid_formEditOrder){
         console.log(fieldId + fromId);
-            const editOrderForm = document.getElementById("editWarehouseOrderForm"+fromId)
+            const editOrderForm = document.getElementById("editOrderForm"+fromId)
             const validatedList = serviceValidEditWarehouseOrder(editOrderForm, fieldId);
             if (validatedList.length === 1){
                 addClassValidAndInValid(editOrderForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
@@ -253,7 +253,7 @@
         }
     }
 
-    function validSubmitEditOrderWarehouseToolForm(editOrderForm, option){
+    function validSubmitEditOrderWarehouseForm(editOrderForm, option){
         realTimeValid_formEditOrder= true;
         const validatedList = serviceValidEditWarehouseOrder(editOrderForm, option);
         let count = 0;
@@ -271,14 +271,13 @@
         return false;
     }
 </script>
+<!--Edit medicine info-->
 <script>
-    // Edit medicine info
     let realTimeValid_formEditMedicineInfo = false;
 
     function validFormEditMedicineInfoByEachField(fieldId, fromId){
         if (realTimeValid_formEditMedicineInfo){
-            console.log(fieldId + fromId);
-            const editMedicineInfoForm = document.getElementById("editMedicineInfoForm"+fromId)
+            const editMedicineInfoForm = document.getElementById("editMedicineForm"+fromId)
             const validatedList = serviceValidNewMedicine(editMedicineInfoForm, fieldId);
             if (validatedList.length === 1){
                 addClassValidAndInValid(editMedicineInfoForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
@@ -304,14 +303,13 @@
         return false;
     }
 </script>
+<!--Edit tool info-->
 <script>
-    // Edit tool info
     let realTimeValid_formEditToolInfo = false;
 
     function validFormEditToolInfoByEachField(fieldId, fromId){
         if (realTimeValid_formEditToolInfo){
-            console.log(fieldId + fromId);
-            const editToolInfoForm = document.getElementById("editToolInfoForm"+fromId)
+            const editToolInfoForm = document.getElementById("editToolForm"+fromId)
             const validatedList = serviceValidNewTool(editToolInfoForm, fieldId);
             if (validatedList.length === 1){
                 addClassValidAndInValid(editToolInfoForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
@@ -474,7 +472,7 @@
                                                 <a th:if="${wh.isExpired() == -1 && !wh.softDeleted}" class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#stockOutPopUp'+*{wh.itemID}">
                                                     <i class="material-symbols-rounded align-middle">inventory_2</i> Stock Out
                                                 </a>
-                                                <a th:if="${wh.quantityIn==wh.quantityLeft && wh.isCanDelete()}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+*{wh.itemID}">
+                                                <a th:if="${wh.isCanDelete()}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+*{wh.itemID}">
                                                     <i class="material-symbols-rounded align-middle">delete</i> Delete
                                                 </a>
                                             </div>
@@ -539,7 +537,7 @@
                                                 <a class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editWarehouseMedicinePopUp'+ *{med.medID}" role="button">
                                                     <i class="material-symbols-rounded align-middle">edit</i> Edit
                                                 </a>
-                                                <a class="dropdown-item text-danger" th:classappend="${!med.isCanDelete() ? 'disabled opacitySoft' : ''}" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+'-1'+*{med.medID}">
+                                                <a th:if="${med.isCanDelete()}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+'-1'+*{med.medID}">
                                                     <i class="material-symbols-rounded align-middle">delete</i> Delete
                                                 </a>
                                             </div>
@@ -595,7 +593,7 @@
                                             <a class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editWarehouseToolPopUp'+ *{tool.toolID}" role="button">
                                                 <i class="material-symbols-rounded align-middle">edit</i> Edit
                                             </a>
-                                            <a class="dropdown-item text-danger" th:classappend="${!tool.isCanDelete() ? 'opacitySoft' : ''}" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+'-2'+*{tool.ToolID}">
+                                            <a th:if="${tool.isCanDelete()}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+'-2'+*{tool.ToolID}">
                                                 <i class="material-symbols-rounded align-middle">delete</i> Delete
                                             </a>
                                         </div>

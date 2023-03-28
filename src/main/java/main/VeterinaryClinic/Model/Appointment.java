@@ -27,6 +27,8 @@ public class Appointment {
     @Column(name="description", columnDefinition = "TEXT")
     private String description;
 
+    @Column(name = "status")
+    private boolean status;
     public Appointment() {super();}
 
     public Appointment(Pet pet, Date date, String period, String description) {
@@ -34,22 +36,25 @@ public class Appointment {
         this.date = date;
         this.period = period;
         this.description = description;
+        this.status = false;
     }
 
     public Appointment(Pet pet, Date date, String period) {
         this.pet = pet;
         this.date = date;
         this.period = period;
+        this.status = false;
     }
 
     @Override
     public String toString() {
         return "Appointment{" +
                 "appointmentID=" + appointmentID +
-                ", pet=" + pet.getName() +
+                ", pet=" + pet +
                 ", date=" + date +
                 ", period='" + period + '\'' +
                 ", description='" + description + '\'' +
+                ", status=" + status +
                 '}';
     }
 }

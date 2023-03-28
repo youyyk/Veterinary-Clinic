@@ -112,7 +112,7 @@ public class WareHouse {
     }
 
     public boolean isCanDelete(){
-        return billMed.size() == 0 && billTool.size() == 0 ? true : false;
+        return billMed.size() == 0 && billTool.size() == 0 && quantityIn==quantityLeft ? true : false;
     }
 
     @Override

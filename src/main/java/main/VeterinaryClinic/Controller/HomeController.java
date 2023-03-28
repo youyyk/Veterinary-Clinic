@@ -22,6 +22,10 @@ public class HomeController {
     private WareHouseService wareHouseService;
     @Autowired
     private MainBillService mainBillService;
+    @Autowired
+    private MedicineService medicineService;
+    @Autowired
+    private ToolService toolService;
     @RequestMapping("/")
     public String getHomePage(Model model, @AuthenticationPrincipal AccountUserDetail accountUserDetail) {
 //        model.addAttribute("greeting", "Hi OAuth");
@@ -63,8 +67,9 @@ public class HomeController {
         model.addAttribute("bills",bills );
         model.addAttribute("expiredCount",expiredCount );
         model.addAttribute("almostCount",almostCount );
-//        model.addAttribute("nowAccount",accountUserDetail.getAccount());
-
+        model.addAttribute("nowAccount",accountUserDetail.getAccount());
+        model.addAttribute("medicines", medicineService.findBySoftDeleted(false));
+        model.addAttribute("tools", toolService.findBySoftDeleted(false));
 
 
         return "home";
