@@ -1,3 +1,3 @@
-- Navbar (Add Profile's dropdown and Decoration)
+- Navbar (Add Profile's dropdown, edit and Decoration)
 - Main page (Decoration)
 - Date Range
