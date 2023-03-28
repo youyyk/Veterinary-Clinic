@@ -411,8 +411,8 @@
                             <th>Paid Total</th>
                             <th>Qty.In</th>
                             <th>Qty.Left</th>
-                            <th>Stock In</th>
-                            <th>Expired Date</th>
+                            <th data-type="date" data-format="DD/MM/YYYY">Stock In</th>
+                            <th data-type="date" data-format="DD/MM/YYYY">Expired Date</th>
                             <th>Status</th>
                             <th th:if="${nowAccount.isAdmin()}">Action</th>
                         </tr>
@@ -446,10 +446,10 @@
                                     <p th:text="${#numbers.formatDecimal(wh.quantityLeft, 1, 'COMMA', 0, 'POINT')}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}"/>
                                 </td>
                                 <td>
-                                    <p th:text="${#dates.format(wh.createdDate, 'yyyy/MM/dd')}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                    <p th:text="${#dates.format(wh.createdDate, 'dd/MM/yyyy')}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}" style="text-align: left"/>
                                 </td>
                                 <td>
-                                    <p th:text="${#dates.format(wh.expiredDate, 'yyyy/MM/dd')}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                    <p th:text="${#dates.format(wh.expiredDate, 'dd/MM/yyyy')}" th:class="${wh.isSoftDeleted() ? 'opacitySoft' : ''}" style="text-align: left"/>
                                 </td>
                                 <td th:switch="${wh.isExpired()}">
                                     <span th:case="-1" th:text="Expired" th:class="'badge rounded-pill bg-danger '+${wh.isSoftDeleted() ? 'opacitySoft' : ''}" style="text-align: center"/>

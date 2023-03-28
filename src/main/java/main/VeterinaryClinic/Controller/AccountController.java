@@ -210,6 +210,8 @@ public class AccountController {
                 return "account/registerAccount";
             }
         }
-        return "redirect:";
+        model.addAttribute("account", accountUserDetail.getAccount());
+        return "account/registerAccount";
+//        return "redirect:";
     }
 }

@@ -12,37 +12,35 @@
 
 <nav class="navbar navbar-expand-lg" style="background-image: linear-gradient(0deg, #95af90, #b5e3d3);" th:fragment="header">
   <div class="container-fluid">
-    <a class="navbar-brand ms-1" href="#">
-      <div class="rounded-circle" style="background-color: white">
-        <img th:src="@{/images/logo.png}" width="50" height="50"/>
-      </div>
+    <a class="navbar-brand ms-1" th:href="@{/}">
+        <img th:src="@{/images/logo.png}" width="50" height="50" class="rounded-circle bg-light" style="background-size: cover"/>
+      <small th:classappend="${#httpServletRequest.requestURI.contains('/register')} ? 'ms-0' : ''" style="text-decoration: none;color:black;">Veterinary Clinic</small>
     </a>
-    <a class="navbar-brand" style=" text-decoration: none;color:black;" th:href="@{/}">Veterinary Clinic</a>
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="material-symbols-rounded">menu</span>
     </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div th:if="${not #httpServletRequest.requestURI.contains('/register')}" class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a id="headerNav" th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active':''}" class="nav-link" th:href="@{/}">Home</a>
         </li>
         <li class="nav-item">
-          <a id="headerNav" th:classappend="${#httpServletRequest.getRequestURI() == '/account' ? 'active':''}" class="nav-link" th:href="@{/account}">Accounts</a>
+          <a id="headerNav" th:classappend="${#httpServletRequest.requestURI.contains('/account')} ? 'active':''" class="nav-link" th:href="@{/account}">Accounts</a>
         </li>
         <li class="nav-item">
-          <a id="headerNav" th:classappend="${#httpServletRequest.getRequestURI() == '/warehouse' ? 'active':''}" class="nav-link" th:href="@{/warehouse}">Warehouse</a>
+          <a id="headerNav" th:classappend="${#httpServletRequest.requestURI.contains('/warehouse')} ? 'active':''" class="nav-link" th:href="@{/warehouse}">Warehouse</a>
         </li>
         <li class="nav-item">
-          <a id="headerNav" th:classappend="${#httpServletRequest.getRequestURI() == '/service' ? 'active':''}" class="nav-link" th:href="@{/service}">Service</a>
+          <a id="headerNav" th:classappend="${#httpServletRequest.requestURI.contains('/service')} ? 'active':''" class="nav-link" th:href="@{/service}">Service</a>
         </li>
         <li class="nav-item">
-          <a id="headerNav" th:classappend="${#httpServletRequest.getRequestURI() == '/bill' ? 'active':''}"class="nav-link" th:href="@{/bill}">Bills</a>
+          <a id="headerNav" th:classappend="${#httpServletRequest.requestURI.contains('/bill')} ? 'active':''"class="nav-link" th:href="@{/bill}">Bills</a>
         </li>
         <li class="nav-item">
-          <a id="headerNav" th:classappend="${#httpServletRequest.getRequestURI() == '/appointment' ? 'active':''}" class="nav-link" th:href="@{/appointment}">Appointment</a>
+          <a id="headerNav" th:classappend="${#httpServletRequest.requestURI.contains('/appointment')} ? 'active':''" class="nav-link" th:href="@{/appointment}">Appointment</a>
         </li>
       </ul>
       <div class="navbar-nav float-end" sec:authorize="isAnonymous()">
@@ -66,9 +64,6 @@
                 <a class="dropdown-item btn" th:href="@{/logout}">
                   <span class="material-symbols-rounded align-middle pb-1">logout</span> Logout
                 </a>
-<!--                <a class="dropdown-item btn" sec:authorize="isAnonymous()" th:href="@{/oauth2/authorization/line}">-->
-<!--                  <span class="material-symbols-rounded align-middle pb-1">login</span> Login-->
-<!--                </a>-->
             </div>
           </div>
         </div>
