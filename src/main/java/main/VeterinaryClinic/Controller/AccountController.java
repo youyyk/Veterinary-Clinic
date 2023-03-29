@@ -216,14 +216,12 @@ public class AccountController {
     public String registerAccount(@AuthenticationPrincipal AccountUserDetail accountUserDetail, Model model) {
         if (accountUserDetail != null) {
             Account nowAccount = accountUserDetail.getAccount();
-            if (nowAccount != null && !nowAccount.isRegisAccount()){
+            if (nowAccount != null && !nowAccount.isRegisAccount()){ // not regis account
                 model.addAttribute("account", accountUserDetail.getAccount());
                 model.addAttribute("nowAccount", accountUserDetail.getAccount());
                 return "account/registerAccount";
             }
         }
-        model.addAttribute("account", accountUserDetail.getAccount());
-        return "account/registerAccount";
-//        return "redirect:";
+        return "redirect:/";
     }
 }

@@ -1,5 +1,6 @@
 package main.VeterinaryClinic.Controller;
 
+import main.VeterinaryClinic.Model.Account.Account;
 import main.VeterinaryClinic.Model.Account.AccountUserDetail;
 import main.VeterinaryClinic.Model.Appointment;
 import main.VeterinaryClinic.Model.Bill.Bill;
@@ -28,8 +29,19 @@ public class HomeController {
     private ToolService toolService;
     @RequestMapping("/")
     public String getHomePage(Model model, @AuthenticationPrincipal AccountUserDetail accountUserDetail) {
-        List<Appointment> todayAppointment = appointmentService.findByTodayDateOrderByPeriodDesc();
+        if (accountUserDetail!=null){
+            return handleRedirectPageForAccountByRole(accountUserDetail);
+        }
+        return "landing";
+    }
 
+    @RequestMapping("/loginSuccess")
+    public String getDashboard(@AuthenticationPrincipal AccountUserDetail accountUserDetail) {
+        return handleRedirectPageForAccountByRole(accountUserDetail);
+    }
+
+    @RequestMapping("/dashboard")
+    public String getDashboard(Model model, @AuthenticationPrincipal AccountUserDetail accountUserDetail) {
         List<WareHouse> wareHouses = wareHouseService.getAllBySoftDeletedIsFalseOrderByExpiredDateAsc();
         List<WareHouse> needWareHouse = new ArrayList<>();
         int expiredCount = 0;
@@ -44,17 +56,10 @@ public class HomeController {
                 almostCount++;
             }
         }
-//
+        List<Appointment> todayAppointment = appointmentService.findByTodayDateOrderByPeriodDesc();
         List<Bill> bills = mainBillService.findByPaidStatusIsFalseOrderByStartDateAsc();
 
-        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountUserDetail.getAccount());
-        }
-
-        if (accountUserDetail == null){
-            return "redirect:/landing";
-        }
-
+        model.addAttribute("nowAccount", accountUserDetail.getAccount());
         model.addAttribute("appointments",todayAppointment );
         model.addAttribute("warehouses",needWareHouse );
         model.addAttribute("bills",bills );
@@ -62,15 +67,26 @@ public class HomeController {
         model.addAttribute("almostCount",almostCount );
         model.addAttribute("medicines", medicineService.findBySoftDeleted(false));
         model.addAttribute("tools", toolService.findBySoftDeleted(false));
-
-
         return "home";
     }
 
-    @RequestMapping("/landing")
-    public String accountUser(@AuthenticationPrincipal AccountUserDetail accountUserDetail) {
-
-        return "landing";
+    private String handleRedirectPageForAccountByRole(AccountUserDetail accountUserDetail){
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null){
+            Account account = accountUserDetail.getAccount();
+            if (account.isRegisAccount()) {
+                if (account.isAdmin()) {
+                    System.out.println("---HANDLE-PAGE : ADMIN---");
+                    return "redirect:/dashboard";
+                } else if (account.isOfficer()) {
+                    System.out.println("---HANDLE-PAGE : OFFICER---");
+                    return "redirect:/dashboard";
+                } else if (account.isCustomer()) {
+                    System.out.println("---HANDLE-PAGE : CUSTOMER---");
+                    return "redirect:/account/getInfo/"+account.getAccId();
+                }
+            }
+            return "redirect:/account/register";
+        }
+        return "redirect:/";
     }
-
 }
