@@ -1,3 +1,3 @@
-- Navbar (Add Profile's dropdown, edit and Decoration)
-- Main page (Decoration)
-- Date Range
+- Navbar (edit and make sticky-top)
+- Create Landing Page
+- Format date, action

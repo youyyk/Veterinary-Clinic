@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+  <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+  <link th:rel="stylesheet" th:href="@{/css/table-warehouse.css}">
+  <link th:rel="stylesheet" th:href="@{/css/global.css}">
+  <script th:src="@{/js/bootstrap.min.js}"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,300,1,0" />
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script th:src="@{/js/validateModel.js}"></script>
+  <script th:src="@{/js/confirmPopUp.js}"></script>
+  <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+</head>
+<style>
+  #startBtn{
+    font-size: 1.2em;background-image: linear-gradient(45deg, #cdd951, #ffb700);
+  }
+  #startBtn:hover{
+    box-shadow: 0 0 6px #efffc4;
+  }
+
+</style>
+<body id="landBG">
+<div class="container-fluid" style="padding-top: 20%;padding-left: 12.5%;padding-right: 40%;">
+  <h1 class="text-light" style="font-size: 3.7em">Welcome to Veterinary Clinic</h1>
+  <p class="text-light w-75" style="font-size: 1.2em"> We could leave the Christmas lights up 'til January
+    And this is our place, we make the rules
+    And there's a dazzling haze, a mysterious way about you dear
+    Have I known you 20 seconds or 20 years?</p>
+  <a id="startBtn" class="btn rounded-pill ps-4 pe-4 mt-3"
+     th:href="@{/oauth2/authorization/line}"><b>Get Start</b></a>
+
+<!--    <img th:src="@{/images/land.jpg}"/>-->
+</div>
+
+
+</body>
+</html>

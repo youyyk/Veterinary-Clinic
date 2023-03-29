@@ -112,7 +112,7 @@
     }
 </script>
 <body>
-    <div th:insert="fragments/header :: header"></div>
+    <div th:insert="fragments/header :: header" class="sticky-top"></div>
 
     <div class="separateContent">
         <div class="container">
@@ -143,7 +143,7 @@
                             <th>Owner</th>
                             <th>Phone no.</th>
                             <th>Pet's Name</th>
-                            <th>Date</th>
+                            <th data-type="date" data-format="DD/MM/YYYY">Date</th>
                             <th>Period</th>
                             <th>Description</th>
                             <th>Actions</th>
@@ -156,35 +156,37 @@
                                 <td>[[*{app.pet.account.firstName}]] [[*{app.pet.account.lastName}]]</td>
                                 <td>[[*{app.pet.account.phone}]]</td>
                                 <td>[[*{app.pet.name}]]</td>
-                                <td>[[${#dates.format(app.date, 'yyyy/MM/dd')}]]</td>
+                                <td>[[${#dates.format(app.date, 'dd/MM/yyyy')}]]</td>
                                 <td>
                                     <span th:if="${#strings.contains(app.period, 'morning')}">09.00 - 12.00</span>
                                     <span th:if="${#strings.contains(app.period, 'afternoon')}">13.30 - 18.00</span>
                                 </td>
                                 <td>[[*{app.description}]]</td>
                                 <td>
-                                    <div class="dropdown open">
-                                        <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
-                                           aria-expanded="false">
-                                            <span class="material-symbols-rounded">more_vert</span>
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                            <a class="dropdown-item btn" data-bs-toggle="modal"
-                                               th:attr="data-bs-target='#editAppointment'+${app.appointmentID}">
-                                                <span class="material-symbols-rounded align-middle pb-1">edit</span> Edit
+                                    <div class="col-md-12 text-center">
+                                        <div class="dropdown open">
+                                            <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
+                                               aria-expanded="false">
+                                                <span class="material-symbols-rounded">more_vert</span>
                                             </a>
-                                            <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
-                                               th:attr="data-bs-target='#deletePopUpA'+${app.appointmentID}">
-                                                <span class="material-symbols-rounded align-middle pb-1">delete</span> Delete
-                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                                <a class="dropdown-item btn" data-bs-toggle="modal"
+                                                   th:attr="data-bs-target='#editAppointment'+${app.appointmentID}">
+                                                    <span class="material-symbols-rounded align-middle pb-1">edit</span> Edit
+                                                </a>
+                                                <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
+                                                   th:attr="data-bs-target='#deletePopUpA'+${app.appointmentID}">
+                                                    <span class="material-symbols-rounded align-middle pb-1">delete</span> Delete
+                                                </a>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <!--Call Receive Treatment (PopUp)-->
-                                    <th:block th:replace="appointment/appointmentPopUp/editAppointment :: editAppointment(${app},'appointment')">modal</th:block>
-                                    <!--Create Appointment (PopUp)-->
-                                    <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Appointment ('+${app.pet.name}+')',mainPath='appointment',deleteId='A'+${app.appointmentID},deleteName='this appointment',pathId='appointment')">
-                                        modal
-                                    </th:block>
+                                        <!--Call Receive Treatment (PopUp)-->
+                                        <th:block th:replace="appointment/appointmentPopUp/editAppointment :: editAppointment(${app},'appointment')">modal</th:block>
+                                        <!--Create Appointment (PopUp)-->
+                                        <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Appointment ('+${app.pet.name}+')',mainPath='appointment',deleteId='A'+${app.appointmentID},deleteName='this appointment',pathId='appointment')">
+                                            modal
+                                        </th:block>
+                                        </div>
                                 </td>
 
                             </tr>

@@ -242,7 +242,7 @@
                 <tr>
                     <th>Bill ID</th>
                     <th>Treatment ID</th>
-                    <th>Date</th>
+                    <th data-type="date" data-format="DD/MM/YYYY">Date</th>
                     <th>Weight (kg)</th>
                     <th>Diagnosis</th>
                     <th>Actions</th>
@@ -255,28 +255,30 @@
                     <td th:if="${treat.bill == null}" th:text="'-'"></td>
                     <td th:if="${treat.bill != null}" th:text="${treat.bill.billID}"></td>
                     <td>[[*{treat.treatmentHisID}]]</td>
-                    <td>[[${#dates.format(treat.date, 'yyyy/MM/dd')}]]</td>
+                    <td>[[${#dates.format(treat.date, 'dd/MM/yyyy')}]]</td>
                     <td class="text-right">[[*{treat.weight}]]</td>
                     <td>[[*{treat.diagnosis}]]</td>
                     <td>
-                        <div class="dropdown open">
-                            <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
-                               aria-expanded="false">
-                                <span class="material-symbols-rounded">more_vert</span>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                <a class="dropdown-item btn" th:href="@{'/bill/getDetail/'+${treat.bill.billID}}">
-                                    <span class="material-symbols-rounded align-middle pb-1">receipt_long</span> Bill's Details
+                        <div class="col-md-12 text-center">
+                            <div class="dropdown open">
+                                <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
+                                   aria-expanded="false">
+                                    <span class="material-symbols-rounded">more_vert</span>
                                 </a>
-                                <a class="dropdown-item btn" data-bs-toggle="modal"
-                                   th:attr="data-bs-target='#editTreatmentHistory'+*{treat.treatmentHisID}">
-                                    <span class="material-symbols-rounded align-middle pb-1">edit</span> Edit
-                                </a>
+                                <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                    <a class="dropdown-item btn" th:href="@{'/bill/getDetail/'+${treat.bill.billID}}">
+                                        <span class="material-symbols-rounded align-middle pb-1">receipt_long</span> Bill's Details
+                                    </a>
+                                    <a class="dropdown-item btn" data-bs-toggle="modal"
+                                       th:attr="data-bs-target='#editTreatmentHistory'+*{treat.treatmentHisID}">
+                                        <span class="material-symbols-rounded align-middle pb-1">edit</span> Edit
+                                    </a>
+                                </div>
                             </div>
+                            <th:block th:replace="treatmentHistory/treatmentHistoryPopUp/editTreatmentHistory :: editTreatmentHistory(${treat})">
+                                modal
+                            </th:block>
                         </div>
-                        <th:block th:replace="treatmentHistory/treatmentHistoryPopUp/editTreatmentHistory :: editTreatmentHistory(${treat})">
-                            modal
-                        </th:block>
                     </td>
 
                 </tr>

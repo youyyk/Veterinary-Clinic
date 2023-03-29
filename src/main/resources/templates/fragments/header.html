@@ -17,7 +17,7 @@
       <small th:classappend="${#httpServletRequest.requestURI.contains('/register')} ? 'ms-0' : ''" style="text-decoration: none;color:black;">Veterinary Clinic</small>
     </a>
 
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+    <button th:if="${not #httpServletRequest.requestURI.contains('/register')}" class="navbar-toggler me-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="material-symbols-rounded">menu</span>
     </button>
@@ -43,6 +43,9 @@
           <a id="headerNav" th:classappend="${#httpServletRequest.requestURI.contains('/appointment')} ? 'active':''" class="nav-link" th:href="@{/appointment}">Appointment</a>
         </li>
       </ul>
+    </div>
+
+    <div class="d-flex align-items-center">
       <div class="navbar-nav float-end" sec:authorize="isAnonymous()">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
@@ -50,15 +53,16 @@
           </li>
         </ul>
       </div>
-        <div class="navbar-nav" sec:authorize="isAuthenticated()">
+        <div class="navbar-nav" sec:authorize="isAuthenticated()" >
           <div class="dropdown d-inline-block ms-auto">
             <div class="dropdown-toggle" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
                aria-expanded="false">
-              <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="30"/>
+<!--              <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp" class="rounded-circle" height="30"/>-->
+              <img th:src="${nowAccount.img_path}" class="rounded-circle" height="30"/>
             </div>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="triggerId1"
                 style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 44px);">
-                <a class="dropdown-item btn">
+                <a class="dropdown-item btn" th:href="@{'account/getInfo/'+${nowAccount.accId}}">
                   <span class="material-symbols-rounded align-middle pb-1">account_circle</span> Profile
                 </a>
                 <a class="dropdown-item btn" th:href="@{/logout}">

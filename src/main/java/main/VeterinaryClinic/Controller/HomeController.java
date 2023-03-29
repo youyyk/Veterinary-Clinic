@@ -28,16 +28,6 @@ public class HomeController {
     private ToolService toolService;
     @RequestMapping("/")
     public String getHomePage(Model model, @AuthenticationPrincipal AccountUserDetail accountUserDetail) {
-//        model.addAttribute("greeting", "Hi OAuth");
-//        if (accountUserDetail != null) {
-//            model.addAttribute("user", accountUserDetail.getName());
-//            return GlobalService.handleRedirectPageForAccount(accountUserDetail.getAccount(), "home");
-//        }
-//        else {
-//            model.addAttribute("user", "Guest");
-//        }
-//        return "home";
-
         List<Appointment> todayAppointment = appointmentService.findByTodayDateOrderByPeriodDesc();
 
         List<WareHouse> wareHouses = wareHouseService.getAllBySoftDeletedIsFalseOrderByExpiredDateAsc();
@@ -61,17 +51,26 @@ public class HomeController {
             model.addAttribute("nowAccount", accountUserDetail.getAccount());
         }
 
+        if (accountUserDetail == null){
+            return "redirect:/landing";
+        }
 
         model.addAttribute("appointments",todayAppointment );
         model.addAttribute("warehouses",needWareHouse );
         model.addAttribute("bills",bills );
         model.addAttribute("expiredCount",expiredCount );
         model.addAttribute("almostCount",almostCount );
-        model.addAttribute("nowAccount",accountUserDetail.getAccount());
         model.addAttribute("medicines", medicineService.findBySoftDeleted(false));
         model.addAttribute("tools", toolService.findBySoftDeleted(false));
 
 
         return "home";
     }
+
+    @RequestMapping("/landing")
+    public String accountUser(@AuthenticationPrincipal AccountUserDetail accountUserDetail) {
+
+        return "landing";
+    }
+
 }

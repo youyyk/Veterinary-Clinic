@@ -1,6 +1,7 @@
 package main.VeterinaryClinic.Controller;
 
 import main.VeterinaryClinic.Model.Account.Account;
+import main.VeterinaryClinic.Model.Account.AccountUserDetail;
 import main.VeterinaryClinic.Model.Appointment;
 import main.VeterinaryClinic.Model.Bill.Bill;
 import main.VeterinaryClinic.Model.TreatmentHistory;
@@ -8,6 +9,7 @@ import main.VeterinaryClinic.Model.Pet;
 import main.VeterinaryClinic.Service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +35,9 @@ public class TreatmentHistoryController {
 
 
     @GetMapping("/pet{petID}")
-    public String getInfo(@PathVariable("petID") long petID, Model model) {
+    public String getInfo(@PathVariable("petID") long petID,
+                          @AuthenticationPrincipal AccountUserDetail accountUserDetail,
+                          Model model) {
         System.out.println("---Get Pet's Treatment History---");
         Pet pet = petService.findByPetID(petID);
         List<TreatmentHistory> treatmentHistories = treatmentHistoryService.findByPet(pet);
@@ -46,6 +50,10 @@ public class TreatmentHistoryController {
         model.addAttribute("treatmentHistories", treatmentHistories);
         model.addAttribute("petTypeList", petTypeList);
         model.addAttribute("breedList", breedList);
+
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            model.addAttribute("nowAccount", accountUserDetail.getAccount());
+        }
 
         return "treatmentHistory/treatmentHistory";
     }

@@ -46,21 +46,30 @@ public class BillController {
 
 
     @GetMapping()
-    public String getPetPage(Model model) {
+    public String getPetPage(Model model, @AuthenticationPrincipal AccountUserDetail accountUserDetail) {
         System.out.println("-- Bills Page ---");
+
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            model.addAttribute("nowAccount", accountUserDetail.getAccount());
+        }
 
         // step 1. update model for template
         model.addAttribute("bills", mainBillService.getAll());
         model.addAttribute("unpaidSize",mainBillService.findByPaidStatusIsFalseOrderByStartDateAsc().size());
+
 
         // step 2. choose HTML template
         return "bill/bill";
     }
 
     @GetMapping("/unpaid")
-    public String getAppointmentToday(Model model) {
+    public String getAppointmentToday(Model model, @AuthenticationPrincipal AccountUserDetail accountUserDetail) {
 
         System.out.println("-- Unpaid Bills Page ---");
+
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            model.addAttribute("nowAccount", accountUserDetail.getAccount());
+        }
 
         List<Bill> bills = mainBillService.findByPaidStatusIsFalseOrderByStartDateAsc();
 

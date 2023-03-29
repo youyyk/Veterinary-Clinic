@@ -472,7 +472,7 @@
 <div th:insert="fragments/header :: header"></div>
 
 <div class="container">
-    <h1 style="display:inline-block" class="mt-2">Bill's Details <span style="font-size: 0.75em;">( [[${#dates.format(bill.startDate, 'yyyy/MM/dd')}]] )</span></h1>
+    <h1 style="display:inline-block" class="mt-2">Bill's Details <span style="font-size: 0.75em;">( [[${#dates.format(bill.startDate, 'dd/MM/yyyy')}]] )</span></h1>
     <!-- Download For Customer-->
     <a th:if="${!nowAccount.isOfficer()}" class="btn btn-primary mb-2" role="button" target="_blank" style="display:inline-block" th:href="@{/download/export/receipt/detail/{billId}(billId=${bill.getBillID()})}">
         <i class="material-symbols-rounded align-middle me-1">download</i> PDF
@@ -617,29 +617,31 @@
                             <td th:text="${#numbers.formatDecimal(med.medicine.price, 1, 'COMMA', 2, 'POINT')}"></td>
                             <td th:text="${#numbers.formatDecimal(med.totalPrice, 1, 'COMMA', 2, 'POINT')}"></td>
                             <td th:if="${bill.paidStatus == false}">
-                                <div class="dropdown open">
-                                    <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
-                                       aria-expanded="false">
-                                        <span class="material-symbols-rounded">more_vert</span>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                        <a class="dropdown-item btn" data-bs-toggle="modal"
-                                           th:attr="data-bs-target='#editBillMed'+*{med.medicine.medID}">
-                                            <span class="material-symbols-rounded align-middle">edit</span> Edit
+                                <div class="col-md-12 text-center">
+                                    <div class="dropdown open">
+                                        <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
+                                           aria-expanded="false">
+                                            <span class="material-symbols-rounded">more_vert</span>
                                         </a>
-                                        <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
-                                           th:attr="data-bs-target='#deleteItemPopUp'+*{med.medicine.medID}">
-                                            <span class="material-symbols-rounded align-middle">delete</span> Delete
-                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                            <a class="dropdown-item btn" data-bs-toggle="modal"
+                                               th:attr="data-bs-target='#editBillMed'+*{med.medicine.medID}">
+                                                <span class="material-symbols-rounded align-middle">edit</span> Edit
+                                            </a>
+                                            <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
+                                               th:attr="data-bs-target='#deleteItemPopUp'+*{med.medicine.medID}">
+                                                <span class="material-symbols-rounded align-middle">delete</span> Delete
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                                <th:block th:replace="bill/billPopUp/editBillMed :: editBillMed(${med.medicine},${med.amount},${med.description},${bill.billID})">
-                                    modal
-                                </th:block>
+                                    <th:block th:replace="bill/billPopUp/editBillMed :: editBillMed(${med.medicine},${med.amount},${med.description},${bill.billID})">
+                                        modal
+                                    </th:block>
 
-                                <th:block th:replace="bill/billPopUp/deleteItemPopUp :: deleteItemPopUp(header='Medicine',mainPath='billMedicine',deleteID=${med.medicine.medID},deleteName=${med.medicine.name},billID=${billID})">
-                                    modal
-                                </th:block>
+                                    <th:block th:replace="bill/billPopUp/deleteItemPopUp :: deleteItemPopUp(header='Medicine',mainPath='billMedicine',deleteID=${med.medicine.medID},deleteName=${med.medicine.name},billID=${billID})">
+                                        modal
+                                    </th:block>
+                                </div>
                             </td>
                         </tr>
                     </tbody>
@@ -683,29 +685,30 @@
                             <td>[[${#numbers.formatDecimal(tool.tool.price, 1, 'COMMA', 2, 'POINT')}]]</td>
                             <td>[[${#numbers.formatDecimal(tool.totalPrice, 1, 'COMMA', 2, 'POINT')}]]</td>
                             <td th:if="${bill.paidStatus == false}">
-                                <div class="dropdown open">
-                                    <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
-                                       aria-expanded="false">
-                                        <span class="material-symbols-rounded">more_vert</span>
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                        <a class="dropdown-item btn" data-bs-toggle="modal"
-                                           th:attr="data-bs-target='#editBillTool'+*{tool.tool.toolID}">
-                                           <span class="material-symbols-rounded align-middle">edit</span> Edit
+                                <div class="col-md-12 text-center">
+                                    <div class="dropdown open">
+                                        <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
+                                           aria-expanded="false">
+                                            <span class="material-symbols-rounded">more_vert</span>
                                         </a>
-                                        <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
-                                           th:attr="data-bs-target='#deleteItemPopUp'+*{tool.tool.toolID}">
-                                            <span class="material-symbols-rounded align-middle">delete</span> Delete
-                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                            <a class="dropdown-item btn" data-bs-toggle="modal"
+                                               th:attr="data-bs-target='#editBillTool'+*{tool.tool.toolID}">
+                                               <span class="material-symbols-rounded align-middle">edit</span> Edit
+                                            </a>
+                                            <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
+                                               th:attr="data-bs-target='#deleteItemPopUp'+*{tool.tool.toolID}">
+                                                <span class="material-symbols-rounded align-middle">delete</span> Delete
+                                            </a>
+                                        </div>
                                     </div>
+                                    <th:block th:replace="bill/billPopUp/editBillTool :: editBillTool(${tool.tool},${tool.amount},${bill.billID})">
+                                        modal
+                                    </th:block>
+                                    <th:block th:replace="bill/billPopUp/deleteItemPopUp :: deleteItemPopUp(header='Tool',mainPath='billTool',deleteID=${tool.tool.toolID},deleteName=${tool.tool.name},billID=${billID})">
+                                        modal
+                                    </th:block>
                                 </div>
-                                <th:block th:replace="bill/billPopUp/editBillTool :: editBillTool(${tool.tool},${tool.amount},${bill.billID})">
-                                    modal
-                                </th:block>
-                                <th:block th:replace="bill/billPopUp/deleteItemPopUp :: deleteItemPopUp(header='Tool',mainPath='billTool',deleteID=${tool.tool.toolID},deleteName=${tool.tool.name},billID=${billID})">
-                                    modal
-                                </th:block>
-
                             </td>
                         </tr>
                     </div>
@@ -748,30 +751,32 @@
                             <td>[[${#numbers.formatDecimal(serving.serving.price, 1, 'COMMA', 2, 'POINT')}]]</td>
                             <td th:text="${#numbers.formatDecimal((serving.servingTotal*serving.serving.price), 1, 'COMMA', 2, 'POINT')}"></td>
                             <td th:if="${bill.paidStatus == false}">
-                                <div class="dropdown open">
-                                    <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
-                                       aria-expanded="false">
-                                        <span class="material-symbols-rounded">more_vert</span>
+                                <div class="col-md-12 text-center">
+                                    <div class="dropdown open">
+                                        <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
+                                           aria-expanded="false">
+                                            <span class="material-symbols-rounded">more_vert</span>
 
-                                    </a>
-                                    <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                        <a class="dropdown-item btn" data-bs-toggle="modal"
-                                           th:attr="data-bs-target='#editBillServing'+*{serving.serving.servingID}">
-                                            <span class="material-symbols-rounded align-middle">edit</span> Edit
                                         </a>
-                                        <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
-                                           th:attr="data-bs-target='#deleteItemPopUp'+*{serving.serving.servingID}">
-                                            <span class="material-symbols-rounded align-middle">delete</span> Delete
-                                        </a>
+                                        <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                            <a class="dropdown-item btn" data-bs-toggle="modal"
+                                               th:attr="data-bs-target='#editBillServing'+*{serving.serving.servingID}">
+                                                <span class="material-symbols-rounded align-middle">edit</span> Edit
+                                            </a>
+                                            <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
+                                               th:attr="data-bs-target='#deleteItemPopUp'+*{serving.serving.servingID}">
+                                                <span class="material-symbols-rounded align-middle">delete</span> Delete
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                                <th:block th:replace="bill/billPopUp/editBillServing :: editBillServing(${serving.serving},${serving.servingTotal},${bill.billID})">
-                                    modal
-                                </th:block>
+                                    <th:block th:replace="bill/billPopUp/editBillServing :: editBillServing(${serving.serving},${serving.servingTotal},${bill.billID})">
+                                        modal
+                                    </th:block>
 
-                                <th:block th:replace="bill/billPopUp/deleteItemPopUp :: deleteItemPopUp(header='Service',mainPath='billService',deleteID=${serving.serving.servingID},deleteName=${serving.serving.name},billID=${billID})">
-                                    modal
-                                </th:block>
+                                    <th:block th:replace="bill/billPopUp/deleteItemPopUp :: deleteItemPopUp(header='Service',mainPath='billService',deleteID=${serving.serving.servingID},deleteName=${serving.serving.name},billID=${billID})">
+                                        modal
+                                    </th:block>
+                                </div>
                             </td>
                         </tr>
                     </div>

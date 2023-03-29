@@ -1,11 +1,13 @@
 package main.VeterinaryClinic.Controller;
 
+import main.VeterinaryClinic.Model.Account.AccountUserDetail;
 import main.VeterinaryClinic.Model.Appointment;
 import main.VeterinaryClinic.Model.Pet;
 import main.VeterinaryClinic.Service.AppointmentService;
 import main.VeterinaryClinic.Service.GlobalService;
 import main.VeterinaryClinic.Service.PetService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,19 +36,23 @@ public class AppointmentController {
 //    }
 
     @GetMapping
-    public String getAppointmentPage(Model model) {
+    public String getAppointmentPage(@AuthenticationPrincipal AccountUserDetail accountUserDetail, Model model) {
 
         // step 1. update model for template
         model.addAttribute("appointments", appointmentService.getAll());
         model.addAttribute("todaySize",appointmentService.findByTodayDateOrderByPeriodDesc().size());
         model.addAttribute("dateRange","");
 
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            model.addAttribute("nowAccount", accountUserDetail.getAccount());
+        }
+
         // step 2. choose HTML template
         return "appointment/appointment";
     }
 
     @GetMapping("/today")
-    public String getAppointmentToday(Model model) {
+    public String getAppointmentToday(@AuthenticationPrincipal AccountUserDetail accountUserDetail,Model model) {
         System.out.println("--------- today ---------");
         List<Appointment> todayList = appointmentService.findByTodayDateOrderByPeriodDesc();
         System.out.println(GlobalService.convertStringToDateSlash(GlobalService.getCurrentTime()));
@@ -54,12 +60,16 @@ public class AppointmentController {
         model.addAttribute("todaySize",todayList.size());
         model.addAttribute("dateRange",GlobalService.convertStringToDateSlash(GlobalService.getCurrentTime()) + "-" + GlobalService.convertStringToDateSlash(GlobalService.getCurrentTime()));
 
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            model.addAttribute("nowAccount", accountUserDetail.getAccount());
+        }
         return "appointment/appointment";
     }
 
     @GetMapping("/{startDate}to{endDate}")
     public String getAppointmentAtDateRange(@PathVariable String startDate,
                                             @PathVariable String endDate,
+                                            @AuthenticationPrincipal AccountUserDetail accountUserDetail,
                                             Model model) {
         System.out.println("---- Appointment Date Range ----");
         System.out.println(startDate + " - "+endDate);
@@ -81,6 +91,10 @@ public class AppointmentController {
         }
         List<Appointment> todayList = appointmentService.findByTodayDateOrderByPeriodDesc();
         model.addAttribute("todaySize",todayList.size());
+
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            model.addAttribute("nowAccount", accountUserDetail.getAccount());
+        }
 
         return "appointment/appointment";
     }

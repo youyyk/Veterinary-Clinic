@@ -74,9 +74,9 @@
 </script>
 <body>
 
-<div th:insert="fragments/header :: header"></div>
+<div th:insert="fragments/header :: header" class="sticky-top"></div>
 
-<section class="main-content">
+<section class="separateContent">
     <div class="container">
 
 <!--        <div class="form-inline">-->
@@ -143,21 +143,23 @@
                         </td>
 
                         <td th:id="'cell-Role-Normal-Action-' + ${account.accId}" >
-                            <div class="dropdown open">
-                                <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
-                                   aria-expanded="false">
-                                    <i class="material-symbols-rounded align-middle">more_vert</i>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                    <a th:id="'profile-button'" class="dropdown-item" th:href="@{'account/getInfo/'+${account.accId}}">
-                                        <i class="material-symbols-rounded align-middle">account_circle</i> Profile
+                            <div class="col-md-12 text-center">
+                                <div class="dropdown open">
+                                    <a href="#!" class="px-2" id="triggerId1" data-toggle="dropdown" aria-haspopup="true"
+                                       aria-expanded="false">
+                                        <i class="material-symbols-rounded align-middle">more_vert</i>
                                     </a>
-                                    <a th:id="'edit-role-button'" class="dropdown-item" href="#" th:attr="onclick='Edit_Btn_Click(\'' + ${account.accId}+  '\');'">
-                                        <i class="material-symbols-rounded align-middle">edit</i> Edit
-                                    </a>
-<!--                                    <a th:id="'delete-role-button'" class="dropdown-item text-danger" href="#">-->
-<!--                                        <i class="material-symbols-rounded align-middle">delete</i> Delete-->
-<!--                                    </a>-->
+                                    <div class="dropdown-menu" aria-labelledby="triggerId1">
+                                        <a th:id="'profile-button'" class="dropdown-item" th:href="@{'account/getInfo/'+${account.accId}}">
+                                            <i class="material-symbols-rounded align-middle">account_circle</i> Profile
+                                        </a>
+                                        <a th:id="'edit-role-button'" class="dropdown-item" href="#" th:attr="onclick='Edit_Btn_Click(\'' + ${account.accId}+  '\');'">
+                                            <i class="material-symbols-rounded align-middle">edit</i> Edit
+                                        </a>
+    <!--                                    <a th:id="'delete-role-button'" class="dropdown-item text-danger" href="#">-->
+    <!--                                        <i class="material-symbols-rounded align-middle">delete</i> Delete-->
+    <!--                                    </a>-->
+                                    </div>
                                 </div>
                             </div>
                         </td>

@@ -12,6 +12,13 @@ body{
     background-size: 40%
 }
 
+#landBG{
+    background-image: url('../images/land.jpg');
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-size: cover;
+}
+
 #tablePane{
     background-color: white;
     padding: 10px;
@@ -19,19 +26,19 @@ body{
 }
 
 .separateContent {
-    padding-top: 50px;
+    padding-top: 40px;
     padding-bottom: 50px;
 }
 
-.nav-link{
+#headerNav{
     text-decoration: none;
     color:black;
 }
-.nav-link:hover{
+#headerNav:hover{
     text-decoration: none;
     color: #f4ffd0;
 }
-.nav-link.active{
+#headerNav.active{
     text-decoration: none;
     color: white;
 
