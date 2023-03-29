@@ -1,3 +1,4 @@
 - Navbar (edit and make sticky-top)
 - Create Landing Page
 - Format date, action
+- Add accountUserDetail to controller
