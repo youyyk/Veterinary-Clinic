@@ -2,6 +2,7 @@ package main.VeterinaryClinic.Service;
 
 import main.VeterinaryClinic.Model.*;
 import main.VeterinaryClinic.Model.Account.Account;
+import main.VeterinaryClinic.Model.Account.AccountUserDetail;
 import main.VeterinaryClinic.Model.Bill.Bill;
 import org.springframework.stereotype.Service;
 import main.VeterinaryClinic.Service.Account.AccountService;
@@ -80,23 +81,6 @@ public class GlobalService {
             System.out.println("Global : Cannot Convert String to Date");
         }
         return null;
-    }
-
-
-    public static String handleRedirectPageForAccountByRole(Account account){
-        if (account.isRegisAccount()) {
-            if (account.isAdmin()) {
-                System.out.println("---HANDLE-PAGE : ADMIN---");
-                return "redirect:/account";
-            } else if (account.isOfficer()) {
-                System.out.println("---HANDLE-PAGE : OFFICER---");
-                return "redirect:/warehouse";
-            } else if (account.isCustomer()) {
-                System.out.println("---HANDLE-PAGE : CUSTOMER---");
-                return "redirect:/account/getInfo/"+account.getAccId();
-            }
-        }
-        return "redirect:/account/register";
     }
 
     public static String handleRedirectPageForAccount(Account account, String goToPath){

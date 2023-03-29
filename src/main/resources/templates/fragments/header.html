@@ -12,20 +12,20 @@
 
 <nav class="navbar navbar-expand-lg" style="background-image: linear-gradient(0deg, #95af90, #b5e3d3);" th:fragment="header">
   <div class="container-fluid">
-    <a class="navbar-brand ms-1" th:href="@{/}">
+    <div class="navbar-brand ms-1">
         <img th:src="@{/images/logo.png}" width="50" height="50" class="rounded-circle bg-light" style="background-size: cover"/>
-      <small th:classappend="${#httpServletRequest.requestURI.contains('/register')} ? 'ms-0' : ''" style="text-decoration: none;color:black;">Veterinary Clinic</small>
-    </a>
+        <small th:classappend="${#httpServletRequest.requestURI.contains('/register')} ? 'ms-0' : ''" style="text-decoration: none;color:black;">Veterinary Clinic</small>
+    </div>
 
     <button th:if="${not #httpServletRequest.requestURI.contains('/register')}" class="navbar-toggler me-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="material-symbols-rounded">menu</span>
     </button>
 
-    <div th:if="${not #httpServletRequest.requestURI.contains('/register')}" class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div th:if="${not #httpServletRequest.requestURI.contains('/register') && !nowAccount.isOnlyCustomer}" class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a id="headerNav" th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active':''}" class="nav-link" th:href="@{/}">Home</a>
+          <a id="headerNav" th:classappend="${#httpServletRequest.getRequestURI() == '/dashboard' ? 'active':''}" class="nav-link" th:href="@{/dashboard}">Dashboard</a>
         </li>
         <li class="nav-item">
           <a id="headerNav" th:classappend="${#httpServletRequest.requestURI.contains('/account')} ? 'active':''" class="nav-link" th:href="@{/account}">Accounts</a>

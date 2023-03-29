@@ -28,15 +28,15 @@ public class SecurityConfig  {
         protected void configure(HttpSecurity http) throws Exception {
             http    .csrf().disable()
                     .authorizeRequests()
-                    .antMatchers( "/landing","/css/**", "/js/**", "/images/**", "/account/update/role").permitAll() // Don't need login can use (Home Page, CSS, JS)
-//                    .antMatchers("/account/**", "/warehouse", "/appointment", "/pets/**","/medicine/**").hasRole(ROLE_OFFICER)
-                    .antMatchers("/account/getInfo/**","/account/register", "/download/export/receipt/detail/**").hasRole(ROLE_CUSTOMER)
-                    .antMatchers("/account/**", "/warehouse", "/appointment/**", "/pets/**", "/medicine/**", "/download/export/receipt/details/**").hasRole(ROLE_OFFICER)
+                    .antMatchers( "/","/css/**", "/js/**", "/images/**", "/account/update/role").permitAll() // Don't need login can use (Home Page, CSS, JS)
+                    // Other path need only authorize
+                    .antMatchers( "/account", "/appointment", "/bill", "/dashboard", "/medicine/**", "/warehouse/**" , "/download/export/receipt/details/**").hasRole(ROLE_OFFICER)
+                    .antMatchers("/service/**", "/tool/**").hasRole(ROLE_ADMIN)
 
                     .anyRequest().authenticated() // Other path need login
             .and()
                     .oauth2Login()
-                    .defaultSuccessUrl("/").permitAll()
+                    .defaultSuccessUrl("/loginSuccess").permitAll()
                     .userInfoEndpoint()
                     .userService(accountUserDetailService) // convert to CustomOAuth2User Model
             .and()

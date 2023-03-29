@@ -58,51 +58,51 @@
                                     <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-3">Sign up</p>
                                     <div class="mb-5 justify-content-center d-flex">
                                         <div class="col-8 justify-content-center d-flex">
-                                            <img class="img-fluid rounded-circle w-75" th:if="${account.img_path != null}" th:src="${account.img_path}" />
-                                            <img class="img-fluid rounded-circle w-75" th:unless="${account.img_path != null}" th:src="@{/images/no-image.jpg}" />
+                                            <img class="img-fluid rounded-circle w-75" th:if="${nowAccount.img_path != null}" th:src="${nowAccount.img_path}" />
+                                            <img class="img-fluid rounded-circle w-75" th:unless="${nowAccount.img_path != null}" th:src="@{/images/no-image.jpg}" />
                                         </div>
                                     </div>
                                     <form id="editAccountForm" class="mx-1 mx-md-4" th:action="@{/account/edit}" method="POST" onsubmit="return validSubmitEditAccountForm(this, 'all');">
                                         <!--Account ID-->
-                                        <input type="hidden" class="form-control" id="accId" name="accId" th:value="${account.accId}">
+                                        <input type="hidden" class="form-control" id="accId" name="accId" th:value="${nowAccount.accId}">
                                         <!--Title-->
                                         <div class="input-group input-group mb-3">
                                             <span class="input-group-text">Title</span>
                                             <select class="form-select" id="title" name="title" aria-label="Default select example" autocomplete="off" onchange="validFormEditAccountByEachField(this)">
                                                 <option th:value="dummy" th:text="Choose..."
-                                                        th:selected="${#strings.contains(account.title, 'Choose...')}"/>
+                                                        th:selected="${#strings.contains(nowAccount.title, 'Choose...')}"/>
                                                 <option th:value="Mr." th:text="Mr."
-                                                        th:selected="${#strings.contains(account.title, 'Mr.')}"/>
+                                                        th:selected="${#strings.contains(nowAccount.title, 'Mr.')}"/>
                                                 <option th:value="Mrs." th:text="Mrs."
-                                                        th:selected="${#strings.contains(account.title, 'Mrs.')}"/>
+                                                        th:selected="${#strings.contains(nowAccount.title, 'Mrs.')}"/>
                                                 <option th:value="Ms." th:text="Ms."
-                                                        th:selected="${#strings.contains(account.title, 'Ms.')}"/>
+                                                        th:selected="${#strings.contains(nowAccount.title, 'Ms.')}"/>
                                                 <option th:value="Miss" th:text="Miss"
-                                                        th:selected="${#strings.contains(account.title, 'Miss')}"/>
+                                                        th:selected="${#strings.contains(nowAccount.title, 'Miss')}"/>
                                             </select>
                                         </div>
                                         <!--FirstName-->
                                         <div class="input-group input-group mb-3">
                                             <span class="input-group-text">First Name</span>
-                                            <input type="text" class="form-control" id="firstName" name="firstName" th:value="${account.firstName}" autocomplete="off" onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
+                                            <input type="text" class="form-control" id="firstName" name="firstName" th:value="${nowAccount.firstName}" autocomplete="off" onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
                                         </div>
 
                                         <!--LastName-->
                                         <div class="input-group input-group mb-3">
                                             <span class="input-group-text">Last Name</span>
-                                            <input type="text" class="form-control" id="lastName" name="lastName" th:value="${account.lastName}" autocomplete="off" onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
+                                            <input type="text" class="form-control" id="lastName" name="lastName" th:value="${nowAccount.lastName}" autocomplete="off" onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
                                         </div>
 
                                         <!--Address-->
                                         <div class="input-group input-group mb-3">
                                             <span class="input-group-text">Address</span>
-                                            <input type="text" class="form-control" id="address" name="address" th:value="${account.address}" autocomplete="off" onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
+                                            <input type="text" class="form-control" id="address" name="address" th:value="${nowAccount.address}" autocomplete="off" onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
                                         </div>
 
                                         <!--Phone No.-->
                                         <div class="input-group input-group mb-3">
                                             <span class="input-group-text">Phone No.</span>
-                                            <input type="text" class="form-control" id="phone" name="phone" maxlength="10" th:value="${account.phone}" autocomplete="off" onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
+                                            <input type="text" class="form-control" id="phone" name="phone" maxlength="10" th:value="${nowAccount.phone}" autocomplete="off" onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
                                         </div>
 
                                         <!--button-->

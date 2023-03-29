@@ -94,6 +94,8 @@ public class Account {
 
     public boolean isCustomer(){ return roles.contains(new Role(SecurityConfig.ROLE_CUSTOMER)); }
 
+    public boolean isOnlyCustomer(){ return isCustomer() && roles.size()==1; }
+
     public boolean isRegisAccount(){
         if ( (firstName == null || firstName.isBlank() || firstName.isEmpty()) ||
              (lastName == null || lastName.isBlank() || lastName.isEmpty()) ||
