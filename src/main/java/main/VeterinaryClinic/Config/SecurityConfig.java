@@ -29,11 +29,8 @@ public class SecurityConfig  {
             http    .csrf().disable()
                     .authorizeRequests()
                     .antMatchers( "/css/**", "/js/**", "/images/**", "/account/update/role").permitAll() // Don't need login can use (Home Page, CSS, JS)
-//                    .antMatchers("/account/**", "/warehouse", "/appointment", "/pets/**","/medicine/**").hasRole(ROLE_OFFICER)
                     .antMatchers("/account/getInfo/**","/account/register", "/download/export/receipt/detail/**").hasRole(ROLE_CUSTOMER)
                     .antMatchers("/account/**", "/warehouse/**", "/appointment/**", "/pets/**", "/medicine/**", "/download/export/receipt/details/**").hasRole(ROLE_OFFICER)
-
-//                    .antMatchers("/authTest").access("hasRole('ROLE_ADMIN')")
                     .anyRequest().authenticated() // Other path need login
             .and()
                     .oauth2Login()
@@ -62,7 +59,7 @@ public class SecurityConfig  {
                 .clientAuthenticationMethod(ClientAuthenticationMethod.BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .redirectUriTemplate("{baseUrl}/login/oauth2/code/{registrationId}")
-//                .redirectUriTemplate("https://f269-49-228-233-0.ap.ngrok.io" + "/login/oauth2/code/{registrationId}")
+//                .redirectUriTemplate("https://ad91-49-228-232-243.ap.ngrok.io" + "/login/oauth2/code/{registrationId}")
                 .scope("profile")
                 .authorizationUri("https://access.line.me/oauth2/v2.1/authorize")
                 .tokenUri("https://api.line.me/oauth2/v2.1/token")
