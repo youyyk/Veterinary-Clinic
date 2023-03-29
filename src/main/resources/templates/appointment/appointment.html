@@ -200,7 +200,7 @@
                                     <p th:text="${app.pet.name}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
                                 </td>
                                 <td>
-                                    <p th:text="${#dates.format(app.date, 'yyyy/MM/dd')}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                    <p th:text="${#dates.format(app.date, 'dd/MM/yyyy')}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
                                 </td>
                                 <td>
                                     <p th:if="${#strings.contains(app.period, 'morning')}" th:text="'09.00 - 12.00'" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>

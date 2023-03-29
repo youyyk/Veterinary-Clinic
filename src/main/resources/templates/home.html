@@ -276,10 +276,7 @@
                                                     <a class="dropdown-item btn" th:href="@{'/bill/getDetail/'+${bill.billID}}">
                                                         <span class="material-symbols-rounded align-middle pb-1">receipt_long</span> Bill's Details
                                                     </a>
-                                                    <a th:if="${bill.paidStatus == true}" class="dropdown-item btn" data-bs-toggle="modal">
-                                                        <span class="material-symbols-rounded align-middle pb-1">cancel</span> Cancel
-                                                    </a>
-                                                    <a th:if="${bill.total == 0 and bill.paidStatus == false}" class="dropdown-item text-danger btn" data-bs-toggle="modal"
+                                                    <a th:if="${bill.total == 0 and bill.paidStatus == false and nowAccount.isAdmin()}" class="dropdown-item text-danger btn" data-bs-toggle="modal"
                                                        th:attr="data-bs-target='#deletePopUp'+*{bill.billID}">
                                                         <span class="material-symbols-rounded align-middle pb-1">delete</span> Delete
                                                     </a>
@@ -315,7 +312,7 @@
                                 <th>Qty Left</th>
                                 <th data-type="date" data-format="DD/MM/YYYY">Expired Date</th>
                                 <th>Status</th>
-                                <th>Action</th>
+                                <th th:if="${nowAccount.isAdmin()}">Actions</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -332,7 +329,7 @@
                                     <span th:case="1" class="badge rounded-pill bg-warning text-dark">Almost</span>
                                     <span th:case="0" class="badge rounded-pill bg-secondary">Normal</span>
                                 </td>
-                                <td>
+                                <td th:if="${nowAccount.isAdmin()}">
                                     <div class="col-md-12 text-center">
                                         <div class="col-md-12 text-center">
                                             <div class="dropdown open">

@@ -87,7 +87,7 @@ public class PetController {
                           @RequestParam("breed") String breed,
                           @RequestParam("remark") String remark){
         System.out.println("---- Edit Pet ----");
-        if (remark.isEmpty() || remark.trim().isEmpty()){
+        if (remark.isEmpty() || remark.trim().isEmpty() || remark == null){
             remark = "-";
         }
         Pet pet = new Pet(name,gender, GlobalService.convertStringToDate(doB),sterilization,petType,breed,remark);

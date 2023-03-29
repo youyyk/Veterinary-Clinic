@@ -503,7 +503,7 @@
                         th:attr="data-bs-target='#paymentPopup'+*{bill.billID}">
                     Pay
                 </button>
-                <button th:if="${bill.total == 0}" type="button" class="btn btn-danger ms-1" data-bs-toggle="modal"
+                <button th:if="${bill.total == 0 and nowAccount.isAdmin()}" type="button" class="btn btn-danger ms-1" data-bs-toggle="modal"
                         th:attr="data-bs-target='#deletePopUp'+*{bill.billID}">
                     Delete
                 </button>
@@ -516,7 +516,7 @@
                 <button class="btn btn-secondary ms-3 opacity-25" disabled>
                     Paid
                 </button>
-                <button class="btn btn-secondary ms-1"  data-bs-toggle="modal"
+                <button th:if="${nowAccount.isAdmin()}" class="btn btn-secondary ms-1"  data-bs-toggle="modal"
                         th:attr="data-bs-target='#cancelBill'+*{bill.billID}">
                     Cancel
                 </button>
