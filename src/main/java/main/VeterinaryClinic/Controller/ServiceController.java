@@ -3,6 +3,7 @@ package main.VeterinaryClinic.Controller;
 import main.VeterinaryClinic.Model.Account.AccountUserDetail;
 import main.VeterinaryClinic.Model.Pet;
 import main.VeterinaryClinic.Model.Serving;
+import main.VeterinaryClinic.Service.Account.AccountService;
 import main.VeterinaryClinic.Service.GlobalService;
 import main.VeterinaryClinic.Service.ServingService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,8 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 public class ServiceController {
     @Autowired
     private ServingService servingService;
+    @Autowired
+    private AccountService accountService;
 
     @GetMapping
     public String getServicePage(@AuthenticationPrincipal AccountUserDetail accountUserDetail, Model model) {
@@ -27,7 +30,7 @@ public class ServiceController {
         model.addAttribute("services", servings);
         model.addAttribute("newService", new Serving());
         if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountUserDetail.getAccount());
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
         }
         return "service/services";
     }

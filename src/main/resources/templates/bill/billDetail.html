@@ -516,6 +516,7 @@
                 <button class="btn btn-secondary ms-3 opacity-25" disabled>
                     Paid
                 </button>
+<!--                [[${nowAccount.isAdmin()}]] [[${nowAccount.isOfficer()}]]-->
                 <button th:if="${nowAccount.isAdmin()}" class="btn btn-secondary ms-1"  data-bs-toggle="modal"
                         th:attr="data-bs-target='#cancelBill'+*{bill.billID}">
                     Cancel

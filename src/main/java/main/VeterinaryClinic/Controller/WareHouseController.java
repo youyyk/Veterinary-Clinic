@@ -6,6 +6,7 @@ import main.VeterinaryClinic.Model.Medicine;
 import main.VeterinaryClinic.Model.Pet;
 import main.VeterinaryClinic.Model.Tool;
 import main.VeterinaryClinic.Model.WareHouse;
+import main.VeterinaryClinic.Service.Account.AccountService;
 import main.VeterinaryClinic.Service.GlobalService;
 import main.VeterinaryClinic.Service.MedicineService;
 import main.VeterinaryClinic.Service.ToolService;
@@ -30,6 +31,8 @@ public class WareHouseController {
     private MedicineService medicineService;
     @Autowired
     private ToolService toolService;
+    @Autowired
+    private AccountService accountService;
 
     @GetMapping
     public String getWarehousePage(Model model, @AuthenticationPrincipal AccountUserDetail accountUserDetail) {
@@ -45,7 +48,7 @@ public class WareHouseController {
             }
         }
         wareHouses.addAll(wareHouseService.findBySoftDeletedOrderByExpiredDateAsc(true));
-        addAttributeModelWarehouse(model, wareHouses, expiredCount, almostCount, accountUserDetail.getAccount());
+        addAttributeModelWarehouse(model, wareHouses, expiredCount, almostCount, accountService.getById(accountUserDetail.getAccount().getAccId()));
         return "warehouse/warehouses";
     }
 
@@ -66,7 +69,7 @@ public class WareHouseController {
             }
         }
         wareHouses.addAll(wareHouseService.findBySoftDeletedOrderByExpiredDateAsc(true));
-        addAttributeModelWarehouse(model, needWareHouse, expiredCount, almostCount, accountUserDetail.getAccount());
+        addAttributeModelWarehouse(model, needWareHouse, expiredCount, almostCount, accountService.getById(accountUserDetail.getAccount().getAccId()));
         return "warehouse/warehouses";
     }
 

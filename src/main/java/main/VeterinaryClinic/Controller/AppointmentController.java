@@ -1,9 +1,11 @@
 package main.VeterinaryClinic.Controller;
 
+import main.VeterinaryClinic.Model.Account.Account;
 import main.VeterinaryClinic.Model.Account.AccountUserDetail;
 import main.VeterinaryClinic.Model.Appointment;
 import main.VeterinaryClinic.Model.Pet;
 import main.VeterinaryClinic.Model.WareHouse;
+import main.VeterinaryClinic.Service.Account.AccountService;
 import main.VeterinaryClinic.Service.AppointmentService;
 import main.VeterinaryClinic.Service.GlobalService;
 import main.VeterinaryClinic.Service.PetService;
@@ -30,6 +32,8 @@ public class AppointmentController {
     private AppointmentService appointmentService;
     @Autowired
     private PetService petService;
+    @Autowired
+    private AccountService accountService;
 
 //    @GetMapping
 //    public List<Meeting> getAllMeeting() {
@@ -45,7 +49,7 @@ public class AppointmentController {
         model.addAttribute("dateRange","");
 
         if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountUserDetail.getAccount());
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
         }
 
         // step 2. choose HTML template
@@ -62,7 +66,7 @@ public class AppointmentController {
         model.addAttribute("dateRange",GlobalService.convertStringToDateSlash(GlobalService.getCurrentTime()) + "-" + GlobalService.convertStringToDateSlash(GlobalService.getCurrentTime()));
 
         if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountUserDetail.getAccount());
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
         }
         return "appointment/appointment";
     }
@@ -94,7 +98,7 @@ public class AppointmentController {
         model.addAttribute("todaySize",todayList.size());
 
         if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountUserDetail.getAccount());
+            model.addAttribute("nowAccount",accountService.getById(accountUserDetail.getAccount().getAccId()));
         }
 
         return "appointment/appointment";

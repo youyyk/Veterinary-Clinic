@@ -7,6 +7,7 @@ import main.VeterinaryClinic.Model.Bill.Bill;
 import main.VeterinaryClinic.Model.TreatmentHistory;
 import main.VeterinaryClinic.Model.Pet;
 import main.VeterinaryClinic.Service.*;
+import main.VeterinaryClinic.Service.Account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -32,6 +33,8 @@ public class TreatmentHistoryController {
     private PetService petService;
     @Autowired
     private MainBillService mainBillService;
+    @Autowired
+    private AccountService accountService;
 
 
     @GetMapping("/pet{petID}")
@@ -52,7 +55,7 @@ public class TreatmentHistoryController {
         model.addAttribute("breedList", breedList);
 
         if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountUserDetail.getAccount());
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
         }
 
         return "treatmentHistory/treatmentHistory";

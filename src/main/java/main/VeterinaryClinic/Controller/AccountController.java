@@ -44,7 +44,7 @@ public class AccountController {
     @GetMapping
     public String getAllAccounts(
                 @RequestParam(defaultValue = "1") Integer pageNo,
-                @RequestParam(defaultValue = "10") Integer pageSize,
+                @RequestParam(defaultValue = "7") Integer pageSize,
                 @RequestParam(defaultValue = "firstName") String sortBy,
                 @AuthenticationPrincipal AccountUserDetail accountUserDetail,
                 Model model) {
@@ -58,7 +58,7 @@ public class AccountController {
         model.addAttribute("totalAccounts", pagedResult.getTotalElements());
         model.addAttribute("roles", new String[]{"ADMIN", "OFFICER", "CUSTOMER"});
         if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountUserDetail.getAccount());
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
         }
         return "/account/accounts";
     }
@@ -66,7 +66,7 @@ public class AccountController {
     @GetMapping("/search{strSearch}")
     public String searchAccount(
             @RequestParam(defaultValue = "1") Integer pageNo,
-            @RequestParam(defaultValue = "3") Integer pageSize,
+            @RequestParam(defaultValue = "7") Integer pageSize,
             @RequestParam(defaultValue = "firstName") String sortBy,
             @PathVariable("strSearch") String search,
             @AuthenticationPrincipal AccountUserDetail accountUserDetail,
@@ -83,7 +83,7 @@ public class AccountController {
         model.addAttribute("totalAccounts", pagedResult.getTotalElements());
         model.addAttribute("roles", new String[]{SecurityConfig.ROLE_ADMIN, SecurityConfig.ROLE_OFFICER, SecurityConfig.ROLE_CUSTOMER});
         if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountUserDetail.getAccount());
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
         }
         return "/account/accounts";
     }
@@ -147,7 +147,7 @@ public class AccountController {
         model.addAttribute("appointments", appointments);
         model.addAttribute("search", "");
         if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountUserDetail.getAccount());
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
         }
 
         return "account/infoAccount";
@@ -182,7 +182,7 @@ public class AccountController {
         model.addAttribute("appointments", appointments);
 
         if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountUserDetail.getAccount());
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
         }
 
         return "account/infoAccount";
@@ -218,7 +218,7 @@ public class AccountController {
             Account nowAccount = accountUserDetail.getAccount();
             if (nowAccount != null && !nowAccount.isRegisAccount()){
                 model.addAttribute("account", accountUserDetail.getAccount());
-                model.addAttribute("nowAccount", accountUserDetail.getAccount());
+                model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
                 return "account/registerAccount";
             }
         }

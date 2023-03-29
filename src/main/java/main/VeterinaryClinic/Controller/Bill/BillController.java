@@ -7,6 +7,7 @@ import main.VeterinaryClinic.Model.Bill.BillMedicine;
 import main.VeterinaryClinic.Model.Bill.BillServing;
 import main.VeterinaryClinic.Model.Bill.BillTool;
 import main.VeterinaryClinic.Service.*;
+import main.VeterinaryClinic.Service.Account.AccountService;
 import main.VeterinaryClinic.Service.Construct.MedicineAmt;
 import main.VeterinaryClinic.Service.Construct.ToolAmt;
 import main.VeterinaryClinic.Service.SubBill.BillMedicineService;
@@ -43,6 +44,8 @@ public class BillController {
     private ServingService servingService;
     @Autowired
     private WareHouseService wareHouseService;
+    @Autowired
+    private AccountService accountService;
 
 
     @GetMapping()
@@ -50,7 +53,7 @@ public class BillController {
         System.out.println("-- Bills Page ---");
 
         if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountUserDetail.getAccount());
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
         }
 
         // step 1. update model for template
@@ -68,7 +71,7 @@ public class BillController {
         System.out.println("-- Unpaid Bills Page ---");
 
         if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountUserDetail.getAccount());
+            model.addAttribute("nowAccount",accountService.getById(accountUserDetail.getAccount().getAccId()));
         }
 
         List<Bill> bills = mainBillService.findByPaidStatusIsFalseOrderByStartDateAsc();
@@ -119,7 +122,7 @@ public class BillController {
         mainBillService.save(bill);
 
         if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountUserDetail.getAccount());
+            model.addAttribute("nowAccount",accountService.getById(accountUserDetail.getAccount().getAccId()));
         }
 
         //---- Pass Value ----

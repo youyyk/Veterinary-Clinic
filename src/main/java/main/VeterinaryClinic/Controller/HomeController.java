@@ -5,6 +5,7 @@ import main.VeterinaryClinic.Model.Appointment;
 import main.VeterinaryClinic.Model.Bill.Bill;
 import main.VeterinaryClinic.Model.WareHouse;
 import main.VeterinaryClinic.Service.*;
+import main.VeterinaryClinic.Service.Account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -26,6 +27,9 @@ public class HomeController {
     private MedicineService medicineService;
     @Autowired
     private ToolService toolService;
+    @Autowired
+    private AccountService accountService;
+
     @RequestMapping("/")
     public String getHomePage(Model model, @AuthenticationPrincipal AccountUserDetail accountUserDetail) {
         List<Appointment> todayAppointment = appointmentService.findByTodayDateOrderByPeriodDesc();
@@ -48,7 +52,7 @@ public class HomeController {
         List<Bill> bills = mainBillService.findByPaidStatusIsFalseOrderByStartDateAsc();
 
         if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountUserDetail.getAccount());
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
         }
 
         if (accountUserDetail == null){
