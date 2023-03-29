@@ -3,6 +3,7 @@ package main.VeterinaryClinic.Controller;
 import main.VeterinaryClinic.Model.Account.AccountUserDetail;
 import main.VeterinaryClinic.Model.Appointment;
 import main.VeterinaryClinic.Model.Pet;
+import main.VeterinaryClinic.Model.WareHouse;
 import main.VeterinaryClinic.Service.AppointmentService;
 import main.VeterinaryClinic.Service.GlobalService;
 import main.VeterinaryClinic.Service.PetService;
@@ -167,5 +168,17 @@ public class AppointmentController {
         return "redirect:/account/getInfo/"+pathId;
     }
 
-
+    @RequestMapping(path = "/restore", method = POST)
+    public String restoreAppointment(@RequestParam("id") long id,
+                                     @RequestParam("from") String from){
+        Appointment appointment = appointmentService.findByAppointmentID(id);
+        if (appointment != null){
+            appointment.setStatus(false);
+            appointmentService.save(appointment);
+            if (from.equals("mainAppointment")){
+                return  "redirect:/appointment";
+            }
+        }
+        return  "redirect:/appointment";
+    }
 }

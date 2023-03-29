@@ -111,6 +111,43 @@
         return false;
     }
 </script>
+<!--Receive Treatment-->
+<script>
+    let realTimeValid_formReceiveTreatment = false;
+
+    function validFormReceiveTreatmentByEachField(fieldId, fromId){
+        if (realTimeValid_formReceiveTreatment){
+            const receiveTreatmentForm = document.getElementById("receiveTreatForm"+fromId)
+            const validatedList = serviceValidReceiveTreatment(receiveTreatmentForm, fieldId);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(receiveTreatmentForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitReceiveTreatmentForm(receiveTreatmentForm, option){
+        realTimeValid_formReceiveTreatment = true;
+        const validatedList = serviceValidReceiveTreatment(receiveTreatmentForm, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(receiveTreatmentForm.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 1){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
+<style>
+    .opacitySoft{
+        opacity: 0.5;
+    }
+</style>
 <body>
     <div th:insert="fragments/header :: header" class="sticky-top"></div>
 
@@ -153,15 +190,25 @@
                         <tbody th:if="${not #lists.isEmpty(appointments)}">
                         <div th:each="app : ${appointments}">
                             <tr>
-                                <td>[[*{app.pet.account.firstName}]] [[*{app.pet.account.lastName}]]</td>
-                                <td>[[*{app.pet.account.phone}]]</td>
-                                <td>[[*{app.pet.name}]]</td>
-                                <td>[[${#dates.format(app.date, 'dd/MM/yyyy')}]]</td>
                                 <td>
-                                    <span th:if="${#strings.contains(app.period, 'morning')}">09.00 - 12.00</span>
-                                    <span th:if="${#strings.contains(app.period, 'afternoon')}">13.30 - 18.00</span>
+                                    <p th:text="${app.pet.account.getFullName()}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
                                 </td>
-                                <td>[[*{app.description}]]</td>
+                                <td>
+                                    <p th:text="${app.pet.account.phone}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                </td>
+                                <td>
+                                    <p th:text="${app.pet.name}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                </td>
+                                <td>
+                                    <p th:text="${#dates.format(app.date, 'yyyy/MM/dd')}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                </td>
+                                <td>
+                                    <p th:if="${#strings.contains(app.period, 'morning')}" th:text="'09.00 - 12.00'" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                    <p th:if="${#strings.contains(app.period, 'afternoon')}" th:text="'13.30 - 18.00'" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                </td>
+                                <td>
+                                    <p th:text="${app.description}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                </td>
                                 <td>
                                     <div class="col-md-12 text-center">
                                         <div class="dropdown open">
@@ -170,23 +217,32 @@
                                                 <span class="material-symbols-rounded">more_vert</span>
                                             </a>
                                             <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                                <a class="dropdown-item btn" data-bs-toggle="modal"
+                                                <a th:if="${!app.status}" class="dropdown-item btn" data-bs-toggle="modal"
+                                                   th:attr="data-bs-target='#receiveTreatmentPopUp'+*{app.pet.petID}+*{app.getAppointmentID()}">
+                                                    <span class="material-symbols-rounded align-middle pb-1">vaccines</span> Receive Treatment
+                                                </a>
+                                                <a th:if="${!app.status}" class="dropdown-item btn" data-bs-toggle="modal"
                                                    th:attr="data-bs-target='#editAppointment'+${app.appointmentID}">
                                                     <span class="material-symbols-rounded align-middle pb-1">edit</span> Edit
                                                 </a>
-                                                <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
+                                                <a th:if="${app.status}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#restorePopUp'+*{app.getAppointmentID()}">
+                                                    <i class="material-symbols-rounded align-middle">settings_backup_restore</i> Restore
+                                                </a>
+                                                <a th:if="${!app.status}" class="dropdown-item text-danger btn" data-bs-toggle="modal"
                                                    th:attr="data-bs-target='#deletePopUpA'+${app.appointmentID}">
                                                     <span class="material-symbols-rounded align-middle pb-1">delete</span> Delete
                                                 </a>
                                             </div>
                                         </div>
-                                        <!--Call Receive Treatment (PopUp)-->
-                                        <th:block th:replace="appointment/appointmentPopUp/editAppointment :: editAppointment(${app},'appointment')">modal</th:block>
-                                        <!--Create Appointment (PopUp)-->
-                                        <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Appointment ('+${app.pet.name}+')',mainPath='appointment',deleteId='A'+${app.appointmentID},deleteName='this appointment',pathId='appointment')">
-                                            modal
-                                        </th:block>
-                                        </div>
+                                    </div>
+                                    <!--Call Receive Treatment (PopUp)-->
+                                    <th:block th:replace="treatmentHistory/treatmentHistoryPopUp/receiveTreatmentPopUp :: receiveTreatmentPopUp(${app.pet},${app.getAppointmentID()})">modal</th:block>
+                                    <!--Call Restore Appointment (PopUp)-->
+                                    <th:block th:replace="appointment/appointmentPopUp/restorePopUp :: restorePopUp(appointmentId=${app.getAppointmentID()}, stockName='Appointment ID : '+${app.getAppointmentID()}, from='mainAppointment')">modal</th:block>
+                                    <!--Call Edit Appointment (PopUp)-->
+                                    <th:block th:replace="appointment/appointmentPopUp/editAppointment :: editAppointment(${app},'appointment')">modal</th:block>
+                                    <!--Delete Appointment (PopUp)-->
+                                    <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Appointment ('+${app.pet.name}+')',mainPath='appointment',deleteId='A'+${app.appointmentID},deleteName='this appointment',pathId='appointment')">modal</th:block>
                                 </td>
 
                             </tr>

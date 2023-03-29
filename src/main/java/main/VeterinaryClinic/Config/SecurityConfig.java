@@ -61,7 +61,7 @@ public class SecurityConfig  {
                 .clientAuthenticationMethod(ClientAuthenticationMethod.BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .redirectUriTemplate("{baseUrl}/login/oauth2/code/{registrationId}")
-//                .redirectUriTemplate("https://f269-49-228-233-0.ap.ngrok.io" + "/login/oauth2/code/{registrationId}")
+//                .redirectUriTemplate("https://ad91-49-228-232-243.ap.ngrok.io" + "/login/oauth2/code/{registrationId}")
                 .scope("profile")
                 .authorizationUri("https://access.line.me/oauth2/v2.1/authorize")
                 .tokenUri("https://api.line.me/oauth2/v2.1/token")

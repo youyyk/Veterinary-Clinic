@@ -17,7 +17,7 @@ public interface AccountRepository extends JpaRepository<Account, UUID> {
     Account findByAccId(UUID accId);
     Account findByLineId(String lineId);
 
-    @Query("SELECT e FROM Account as e WHERE lower(e.firstName) LIKE %:search% OR lower(e.lastName) LIKE %:search%")
+    @Query("SELECT e FROM Account as e WHERE lower(e.firstName) LIKE %:search% OR lower(e.lastName) LIKE %:search% OR e.phone LIKE %:search%")
     Page<Account> findBySearching(@Param("search") String search, Pageable pageable);
 
 
