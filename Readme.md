@@ -1,1 +1,2 @@
-- Set Account in Controller
+- Register without LINE
+- Show LINE connection

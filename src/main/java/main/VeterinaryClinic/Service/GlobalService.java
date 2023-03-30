@@ -71,7 +71,7 @@ public class GlobalService {
         return null;
     }
     public static Date convertStringToDate(String strDate) {
-        System.out.println("Before : "+strDate);
+//        System.out.println("Before : "+strDate);
         try {
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
             Date date = formatter.parse(strDate);

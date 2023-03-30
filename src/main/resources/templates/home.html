@@ -182,7 +182,10 @@
                                 <tr>
                                     <td>
                                         <a th:href="@{'/account/getInfo/'+${app.pet.account.accId}}" id="owner">
-                                            <p th:text="${app.pet.account.getFirstName()}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                            <p th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left">
+                                                [[${app.pet.account.getFirstName()}]]
+                                                <img th:if="${app.pet.account.lineId != null}" th:src="@{/images/line.png}" width="15" class="align-top"/>
+                                            </p>
                                         </a>
                                     </td>
                                     <td>

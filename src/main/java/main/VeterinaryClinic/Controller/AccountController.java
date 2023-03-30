@@ -224,4 +224,21 @@ public class AccountController {
         }
         return "redirect:/";
     }
+
+    @RequestMapping(path = "/register/withoutLine", method = POST)
+    public String registerAccountWithoutLine(@RequestParam("title") String title,
+                                             @RequestParam("firstName") String firstName,
+                                             @RequestParam("lastName") String lastName,
+                                             @RequestParam("address") String address,
+                                             @RequestParam("phone") String phone) {
+
+        System.out.println("---- Register without Line ----");
+
+        Account account = new Account(title,firstName,lastName,address,phone);
+        System.out.println(account);
+        Account findAccount = accountService.save(account);
+
+
+        return "redirect:/account/getInfo/"+findAccount.getAccId();
+    }
 }

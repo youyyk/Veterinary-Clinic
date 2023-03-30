@@ -4,7 +4,7 @@ function payloadValid(fieldId, errorMessage) {
 }
 const regexOnlyCharacter = /^[A-Za-zก-๙ ]+$/;
 const regexOnlyCharacterWithNumberWithSlash = /^[A-Za-zก-๙ /]+$/;
-const regexAddress = /^[0-9A-Za-zก-๙ ,]+$/;
+const regexAddress = /^[0-9A-Za-zก-๙ ,/-]+$/;
 const regexOnlyCharacterWithNumber = /^[A-Za-z0-9ก-๙ ]+$/;
 const regexOnlyNumber = /^[0-9]+$/;
 const regexPhoneNumber = /^0\d{9}$/;

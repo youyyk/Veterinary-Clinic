@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<script>
+
+</script>
+
+<body>
+<!--Create Pet (PopUp)-->
+<div th:fragment="registerWithoutLine" th:id="registerWithoutLine" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
+     data-bs-backdrop="static" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registerHeader">Register</h5>
+        <button onclick="clickRegisterNo()" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/account/register/withoutLine}" method="POST" id="registerForm">
+
+          <div id="registerPane">
+            <div class="input-group input-group mb-3">
+              <span class="input-group-text">Title</span>
+              <select class="form-select" id="title" name="title" aria-label="Default select example" autocomplete="off" onchange="validFormEditAccountByEachField(this)">
+                <option th:value="dummy" th:text="Choose..."
+                        th:selected="${#strings.contains(nowAccount.title, 'Choose...')}"/>
+                <option th:value="Mr." th:text="Mr."
+                        th:selected="${#strings.contains(nowAccount.title, 'Mr.')}"/>
+                <option th:value="Mrs." th:text="Mrs."
+                        th:selected="${#strings.contains(nowAccount.title, 'Mrs.')}"/>
+                <option th:value="Ms." th:text="Ms."
+                        th:selected="${#strings.contains(nowAccount.title, 'Ms.')}"/>
+                <option th:value="Miss" th:text="Miss"
+                        th:selected="${#strings.contains(nowAccount.title, 'Miss')}"/>
+              </select>
+            </div>
+            <!--FirstName-->
+            <div class="input-group input-group mb-3">
+              <span class="input-group-text">First Name</span>
+              <input type="text" class="form-control" id="firstName" name="firstName" autocomplete="off"
+                     onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
+            </div>
+
+            <!--LastName-->
+            <div class="input-group input-group mb-3">
+              <span class="input-group-text">Last Name</span>
+              <input type="text" class="form-control" id="lastName" name="lastName" autocomplete="off"
+                     onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
+            </div>
+
+            <!--Address-->
+            <div class="input-group input-group mb-3">
+              <span class="input-group-text">Address</span>
+              <input type="text" class="form-control" id="address" name="address" autocomplete="off"
+                     onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
+            </div>
+
+            <!--Phone No.-->
+            <div class="input-group input-group mb-3">
+              <span class="input-group-text">Phone No.</span>
+              <input type="text" class="form-control" id="phone" name="phone" maxlength="10" autocomplete="off"
+                     onkeyup="validFormEditAccountByEachField(this)" onpaste="validFormEditAccountByEachField(this)">
+            </div>
+
+            <div class="modal-footer">
+              <div class="col-md-12 text-center">
+                <button onclick="clickRegister()" type="button" class="btn btn-primary">Save</button>
+                <button onclick="validSubmitEditAccountForm('registerForm', 'reset')" class="btn btn-secondary" type="reset">Clear</button>
+              </div>
+            </div>
+          </div>
+
+
+          <div id="registerConfirm" style="display: none;width: 1000px">
+            <p>Are you sure you want to register new account ?</p>
+            <div class="modal-footer">
+              <div class="col-md-12 text-center">
+                <button class="btn btn-primary" type="submit">Yes</button>
+                <button onclick="clickRegisterNo()" type="reset" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+              </div>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -341,10 +341,14 @@
             <p class="card-text w-50 mt-3">
                 <span class="material-symbols-rounded align-middle pb-1">location_on</span> [[*{account.address}]]
             </p>
-            <p class="card-text mb-3 bottom-0">
+            <p class="card-text mb-1 bottom-0">
                 <span class="material-symbols-rounded align-middle pb-1">call</span>
-                <span style="font-size: 1.25em;">
-                   [[*{account.phone}]]
+                <span style="font-size: 1.2em;">
+                   [[*{account.phone}]] |
+                </span>
+                <img th:src="@{/images/line.png}" class="align-middle pb-1" height="20"/>
+                <span style="font-size: 1.2em;">
+                   [[*{account.lineName}]]
                 </span>
             </p>
         </div>
@@ -558,14 +562,6 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <!--Call Receive Treatment (PopUp)-->
-                                    <th:block th:replace="treatmentHistory/treatmentHistoryPopUp/receiveTreatmentPopUp :: receiveTreatmentPopUp(${app.pet},${app.getAppointmentID()})">modal</th:block>
-                                    <!--Call Edit Appointment (PopUp)-->
-                                    <th:block th:replace="appointment/appointmentPopUp/editAppointment :: editAppointment(${app},'account')">modal</th:block>
-                                    <!--Delete Appointment (PopUp)-->
-                                    <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Appointment ('+${app.pet.name}+')',mainPath='appointment',deleteId='A'+${app.appointmentID},deleteName='this appointment',pathId=${app.pet.account.accId})">
-                                        modal
-                                    </th:block>
                                 </div>
                                 <!--Call Receive Treatment (PopUp)-->
                                 <th:block th:replace="treatmentHistory/treatmentHistoryPopUp/receiveTreatmentPopUp :: receiveTreatmentPopUp(${app.pet},${app.getAppointmentID()})">modal</th:block>

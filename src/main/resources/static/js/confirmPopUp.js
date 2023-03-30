@@ -532,3 +532,31 @@ function clickPayNo(billID) {
         paymentPane.style.display = show;
     },1000);
 }
+
+// -------------- Register without LINE --------------
+function clickRegister(){
+    if (!validSubmitEditAccountForm(document.getElementById("registerForm"),'all')){
+        return false;
+    }
+    let registerPane = document.getElementById("registerPane");
+    let registerConfirm = document.getElementById("registerConfirm");
+    let header = document.getElementById("registerHeader");
+    let save = document.getElementById("registerSave");
+
+    header.innerHTML = "Register (Confirmation)";
+    registerConfirm.style.display = show;
+    registerPane.style.display = hide;
+    save.style.display = hide;
+}
+function clickRegisterNo() {
+    setTimeout(function (){
+        validSubmitEditAccountForm('registerForm','reset');
+        let createPane = document.getElementById("registerPane");
+        let createConfirm = document.getElementById("registerConfirm");
+        let header = document.getElementById("registerHeader");
+
+        header.innerHTML = "Register";
+        createConfirm.style.display = hide;
+        createPane.style.display = show;
+    },1000);
+}

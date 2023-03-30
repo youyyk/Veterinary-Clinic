@@ -59,8 +59,13 @@ public class Account {
         this.img_path = imgPath;
     }
 
-
-
+    public Account(String title, String firstName, String lastName, String address, String phone) {
+        this.title = title;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.address = address;
+        this.phone = phone;
+    }
 
     public void addRole(Role role){
         roles.add(role);

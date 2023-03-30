@@ -7,12 +7,45 @@
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <link th:rel="stylesheet" th:href="@{/css/table-image.css}">
     <link th:rel="stylesheet" th:href="@{/css/global.css}">
+    <script th:src="@{/js/confirmPopUp.js}"></script>
+    <script th:src="@{/js/validateModel.js}"></script>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@40,300,1,0" />
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </head>
+<script>
+    let realTimeValid = false;
+    function validFormEditAccountByEachField(fieldElement){
+        if (realTimeValid){
+            const formEditAccount = document.getElementById("registerForm")
+            const validatedList = serviceValidEditAccount(formEditAccount, fieldElement.id);
+            if (validatedList.length === 1){
+                addClassValidAndInValid(formEditAccount.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+        }
+    }
+
+    function validSubmitEditAccountForm(formEditAccount, option){
+        realTimeValid = true;
+        const validatedList = serviceValidEditAccount(formEditAccount, option);
+        let count = 0;
+        if (validatedList.length > 0){
+            validatedList.forEach((element) => {
+                if (element.errorMessage === "valid"){
+                    count++;
+                }
+                addClassValidAndInValid(formEditAccount.elements[element.fieldId], element.errorMessage);
+            });
+            if (count === 5){
+                return true;
+            }
+        }
+        return false;
+    }
+</script>
+
 <script>
     let host = window.location.origin;
     let editRole = false;
@@ -95,6 +128,11 @@
                   <button class="btn btn-primary" type="button" id="btnSearch" name="btnSearch">
                       <span class="material-symbols-rounded align-middle">search</span>
                   </button>
+                  <a class="btn btn-dark ms-2" type="button" data-bs-toggle="modal" th:attr="data-bs-target='#registerWithoutLine'">
+                      Register
+                  </a>
+                <th:block th:replace="account/accountPopUp/registerWithoutLine :: registerWithoutLine">modal</th:block>
+
             </span>
             <table class="table">
                 <thead class="pt-0">
@@ -117,7 +155,8 @@
                                 </div>
                                 <div class="user-info__basic">
                                     <h5 class="mb-0" th:text="${account.getFullName()}"/>
-                                    <p class="text-muted mb-0" th:text="'@'+${account.lineName}"/>
+                                    <p th:if="${account.lineName} != null" class="text-muted mb-0" th:text="'@'+${account.lineName}"/>
+                                    <p th:if="${account.lineName} == null" class="text-muted mb-0" th:text="'no line connection'"/>
                                 </div>
                             </div>
                         </td>
