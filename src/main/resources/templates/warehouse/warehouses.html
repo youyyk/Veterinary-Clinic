@@ -472,7 +472,7 @@
                                                 <a th:if="${wh.isExpired() == -1 && !wh.softDeleted}" class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#stockOutPopUp'+*{wh.itemID}">
                                                     <i class="material-symbols-rounded align-middle">inventory_2</i> Stock Out
                                                 </a>
-                                                <a th:if="${wh.isCanDelete()}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+*{wh.itemID}">
+                                                <a th:if="${wh.quantityIn ==  wh.quantityLeft && !wh.softDeleted}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+*{wh.itemID}">
                                                     <i class="material-symbols-rounded align-middle">delete</i> Delete
                                                 </a>
                                             </div>
@@ -507,10 +507,10 @@
                         <tr>
                             <th>Item ID</th>
                             <th>Name</th>
+                            <th>Description</th>
                             <th>Dose</th>
                             <th>Unit</th>
                             <th>Price</th>
-                            <th>Description</th>
                             <th th:if="${nowAccount.isAdmin()}">Action</th>
                         </tr>
                         </thead>
@@ -518,6 +518,7 @@
                             <tr th:each="med : ${medicines}">
                                 <td th:text="${ 'M' + med.medID}"></td>
                                 <td th:text="${ med.name}"></td>
+                                <td th:text="${ med.description}"></td>
                                 <td>
                                     <p th:text="${ med.dose}"/>
                                 </td>
@@ -525,7 +526,6 @@
                                 <td>
                                     <p th:text="${#numbers.formatDecimal(med.price, 1, 'COMMA', 2, 'POINT')}"/>
                                 </td>
-                                <td th:text="${ med.description}"></td>
                                 <td th:if="${nowAccount.isAdmin()}">
                                     <div class="col-md-12 text-center">
                                         <div class="dropdown open">
@@ -569,8 +569,8 @@
                         <tr>
                             <th>Item ID</th>
                             <th>Name</th>
-                            <th>Price</th>
                             <th>Description</th>
+                            <th>Price</th>
                             <th th:if="${nowAccount.isAdmin()}">Action</th>
                         </tr>
                         </thead>
@@ -578,10 +578,10 @@
                         <tr th:each="tool : ${tools}">
                             <td th:text="${ 'T' + tool.ToolID}"></td>
                             <td th:text="${ tool.name}"></td>
+                            <td th:text="${ tool.description}"></td>
                             <td>
                                 <p th:text="${#numbers.formatDecimal(tool.price, 1, 'COMMA', 2, 'POINT')}"/>
                             </td>
-                            <td th:text="${ tool.description}"></td>
                             <td th:if="${nowAccount.isAdmin()}">
                                 <div class="col-md-12 text-center">
                                     <div class="dropdown open">

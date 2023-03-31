@@ -532,6 +532,36 @@ function clickPayNo(billID) {
         paymentPane.style.display = show;
     },1000);
 }
+
+// -------------- Register without LINE --------------
+function clickRegister(){
+    if (!validSubmitEditAccountForm(document.getElementById("registerForm"),'all')){
+        return false;
+    }
+    let registerPane = document.getElementById("registerPane");
+    let registerConfirm = document.getElementById("registerConfirm");
+    let header = document.getElementById("registerHeader");
+    let save = document.getElementById("registerSave");
+
+    header.innerHTML = "Register (Confirmation)";
+    registerConfirm.style.display = show;
+    registerPane.style.display = hide;
+    save.style.display = hide;
+}
+function clickRegisterNo() {
+    setTimeout(function (){
+        validSubmitEditAccountForm('registerForm','reset');
+        let registerPane = document.getElementById("registerPane");
+        let registerConfirm = document.getElementById("registerConfirm");
+        let header = document.getElementById("registerHeader");
+        let save = document.getElementById("registerSave");
+
+        header.innerHTML = "Register";
+        registerConfirm.style.display = hide;
+        registerPane.style.display = show;
+        save.style.display = show;
+    },1000);
+}
 // ------------- Merge Account --------------
 function clickMerge(mergeAccId){
     let mergeAccountId= document.getElementById("mergeAccId");

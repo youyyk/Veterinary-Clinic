@@ -16,14 +16,14 @@
           <!--ID-->
           <input type="hidden" class="form-control" id="billID" name="billID" th:value="${billID}">
 
-          <p>Are you sure you want to cancel this bill ?</p>
-          <p>You need to refund <b>[[${refund}]] ฿</b></p>
+          <p class="text-start">Are you sure you want to cancel this bill ?</p>
+          <p class="text-start">You need to refund <b>[[${refund}]] ฿</b></p>
           <!--button-->
-          <div class="modal-footer align-content-center">
-            <!--                        <button class="btn btn-secondary" type="reset">cancel</button>-->
-            <!--                        <button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>-->
-            <button class="btn btn-secondary" type="submit">Yes</button>
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+          <div class="modal-footer">
+            <div class="col-md-12 text-center">
+              <button class="btn btn-primary" type="submit">Yes</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+            </div>
           </div>
 
         </form>

@@ -18,7 +18,7 @@ public class MainBillService {
     private BillRepository repository;
 
     public List<Bill> getAll() {
-        return repository.findAll(Sort.by(Sort.Direction.ASC, "billID"));
+        return repository.findAll(Sort.by(Sort.Direction.DESC, "billID"));
     }
 
     public  List<Bill> findByPaidStatusIsFalseOrderByStartDateAsc(){return repository.findByPaidStatusIsFalseOrderByStartDateAsc();}

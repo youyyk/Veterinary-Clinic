@@ -182,7 +182,10 @@
                                 <tr>
                                     <td>
                                         <a th:href="@{'/account/getInfo/'+${app.pet.account.accId}}" id="owner">
-                                            <p th:text="${app.pet.account.getFirstName()}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                            <p th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left">
+                                                [[${app.pet.account.getFirstName()}]]
+                                                <img th:if="${app.pet.account.lineId != null}" th:src="@{/images/line.png}" width="15" class="align-top"/>
+                                            </p>
                                         </a>
                                     </td>
                                     <td>
@@ -322,7 +325,7 @@
                                 <td th:if="${wh.tool != null}" th:text="${ 'T' + wh.tool.getToolID}"></td>
                                 <td th:if="${wh.medicine != null}" th:text="${wh.medicine.getNameForShow}"></td>
                                 <td th:if="${wh.tool != null}" th:text="${wh.tool.getNameForShow}"></td>
-                                <td th:text="${wh.quantityLeft}"></td>
+                                <td><p style="text-align: right">[[${wh.quantityLeft}]]</p></td>
                                 <td th:text="${#dates.format(wh.expiredDate, 'dd/MM/yyyy')}"></td>
                                 <td th:switch="${wh.isExpired()}">
                                     <span th:case="-1" class="badge rounded-pill bg-danger">Expired</span>

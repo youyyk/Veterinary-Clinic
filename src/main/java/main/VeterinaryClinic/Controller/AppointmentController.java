@@ -42,15 +42,20 @@ public class AppointmentController {
 
     @GetMapping
     public String getAppointmentPage(@AuthenticationPrincipal AccountUserDetail accountUserDetail, Model model) {
-
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            if (!accountService.getById(accountUserDetail.getAccount().getAccId()).isRegisAccount()) {
+                return "redirect:/account/register";
+            }
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
+        }
+        System.out.println("-------- All Appointment -------");
         // step 1. update model for template
         model.addAttribute("appointments", appointmentService.getAll());
         model.addAttribute("todaySize",appointmentService.findByTodayDateOrderByPeriodDesc().size());
         model.addAttribute("dateRange","");
 
-        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
-        }
+
+
 
         // step 2. choose HTML template
         return "appointment/appointment";
@@ -58,16 +63,19 @@ public class AppointmentController {
 
     @GetMapping("/today")
     public String getAppointmentToday(@AuthenticationPrincipal AccountUserDetail accountUserDetail,Model model) {
-        System.out.println("--------- today ---------");
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            if (!accountService.getById(accountUserDetail.getAccount().getAccId()).isRegisAccount()) {
+                return "redirect:/account/register";
+            }
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
+        }
+        System.out.println("--------- Today Appointment ---------");
         List<Appointment> todayList = appointmentService.findByTodayDateOrderByPeriodDesc();
         System.out.println(GlobalService.convertStringToDateSlash(GlobalService.getCurrentTime()));
         model.addAttribute("appointments",todayList );
         model.addAttribute("todaySize",todayList.size());
         model.addAttribute("dateRange",GlobalService.convertStringToDateSlash(GlobalService.getCurrentTime()) + "-" + GlobalService.convertStringToDateSlash(GlobalService.getCurrentTime()));
 
-        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
-        }
         return "appointment/appointment";
     }
 
@@ -76,6 +84,12 @@ public class AppointmentController {
                                             @PathVariable String endDate,
                                             @AuthenticationPrincipal AccountUserDetail accountUserDetail,
                                             Model model) {
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            if (!accountService.getById(accountUserDetail.getAccount().getAccId()).isRegisAccount()) {
+                return "redirect:/account/register";
+            }
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
+        }
         System.out.println("---- Appointment Date Range ----");
         System.out.println(startDate + " - "+endDate);
 
@@ -96,10 +110,6 @@ public class AppointmentController {
         }
         List<Appointment> todayList = appointmentService.findByTodayDateOrderByPeriodDesc();
         model.addAttribute("todaySize",todayList.size());
-
-        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount",accountService.getById(accountUserDetail.getAccount().getAccId()));
-        }
 
         return "appointment/appointment";
     }
@@ -185,4 +195,6 @@ public class AppointmentController {
         }
         return  "redirect:/appointment";
     }
+
+
 }

@@ -50,11 +50,13 @@ public class BillController {
 
     @GetMapping()
     public String getPetPage(Model model, @AuthenticationPrincipal AccountUserDetail accountUserDetail) {
-        System.out.println("-- Bills Page ---");
-
         if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            if (!accountService.getById(accountUserDetail.getAccount().getAccId()).isRegisAccount()) {
+                return "redirect:/account/register";
+            }
             model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
         }
+        System.out.println("-- Bills Page ---");
 
         // step 1. update model for template
         model.addAttribute("bills", mainBillService.getAll());
@@ -67,12 +69,13 @@ public class BillController {
 
     @GetMapping("/unpaid")
     public String getAppointmentToday(Model model, @AuthenticationPrincipal AccountUserDetail accountUserDetail) {
-
-        System.out.println("-- Unpaid Bills Page ---");
-
         if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount",accountService.getById(accountUserDetail.getAccount().getAccId()));
+            if (!accountService.getById(accountUserDetail.getAccount().getAccId()).isRegisAccount()) {
+                return "redirect:/account/register";
+            }
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
         }
+        System.out.println("-- Unpaid Bills Page ---");
 
         List<Bill> bills = mainBillService.findByPaidStatusIsFalseOrderByStartDateAsc();
 
@@ -86,6 +89,12 @@ public class BillController {
 
     @GetMapping("/getDetail/{billID}")
     public String getDetail(@PathVariable("billID") long billID, Model model, @AuthenticationPrincipal AccountUserDetail accountUserDetail) {
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            if (!accountService.getById(accountUserDetail.getAccount().getAccId()).isRegisAccount()) {
+                return "redirect:/account/register";
+            }
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
+        }
         System.out.println("--- Get Bill ID : "+billID+" ---");
         Bill bill = mainBillService.findByBillID(billID);
         Pet pet = petService.findByPetID(bill.getTreatmentHistory().getPet().getPetID());
@@ -120,10 +129,6 @@ public class BillController {
         System.out.println("Bill total : "+sumBill);
         bill.setTotal(sumBill);
         mainBillService.save(bill);
-
-        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount",accountService.getById(accountUserDetail.getAccount().getAccId()));
-        }
 
         //---- Pass Value ----
         model.addAttribute("pet", pet);

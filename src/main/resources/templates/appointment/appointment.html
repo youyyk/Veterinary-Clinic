@@ -31,6 +31,8 @@
     <script th:src="@{/js/lightpick.js}"></script>
 
 </head>
+<style>
+</style>
 <script>
     let host = window.location.origin;
     const hide = "none";
@@ -147,6 +149,15 @@
     .opacitySoft{
         opacity: 0.5;
     }
+    .notification{
+        position: absolute;
+        top: -10px;
+        right: -10px;
+        padding: 5px 10px;
+        border-radius: 50%;
+        background: red;
+        color: white;
+    }
 </style>
 <body>
     <div th:insert="fragments/header :: header" class="sticky-top"></div>
@@ -191,7 +202,11 @@
                         <div th:each="app : ${appointments}">
                             <tr>
                                 <td>
-                                    <p th:text="${app.pet.account.getFullName()}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                    <p th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left">
+                                        [[${app.pet.account.getFullName()}]]
+                                        <img th:if="${app.pet.account.lineId != null}" th:src="@{/images/line.png}" width="15" class="align-top"/>
+                                    </p>
+<!--                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary" th:text="line"></span>-->
                                 </td>
                                 <td>
                                     <p th:text="${app.pet.account.phone}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
