@@ -325,7 +325,7 @@
                                 <td th:if="${wh.tool != null}" th:text="${ 'T' + wh.tool.getToolID}"></td>
                                 <td th:if="${wh.medicine != null}" th:text="${wh.medicine.getNameForShow}"></td>
                                 <td th:if="${wh.tool != null}" th:text="${wh.tool.getNameForShow}"></td>
-                                <td th:text="${wh.quantityLeft}"></td>
+                                <td><p style="text-align: right">[[${wh.quantityLeft}]]</p></td>
                                 <td th:text="${#dates.format(wh.expiredDate, 'dd/MM/yyyy')}"></td>
                                 <td th:switch="${wh.isExpired()}">
                                     <span th:case="-1" class="badge rounded-pill bg-danger">Expired</span>

@@ -1,2 +1,2 @@
-- Register without LINE
-- Show LINE connection
+- Register condition in controller
+- Mock Data

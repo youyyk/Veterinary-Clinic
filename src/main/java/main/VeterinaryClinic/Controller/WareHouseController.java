@@ -36,6 +36,11 @@ public class WareHouseController {
 
     @GetMapping
     public String getWarehousePage(Model model, @AuthenticationPrincipal AccountUserDetail accountUserDetail) {
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            if (!accountService.getById(accountUserDetail.getAccount().getAccId()).isRegisAccount()) {
+                return "redirect:/account/register";
+            }
+        }
         List<WareHouse> wareHouses = wareHouseService.findBySoftDeletedOrderByExpiredDateAsc(false);
         int expiredCount = 0;
         int almostCount = 0;
@@ -54,6 +59,11 @@ public class WareHouseController {
 
     @GetMapping("/status/{value}")
     public String getWarehousePageFilterExpired(@PathVariable String value, Model model, @AuthenticationPrincipal AccountUserDetail accountUserDetail) {
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            if (!accountService.getById(accountUserDetail.getAccount().getAccId()).isRegisAccount()) {
+                return "redirect:/account/register";
+            }
+        }
         List<WareHouse> wareHouses = wareHouseService.findBySoftDeletedOrderByExpiredDateAsc(false);
         List<WareHouse> needWareHouse = new ArrayList<>();
         int expiredCount = 0;

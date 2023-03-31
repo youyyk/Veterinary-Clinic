@@ -472,7 +472,7 @@
                                                 <a th:if="${wh.isExpired() == -1 && !wh.softDeleted}" class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#stockOutPopUp'+*{wh.itemID}">
                                                     <i class="material-symbols-rounded align-middle">inventory_2</i> Stock Out
                                                 </a>
-                                                <a th:if="${wh.isCanDelete()}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+*{wh.itemID}">
+                                                <a th:if="${wh.quantityIn ==  wh.quantityLeft && !wh.softDeleted}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+*{wh.itemID}">
                                                     <i class="material-symbols-rounded align-middle">delete</i> Delete
                                                 </a>
                                             </div>

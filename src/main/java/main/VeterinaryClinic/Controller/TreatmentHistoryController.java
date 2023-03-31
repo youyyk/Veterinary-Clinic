@@ -41,6 +41,12 @@ public class TreatmentHistoryController {
     public String getInfo(@PathVariable("petID") long petID,
                           @AuthenticationPrincipal AccountUserDetail accountUserDetail,
                           Model model) {
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            if (!accountService.getById(accountUserDetail.getAccount().getAccId()).isRegisAccount()) {
+                return "redirect:/account/register";
+            }
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
+        }
         System.out.println("---Get Pet's Treatment History---");
         Pet pet = petService.findByPetID(petID);
         List<TreatmentHistory> treatmentHistories = treatmentHistoryService.findByPet(pet);
@@ -53,10 +59,6 @@ public class TreatmentHistoryController {
         model.addAttribute("treatmentHistories", treatmentHistories);
         model.addAttribute("petTypeList", petTypeList);
         model.addAttribute("breedList", breedList);
-
-        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
-        }
 
         return "treatmentHistory/treatmentHistory";
     }

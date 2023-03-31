@@ -112,7 +112,14 @@ public class WareHouse {
     }
 
     public boolean isCanDelete(){
-        return billMed.size() == 0 && billTool.size() == 0 && quantityIn==quantityLeft && !softDeleted ? true : false;
+        System.out.println("Med Size : "+billMed.size());
+        System.out.println("Tool Size : "+billTool.size());
+        System.out.println(quantityIn+" : "+quantityLeft);
+        if (billMed.size() == 0 && billTool.size() == 0) {
+            return true;
+        }
+//        return billMed.size() == 0 && billTool.size() == 0 && quantityIn==quantityLeft && !softDeleted ? true : false;
+        return false;
     }
 
     @Override

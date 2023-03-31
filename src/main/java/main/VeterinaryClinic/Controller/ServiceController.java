@@ -26,12 +26,17 @@ public class ServiceController {
 
     @GetMapping
     public String getServicePage(@AuthenticationPrincipal AccountUserDetail accountUserDetail, Model model) {
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            if (!accountService.getById(accountUserDetail.getAccount().getAccId()).isRegisAccount()) {
+                return "redirect:/account/register";
+            }
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
+        }
+        System.out.println("------- All Service -------");
         List<Serving> servings = servingService.getAll();
         model.addAttribute("services", servings);
         model.addAttribute("newService", new Serving());
-        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
-        }
+
         return "service/services";
     }
 

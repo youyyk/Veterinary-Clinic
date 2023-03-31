@@ -48,6 +48,12 @@ public class AccountController {
                 @RequestParam(defaultValue = "firstName") String sortBy,
                 @AuthenticationPrincipal AccountUserDetail accountUserDetail,
                 Model model) {
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            if (!accountService.getById(accountUserDetail.getAccount().getAccId()).isRegisAccount()) {
+                return "redirect:/account/register";
+            }
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
+        }
         Page<Account> pagedResult = accountService.getAll(pageNo-1, pageSize, sortBy);
         model.addAttribute("accounts", pagedResult.hasContent() ? pagedResult.getContent() : new ArrayList<>());
         model.addAttribute("pageNo", pagedResult);
@@ -57,9 +63,7 @@ public class AccountController {
         model.addAttribute("totalPages", pagedResult.getTotalPages());
         model.addAttribute("totalAccounts", pagedResult.getTotalElements());
         model.addAttribute("roles", new String[]{"ADMIN", "OFFICER", "CUSTOMER"});
-        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
-        }
+
         return "/account/accounts";
     }
 
@@ -71,6 +75,12 @@ public class AccountController {
             @PathVariable("strSearch") String search,
             @AuthenticationPrincipal AccountUserDetail accountUserDetail,
             Model model) {
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            if (!accountService.getById(accountUserDetail.getAccount().getAccId()).isRegisAccount()) {
+                return "redirect:/account/register";
+            }
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
+        }
         search = search.trim().toLowerCase();
         if (search.isBlank() || search.isEmpty() || search.equals(null))return "redirect:/account";
         Page<Account> pagedResult = accountService.getBySearch(pageNo-1, pageSize, sortBy,search);
@@ -82,9 +92,7 @@ public class AccountController {
         model.addAttribute("totalPages", pagedResult.getTotalPages());
         model.addAttribute("totalAccounts", pagedResult.getTotalElements());
         model.addAttribute("roles", new String[]{SecurityConfig.ROLE_ADMIN, SecurityConfig.ROLE_OFFICER, SecurityConfig.ROLE_CUSTOMER});
-        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
-        }
+
         return "/account/accounts";
     }
 
@@ -122,6 +130,12 @@ public class AccountController {
                           @PathVariable("accId") UUID accId,
                           @AuthenticationPrincipal AccountUserDetail accountUserDetail,
                           Model model) {
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            if (!accountService.getById(accountUserDetail.getAccount().getAccId()).isRegisAccount()) {
+                return "redirect:/account/register";
+            }
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
+        }
         System.out.println("---Get Info---");
         Account account = accountService.getById(accId);
         System.out.println(account.getFirstName()+" "+account.getLastName());
@@ -146,9 +160,6 @@ public class AccountController {
         model.addAttribute("filterPets", pagedResult.hasContent() ? pagedResult.getContent() : new ArrayList<>());
         model.addAttribute("appointments", appointments);
         model.addAttribute("search", "");
-        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
-        }
 
         return "account/infoAccount";
     }
@@ -160,6 +171,12 @@ public class AccountController {
                           @PathVariable("strSearch") String search,
                           @AuthenticationPrincipal AccountUserDetail accountUserDetail,
                           Model model) {
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            if (!accountService.getById(accountUserDetail.getAccount().getAccId()).isRegisAccount()) {
+                return "redirect:/account/register";
+            }
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
+        }
         System.out.println("---Get Info (Search) : "+search+" ---");
         Account account = accountService.getById(accId);
         List<Pet> pets = petService.findByAccountAndSoftDeletedOrderByPetID(account,false);
@@ -180,10 +197,6 @@ public class AccountController {
 //        model.addAttribute("pets", pets);
         model.addAttribute("filterPets", pagedResult.hasContent() ? pagedResult.getContent() : new ArrayList<>());
         model.addAttribute("appointments", appointments);
-
-        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
-        }
 
         return "account/infoAccount";
     }
