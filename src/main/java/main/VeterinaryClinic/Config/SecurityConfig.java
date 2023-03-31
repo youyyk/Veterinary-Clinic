@@ -28,7 +28,7 @@ public class SecurityConfig  {
         protected void configure(HttpSecurity http) throws Exception {
             http    .csrf().disable()
                     .authorizeRequests()
-                    .antMatchers( "/","/css/**", "/js/**", "/images/**", "/account/update/role").permitAll() // Don't need login can use (Home Page, CSS, JS)
+                    .antMatchers( "/", "/css/**", "/js/**", "/images/**").permitAll() // Don't need login can use (Home Page, CSS, JS)
                     // Other path need only authorize
                     .antMatchers( "/account", "/appointment", "/bill", "/dashboard", "/medicine/**", "/warehouse/**" , "/download/export/receipt/details/**").hasRole(ROLE_OFFICER)
                     .antMatchers("/service/**", "/tool/**").hasRole(ROLE_ADMIN)

@@ -83,7 +83,7 @@ public class HomeController {
 
     private String handleRedirectPageForAccountByRole(AccountUserDetail accountUserDetail){
         if (accountUserDetail != null && accountUserDetail.getAccount() != null){
-            Account account = accountUserDetail.getAccount();
+            Account account = accountService.getById(accountUserDetail.getAccount().getAccId());
             if (account.isRegisAccount()) {
                 if (account.isAdmin()) {
                     System.out.println("---HANDLE-PAGE : ADMIN---");

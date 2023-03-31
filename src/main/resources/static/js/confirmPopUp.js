@@ -516,7 +516,7 @@ function clickPay(billID){
     let paymentConfirm = document.getElementById("paymentConfirm"+billID);
     let header = document.getElementById("paymentHeader"+billID);
 
-    header.innerHTML = "Payment Confirmation";
+    header.innerHTML = "Payment (Confirmation)";
     paymentConfirm.style.display = show;
     paymentPane.style.display = hide;
 }
@@ -530,5 +530,39 @@ function clickPayNo(billID) {
         header.innerHTML = "Payment Details";
         paymentConfirm.style.display = hide;
         paymentPane.style.display = show;
+    },1000);
+}
+// ------------- Merge Account --------------
+function clickMerge(mergeAccId){
+    let mergeAccountId= document.getElementById("mergeAccId");
+    mergeAccountId.value = mergeAccId;
+    let mergeAccountFormPane = document.getElementById("mergeAccountFormPane");
+    let mainAccountTable = document.getElementById("mainAccountTable");
+    let textMainAccount = document.getElementById("textMainAccount");
+    let popUpMergeAccount = document.getElementById("popUpMergeAccount");
+    let mergeAccountConfirm = document.getElementById("mergeAccountConfirm");
+    let mergeAccountFormHeader = document.getElementById("mergeAccountFormHeader");
+
+    popUpMergeAccount.style.maxWidth = "500px";
+    mergeAccountFormHeader.innerHTML = "Merge Account (Confirmation)";
+    mergeAccountConfirm.style.display = show;
+    mergeAccountFormPane.style.display = hide;
+    mainAccountTable.style.display = hide;
+    textMainAccount.style.display = hide;
+}
+function clickMergeNo() {
+    setTimeout(function (){
+        let mergeAccountFormPane = document.getElementById("mergeAccountFormPane");
+        let mainAccountTable = document.getElementById("mainAccountTable");
+        let textMainAccount = document.getElementById("textMainAccount");
+        let popUpMergeAccount = document.getElementById("popUpMergeAccount");
+        let mergeAccountConfirm = document.getElementById("mergeAccountConfirm");
+        let mergeAccountFormHeader = document.getElementById("mergeAccountFormHeader");
+        popUpMergeAccount.style.maxWidth = "700px";
+        mergeAccountFormHeader.innerHTML = "Merge Account";
+        mergeAccountConfirm.style.display = hide;
+        mergeAccountFormPane.style.display = show;
+        mainAccountTable.style.display = '';
+        textMainAccount.style.display = '';
     },1000);
 }

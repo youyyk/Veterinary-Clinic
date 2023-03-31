@@ -40,8 +40,10 @@ public class batchSchedule {
         for (Appointment appointment : appointmentList){
             Pet pet = appointment.getPet();
             Account account = pet.getAccount();
-            if (prepareMessage.get(account.getAccId()) == null){
-                prepareMessage.put(String.valueOf(account.getLineId()), "สัตว์เลี้ยงของคุณมีนัดในวันที่ "+ formattedDate + "\n*โปรดเช็คภายในระบบอีกครั้ง");
+            if ((account.getLineId() != null || !account.getLineId().isBlank() || account.getLineId().isEmpty())){
+                if (prepareMessage.get(account.getLineId()) == null){
+                    prepareMessage.put(account.getLineId(), "สัตว์เลี้ยงของคุณมีนัดในวันที่ "+ formattedDate + "\n*โปรดเช็คภายในระบบอีกครั้ง");
+                }
             }
         }
         lineSendService.sendMessageToClient(prepareMessage);

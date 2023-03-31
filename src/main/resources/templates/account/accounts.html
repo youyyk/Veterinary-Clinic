@@ -96,7 +96,7 @@
                       <span class="material-symbols-rounded align-middle">search</span>
                   </button>
             </span>
-            <table class="table">
+            <table class="table-profile">
                 <thead class="pt-0">
                 <tr>
                     <th>Profile</th>
@@ -154,7 +154,7 @@
                                             <i class="material-symbols-rounded align-middle">account_circle</i> Profile
                                         </a>
                                         <a th:if="${nowAccount.isAdmin()}" th:id="'edit-role-button'" class="dropdown-item" href="#" th:attr="onclick='Edit_Btn_Click(\'' + ${account.accId}+  '\');'">
-                                            <i class="material-symbols-rounded align-middle">edit</i> Edit
+                                            <i class="material-symbols-rounded align-middle">edit</i> Edit Role
                                         </a>
     <!--                                    <a th:id="'delete-role-button'" class="dropdown-item text-danger" href="#">-->
     <!--                                        <i class="material-symbols-rounded align-middle">delete</i> Delete-->

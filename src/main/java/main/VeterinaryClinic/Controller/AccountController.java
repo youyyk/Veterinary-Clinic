@@ -1,5 +1,6 @@
 package main.VeterinaryClinic.Controller;
 
+import com.nimbusds.jose.shaded.json.JSONObject;
 import main.VeterinaryClinic.Config.SecurityConfig;
 import main.VeterinaryClinic.Model.Account.Account;
 import main.VeterinaryClinic.Model.Account.AccountUserDetail;
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -124,7 +126,6 @@ public class AccountController {
                           Model model) {
         System.out.println("---Get Info---");
         Account account = accountService.getById(accId);
-        System.out.println(account.getFirstName()+" "+account.getLastName());
 
 //        List<Pet> pets = petService.findByAccountAndSoftDeletedOrderByPetID(account,false);
         List<Appointment> appointments = appointmentService.findByPet_Account_AccIdOrderByDateAsc(accId);
@@ -138,9 +139,7 @@ public class AccountController {
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", pagedResult.getTotalPages());
         model.addAttribute("totalAccounts", pagedResult.getTotalElements());
-
         model.addAttribute("account", account);
-//        model.addAttribute("pets", pets);
         model.addAttribute("petTypeList", petTypeList);
         model.addAttribute("breedList", breedList);
         model.addAttribute("filterPets", pagedResult.hasContent() ? pagedResult.getContent() : new ArrayList<>());
@@ -149,7 +148,9 @@ public class AccountController {
         if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
             model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
         }
-
+        // accountList, roles for merge Popup
+        model.addAttribute("accountsList", accountService.getAllNotIncludeNowAccount(account.getAccId()));
+        model.addAttribute("roles", new String[]{SecurityConfig.ROLE_ADMIN, SecurityConfig.ROLE_OFFICER, SecurityConfig.ROLE_CUSTOMER});
         return "account/infoAccount";
     }
 
@@ -187,6 +188,19 @@ public class AccountController {
 
         return "account/infoAccount";
     }
+//    @ResponseBody
+//    @PostMapping("/getMergeAccountFilter")
+//    public ResponseEntity getTableData(@RequestBody Map<String, String> payload) {
+//        JSONObject entity = new JSONObject(); // return body
+//        if (payload.containsKey("search") && payload.containsKey("mainAccountId")){
+//            System.out.println("Test Merge");
+//            List<Account> accounts = accountService.getAllNotIncludeNowAccountWithSearch(UUID.fromString(payload.get("mainAccountId")), payload.get("search"));
+//            entity.put("accounts", accounts);
+//            System.out.println("Test Merge2");
+//            return new ResponseEntity<>(entity, HttpStatus.OK);
+//        }
+//        return new ResponseEntity<>(entity, HttpStatus.BAD_REQUEST);
+//    }
 
     @RequestMapping(path = "/edit", method = POST)
     public String editAccount(@RequestParam("accId") String accId,
@@ -215,13 +229,23 @@ public class AccountController {
     @GetMapping("/register")
     public String registerAccount(@AuthenticationPrincipal AccountUserDetail accountUserDetail, Model model) {
         if (accountUserDetail != null) {
-            Account nowAccount = accountUserDetail.getAccount();
+            Account nowAccount = accountService.getById(accountUserDetail.getAccount().getAccId());
             if (nowAccount != null && !nowAccount.isRegisAccount()){ // not regis account
                 model.addAttribute("account", accountUserDetail.getAccount());
                 model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
                 return "account/registerAccount";
             }
+            return "redirect:/loginSuccess";
         }
         return "redirect:/";
+    }
+
+    @RequestMapping(path = "/merge", method = POST)
+    public String registerAccount(@RequestParam("accId") String accId,
+                                  @RequestParam("mergeAccId") String mergeAccId) {
+        Account mainAccount = accountService.getById(accId);
+        Account mergeAccount = accountService.getById(mergeAccId);
+        accountService.mergeAccount(mainAccount, mergeAccount);
+        return "redirect:/account/getInfo/"+accId;
     }
 }

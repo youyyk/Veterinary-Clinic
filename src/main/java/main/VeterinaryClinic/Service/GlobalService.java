@@ -194,10 +194,10 @@ public class GlobalService {
     //        ------------- Appointment --------------
 
         pet = petService.findByPetID(1);
-        Appointment appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-03-28"),"morning","ดูแผล");
+        Appointment appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-04-01"),"morning","ดูแผล");
         appointmentService.save(appointment);
-        pet = petService.findByPetID(1);
-        appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-03-28"),"morning","vaccine");
+        pet = petService.findByPetID(2);
+        appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-04-01"),"morning","vaccine");
         appointmentService.save(appointment);
 
 

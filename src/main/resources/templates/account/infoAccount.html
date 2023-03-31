@@ -32,7 +32,11 @@
     window.addEventListener('DOMContentLoaded', event => {
         const datatableAppointment = document.getElementById('datatableAppointment');
         new simpleDatatables.DataTable(datatableAppointment);
-
+        const datatableMergeAccount = document.getElementById('datatableMergeAccount');
+        new simpleDatatables.DataTable(datatableMergeAccount, {
+            paging : false,
+            scrollY: "calc(28vh - 40px)",
+        });
     });
 
     function calculateDate() {
@@ -314,6 +318,18 @@
         return false;
     }
 </script>
+<!--Merge Account-->
+<!--<script>-->
+<!--    function filterMergeAccount(allAccount){-->
+<!--        let search = document.getElementById('searchMergeField').value;-->
+<!--        let wantList = [];-->
+<!--        console.log(search);-->
+<!--        console.log(allAccount);-->
+<!--        allAccount.forEach((account) => {-->
+<!--            console.log(account);-->
+<!--        });-->
+<!--    }-->
+<!--</script>-->
 <style>
     .opacitySoft{
         opacity: 0.5;
@@ -332,10 +348,15 @@
       </div>
       <div class="col-md-8 ms-auto">
         <div class="card-body">
+            <button th:if="${nowAccount.isOfficer()}"
+                    type="button" class="btn btn-dark float-end ms-2" data-bs-toggle="modal" data-bs-target="#mergeAccountPopUp">
+                <i class="fa fa-pencil mr-1"></i>  Merge
+            </button>
             <button th:if="${(nowAccount.isOfficer() and !(account.isAdmin())) or nowAccount.isAdmin() or (nowAccount.getLineId() eq account.getLineId())}"
                     type="button" class="btn btn-primary float-end" data-bs-toggle="modal" data-bs-target="#editInfoAccountPopUp">
                 <i class="fa fa-pencil mr-1"></i>  Edit
             </button>
+            <th:block th:replace="account/accountPopUp/mergeAccountPopUp :: mergeAccountPopUp(${account}, ${accountsList})">modal</th:block>
             <th:block th:replace="account/accountPopUp/editInfoAccountPopUp :: editInfoAccountPopUp(${account})">modal</th:block>
             <h2 class="card-title mt-3">[[*{account.firstName}]] [[*{account.lastName}]]</h2>
             <p class="card-text w-50 mt-3">
@@ -388,7 +409,7 @@
                 <th:block th:replace="pet/petPopUp/createPetPopUp :: createPetPopUp(${account.accId},${petTypeList},${breedList})">modal</th:block>
             </div>
             <div class="card-body">
-                <table class="table">
+                <table class="table-profile">
                     <thead>
                     <tr>
                         <th scope="col">Image</th>
@@ -408,7 +429,11 @@
                     <div th:each="pet : ${filterPets}">
                         <tr >
                             <div>
-                                <td><img alt="" th:src="*{'data:image;base64,'+{pet.image}}" class="rounded-circle" style="width:80px;height:80px"></th>
+                                <td>
+<!--                                    <img alt="" th:src="*{'data:image;base64,'+{pet.image}}" class="rounded-circle" style="width:80px;height:80px">-->
+                                    <img th:if="${pet.image != null}" th:src="*{'data:image;base64,'+{pet.image}}" class="rounded-circle" style="width:80px;height:80px"/>
+                                    <img th:unless="${pet.image != null}" th:src="@{/images/no-image.jpg}" class="rounded-circle" style="width:80px;height:80px"/>
+                                </td>
 
                                 <td>[[*{pet.name}]]</td>
                                 <td>[[*{pet.gender}]]</td>

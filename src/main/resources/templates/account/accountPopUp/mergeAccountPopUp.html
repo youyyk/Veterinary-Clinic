@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+<div th:fragment="mergeAccountPopUp(accountMain, accountList)" th:id="mergeAccountPopUp" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
+     data-bs-backdrop="static" aria-hidden="true">
+
+    <div id="popUpMergeAccount" class="modal-dialog" style="max-width: 700px">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="mergeAccountFormHeader">Merge Account</h5>
+                <button onclick="clickMergeNo();" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <b id="textMainAccount">Primary Account</b>
+                <table id="mainAccountTable" class="table-profile">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="user-info">
+                                    <div class="user-info__img">
+                                        <img th:if="${accountMain.img_path != null}" th:src="${accountMain.img_path}" />
+                                        <img th:unless="${accountMain.img_path != null}" th:src="@{/images/no-image.jpg}" />
+                                    </div>
+                                    <div class="user-info__basic">
+                                        <h5 class="mb-0" th:text="${accountMain.getFullName()}"/>
+                                        <p class="text-muted mb-0" th:text="'@'+${accountMain.lineName}"/>
+                                    </div>
+                                </div>
+                            </td>
+                            <td th:text="${account.phone}" />
+                        </tr>
+                    </tbody>
+                </table>
+                <form id="mergeAccountForm" th:action="@{/account/merge}" method="POST" >
+                    <div id="mergeAccountFormPane">
+                        <b class="mb-0 float-start pt-2">Select Account</b>
+                        <!--Account ID-->
+                        <input type="hidden" class="form-control" id="accId" name="accId" th:value="${accountMain.accId}">
+                        <input type="hidden" class="form-control" id="mergeAccId" name="mergeAccId">
+                        <table id="datatableMergeAccount" class="table">
+                            <thead>
+                            <tr>
+<!--                                <th>image</th>-->
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody th:if="${not #lists.isEmpty(accountList)}">
+                                <div th:each="account : ${accountList}">
+                                    <tr>
+<!--                                        <td>-->
+<!--                                            <img th:if="${account.img_path != null}" th:src="${account.img_path}" />-->
+<!--                                            <img th:unless="${account.img_path != null}" th:src="@{/images/no-image.jpg}" />-->
+<!--                                        </td>-->
+                                        <td th:text="${account.getFullName()}"/>
+                                        <td th:text="${account.phone}"/>
+                                        <td>
+                                            <div class="col-md-12 text-center">
+                                                <a class="btn btn-outline-primary" role="button" th:attr="onclick='clickMerge(\'' + ${account.accId} +  '\');'" >
+                                                    Merge
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </div>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div id="mergeAccountConfirm" style="display: none">
+                        <p>Are you sure you want to merge account ?</p>
+                        <div class="modal-footer">
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-primary" type="submit">Yes</button>
+                                <button onclick="clickMergeNo()" type="reset" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
