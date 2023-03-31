@@ -125,21 +125,21 @@ public class AccountController {
                           @AuthenticationPrincipal AccountUserDetail accountUserDetail,
                           Model model) {
         System.out.println("---Get Info---");
-        Account account = accountService.getById(accId);
+        Account mainAccount = accountService.getById(accId);
 
-//        List<Pet> pets = petService.findByAccountAndSoftDeletedOrderByPetID(account,false);
+//        List<Pet> pets = petService.findByAccountAndSoftDeletedOrderByPetID(mainAccount,false);
         List<Appointment> appointments = appointmentService.findByPet_Account_AccIdOrderByDateAsc(accId);
 
         List<String> petTypeList = petService.petTypeUnique();
         List<String> breedList = petService.breedUnique();
 
-        Page<Pet> pagedResult = petService.getPaginationWithAccount(pageNo-1, pageSize,account);
+        Page<Pet> pagedResult = petService.getPaginationWithAccount(pageNo-1, pageSize,mainAccount);
         model.addAttribute("pets", pagedResult.hasContent() ? pagedResult.getContent() : new ArrayList<>());
         model.addAttribute("pageNo", pagedResult);
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", pagedResult.getTotalPages());
         model.addAttribute("totalAccounts", pagedResult.getTotalElements());
-        model.addAttribute("account", account);
+        model.addAttribute("account", mainAccount);
         model.addAttribute("petTypeList", petTypeList);
         model.addAttribute("breedList", breedList);
         model.addAttribute("filterPets", pagedResult.hasContent() ? pagedResult.getContent() : new ArrayList<>());
@@ -147,10 +147,10 @@ public class AccountController {
         model.addAttribute("search", "");
         if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
             model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
+            // accountList, roles for merge Popup
+            model.addAttribute("accountsList", accountService.getAllNotIncludeNowAccount(accountUserDetail.getAccount().getAccId(), mainAccount.getAccId()));
+            model.addAttribute("roles", new String[]{SecurityConfig.ROLE_ADMIN, SecurityConfig.ROLE_OFFICER, SecurityConfig.ROLE_CUSTOMER});
         }
-        // accountList, roles for merge Popup
-        model.addAttribute("accountsList", accountService.getAllNotIncludeNowAccount(account.getAccId()));
-        model.addAttribute("roles", new String[]{SecurityConfig.ROLE_ADMIN, SecurityConfig.ROLE_OFFICER, SecurityConfig.ROLE_CUSTOMER});
         return "account/infoAccount";
     }
 

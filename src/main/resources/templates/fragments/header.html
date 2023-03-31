@@ -22,7 +22,7 @@
       <span class="material-symbols-rounded">menu</span>
     </button>
 
-    <div th:if="${not #httpServletRequest.requestURI.contains('/register') && !nowAccount.isOnlyCustomer}" class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div th:if="${not #httpServletRequest.requestURI.contains('/register') && !(nowAccount.isOnlyCustomer())}" class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a id="headerNav" th:classappend="${#httpServletRequest.getRequestURI() == '/dashboard' ? 'active':''}" class="nav-link" th:href="@{/dashboard}">Dashboard</a>
