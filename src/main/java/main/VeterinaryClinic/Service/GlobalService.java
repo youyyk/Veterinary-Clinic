@@ -96,22 +96,22 @@ public class GlobalService {
         Account account = new Account("youyyk", "Ua740d4c84ff34de6a233ae21b0db03ab", "");
         accountService.save(account);
         accountService.addRoleAdmin(account);
-        Pet pet = new Pet(account,"Jummeng","male", GlobalService.convertStringToDate("2021-10-05"),
-                true,"Dog","Golden","");
         // Peang
         account = new Account("Miss","Nichanan","Chatuparsutisin",
                 "112 No 70 Sukhumvit 24, Khlong Tan, Khlong Toey, Bangkok,Thailand","0853697548");
         accountService.save(account);
         accountService.addRoleAdmin(account);
-//        Pet pet = new Pet(account,"Jummeng","male", GlobalService.convertStringToDate("2021-10-05"),
-//                true,"Dog","Golden","");
+        Pet pet = new Pet(account,"Jummeng","male", GlobalService.convertStringToDate("2021-10-05"),
+                true,"Dog","Golden","");
         petService.save(pet);
+
         account = new Account("peang", "Udfc07b467d731d48428a2bcb0167abc6", "");
         accountService.save(account);
         accountService.addRoleAdmin(account);
-//        for (int i=1; i<=10; i++){
-//            accountService.create("Test"+i, "user"+i,null);
-//        }
+
+        for (int i=1; i<=10; i++){
+            accountService.create("Test"+i, "user"+i,null);
+        }
         //------------- Pet --------------
         pet = new Pet(accountService.getByLineId("Ua740d4c84ff34de6a233ae21b0db03ab"),"Mini","female", GlobalService.convertStringToDate("2022-05-27"),
                 true,"Dog","Pom","");

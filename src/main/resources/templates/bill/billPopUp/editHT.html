@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+
+<body>
+<!--Create Pet (PopUp)-->
+<div th:fragment="editHT(billID,ht)" th:id="editHT" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     data-bs-backdrop="static" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editHTHeader">Edit HT</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+                th:attr="onclick='clickEditTreatBillNo(\''+'HT' +'\');'"></button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{/treatmentHistory/HT/edit}" method="POST" enctype="multipart/form-data" id="editHTForm">
+          <div id="editHTPane">
+            <!--Bill ID-->
+            <input type="hidden" class="form-control" id="billID" name="billID" th:value="${billID}">
+
+            <div class="input-group input-group mb-3">
+              <span class="input-group-text">HT</span>
+              <input type="text" class="form-control" id="ht" name="ht" th:value="${ht}"
+                     autocomplete="off">
+            </div>
+
+
+            <!--button-->
+            <div class="modal-footer">
+              <div class="col-md-12 text-center">
+                <button th:attr="onclick='clickEditTreatBill(\''+'HT'+'\');'" type="button" class="btn btn-primary">Save</button>
+                <button class="btn btn-secondary" type="reset">Reset</button>
+              </div>
+            </div>
+          </div>
+
+          <div id="editHTConfirm" style="display: none">
+            <p>Are you sure you want to edit HT ?</p>
+            <div class="modal-footer">
+              <div class="col-md-12 text-center">
+                <button class="btn btn-primary" type="submit">Yes</button>
+                <button th:attr="onclick='clickEditTreatBillNo(\''+'HT' +'\');'" type="reset" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+              </div>
+            </div>
+          </div>
+
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+
+</html>

@@ -8,6 +8,7 @@ const regexAddress = /^[0-9A-Za-zก-๙ ,/.-]+$/;
 const regexOnlyCharacterWithNumber = /^[A-Za-z0-9ก-๙ ]+$/;
 const regexOnlyNumber = /^[0-9]+$/;
 const regexPhoneNumber = /^0\d{9}$/;
+const regexDouble = /^[[1-9]\+0\*[0-9]\*[^.0-9]]$/;
 const regexDate = /^\d{4}\-(0[1-9]|1[012])\-(0[1-9]|[12][0-9]|3[01])$/
 const titleChoice = ["Mr.", "Mrs.", "Ms.", "Miss"];
 const genderChoice = ["female", "male"];
@@ -375,7 +376,7 @@ function serviceValidAddServiceToBill(formServiceToBill, option){
 * */
 function serviceValidReceiveTreatment(formReceiveTreatment, option){
     const payload = [];
-    const fields = ["weight"];
+    const fields = ["weight","temp"];
     if (formReceiveTreatment != null || formReceiveTreatment != undefined){
         if (option === "reset") {
             realTimeValid_formReceiveTreatment = false;
@@ -385,6 +386,10 @@ function serviceValidReceiveTreatment(formReceiveTreatment, option){
         if (option === fields[0] || option === "all") { // medId
             validNumberDouble(formReceiveTreatment.elements[fields[0]].value, payload, fields[0], errMessageCharacter)
         }
+        if (option === fields[1] || option === "all") { // medId
+            validNumberDouble(formReceiveTreatment.elements[fields[1]].value, payload, fields[1], errMessageCharacter)
+        }
+
     }
     return payload;
 }

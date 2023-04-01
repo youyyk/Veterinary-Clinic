@@ -433,11 +433,11 @@
         return false;
     }
 </script>
-<!--Edit Weight-->
+<!--Edit Weight & Temp-->
 <script>
     let realTimeValid_formReceiveTreatment = false;
 
-    function validFormEditWeightByEachField(fieldElement){
+    function validFormEditWeightAndTempByEachField(fieldElement){
         if (realTimeValid_formReceiveTreatment){
             const receiveTreatmentForm = document.getElementById("editWeightForm")
             const validatedList = serviceValidReceiveTreatment(receiveTreatmentForm, fieldElement.id);
@@ -534,12 +534,58 @@
                 [[*{pet.name}]]
             </a>
         </p>
-        <p style="font-size: 1.2em;">
-            <b>Diagnosis : </b>
-            <span th:if="${#strings.isEmpty(bill.treatmentHistory.diagnosis)}" class="text-secondary">
+        <p style="font-size: 1.1em;">
+            <b>T : </b><span>[[*{bill.treatmentHistory.temperature}]] °C |</span>
+            <b> Weight : </b><span>[[*{bill.treatmentHistory.weight}]] kg</span>
+            <a data-bs-toggle="modal" th:attr="data-bs-target='#editWeight'">
+                <span class="material-symbols-rounded align-middle"
+                      style="color: #A6AB98"
+                      onMouseOver="this.style.color='#76A001'"
+                      onMouseOut="this.style.color='#A6AB98'">edit_note</span>
+            </a>
+        </p>
+        <th:block th:replace="bill/billPopUp/editWeight :: editWeight(${bill.billID},${bill.treatmentHistory.weight},${bill.treatmentHistory.temperature})">modal</th:block>
+
+        <p style="font-size: 1.1em;">
+            <b>CC : </b>
+            <span th:if="${#strings.isEmpty(bill.treatmentHistory.cc) || bill.treatmentHistory.cc == null}" class="text-secondary">
                 <em>none</em>
             </span>
-            <span th:if="${not #strings.isEmpty(bill.treatmentHistory.diagnosis)}">
+            <span th:if="${not #strings.isEmpty(bill.treatmentHistory.cc) || bill.treatmentHistory.diagnosis != null}">
+                [[*{bill.treatmentHistory.cc}]]
+            </span>
+            <a data-bs-toggle="modal" th:attr="data-bs-target='#editCC'">
+                <span class="material-symbols-rounded align-middle"
+                      style="color: #A6AB98"
+                      onMouseOver="this.style.color='#76A001'"
+                      onMouseOut="this.style.color='#A6AB98'">edit_note</span>
+            </a>
+        </p>
+        <th:block th:replace="bill/billPopUp/editCC :: editCC(${bill.billID},${bill.treatmentHistory.cc})">modal</th:block>
+
+        <p style="font-size: 1.1em;">
+            <b>HT : </b>
+            <span th:if="${#strings.isEmpty(bill.treatmentHistory.ht)}" class="text-secondary">
+                <em>none</em>
+            </span>
+            <span th:if="${not #strings.isEmpty(bill.treatmentHistory.ht)}">
+                [[*{bill.treatmentHistory.ht}]]
+            </span>
+            <a data-bs-toggle="modal" th:attr="data-bs-target='#editHT'">
+                <span class="material-symbols-rounded align-middle"
+                      style="color: #A6AB98"
+                      onMouseOver="this.style.color='#76A001'"
+                      onMouseOut="this.style.color='#A6AB98'">edit_note</span>
+            </a>
+        </p>
+        <th:block th:replace="bill/billPopUp/editHT :: editHT(${bill.billID},${bill.treatmentHistory.ht})">modal</th:block>
+
+        <p style="font-size: 1.2em;">
+            <b>Diagnosis : </b>
+            <span th:if="${#strings.isEmpty(bill.treatmentHistory.diagnosis) || bill.treatmentHistory.diagnosis == null}" class="text-secondary">
+                <em>none</em>
+            </span>
+            <span th:if="${(not #strings.isEmpty(bill.treatmentHistory.diagnosis)) || bill.treatmentHistory.diagnosis != null}">
                 [[*{bill.treatmentHistory.diagnosis}]]
             </span>
             <a data-bs-toggle="modal" th:attr="data-bs-target='#editDiagnosis'">
@@ -550,22 +596,22 @@
             </a>
         </p>
         <th:block th:replace="bill/billPopUp/editDiagnosis :: editDiagnosis(${bill.billID},${bill.treatmentHistory.diagnosis})">modal</th:block>
-        <p style="font-size: 1.2em;">
-            <b>Weight : </b>
-            <span th:if="${bill.treatmentHistory.weight == -1}" class="text-secondary">
-                <em>none</em>
-            </span>
-            <span th:if="${bill.treatmentHistory.weight != -1}">
-                [[*{bill.treatmentHistory.weight}]] kg
-            </span>
-            <a data-bs-toggle="modal" th:attr="data-bs-target='#editWeight'">
-                <span class="material-symbols-rounded align-middle"
-                      style="color: #A6AB98"
-                      onMouseOver="this.style.color='#76A001'"
-                      onMouseOut="this.style.color='#A6AB98'">edit_note</span>
-            </a>
-        </p>
-        <th:block th:replace="bill/billPopUp/editWeight :: editWeight(${bill.billID},${bill.treatmentHistory.weight})">modal</th:block>
+<!--        <p style="font-size: 1.2em;">-->
+<!--            <b>Weight : </b>-->
+<!--            <span th:if="${bill.treatmentHistory.weight == -1}" class="text-secondary">-->
+<!--                <em>none</em>-->
+<!--            </span>-->
+<!--            <span th:if="${bill.treatmentHistory.weight != -1}">-->
+<!--                [[*{bill.treatmentHistory.weight}]] kg-->
+<!--            </span>-->
+<!--            <a data-bs-toggle="modal" th:attr="data-bs-target='#editWeight'">-->
+<!--                <span class="material-symbols-rounded align-middle"-->
+<!--                      style="color: #A6AB98"-->
+<!--                      onMouseOver="this.style.color='#76A001'"-->
+<!--                      onMouseOut="this.style.color='#A6AB98'">edit_note</span>-->
+<!--            </a>-->
+<!--        </p>-->
+<!--        <th:block th:replace="bill/billPopUp/editWeight :: editWeight(${bill.billID},${bill.treatmentHistory.weight})">modal</th:block>-->
 
         <p th:if="${bill.paidStatus == true}" style="font-size: 1.2em;">
             <b>Discount : </b>

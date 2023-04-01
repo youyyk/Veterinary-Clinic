@@ -482,7 +482,7 @@ function clickEditBillNo(item,id,name) {
 }
 // ------------- Edit Treat Bill --------------
 function clickEditTreatBill(detail){
-    if (!validSubmitReceiveTreatmentForm(document.getElementById('editWeightForm'),'all')){
+    if (!validSubmitReceiveTreatmentForm(document.getElementById('editWeightForm'),'all') && detail == "Weight"){
         return false;
     }
     let header = document.getElementById("edit"+detail+"Header");

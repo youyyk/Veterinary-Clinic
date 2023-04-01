@@ -1,6 +1,5 @@
 package main.VeterinaryClinic.Controller;
 
-import main.VeterinaryClinic.Model.Account.Account;
 import main.VeterinaryClinic.Model.Account.AccountUserDetail;
 import main.VeterinaryClinic.Model.Appointment;
 import main.VeterinaryClinic.Model.Bill.Bill;
@@ -8,6 +7,9 @@ import main.VeterinaryClinic.Model.TreatmentHistory;
 import main.VeterinaryClinic.Model.Pet;
 import main.VeterinaryClinic.Service.*;
 import main.VeterinaryClinic.Service.Account.AccountService;
+import main.VeterinaryClinic.Service.Construct.MedicineAmt;
+import main.VeterinaryClinic.Service.SubBill.BillMedicineService;
+import main.VeterinaryClinic.Service.SubBill.BillServiceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -33,6 +36,10 @@ public class TreatmentHistoryController {
     private PetService petService;
     @Autowired
     private MainBillService mainBillService;
+    @Autowired
+    private BillMedicineService billMedicineService;
+    @Autowired
+    private BillServiceService billServiceService;
     @Autowired
     private AccountService accountService;
 
@@ -52,11 +59,24 @@ public class TreatmentHistoryController {
         List<TreatmentHistory> treatmentHistories = treatmentHistoryService.findByPet(pet);
         System.out.println(treatmentHistories);
 
+        List<List<MedicineAmt>> allMedicineAmt = new ArrayList<>();
+
+        for (TreatmentHistory treat:treatmentHistories) {
+            List<MedicineAmt> medicineAmts  = billMedicineService.countMedicine(treat.getBill());
+            allMedicineAmt.add(medicineAmts);
+        }
+        System.out.println("------- show ------");
+        for (List<MedicineAmt> med:allMedicineAmt) {
+            System.out.println(med);
+        }
+
         List<String> petTypeList = petService.petTypeUnique();
         List<String> breedList = petService.breedUnique();
 
         model.addAttribute("pet", pet);
         model.addAttribute("treatmentHistories", treatmentHistories);
+        model.addAttribute("treatSize",treatmentHistories.size());
+        model.addAttribute("allMedicineAmt",allMedicineAmt);
         model.addAttribute("petTypeList", petTypeList);
         model.addAttribute("breedList", breedList);
 
@@ -101,6 +121,41 @@ public class TreatmentHistoryController {
         }
         else {
             bill.getTreatmentHistory().setDiagnosis("");
+            mainBillService.save(bill);
+        }
+
+        return "redirect:/bill/getDetail/"+billID;
+    }
+    @RequestMapping(path = "/CC/edit", method = POST)
+    public String editCC(@RequestParam("billID") long billID,
+                                @RequestParam("cc") String cc) {
+        System.out.println("---Edit CC---");
+        Bill bill = mainBillService.findByBillID(billID);
+
+        if (!cc.isEmpty() || !cc.isBlank() || !(cc == null)){
+            bill.getTreatmentHistory().setCc(cc);
+            mainBillService.save(bill);
+        }
+        else {
+            bill.getTreatmentHistory().setCc("");
+            mainBillService.save(bill);
+        }
+
+        return "redirect:/bill/getDetail/"+billID;
+    }
+
+    @RequestMapping(path = "/HT/edit", method = POST)
+    public String editHT(@RequestParam("billID") long billID,
+                         @RequestParam("ht") String ht) {
+        System.out.println("---Edit HT---");
+        Bill bill = mainBillService.findByBillID(billID);
+
+        if (!ht.isEmpty() || !ht.isBlank() || !(ht == null)){
+            bill.getTreatmentHistory().setHt(ht);
+            mainBillService.save(bill);
+        }
+        else {
+            bill.getTreatmentHistory().setHt("");
             mainBillService.save(bill);
         }
 

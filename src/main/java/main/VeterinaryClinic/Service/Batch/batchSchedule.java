@@ -26,7 +26,7 @@ public class batchSchedule {
     LineSendService lineSendService;
     @Autowired
     WareHouseService wareHouseService;
-    @Scheduled(fixedRate = 5000)
+//    @Scheduled(fixedRate = 5000)
 //    @Scheduled(cron = "0 0 9 * * *") // Run every day at 9 A.M.
     public void runTask() {
         Date today = GlobalService.getCurrentTime();
@@ -53,7 +53,7 @@ public class batchSchedule {
         lineSendService.sendMessageToClient(prepareMessage);
     }
 
-        @Scheduled(fixedRate = 10000)
+//        @Scheduled(fixedRate = 10000)
 //    @Scheduled(cron = "0 0 9 * * *") // Run every day at 9 A.M.
     public void warehouseAlert() {
         Date today = GlobalService.getCurrentTime();
@@ -74,9 +74,9 @@ public class batchSchedule {
         int almostToolCount = 0;
         for (WareHouse wh : wareHouses) {
             short expiredType = wh.isExpired();
-            if (expiredType == -1 && wh.getType().equals("medicine")){
+            if (expiredType == -1 && wh.getType().trim().equals("medicine")){
                 expiredMedCount++;
-            } else if (expiredType == 1 && wh.getType().equals("medicine")) {
+            } else if (expiredType == 1 && wh.getType().trim().equals("medicine")) {
                 almostMedCount++;
             }
             if (expiredType == -1 && wh.getType().equals("tool")){
