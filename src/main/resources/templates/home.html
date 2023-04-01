@@ -136,7 +136,7 @@
                 }
                 addClassValidAndInValid(receiveTreatmentForm.elements[element.fieldId], element.errorMessage);
             });
-            if (count === 1){
+            if (count === 4){
                 return true;
             }
         }
@@ -325,7 +325,7 @@
                                 <th>Bill ID</th>
                                 <th>Owner</th>
                                 <th>Pet's Name</th>
-                                <th>What</th>
+                                <th>CC</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -343,7 +343,7 @@
                                     </a>
                                 </td>
                                 <td th:class="${bill.queueStatus ? 'opacitySoft' : ''}" th:text="${ bill.getTreatmentHistory().getPet().getName()}"></td>
-                                <td th:class="${bill.queueStatus ? 'opacitySoft' : ''}" th:text="${ bill.getTreatmentHistory().getDiagnosis()}"></td>
+                                <td th:class="${bill.queueStatus ? 'opacitySoft' : ''}" th:text="${ bill.getTreatmentHistory().getCc()}"></td>
                                 <td th:class="${bill.queueStatus ? 'opacitySoft' : ''}" th:switch="${bill.appointmentStatus}">
                                     <span th:case='true' th:text="Reserve" class="badge rounded-pill bg-success" style="text-align: center"/>
                                     <span th:case='false' th:text="Walk-In" class="badge rounded-pill bg-secondary" style="text-align: center"/>

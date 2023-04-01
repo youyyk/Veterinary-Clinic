@@ -489,7 +489,7 @@ function clickEditTreatBill(detail){
     let addItemPane = document.getElementById("edit"+detail+"Pane");
     let addItemConfirm = document.getElementById("edit"+detail+"Confirm");
 
-    header.innerHTML = "Edit "+detail+" (Confirmation)";
+    header.innerHTML = "Edit Temperature & Weight" + " (Confirmation)";
 
     addItemConfirm.style.display = show;
     addItemPane.style.display = hide;
@@ -501,7 +501,7 @@ function clickEditTreatBillNo(detail) {
         let addItemPane = document.getElementById("edit"+detail+"Pane");
         let addItemConfirm = document.getElementById("edit"+detail+"Confirm");
 
-        header.innerHTML = "Edit "+detail;
+        header.innerHTML = "Edit Temperature & Weight";
 
         addItemConfirm.style.display = hide;
         addItemPane.style.display = show;

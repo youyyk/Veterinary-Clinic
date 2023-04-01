@@ -37,6 +37,15 @@ public class TreatmentHistory {
     @Column(name="weight")
     private double weight;
 
+    @Column(name="temperature")
+    private double temperature;
+
+    @Column(name="cc", columnDefinition = "TEXT")
+    private String cc;
+
+    @Column(name="ht", columnDefinition = "TEXT")
+    private String ht;
+
 //    @Column(name="our_clinic")
 //    private boolean ourClinic;
 
@@ -60,13 +69,21 @@ public class TreatmentHistory {
         this.weight = weight;
     }
 
-    public TreatmentHistory(Pet pet, Date date, String diagnosis) {
+    public TreatmentHistory(Pet pet, Date date, double weight, double temperature) {
         this.pet = pet;
         this.date = date;
-        this.diagnosis = diagnosis;
-        this.weight = -1;
+        this.weight = weight;
+        this.temperature = temperature;
     }
 
+    public TreatmentHistory(Pet pet, Date date, String cc, String ht, double weight, double temperature) {
+        this.pet = pet;
+        this.date = date;
+        this.cc = cc;
+        this.ht = ht;
+        this.weight = weight;
+        this.temperature = temperature;
+    }
 
     @Override
     public String toString() {

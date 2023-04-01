@@ -1,2 +1,0 @@
-- Register condition in controller
-- Mock Data

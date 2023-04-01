@@ -4,32 +4,45 @@
 
 <body>
 <!--Create Pet (PopUp)-->
-<div th:fragment="editWeight(billID,weight)" th:id="editWeight" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+<div th:fragment="editWeight(billID,weight,temp)" th:id="editWeight" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
      data-bs-backdrop="static" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="editWeightHeader">Edit Weight</h5>
+        <h5 class="modal-title" id="editWeightHeader">Edit Temperature & Weight</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
                 th:attr="onclick='clickEditTreatBillNo(\''+'Weight' +'\');'"></button>
       </div>
       <div class="modal-body">
-        <form th:action="@{/treatmentHistory/weight/edit}" method="POST" enctype="multipart/form-data" id="editWeightForm">
+        <form th:action="@{/treatmentHistory/weightTemp/edit}" method="POST" enctype="multipart/form-data" id="editWeightForm">
           <div id="editWeightPane">
           <!--Bill ID-->
           <input type="hidden" class="form-control" id="billID" name="billID" th:value="${billID}">
 
+            <div class="input-group input-group mb-3">
+              <span class="input-group-text">Temperature</span>
+              <input type="number" step="0.1" class="form-control" id="temp" name="temp" th:value="${temp}"
+                     autocomplete="off"
+                     onkeyup="validFormEditWeightAndTempByEachField(this)"
+                     onchange="validFormEditWeightAndTempByEachField(this)"
+                     onpaste="validFormEditWeightAndTempEachField(this)">
+              <div class="input-group-prepend">
+                <div class="input-group-text">°C</div>
+              </div>
+            </div>
+
           <div class="input-group input-group mb-3">
             <span class="input-group-text">Weight</span>
-            <input type="number" class="form-control" id="weight" name="weight" min=0 th:value="${weight}"
+            <input type="number" step="0.1" class="form-control" id="weight" name="weight" th:value="${weight}"
                    autocomplete="off"
-                   onkeyup="validFormEditWeightByEachField(this)"
-                   onchange="validFormEditWeightByEachField(this)"
+                   onkeyup="validFormEditWeightAndTempByEachField(this)"
+                   onchange="validFormEditWeightAndTempByEachField(this)"
                    onpaste="validFormEditWeightByEachField(this)">
             <div class="input-group-prepend">
               <div class="input-group-text">kg</div>
             </div>
           </div>
+
 
           <!--button-->
             <div class="modal-footer">

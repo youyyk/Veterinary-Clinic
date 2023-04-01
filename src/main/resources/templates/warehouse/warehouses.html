@@ -472,7 +472,7 @@
                                                 <a th:if="${wh.isExpired() == -1 && !wh.softDeleted}" class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#stockOutPopUp'+*{wh.itemID}">
                                                     <i class="material-symbols-rounded align-middle">inventory_2</i> Stock Out
                                                 </a>
-                                                <a th:if="${wh.quantityIn ==  wh.quantityLeft && !wh.softDeleted}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+*{wh.itemID}">
+                                                <a th:if="${wh.isCanDelete() && !wh.softDeleted}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+*{wh.itemID}">
                                                     <i class="material-symbols-rounded align-middle">delete</i> Delete
                                                 </a>
                                             </div>
@@ -537,7 +537,7 @@
                                                 <a class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editWarehouseMedicinePopUp'+ *{med.medID}" role="button">
                                                     <i class="material-symbols-rounded align-middle">edit</i> Edit
                                                 </a>
-                                                <a th:if="${med.isCanDelete()}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+'-1'+*{med.medID}">
+                                                <a class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+'-1'+*{med.medID}">
                                                     <i class="material-symbols-rounded align-middle">delete</i> Delete
                                                 </a>
                                             </div>
@@ -593,7 +593,7 @@
                                             <a class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editWarehouseToolPopUp'+ *{tool.toolID}" role="button">
                                                 <i class="material-symbols-rounded align-middle">edit</i> Edit
                                             </a>
-                                            <a th:if="${tool.isCanDelete()}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+'-2'+*{tool.ToolID}">
+                                            <a class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+'-2'+*{tool.ToolID}">
                                                 <i class="material-symbols-rounded align-middle">delete</i> Delete
                                             </a>
                                         </div>

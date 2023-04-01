@@ -20,4 +20,6 @@ public class ServingService {
     public Serving save(Serving serving) {return repository.save(serving);}
 
     public Serving findByServiceID(long serviceId){return repository.findByServingID(serviceId);}
+
+    public List<Serving> findBySoftDeleted(boolean softDeleted){return repository.findBySoftDeleted(softDeleted);}
 }

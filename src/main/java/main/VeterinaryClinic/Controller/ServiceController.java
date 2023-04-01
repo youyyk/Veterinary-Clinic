@@ -33,7 +33,7 @@ public class ServiceController {
             model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
         }
         System.out.println("------- All Service -------");
-        List<Serving> servings = servingService.getAll();
+        List<Serving> servings = servingService.findBySoftDeleted(false);
         model.addAttribute("services", servings);
         model.addAttribute("newService", new Serving());
 

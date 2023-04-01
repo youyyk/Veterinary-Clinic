@@ -311,7 +311,7 @@
                 }
                 addClassValidAndInValid(receiveTreatmentForm.elements[element.fieldId], element.errorMessage);
             });
-            if (count === 1){
+            if (count === 4){
                 return true;
             }
         }
@@ -365,9 +365,10 @@
             <p class="card-text mb-1 bottom-0">
                 <span class="material-symbols-rounded align-middle pb-1">call</span>
                 <span style="font-size: 1.2em;">
-                   [[*{account.phone}]] |
+                   [[*{account.phone}]]
                 </span>
-                <img th:src="@{/images/line.png}" class="align-middle pb-1" height="20"/>
+                <span th:if="${account.getLineId() != null}"> | </span>
+                <img th:if="${account.getLineId() != null}" th:src="@{/images/line.png}" class="align-middle pb-1" height="20"/>
                 <span style="font-size: 1.2em;">
                    [[*{account.lineName}]]
                 </span>
@@ -474,7 +475,7 @@
                                                    th:attr="data-bs-target='#createAppointment'+*{pet.petID}">
                                                     <span class="material-symbols-rounded align-middle pb-1">event_available</span> Create Appointment
                                                 </a>
-                                                <a class="dropdown-item btn" th:href="@{'/treatmentHistory/pet'+${pet.petID}}">
+                                                <a th:if="${nowAccount.isOfficer()}" class="dropdown-item btn" th:href="@{'/treatmentHistory/pet'+${pet.petID}}">
                                                     <span class="material-symbols-rounded align-middle pb-1">folder_open</span> Treatment Histories
                                                 </a>
                                                 <a class="dropdown-item btn" data-bs-toggle="modal"

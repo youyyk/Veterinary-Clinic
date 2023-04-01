@@ -98,9 +98,9 @@ public class BillController {
         System.out.println("--- Get Bill ID : "+billID+" ---");
         Bill bill = mainBillService.findByBillID(billID);
         Pet pet = petService.findByPetID(bill.getTreatmentHistory().getPet().getPetID());
-        List<Medicine> medicines = medicineService.getAll();
-        List<Tool> tools = toolService.getAll();
-        List<Serving> servings = servingService.getAll();
+        List<Medicine> medicines = medicineService.findBySoftDeleted(false);
+        List<Tool> tools = toolService.findBySoftDeleted(false);
+        List<Serving> servings = servingService.findBySoftDeleted(false);
 
         List<BillMedicine> billMedList = billMedicineService.findByBill(bill);
         List<BillTool> billToolList = billToolService.findByBill(bill);

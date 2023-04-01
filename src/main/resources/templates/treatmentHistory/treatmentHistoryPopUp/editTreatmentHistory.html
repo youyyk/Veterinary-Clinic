@@ -19,9 +19,23 @@
             <!--Bill ID-->
             <input type="hidden" class="form-control" id="treatmentHisID" name="treatmentHisID" th:value="${treat.treatmentHisID}">
 
+
             <div class="input-group input-group mb-3">
-              <span class="input-group-text">Diagnosis</span>
-              <input type="text" class="form-control" id="diagnosis" name="diagnosis" th:value="${treat.diagnosis}">
+              <span class="input-group-text">CC     </span>
+              <input type="number" class="form-control" id="cc" name="cc" min=0
+                     autocomplete="off"
+                     th:onkeyup="'javascript:validFormReceiveTreatmentByEachField(\'' + 'cc' +'\',\''+ ${pet.petID}+${appointmentId} + '\');'"
+                     th:onchange="'javascript:validFormReceiveTreatmentByEachField(\'' + 'cc' +'\',\''+ ${pet.petID}+${appointmentId} + '\');'"
+                     th:onpaste="'javascript:validFormReceiveTreatmentByEachField(\'' + 'cc' +'\',\''+ ${pet.petID}+${appointmentId} + '\');'">
+            </div>
+
+            <div class="input-group input-group mb-3">
+              <span class="input-group-text">HT     </span>
+              <input type="number" class="form-control" id="ht" name="ht" min=0
+                     autocomplete="off"
+                     th:onkeyup="'javascript:validFormReceiveTreatmentByEachField(\'' + 'ht' +'\',\''+ ${pet.petID}+${appointmentId} + '\');'"
+                     th:onchange="'javascript:validFormReceiveTreatmentByEachField(\'' + 'ht' +'\',\''+ ${pet.petID}+${appointmentId} + '\');'"
+                     th:onpaste="'javascript:validFormReceiveTreatmentByEachField(\'' + 'ht' +'\',\''+ ${pet.petID}+${appointmentId} + '\');'">
             </div>
 
             <div class="input-group input-group mb-3">
@@ -31,6 +45,26 @@
                      th:onkeyup="'javascript:validFormEditTreatmentByEachField(\'' + 'weight' +'\',\''+ ${treat.treatmentHisID} + '\');'"
                      th:onchange="'javascript:validFormEditTreatmentByEachField(\'' + 'weight' +'\',\''+ ${treat.treatmentHisID} + '\');'"
                      th:onpaste="'javascript:validFormEditTreatmentByEachField(\'' + 'weight' +'\',\''+ ${treat.treatmentHisID} + '\');'">
+              <div class="input-group-prepend">
+                <div class="input-group-text">kg</div>
+              </div>
+            </div>
+
+            <div class="input-group input-group mb-3">
+              <span class="input-group-text">Temperature</span>
+              <input type="number" class="form-control" id="temp" name="temp" min=0
+                     autocomplete="off"
+                     th:onkeyup="'javascript:validFormReceiveTreatmentByEachField(\'' + 'temp' +'\',\''+ ${pet.petID}+${appointmentId} + '\');'"
+                     th:onchange="'javascript:validFormReceiveTreatmentByEachField(\'' + 'temp' +'\',\''+ ${pet.petID}+${appointmentId} + '\');'"
+                     th:onpaste="'javascript:validFormReceiveTreatmentByEachField(\'' + 'temp' +'\',\''+ ${pet.petID}+${appointmentId} + '\');'">
+              <div class="input-group-prepend">
+                <div class="input-group-text">°C</div>
+              </div>
+            </div>
+
+            <div class="input-group input-group mb-3">
+              <span class="input-group-text">Diagnosis</span>
+              <input type="text" class="form-control" id="diagnosis" name="diagnosis" th:value="${treat.diagnosis}">
             </div>
 
             <!--button-->
