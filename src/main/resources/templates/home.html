@@ -225,7 +225,7 @@
                                                     <a th:if="${app.status}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#restorePopUp'+*{app.getAppointmentID()}">
                                                         <i class="material-symbols-rounded align-middle">settings_backup_restore</i> Restore
                                                     </a>
-                                                    <a th:if="${!app.status}" class="dropdown-item text-danger btn" data-bs-toggle="modal"
+                                                    <a th:if="${!app.status && nowAccount.isAdmin()}" class="dropdown-item text-danger btn" data-bs-toggle="modal"
                                                        th:attr="data-bs-target='#deletePopUpA'+${app.appointmentID}">
                                                         <span class="material-symbols-rounded align-middle pb-1">delete</span> Delete
                                                     </a>
@@ -294,7 +294,7 @@
                                                     <a class="dropdown-item btn" th:href="@{'/bill/getDetail/'+${bill.billID}}">
                                                         <span class="material-symbols-rounded align-middle pb-1">receipt_long</span> Bill's Details
                                                     </a>
-                                                    <a th:if="${bill.total == 0 and bill.paidStatus == false and nowAccount.isAdmin()}" class="dropdown-item text-danger btn" data-bs-toggle="modal"
+                                                    <a th:if="${bill.total == 0 && bill.paidStatus == false && nowAccount.isAdmin()}" class="dropdown-item text-danger btn" data-bs-toggle="modal"
                                                        th:attr="data-bs-target='#deletePopUp'+*{bill.billID}">
                                                         <span class="material-symbols-rounded align-middle pb-1">delete</span> Delete
                                                     </a>
