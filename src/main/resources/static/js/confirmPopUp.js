@@ -39,7 +39,7 @@ function clickCreatePetNo() {
 }
 // ------------- Edit Pet --------------
 function clickEditPet(petID){
-    if (!validSubmitEditPetInfoForm(document.getElementById('editPetForm'+petID), 'all')){
+    if (!serviceValidNewPet(document.getElementById('editPetForm'+petID), 'all')){
         return false;
     }
     const formEdit = document.getElementById("editPetForm"+petID);
@@ -56,7 +56,7 @@ function clickEditPet(petID){
 }
 function clickEditPetNo(petID) {
     setTimeout(function (){
-        validSubmitEditPetInfoForm('editPetForm'+petID,'reset');
+        serviceValidNewPet('editPetForm'+petID,'reset');
         let editPane = document.getElementById("editPetPane"+petID);
         let header = document.getElementById("editPetHeader"+petID);
         let editConfirm = document.getElementById("editPetConfirm"+petID);

@@ -122,8 +122,10 @@
                     <div th:id="'editPetConfirm'+${pet.petID}" style="display: none" class="text-start">
                         <p >Are you sure you want to edit [[${pet.name}]] ?</p>
                         <div class="modal-footer">
-                            <button class="btn btn-primary" type="submit">Yes</button>
-                            <button th:attr="onclick='clickEditPetNo(\'' + ${pet.petID} +  '\');'" type="reset" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                            <div class="col-md-12 text-center">
+                                <button class="btn btn-primary" type="submit">Yes</button>
+                                <button th:attr="onclick='clickEditPetNo(\'' + ${pet.petID} +  '\');'" type="reset" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                            </div>
                         </div>
                     </div>
                 </form>
