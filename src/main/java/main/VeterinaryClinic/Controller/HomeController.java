@@ -48,20 +48,15 @@ public class HomeController {
     public String getDashboard(Model model, @AuthenticationPrincipal AccountUserDetail accountUserDetail) {
         List<WareHouse> wareHouses = wareHouseService.getAllBySoftDeletedIsFalseOrderByExpiredDateAsc();
         List<WareHouse> needWareHouse = new ArrayList<>();
-        int expiredCount = 0;
-        int almostCount = 0;
         for (WareHouse wh : wareHouses) {
             short expiredType = wh.isExpired();
             if (expiredType == -1){
                 needWareHouse.add(wh);
-                expiredCount++;
             } else if (expiredType == 1) {
                 needWareHouse.add(wh);
-                almostCount++;
             }
         }
         List<Appointment> todayAppointment = appointmentService.findByTodayDateOrderByPeriodDesc();
-        List<Bill> bills = mainBillService.findByPaidStatusIsFalseOrderByStartDateAsc();
 
         if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
             model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
@@ -71,11 +66,14 @@ public class HomeController {
             return "redirect:/landing";
         }
 
+        List<Bill> billsUnpaid = mainBillService.getAllFilterQueuePaidStatus(true, false);
+        List<Bill> billQueueToShow = new ArrayList<>();
+        billQueueToShow.addAll(mainBillService.getAllFilterAppointmentQueuePaidStatus(true, false, false));
+        billQueueToShow.addAll(mainBillService.getAllFilterAppointmentQueuePaidStatus(false, false, false));
         model.addAttribute("appointments",todayAppointment );
         model.addAttribute("warehouses",needWareHouse );
-        model.addAttribute("bills",bills );
-        model.addAttribute("expiredCount",expiredCount );
-        model.addAttribute("almostCount",almostCount );
+        model.addAttribute("billsUnpaid", billsUnpaid );
+        model.addAttribute("billsQueue",billQueueToShow );
         model.addAttribute("medicines", medicineService.findBySoftDeleted(false));
         model.addAttribute("tools", toolService.findBySoftDeleted(false));
         return "home";

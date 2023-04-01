@@ -50,12 +50,9 @@ public class AppointmentController {
         }
         System.out.println("-------- All Appointment -------");
         // step 1. update model for template
-        model.addAttribute("appointments", appointmentService.getAll());
+        model.addAttribute("appointments", appointmentService.getAllAppointmentListForTable());
         model.addAttribute("todaySize",appointmentService.findByTodayDateOrderByPeriodDesc().size());
         model.addAttribute("dateRange","");
-
-
-
 
         // step 2. choose HTML template
         return "appointment/appointment";

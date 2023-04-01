@@ -84,6 +84,20 @@ public class GlobalService {
         return null;
     }
 
+    public static Date getDefaultTodayDateZeroTime(int offsetDay){
+        Date today = getCurrentTime();
+        Calendar date = Calendar.getInstance();
+        date.setTime(today);
+        date.set(Calendar.HOUR_OF_DAY, 0);
+        date.set(Calendar.MINUTE, 0);
+        date.set(Calendar.SECOND, 0);
+        date.set(Calendar.MILLISECOND, 0);
+        if (offsetDay != 0){
+            date.add(Calendar.DATE, offsetDay);
+        }
+        return date.getTime();
+    }
+
     public static String handleRedirectPageForAccount(Account account, String goToPath){
         if (account.isRegisAccount()) {
             return goToPath;
@@ -214,6 +228,7 @@ public class GlobalService {
         treatmentHistory = new TreatmentHistory(petService.findByPetID(1), GlobalService.convertStringToDate("2023-03-14"),
                                         "ถ่ายพยาธิ",21.7);
         bill = new Bill();
+        bill.setQueueStatus(true);
         bill.setStartDate(GlobalService.getCurrentTime());
         treatmentHistory.setBill(bill);
         bill.setTreatmentHistory(treatmentHistory);
@@ -241,7 +256,7 @@ public class GlobalService {
         Appointment appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-04-01"),"morning","ดูแผล");
         appointmentService.save(appointment);
         pet = petService.findByPetID(1);
-        appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-04-17"),"afternoon","vaccine");
+        appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-03-31"),"afternoon","vaccine");
         appointmentService.save(appointment);
         pet = petService.findByPetID(3);
         appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-04-13"),"morning","ดูแผล");

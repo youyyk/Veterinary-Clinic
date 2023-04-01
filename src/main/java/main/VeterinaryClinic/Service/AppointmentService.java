@@ -43,6 +43,26 @@ public class AppointmentService {
         return repository.findByPet_Account_AccIdOrderByDateAsc(accID);
     }
 
+    public List<Appointment> findByDateGreaterThanTodayDateEqualOrderByDateAsc() {
+        return repository.findByDateGreaterThanEqualOrderByDateAsc(GlobalService.getDefaultTodayDateZeroTime(0));
+    }
+
+    public List<Appointment> findByDateLessThanTodayDateOrderByDateDesc() {
+        return repository.findByDateLessThanOrderByDateDesc(GlobalService.getDefaultTodayDateZeroTime(0));
+    }
+
+    public List<Appointment> getAllAppointmentListForTable() {
+        List<Appointment> appointmentList = findByDateGreaterThanTodayDateEqualOrderByDateAsc();
+        appointmentList.addAll(findByDateLessThanTodayDateOrderByDateDesc());
+        return appointmentList;
+    }
+
+    public List<Appointment> getAllAppointmentListForTableOnAccount(UUID accId) {
+        List<Appointment> appointmentList = repository.findByPet_Account_AccIdAndDateGreaterThanEqualOrderByDateAsc(accId, GlobalService.getDefaultTodayDateZeroTime(0));
+        appointmentList.addAll(repository.findByPet_Account_AccIdAndDateLessThanOrderByDateDesc(accId, GlobalService.getDefaultTodayDateZeroTime(0)));
+        return appointmentList;
+    }
+
     public List<Appointment> findByTodayDateOrderByPeriodDesc() {
         Calendar calStart = new GregorianCalendar();
         calStart.setTime(new Date());
@@ -54,9 +74,6 @@ public class AppointmentService {
         System.out.println("today (find by) : "+date);
         return repository.findByDateOrderByPeriodDesc(date);
     }
-
-
-
 
 
 }

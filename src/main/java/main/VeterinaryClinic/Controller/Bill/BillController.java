@@ -59,7 +59,7 @@ public class BillController {
         System.out.println("-- Bills Page ---");
 
         // step 1. update model for template
-        model.addAttribute("bills", mainBillService.getAll());
+        model.addAttribute("bills", mainBillService.findByQueueStatusIsTrueOrderByBillIDDesc()); // Mean bill queued
         model.addAttribute("unpaidSize",mainBillService.findByPaidStatusIsFalseOrderByStartDateAsc().size());
 
 
@@ -203,6 +203,18 @@ public class BillController {
         mainBillService.save(bill);
 
         return "redirect:/bill/getDetail/"+billID;
+    }
+
+    @RequestMapping(path = "/queue/{action}", method = POST)
+    public String queueIn(@RequestParam("billID") long billID, @PathVariable("action") String action){
+        Bill bill = mainBillService.findByBillID(billID);
+        if (action.toLowerCase().equals("in")){
+            bill.setQueueStatus(true);
+        } else if (action.toLowerCase().equals("out")) {
+            bill.setQueueStatus(false);
+        }
+        mainBillService.save(bill);
+        return "redirect:/dashboard";
     }
 
     @RequestMapping(path = "/delete", method = POST)

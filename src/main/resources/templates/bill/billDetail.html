@@ -495,7 +495,7 @@
         <p class="pt-3" style="font-size: 1.2em;">
             <b>Customer's name : </b>
             <a th:href="@{'/account/getInfo/'+${pet.account.accId}}" id="owner">
-               [[*{pet.account.firstName}]] [[*{pet.account.lastName}]]
+               [[*{pet.account.getFullName()}]]
             </a>
             <span th:if="${bill.paidStatus == false}" class="float-end">
                 <b>Total : </b> [[${#numbers.formatDecimal(sumBill, 1, 'COMMA', 2, 'POINT')}]] ฿
@@ -530,9 +530,12 @@
 
         <p style="font-size: 1.2em;">
             <b>Pet's name : </b>
-            <a th:href="@{'/treatmentHistory/pet'+${pet.petID}}" id="owner">
-                [[*{pet.name}]]
-            </a>
+            <span>
+                <a th:href="@{'/treatmentHistory/pet'+${pet.petID}}" id="owner">
+                    [[*{pet.name}]]
+                </a>
+            </span>
+            <span th:if="${!#strings.isEmpty(pet.getRemark())}" class="material-symbols-rounded align-middle pb-1" style="color:#FFA600;">warning</span> [[*{pet.remark}]]</p>
         </p>
         <p style="font-size: 1.2em;">
             <b>Diagnosis : </b>

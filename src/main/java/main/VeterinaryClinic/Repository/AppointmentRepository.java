@@ -13,6 +13,8 @@ import java.util.UUID;
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
 
     List<Appointment> findByPet_Account_AccIdOrderByDateAsc(UUID accID);
+    List<Appointment> findByPet_Account_AccIdAndDateGreaterThanEqualOrderByDateAsc(UUID accID, Date date);
+    List<Appointment> findByPet_Account_AccIdAndDateLessThanOrderByDateDesc(UUID accID, Date date);
 
     List<Appointment> findByDateBetween(Date starDate,Date endDate);
 
@@ -22,6 +24,11 @@ public interface AppointmentRepository extends JpaRepository<Appointment, Long> 
     @Transactional
     List<Appointment> findByDate(Date date);
 
+    @Transactional
+    List<Appointment> findByDateGreaterThanEqualOrderByDateAsc(Date date);
+
+    @Transactional
+    List<Appointment> findByDateLessThanOrderByDateDesc(Date date);
 
     @Transactional
     void deleteByAppointmentID(long appointmentID);

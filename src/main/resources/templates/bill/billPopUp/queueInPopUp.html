@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<body>
+<div th:fragment="queueInPopUp(billID, bill)" th:id="'queueInPopUp'+${billID}" class="modal fade modal-dialog-scrollable" tabindex="-1" role="dialog"
+     data-bs-backdrop="static" aria-hidden="true">
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Get In Queue</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form th:action="@{'/bill/queue/in'}" method="POST">
+          <!--ID-->
+          <input type="hidden" class="form-control" id="billID" name="billID" th:value="${billID}">
+
+          <p>Are you sure you want to get in this queue number [[${bill.billID}]]</p>
+
+          <!--button-->
+          <div class="modal-footer">
+            <div class="col-md-12 text-center">
+            <button class="btn btn-primary" type="submit">Yes</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

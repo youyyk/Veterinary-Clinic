@@ -142,7 +142,7 @@ public class AccountController {
         Account mainAccount = accountService.getById(accId);
 
 //        List<Pet> pets = petService.findByAccountAndSoftDeletedOrderByPetID(mainAccount,false);
-        List<Appointment> appointments = appointmentService.findByPet_Account_AccIdOrderByDateAsc(accId);
+        List<Appointment> appointments = appointmentService.getAllAppointmentListForTableOnAccount(accId);
 
         List<String> petTypeList = petService.petTypeUnique();
         List<String> breedList = petService.breedUnique();

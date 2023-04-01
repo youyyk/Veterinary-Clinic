@@ -358,7 +358,7 @@
             </button>
             <th:block th:replace="account/accountPopUp/mergeAccountPopUp :: mergeAccountPopUp(${account}, ${accountsList})">modal</th:block>
             <th:block th:replace="account/accountPopUp/editInfoAccountPopUp :: editInfoAccountPopUp(${account})">modal</th:block>
-            <h2 class="card-title mt-3">[[*{account.firstName}]] [[*{account.lastName}]]</h2>
+            <h2 class="card-title mt-3">[[*{account.getFullName()}]]</h2>
             <p class="card-text w-50 mt-3">
                 <span class="material-symbols-rounded align-middle pb-1">location_on</span> [[*{account.address}]]
             </p>
@@ -550,17 +550,17 @@
                     <div th:each="app : ${appointments}">
                         <tr id="'petRow'+${app.appointmentID}">
                             <td>
-                                <p th:text="${app.pet.name}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                <p th:text="${app.pet.name}" th:class="${app.status  || app.isPast() ? 'opacitySoft' : ''}" style="text-align: left"/>
                             </td>
                             <td>
-                                <p th:text="${#dates.format(app.date, 'dd/MM/yyyy')}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                <p th:text="${#dates.format(app.date, 'dd/MM/yyyy')}" th:class="${app.status || app.isPast() ? 'opacitySoft' : ''}" style="text-align: left"/>
                             </td>
                             <td>
-                                <p th:if="${#strings.contains(app.period, 'morning')}" th:text="'09.00 - 12.00'" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
-                                <p th:if="${#strings.contains(app.period, 'afternoon')}" th:text="'13.30 - 18.00'" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                <p th:if="${#strings.contains(app.period, 'morning')}" th:text="'09.00 - 12.00'" th:class="${app.status  || app.isPast() ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                <p th:if="${#strings.contains(app.period, 'afternoon')}" th:text="'13.30 - 18.00'" th:class="${app.status  || app.isPast() ? 'opacitySoft' : ''}" style="text-align: left"/>
                             </td>
                             <td>
-                                <p th:text="${app.description}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                <p th:text="${app.description}" th:class="${app.status  || app.isPast() ? 'opacitySoft' : ''}" style="text-align: left"/>
                             </td>
                             <td>
                                 <div class="col-md-12 text-center">
@@ -570,15 +570,15 @@
                                             <span class="material-symbols-rounded">more_vert</span>
                                         </a>
                                         <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                            <a th:if="${!app.status}" class="dropdown-item btn" data-bs-toggle="modal"
-                                               th:attr="data-bs-target='#receiveTreatmentPopUp'+*{app.pet.petID}+*{app.getAppointmentID()}">
-                                                <span class="material-symbols-rounded align-middle pb-1">vaccines</span> Receive Treatment
-                                            </a>
-                                            <a th:if="${!app.status}" class="dropdown-item btn" data-bs-toggle="modal"
+<!--                                            <a th:if="${!app.status && !app.isPast()}" class="dropdown-item btn" data-bs-toggle="modal"-->
+<!--                                               th:attr="data-bs-target='#receiveTreatmentPopUp'+*{app.pet.petID}+*{app.getAppointmentID()}">-->
+<!--                                                <span class="material-symbols-rounded align-middle pb-1">vaccines</span> Receive Treatment-->
+<!--                                            </a>-->
+                                            <a th:if="${!app.status && !app.isPast()}" class="dropdown-item btn" data-bs-toggle="modal"
                                                th:attr="data-bs-target='#editAppointment'+${app.appointmentID}">
                                                 <span class="material-symbols-rounded align-middle pb-1">edit</span> Edit
                                             </a>
-                                            <a th:if="${app.status}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#restorePopUp'+*{app.getAppointmentID()}">
+                                            <a th:if="${app.status && !app.isPast()}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#restorePopUp'+*{app.getAppointmentID()}">
                                                 <i class="material-symbols-rounded align-middle">settings_backup_restore</i> Restore
                                             </a>
                                             <a th:if="${!app.status}" class="dropdown-item text-danger btn" data-bs-toggle="modal"
@@ -593,7 +593,7 @@
                                 <!--Call Restore Appointment (PopUp)-->
                                 <th:block th:replace="appointment/appointmentPopUp/restorePopUp :: restorePopUp(appointmentId=${app.getAppointmentID()}, stockName='Appointment ID : '+${app.getAppointmentID()}, from='accountInfo-'+${app.pet.account.getAccId()})">modal</th:block>
                                 <!--Call Edit Appointment (PopUp)-->
-                                <th:block th:replace="appointment/appointmentPopUp/editAppointment :: editAppointment(${app},'appointment')">modal</th:block>
+                                <th:block th:replace="appointment/appointmentPopUp/editAppointment :: editAppointment(${app},'account')">modal</th:block>
                                 <!--Delete Appointment (PopUp)-->
                                 <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Appointment ('+${app.pet.name}+')',mainPath='appointment',deleteId='A'+${app.appointmentID},deleteName='this appointment',pathId='appointment')">modal</th:block>
                             </td>

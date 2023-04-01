@@ -78,7 +78,15 @@
                         <div th:each="bill : ${bills}">
                             <tr>
                                 <td>#[[*{bill.billID}]]</td>
-                                <td>[[*{bill.treatmentHistory.pet.account.firstName}]]</td>
+<!--                                <td>[[*{bill.treatmentHistory.pet.account.firstName}]]</td>-->
+                                <td>
+                                    <a th:href="@{'/account/getInfo/'+${bill.getTreatmentHistory().getPet().getAccount().getAccId()}}" id="owner">
+                                        <p th:class="${bill.queueStatus ? 'opacitySoft' : ''}" style="text-align: left">
+                                            [[${bill.getTreatmentHistory().getPet().getAccount().getFullName()}]]
+                                            <img th:if="${bill.getTreatmentHistory().getPet().getAccount().lineId != null}" th:src="@{/images/line.png}" width="15" class="align-top"/>
+                                        </p>
+                                    </a>
+                                </td>
                                 <td>[[*{bill.treatmentHistory.pet.account.phone}]]</td>
                                 <td>[[*{bill.treatmentHistory.pet.name}]]</td>
                                 <td>[[${#dates.format(bill.startDate, 'dd/MM/yyyy')}]]</td>

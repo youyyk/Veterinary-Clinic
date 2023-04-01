@@ -281,8 +281,14 @@ function serviceValidNewAppointment(formNewAppointment, option){
             resetForm(formNewAppointment, fields, true, true);
             return payload;
         }
-        if (option === fields[0] || option === "all") { // name
-            validRegexFormat(formNewAppointment.elements[fields[0]].value, regexDate, payload, fields[0], errMessageCharacter);
+        if (option === fields[0] || option === "all") { // appDate
+            let todayOrFuture = false
+            if (regexDate.test(formNewAppointment.elements[fields[0]].value)){
+                if (new Date(formNewAppointment.elements[fields[0]].value).setHours(0,0,0,0) >= new Date($.now()).setHours(0,0,0,0)){
+                    todayOrFuture = true
+                }
+            }
+            validRegexFormat(formNewAppointment.elements[fields[0]].value, todayOrFuture ? regexDate : regexPhoneNumber, payload, fields[0], errMessageCharacter);
         }
         if (option === fields[1] || option === "all") { // image
             validIncludeList(formNewAppointment.elements[fields[1]].value, periodChoice, payload, fields[1], errMessageCharacter);

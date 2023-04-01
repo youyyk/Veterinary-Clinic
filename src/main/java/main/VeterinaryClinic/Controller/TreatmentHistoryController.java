@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -49,14 +50,19 @@ public class TreatmentHistoryController {
         }
         System.out.println("---Get Pet's Treatment History---");
         Pet pet = petService.findByPetID(petID);
-        List<TreatmentHistory> treatmentHistories = treatmentHistoryService.findByPet(pet);
-        System.out.println(treatmentHistories);
+        // Want treatmentHis with bill unpaid status
+        List<TreatmentHistory> wantTreatmentHistories = new ArrayList<>();
+        for (TreatmentHistory treatmentHistory : treatmentHistoryService.findByPet(pet)){
+            if (treatmentHistory.getBill().isPaidStatus()){
+                wantTreatmentHistories.add(treatmentHistory);
+            }
+        }
 
         List<String> petTypeList = petService.petTypeUnique();
         List<String> breedList = petService.breedUnique();
 
         model.addAttribute("pet", pet);
-        model.addAttribute("treatmentHistories", treatmentHistories);
+        model.addAttribute("treatmentHistories", wantTreatmentHistories);
         model.addAttribute("petTypeList", petTypeList);
         model.addAttribute("breedList", breedList);
 
@@ -68,14 +74,6 @@ public class TreatmentHistoryController {
                               @RequestParam("weight") double weight,
                               @Param("appointmentId") long appointmentId) {
         System.out.println("---Receive Treatment---");
-        System.out.println(appointmentId);
-        if (appointmentId >= 0) {
-            Appointment appointment = appointmentService.findByAppointmentID(appointmentId);
-            if (appointment != null){
-                appointment.setStatus(true);
-            }
-            appointmentService.save(appointment);
-        }
         TreatmentHistory treatmentHistory = new TreatmentHistory(petService.findByPetID(petID),
                 GlobalService.getCurrentTime(),weight);
         Bill bill = new Bill();
@@ -86,7 +84,20 @@ public class TreatmentHistoryController {
         Bill findBill = mainBillService.findFirstByPaidStatusOrderByBillIDDesc(false);
         System.out.println("Bill : "+findBill);
 
-        return "redirect:/bill/getDetail/"+findBill.getBillID();
+        System.out.println(appointmentId);
+        if (appointmentId >= 0) {
+            Appointment appointment = appointmentService.findByAppointmentID(appointmentId);
+            if (appointment != null){
+                appointment.setStatus(true);
+                findBill.setAppointmentStatus(true);
+            }
+            appointmentService.save(appointment);
+            mainBillService.save(findBill);
+        }
+
+
+        return "redirect:/dashboard"; // Every one go to queue in dashboard
+//        return "redirect:/bill/getDetail/"+findBill.getBillID();
     }
 
     @RequestMapping(path = "/diagnosis/edit", method = POST)

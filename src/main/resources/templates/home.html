@@ -21,8 +21,8 @@
         const hide = "none";
         const show = "block";
         window.addEventListener('DOMContentLoaded', event => {
-            const datatablesWarehouse = document.getElementById('warehouseTable');
-            new simpleDatatables.DataTable(datatablesWarehouse,{
+            const datatablesQueue = document.getElementById('queueTable');
+            new simpleDatatables.DataTable(datatablesQueue,{
                 paging:false,
                 scrollY: "calc(76vh - 100px)",
                 scrollX:true,
@@ -148,14 +148,19 @@
         opacity: 0.5;
     }
 </style>
+<style>
+    .opacitySoft{
+        opacity: 0.5;
+    }
+</style>
 <body>
     <div th:insert="fragments/header :: header"></div>
 
     <!--<h1 class="ms-4 mt-3">Welcome to Veterinary Clinic Website</h1>-->
-    <h1 class="ms-5 mt-3 mb-2">Welcome to Veterinary Clinic Website</h1>
-    <div>
+<!--    <h1 class="ms-5 mt-3 mb-2">Welcome to Veterinary Clinic Website</h1>-->
+    <div class="mt-5">
         <div class="row me-0">
-            <div class="col-5 ms-5 me-5">
+            <div class="col-6 ms-5 me-5">
                 <div class="row">
                     <div id="tablePane" class="col-12 rounded-2 pt-3 pb-1">
                         <h3 class="mb-0 float-start pt-2">
@@ -169,8 +174,8 @@
                             <thead>
                             <tr>
                                 <th>Owner</th>
-                                <th>Phone no.</th>
                                 <th>Pet's Name</th>
+                                <th>Phone no.</th>
                                 <th>Period</th>
                                 <th>Description</th>
                                 <th>Actions</th>
@@ -183,16 +188,16 @@
                                     <td>
                                         <a th:href="@{'/account/getInfo/'+${app.pet.account.accId}}" id="owner">
                                             <p th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left">
-                                                [[${app.pet.account.getFirstName()}]]
+                                                [[${app.pet.account.getFullName()}]]
                                                 <img th:if="${app.pet.account.lineId != null}" th:src="@{/images/line.png}" width="15" class="align-top"/>
                                             </p>
                                         </a>
                                     </td>
                                     <td>
-                                        <p th:text="${app.pet.account.phone}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                        <p th:text="${app.pet.name}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
                                     </td>
                                     <td>
-                                        <p th:text="${app.pet.name}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                        <p th:text="${app.pet.account.phone}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
                                     </td>
                                     <td>
                                         <p th:if="${#strings.contains(app.period, 'morning')}" th:text="'09.00 - 12.00'" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
@@ -247,24 +252,34 @@
                                 <span class="material-symbols-rounded align-middle pb-1">receipt_long</span>
                                 <span class="pt-3">Unpaid Bills</span>
                             </a>
-                            <span style="font-weight: 300;font-size: 0.75em">([[${bills.size()}]] bill<span th:if="${bills.size() >1}">s</span>)</span>
+                            <span style="font-weight: 300;font-size: 0.75em">([[${billsUnpaid.size()}]] bill<span th:if="${billsUnpaid.size() >1}">s</span>)</span>
                         </h3>
                         <table id="billTable" class="table">
                             <thead>
                             <tr>
                                 <th>Bill ID</th>
                                 <th>Owner</th>
+                                <th>Pet's Name</th>
                                 <th>Phone no.</th>
                                 <th data-type="date" data-format="DD/MM/YYYY">Start Date</th>
                                 <th>Total</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
-                            <tbody th:if="${not #lists.isEmpty(bills)}">
-                            <div th:each="bill : ${bills}">
+                            <tbody th:if="${not #lists.isEmpty(billsUnpaid)}">
+                            <div th:each="bill : ${billsUnpaid}">
                                 <tr>
                                     <td>#[[*{bill.billID}]]</td>
-                                    <td>[[*{bill.treatmentHistory.pet.account.firstName}]]</td>
+
+                                    <td>
+                                        <a th:href="@{'/account/getInfo/'+${bill.treatmentHistory.pet.account.getAccId()}}" id="owner">
+                                            <p style="text-align: left">
+                                                [[${bill.treatmentHistory.pet.account.getFullName()}]]
+                                                <img th:if="${bill.treatmentHistory.pet.account.getLineId() != null}" th:src="@{/images/line.png}" width="15" class="align-top"/>
+                                            </p>
+                                        </a>
+                                    </td>
+                                    <td>[[*{bill.treatmentHistory.pet.name}]]</td>
                                     <td>[[*{bill.treatmentHistory.pet.account.phone}]]</td>
                                     <td>[[${#dates.format(bill.startDate, 'dd/MM/yyyy')}]]</td>
                                     <td><p style="text-align: right">[[${#numbers.formatDecimal(bill.total, 1, 'COMMA', 2, 'POINT')}]]</p></td>
@@ -298,70 +313,50 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6 me-0">
+            <div class="col-5 me-0">
                 <div class="row ">
                     <div id="tablePane" class="col-12 rounded-2 pt-3" style="background-color: white;">
                         <h3 class="mb-0 float-start pt-2">
-                            <a th:href="@{'/warehouse'}" id="owner">
-                                <span class="material-symbols-rounded align-middle pb-1">notification_important</span>Warehouse's Notification
-                            </a>
+                            <span class="material-symbols-rounded align-middle pb-1">hourglass_top</span>Queue Now
                         </h3>
-                        <table id="warehouseTable" class="table">
+                        <table id="queueTable" class="table">
                             <thead>
                             <tr>
-                                <th>Order ID</th>
-                                <th>Item ID</th>
-                                <th>Name</th>
-                                <th>Qty Left</th>
-                                <th data-type="date" data-format="DD/MM/YYYY">Expired Date</th>
+                                <th>Bill ID</th>
+                                <th>Owner</th>
+                                <th>Pet's Name</th>
+                                <th>What</th>
                                 <th>Status</th>
-                                <th th:if="${nowAccount.isAdmin()}">Actions</th>
+                                <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <tr th:each="wh : ${warehouses}">
-                                <td th:text="${ '#' + wh.itemID}"></td>
-                                <td th:if="${wh.medicine != null}" th:text="${ 'M' + wh.medicine.getMedID}"></td>
-                                <td th:if="${wh.tool != null}" th:text="${ 'T' + wh.tool.getToolID}"></td>
-                                <td th:if="${wh.medicine != null}" th:text="${wh.medicine.getNameForShow}"></td>
-                                <td th:if="${wh.tool != null}" th:text="${wh.tool.getNameForShow}"></td>
-                                <td><p style="text-align: right">[[${wh.quantityLeft}]]</p></td>
-                                <td th:text="${#dates.format(wh.expiredDate, 'dd/MM/yyyy')}"></td>
-                                <td th:switch="${wh.isExpired()}">
-                                    <span th:case="-1" class="badge rounded-pill bg-danger">Expired</span>
-                                    <span th:case="1" class="badge rounded-pill bg-warning text-dark">Almost</span>
-                                    <span th:case="0" class="badge rounded-pill bg-secondary">Normal</span>
+                            <tr th:each="bill : ${billsQueue}">
+                                <td th:text="${ '#' + bill.getBillID()}"></td>
+<!--                                <td th:text="${ bill.getTreatmentHistory().getPet().getAccount().getFullName()}"></td>-->
+                                <td>
+                                    <a th:href="@{'/account/getInfo/'+${bill.getTreatmentHistory().getPet().getAccount().getAccId()}}" id="owner">
+                                        <p th:class="${bill.queueStatus ? 'opacitySoft' : ''}" style="text-align: left">
+                                            [[${bill.getTreatmentHistory().getPet().getAccount().getFullName()}]]
+                                            <img th:if="${bill.getTreatmentHistory().getPet().getAccount().lineId != null}" th:src="@{/images/line.png}" width="15" class="align-top"/>
+                                        </p>
+                                    </a>
                                 </td>
-                                <td th:if="${nowAccount.isAdmin()}">
+                                <td th:class="${bill.queueStatus ? 'opacitySoft' : ''}" th:text="${ bill.getTreatmentHistory().getPet().getName()}"></td>
+                                <td th:class="${bill.queueStatus ? 'opacitySoft' : ''}" th:text="${ bill.getTreatmentHistory().getDiagnosis()}"></td>
+                                <td th:class="${bill.queueStatus ? 'opacitySoft' : ''}" th:switch="${bill.appointmentStatus}">
+                                    <span th:case='true' th:text="Reserve" class="badge rounded-pill bg-success" style="text-align: center"/>
+                                    <span th:case='false' th:text="Walk-In" class="badge rounded-pill bg-secondary" style="text-align: center"/>
+                                </td>
+                                <td>
                                     <div class="col-md-12 text-center">
-                                        <div class="col-md-12 text-center">
-                                            <div class="dropdown open">
-                                                <a href="#!" class="px-2" data-toggle="dropdown" aria-haspopup="true"
-                                                   aria-expanded="false">
-                                                    <i class="material-symbols-rounded align-middle">more_vert</i>
-                                                </a>
-                                                <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                                    <a th:if="${!wh.softDeleted}" class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#editWarehouseOrderPopUp'+ *{wh.itemID}" role="button">
-                                                        <i class="material-symbols-rounded align-middle">edit</i> Edit
-                                                    </a>
-                                                    <a th:if="${wh.softDeleted}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#restorePopUp'+*{wh.itemID}">
-                                                        <i class="material-symbols-rounded align-middle">settings_backup_restore</i> restore
-                                                    </a>
-                                                    <a th:if="${wh.isExpired() == -1 && !wh.softDeleted}" class="dropdown-item" data-bs-toggle="modal" th:attr="data-bs-target='#stockOutPopUp'+*{wh.itemID}">
-                                                        <i class="material-symbols-rounded align-middle">inventory_2</i> Stock Out
-                                                    </a>
-                                                    <a th:if="${wh.quantityIn==wh.quantityLeft && wh.isCanDelete()}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#deletePopUp'+*{wh.itemID}">
-                                                        <i class="material-symbols-rounded align-middle">delete</i> Delete
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <a class="btn btn-outline-primary ms-3 me-3" role="button" data-bs-toggle="modal"
+                                           th:attr="data-bs-target='#queueInPopUp'+*{bill.billID}">
+                                            Get In
+                                        </a>
                                     </div>
                                 </td>
-                                <th:block th:if="wh.medicine != null" th:replace="warehouse/warehousePopUp/editWarehouseOrderPopUp :: editWarehouseOrderPopUp(${wh}, ${medicines}, ${tools})">modal</th:block>
-                                <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Warehouse',mainPath='warehouse',deleteId=${wh.itemID},deleteName='Order ID : '+${wh.itemID},pathId=${wh.itemID})">modal</th:block>
-                                <th:block th:replace="warehouse/warehousePopUp/stockOutPopUp :: stockOutPopUp(warehouseId=${wh.itemID}, stockName='Order ID : '+${wh.itemID})">modal</th:block>
-                                <th:block th:replace="warehouse/warehousePopUp/restorePopUp :: restorePopUp(warehouseId=${wh.itemID}, stockName='Order ID : '+${wh.itemID})">modal</th:block>
+                                <th:block th:replace="bill/billPopUp/queueInPopUp :: queueInPopUp(billID=${bill.billID}, bill=${bill})">modal</th:block>
                             </tr>
                             </tbody>
                         </table>

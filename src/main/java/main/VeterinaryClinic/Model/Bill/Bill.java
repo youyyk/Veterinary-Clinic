@@ -43,6 +43,12 @@ public class Bill {
     @Column(name="cashier")
     private String cashier;
 
+    @Column(name="appointment_status")
+    private boolean appointmentStatus;
+
+    @Column(name="queue_status")
+    private boolean queueStatus;
+
     @OneToMany(mappedBy = "bill", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<BillMedicine> medUsed;
 
@@ -58,15 +64,16 @@ public class Bill {
     public Bill(TreatmentHistory treatmentHistory) {
 //        System.out.println("----"+treatmentHistory);
         this.treatmentHistory = treatmentHistory;
-        this.payType = null;
         this.paidStatus = false;
+        this.appointmentStatus = false;
+        this.queueStatus = false;
         this.startDate = GlobalService.getCurrentTime();
-        this.endDate = null;
     }
 
     public boolean isCanDelete(){
         return medUsed.size()==0 && toolUsed.size()==0 && serviceUsed.size()==0 && total==0 && paidStatus==false ? true : false;
     }
+
 
     @Override
     public String toString() {

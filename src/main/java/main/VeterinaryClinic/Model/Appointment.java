@@ -1,6 +1,7 @@
 package main.VeterinaryClinic.Model;
 
 import lombok.Data;
+import main.VeterinaryClinic.Service.GlobalService;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -27,6 +28,7 @@ public class Appointment {
     @Column(name="description", columnDefinition = "TEXT")
     private String description;
 
+    // Status mean used
     @Column(name = "status")
     private boolean status;
     public Appointment() {super();}
@@ -44,6 +46,14 @@ public class Appointment {
         this.date = date;
         this.period = period;
         this.status = false;
+    }
+
+    public boolean isPast(){
+        Date today = GlobalService.getDefaultTodayDateZeroTime(0);
+        if (today.after(this.date)) {
+            return true;
+        }
+        return  false;
     }
 
     @Override

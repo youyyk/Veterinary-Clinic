@@ -189,8 +189,8 @@
                         <thead>
                         <tr>
                             <th>Owner</th>
-                            <th>Phone no.</th>
                             <th>Pet's Name</th>
+                            <th>Phone no.</th>
                             <th data-type="date" data-format="DD/MM/YYYY">Date</th>
                             <th>Period</th>
                             <th>Description</th>
@@ -202,27 +202,29 @@
                         <div th:each="app : ${appointments}">
                             <tr>
                                 <td>
-                                    <p th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left">
-                                        [[${app.pet.account.getFullName()}]]
-                                        <img th:if="${app.pet.account.lineId != null}" th:src="@{/images/line.png}" width="15" class="align-top"/>
-                                    </p>
+                                    <a th:href="@{'/account/getInfo/'+${app.pet.account.getAccId()}}" id="owner">
+                                        <p th:class="${app.status || app.isPast() ? 'opacitySoft' : ''}" style="text-align: left">
+                                            [[${app.pet.account.getFullName()}]]
+                                            <img th:if="${app.pet.account.lineId != null}" th:src="@{/images/line.png}" width="15" class="align-top"/>
+                                        </p>
+                                    </a>
 <!--                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary" th:text="line"></span>-->
                                 </td>
                                 <td>
-                                    <p th:text="${app.pet.account.phone}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                    <p th:text="${app.pet.name}" th:class="${app.status || app.isPast() ? 'opacitySoft' : ''}" style="text-align: left"/>
                                 </td>
                                 <td>
-                                    <p th:text="${app.pet.name}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                    <p th:text="${app.pet.account.phone}" th:class="${app.status || app.isPast() ? 'opacitySoft' : ''}" style="text-align: left"/>
                                 </td>
                                 <td>
-                                    <p th:text="${#dates.format(app.date, 'dd/MM/yyyy')}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                    <p th:text="${#dates.format(app.date, 'dd/MM/yyyy')}" th:class="${app.status || app.isPast() ? 'opacitySoft' : ''}" style="text-align: left"/>
                                 </td>
                                 <td>
-                                    <p th:if="${#strings.contains(app.period, 'morning')}" th:text="'09.00 - 12.00'" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
-                                    <p th:if="${#strings.contains(app.period, 'afternoon')}" th:text="'13.30 - 18.00'" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                    <p th:if="${#strings.contains(app.period, 'morning')}" th:text="'09.00 - 12.00'" th:class="${app.status || app.isPast() ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                    <p th:if="${#strings.contains(app.period, 'afternoon')}" th:text="'13.30 - 18.00'" th:class="${app.status || app.isPast() ? 'opacitySoft' : ''}" style="text-align: left"/>
                                 </td>
                                 <td>
-                                    <p th:text="${app.description}" th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left"/>
+                                    <p th:text="${app.description}" th:class="${app.status || app.isPast() ? 'opacitySoft' : ''}" style="text-align: left"/>
                                 </td>
                                 <td>
                                     <div class="col-md-12 text-center">
@@ -232,15 +234,15 @@
                                                 <span class="material-symbols-rounded">more_vert</span>
                                             </a>
                                             <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                                <a th:if="${!app.status}" class="dropdown-item btn" data-bs-toggle="modal"
-                                                   th:attr="data-bs-target='#receiveTreatmentPopUp'+*{app.pet.petID}+*{app.getAppointmentID()}">
-                                                    <span class="material-symbols-rounded align-middle pb-1">vaccines</span> Receive Treatment
-                                                </a>
-                                                <a th:if="${!app.status}" class="dropdown-item btn" data-bs-toggle="modal"
+<!--                                                <a th:if="${!app.status && !app.isPast()}" class="dropdown-item btn" data-bs-toggle="modal"-->
+<!--                                                   th:attr="data-bs-target='#receiveTreatmentPopUp'+*{app.pet.petID}+*{app.getAppointmentID()}">-->
+<!--                                                    <span class="material-symbols-rounded align-middle pb-1">vaccines</span> Receive Treatment-->
+<!--                                                </a>-->
+                                                <a th:if="${!app.status && !app.isPast()}" class="dropdown-item btn" data-bs-toggle="modal"
                                                    th:attr="data-bs-target='#editAppointment'+${app.appointmentID}">
                                                     <span class="material-symbols-rounded align-middle pb-1">edit</span> Edit
                                                 </a>
-                                                <a th:if="${app.status}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#restorePopUp'+*{app.getAppointmentID()}">
+                                                <a th:if="${app.status && !app.isPast()}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#restorePopUp'+*{app.getAppointmentID()}">
                                                     <i class="material-symbols-rounded align-middle">settings_backup_restore</i> Restore
                                                 </a>
                                                 <a th:if="${!app.status}" class="dropdown-item text-danger btn" data-bs-toggle="modal"

@@ -21,7 +21,21 @@ public class MainBillService {
         return repository.findAll(Sort.by(Sort.Direction.DESC, "billID"));
     }
 
-    public  List<Bill> findByPaidStatusIsFalseOrderByStartDateAsc(){return repository.findByPaidStatusIsFalseOrderByStartDateAsc();}
+    public List<Bill> findByQueueStatusIsTrueOrderByBillIDDesc() {
+        return repository.findByQueueStatusIsTrueOrderByBillIDDesc();
+    }
+    public List<Bill> findByQueueStatusIsFalse() {
+        return repository.findByQueueStatusIsFalse();
+    }
+
+    public List<Bill> findByPaidStatusIsFalseOrderByStartDateAsc(){return repository.findByPaidStatusIsFalseOrderByStartDateAsc();}
+
+    public List<Bill> getAllFilterQueuePaidStatus(boolean queueStatus, boolean paidStatus){
+        return repository.getAllFilterQueuePaidStatus(queueStatus, paidStatus, Sort.by(Sort.Direction.ASC, "startDate"));
+    }
+    public List<Bill> getAllFilterAppointmentQueuePaidStatus(boolean appointmentStatus, boolean queueStatus, boolean paidStatus){
+        return repository.getAllFilterAppointmentQueuePaidStatus(appointmentStatus, queueStatus, paidStatus, Sort.by(Sort.Direction.ASC, "startDate"));
+    }
 
     public Bill save(Bill bill) {
         return repository.save(bill);
