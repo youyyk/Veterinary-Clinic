@@ -151,12 +151,10 @@ public class AppointmentController {
 
         if (page.equals("account")){
             return "redirect:/account/getInfo/"+appointment.getPet().getAccount().getAccId();
+        } else if (page.equals("dashboard")) {
+            return "redirect:/dashboard";
         }
-        else if (page.equals("appointment")) {
-            return "redirect:/appointment";
-        }
-
-        return null;
+        return "redirect:/appointment";
     }
 
     @RequestMapping(path = "/delete", method = POST)
@@ -174,6 +172,8 @@ public class AppointmentController {
 
         if (pathId.equals("appointment")){
             return "redirect:/appointment";
+        } else if (pathId.equals("dashboard")){
+            return "redirect:/dashboard";
         }
 
         return "redirect:/account/getInfo/"+pathId;

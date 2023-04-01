@@ -679,7 +679,7 @@
                                                 <span class="material-symbols-rounded align-middle">edit</span> Edit
                                             </a>
                                             <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
-                                               th:attr="data-bs-target='#deleteItemPopUp'+*{med.medicine.medID}">
+                                               th:attr="data-bs-target='#deleteItemPopUp'+'Med'+*{med.medicine.medID}">
                                                 <span class="material-symbols-rounded align-middle">delete</span> Delete
                                             </a>
                                         </div>
@@ -688,7 +688,7 @@
                                         modal
                                     </th:block>
 
-                                    <th:block th:replace="bill/billPopUp/deleteItemPopUp :: deleteItemPopUp(header='Medicine',mainPath='billMedicine',deleteID=${med.medicine.medID},deleteName=${med.medicine.name},billID=${billID})">
+                                    <th:block th:replace="bill/billPopUp/deleteItemPopUp :: deleteItemPopUp(header='Medicine',mainPath='billMedicine',deleteID=${'Med'+med.medicine.medID},deleteName=${med.medicine.name},billID=${billID})">
                                         modal
                                     </th:block>
                                 </div>
@@ -747,7 +747,7 @@
                                                <span class="material-symbols-rounded align-middle">edit</span> Edit
                                             </a>
                                             <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
-                                               th:attr="data-bs-target='#deleteItemPopUp'+*{tool.tool.toolID}">
+                                               th:attr="data-bs-target='#deleteItemPopUp'+'Tool'+*{tool.tool.toolID}">
                                                 <span class="material-symbols-rounded align-middle">delete</span> Delete
                                             </a>
                                         </div>
@@ -755,7 +755,7 @@
                                     <th:block th:replace="bill/billPopUp/editBillTool :: editBillTool(${tool.tool},${tool.amount},${bill.billID})">
                                         modal
                                     </th:block>
-                                    <th:block th:replace="bill/billPopUp/deleteItemPopUp :: deleteItemPopUp(header='Tool',mainPath='billTool',deleteID=${tool.tool.toolID},deleteName=${tool.tool.name},billID=${billID})">
+                                    <th:block th:replace="bill/billPopUp/deleteItemPopUp :: deleteItemPopUp(header='Tool',mainPath='billTool',deleteID=${'Tool'+tool.tool.toolID},deleteName=${tool.tool.name},billID=${billID})">
                                         modal
                                     </th:block>
                                 </div>
@@ -814,7 +814,7 @@
                                                 <span class="material-symbols-rounded align-middle">edit</span> Edit
                                             </a>
                                             <a class="dropdown-item text-danger btn" data-bs-toggle="modal"
-                                               th:attr="data-bs-target='#deleteItemPopUp'+*{serving.serving.servingID}">
+                                               th:attr="data-bs-target='#deleteItemPopUp'+'Service'+*{serving.serving.servingID}">
                                                 <span class="material-symbols-rounded align-middle">delete</span> Delete
                                             </a>
                                         </div>
@@ -823,7 +823,7 @@
                                         modal
                                     </th:block>
 
-                                    <th:block th:replace="bill/billPopUp/deleteItemPopUp :: deleteItemPopUp(header='Service',mainPath='billService',deleteID=${serving.serving.servingID},deleteName=${serving.serving.name},billID=${billID})">
+                                    <th:block th:replace="bill/billPopUp/deleteItemPopUp :: deleteItemPopUp(header='Service',mainPath='billService',deleteID=${'Service'+serving.serving.servingID},deleteName=${serving.serving.name},billID=${billID})">
                                         modal
                                     </th:block>
                                 </div>

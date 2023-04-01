@@ -456,7 +456,7 @@
                                 </td>
 
                                 <td>
-                                    <span th:if="${pet.remark} neq '-'" style="font-size: 0.9em;" class="badge rounded-pill bg-warning">REMARK</span>
+                                    <span th:if="${pet.remark} neq '-' " style="font-size: 0.9em;" class="badge rounded-pill bg-warning">REMARK</span>
                                 </td>
 
                                 <td>
@@ -596,7 +596,7 @@
                                 <!--Call Edit Appointment (PopUp)-->
                                 <th:block th:replace="appointment/appointmentPopUp/editAppointment :: editAppointment(${app},'account')">modal</th:block>
                                 <!--Delete Appointment (PopUp)-->
-                                <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Appointment ('+${app.pet.name}+')',mainPath='appointment',deleteId='A'+${app.appointmentID},deleteName='this appointment',pathId='appointment')">modal</th:block>
+                                <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Appointment ('+${app.pet.name}+')',mainPath='appointment',deleteId='A'+${app.appointmentID},deleteName='this appointment',pathId=${app.getPet().getAccount().getAccId()})">modal</th:block>
                             </td>
                         </tr>
                     </div>

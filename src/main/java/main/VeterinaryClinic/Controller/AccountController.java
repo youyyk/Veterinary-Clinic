@@ -162,7 +162,7 @@ public class AccountController {
         if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
             model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
             // accountList, roles for merge Popup
-            model.addAttribute("accountsList", accountService.getAllNotIncludeNowAccount(accountUserDetail.getAccount().getAccId(), mainAccount.getAccId()));
+            model.addAttribute("accountsList", accountService.getAllNotIncludeNowAccountAndMainAccount(accountUserDetail.getAccount().getAccId(), mainAccount.getAccId()));
             model.addAttribute("roles", new String[]{SecurityConfig.ROLE_ADMIN, SecurityConfig.ROLE_OFFICER, SecurityConfig.ROLE_CUSTOMER});
         }
         return "account/infoAccount";

@@ -237,9 +237,9 @@
                                         <!--Call Restore Appointment (PopUp)-->
                                         <th:block th:replace="appointment/appointmentPopUp/restorePopUp :: restorePopUp(appointmentId=${app.getAppointmentID()}, stockName='Appointment ID : '+${app.getAppointmentID()}, from='dashboard')">modal</th:block>
                                         <!--Call Edit Appointment (PopUp)-->
-                                        <th:block th:replace="appointment/appointmentPopUp/editAppointment :: editAppointment(${app},'appointment')">modal</th:block>
+                                        <th:block th:replace="appointment/appointmentPopUp/editAppointment :: editAppointment(${app},'dashboard')">modal</th:block>
                                         <!--Delete Appointment (PopUp)-->
-                                        <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Appointment ('+${app.pet.name}+')',mainPath='appointment',deleteId='A'+${app.appointmentID},deleteName='this appointment',pathId='appointment')">modal</th:block>
+                                        <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Appointment ('+${app.pet.name}+')',mainPath='appointment',deleteId='A'+${app.appointmentID},deleteName='this appointment',pathId='dashboard')">modal</th:block>
                                     </td>
                                 </tr>
                             </div>
@@ -299,7 +299,7 @@
                                                         <span class="material-symbols-rounded align-middle pb-1">delete</span> Delete
                                                     </a>
                                                 </div>
-                                                <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Bill',mainPath='bill',deleteId=${bill.billID},deleteName='Bill ID '+${bill.billID},pathId='bill')">
+                                                <th:block th:replace="globalTemp/deletePopUp :: deletePopUp(header='Bill',mainPath='bill',deleteId=${bill.billID},deleteName='Bill ID '+${bill.billID},pathId='dashboard')">
                                                     modal
                                                 </th:block>
                                             </div>

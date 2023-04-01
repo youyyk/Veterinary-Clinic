@@ -80,8 +80,8 @@ public class AccountService {
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
         return accountRepository.findBySearching(search,paging);
     }
-    public List<Account> getAllNotIncludeNowAccount(UUID accLoginId, UUID mainAccId) {
-        return accountRepository.getAllNotIncludeNowAccount(accLoginId, mainAccId, Sort.by(Sort.Direction.ASC, "firstName"));
+    public List<Account> getAllNotIncludeNowAccountAndMainAccount(UUID accLoginId, UUID mainAccId) {
+        return accountRepository.getAllNotIncludeNowAccountAndMainAccount(accLoginId, mainAccId, Sort.by(Sort.Direction.ASC, "firstName"));
     }
     public List<Account> getAccountWithSort(String field) {
         return accountRepository.findAll(Sort.by(Sort.Direction.ASC, field));

@@ -23,7 +23,7 @@
                         <span class="input-group-text">Medicine</span>
                         <select class="form-select" aria-label="Select Medicine" id="medicine" name="medicine" th:onchange="'javascript:validFormEditOrderByEachField(\'' + 'medicine' +'\',\''+ ${wh.itemID} + '\');'">
                             <option value="#" selected >Choose...</option>
-                            <option th:each="med : ${medicines}" th:value="${med.medID}" th:text="${med.name}" th:selected="${med.medID == wh.medicine.medID}"/>
+                            <option th:each="med : ${medicines}" th:value="${med.medID}" th:text="${med.getNameForShow()}" th:selected="${med.medID == wh.medicine.medID}"/>
                         </select>
                     </div>
 
@@ -32,7 +32,7 @@
                         <span class="input-group-text">Tool</span>
                         <select class="form-select" aria-label="Select Medicine" id="tool" name="tool" th:onchange="'javascript:validFormEditOrderByEachField(\'' + 'tool' +'\',\''+ ${wh.itemID} + '\');'">
                             <option value="#" selected >Choose...</option>
-                            <option th:each="tool : ${tools}" th:value="${tool.ToolID}" th:text="${tool.name}" th:selected="${tool.ToolID == wh.tool.ToolID}"/>
+                            <option th:each="tool : ${tools}" th:value="${tool.ToolID}" th:text="${tool.getNameForShow()}" th:selected="${tool.ToolID == wh.tool.ToolID}"/>
                         </select>
                     </div>
 

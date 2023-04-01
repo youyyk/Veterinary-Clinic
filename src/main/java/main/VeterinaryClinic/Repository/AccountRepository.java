@@ -24,6 +24,6 @@ public interface AccountRepository extends JpaRepository<Account, UUID> {
 
     @Transactional
     @Query("SELECT e FROM Account as e WHERE e.accId <> :accLoginId and e.accId <> :mainAccId")
-    List<Account> getAllNotIncludeNowAccount(@Param("accLoginId") UUID accLoginId, @Param("mainAccId") UUID mainAccId, Sort sort);
+    List<Account> getAllNotIncludeNowAccountAndMainAccount(@Param("accLoginId") UUID accLoginId, @Param("mainAccId") UUID mainAccId, Sort sort);
 
 }

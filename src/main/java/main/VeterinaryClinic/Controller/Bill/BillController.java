@@ -224,8 +224,11 @@ public class BillController {
         System.out.println("Delete "+mainBillService.findByBillID(id));
         mainBillService.deleteBillByBillID(id);
 
-        return "redirect:/bill";
+        if (pathId.equals("dashboard")){
+            return "redirect:/dashboard";
+        }
 
+        return "redirect:/bill";
     }
 
 
