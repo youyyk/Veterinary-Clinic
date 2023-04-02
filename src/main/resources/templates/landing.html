@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
   <meta charset="UTF-8">
-  <title>Home</title>
+  <title>Veterinary Clinic</title>
   <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
   <link th:rel="stylesheet" th:href="@{/css/table-warehouse.css}">
   <link th:rel="stylesheet" th:href="@{/css/global.css}">
@@ -28,10 +28,12 @@
 <body id="landBG">
 <div class="container-fluid" style="padding-top: 20%;padding-left: 12.5%;padding-right: 40%;">
   <h1 class="text-light" style="font-size: 3.7em">Welcome to Veterinary Clinic</h1>
-  <p class="text-light w-75" style="font-size: 1.2em"> Open 09.00 - 21.00
-    And this is our place, we make the rules
-    And there's a dazzling haze, a mysterious way about you dear
-    Have I known you 20 seconds or 20 years?</p>
+  <p class="text-light w-75 ps-1 mb-0" style="font-size: 1.3em">Your Family Members are important to US</p>
+  <p class="text-light w-75 ps-1 pt-0 mt-0" style="font-size: 1.2em">
+    Open 09.00 - 21.00 |
+    <span class="material-symbols-rounded align-middle pb-1 rounded-circle" style="font-size: 1em;">call</span> 082 917 4107
+  </p>
+<!--  <p class="text-light w-75" style="font-size: 1.2em">082 917 4107</p>-->
   <a id="startBtn" class="btn rounded-pill ps-4 pe-4 mt-3"
      th:href="@{/oauth2/authorization/line}"><b>Get Start</b></a>
 
