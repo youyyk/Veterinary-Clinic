@@ -56,11 +56,13 @@ public class BillMedicineController {
 
     @RequestMapping(path = "/delete", method = POST)
     public String deleteMedicineFromBill(@RequestParam("billID") long billID,
-                                    @RequestParam("deleteID") long deleteID){
+                                    @RequestParam("deleteID") String deleteID){
         System.out.println("----- Delete Medicine from Bill "+billID+" -----");
 
+        long itemID = Long.parseLong(deleteID.split("-")[1]);
+
         Bill bill = mainBillService.findByBillID(billID);
-        Medicine medicine = medicineService.findByMedID(deleteID);
+        Medicine medicine = medicineService.findByMedID(itemID);
 
         wareHouseService.deleteBillMedAndRecoverStock(bill,medicine);
 

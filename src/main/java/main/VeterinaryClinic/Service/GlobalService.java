@@ -224,6 +224,7 @@ public class GlobalService {
         bill.setPaidStatus(true);
         bill.setQueueStatus(true);
         bill.setPayType("PromptPay");
+        bill.setEndDate(GlobalService.convertStringToDate("2023-03-15"));
         mainBillService.save(bill);
 
 //        - - - - - - - - - - - - - - - - - - - - -

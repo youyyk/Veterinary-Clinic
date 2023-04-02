@@ -279,6 +279,7 @@ public class AccountController {
         Account mainAccount = accountService.getById(accId);
         Account mergeAccount = accountService.getById(mergeAccId);
         accountService.mergeAccount(mainAccount, mergeAccount);
+        accountService.deleteByAccId(mergeAccount.getAccId());
         return "redirect:/account/getInfo/"+accId;
     }
 }

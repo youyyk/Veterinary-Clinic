@@ -52,11 +52,20 @@ public class ServiceController {
     public String createWarehouseMedicine(@PathVariable("id") long id,
                                           @RequestParam("name") String name,
                                           @RequestParam("price") double price){
+
         Serving serving = servingService.findByServiceID(id);
-        if (serving != null){
-            serving.updateFieldForEdit(name,price);
-            servingService.save(serving);
+
+        if (serving != null && serving.getPrice() != price){
+            Serving keep = new Serving(name,price);
+            servingService.save(keep);
+            serving.setSoftDeleted(true);
+            serving.setSoftDeletedDate(GlobalService.getCurrentTime());
         }
+        else {
+            serving.updateFieldForEdit(name,price);
+        }
+        servingService.save(serving);
+
         return "redirect:/service";
     }
 

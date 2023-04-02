@@ -65,6 +65,8 @@ public class AccountService {
         return accountRepository.save(account);
     }
 
+    public void deleteByAccId(UUID accId){accountRepository.deleteByAccId(accId);}
+
     public Account getById(String id){ return accountRepository.findByAccId(UUID.fromString(id));}
     public Account getById(UUID id){ return accountRepository.findByAccId(id);}
     public Account getByLineId(String lineId){ return accountRepository.findByLineId(lineId);}
@@ -146,7 +148,7 @@ public class AccountService {
             // Not have part of customer because everyone was customer
         }
         accountRepository.save(mainAccount);
-        accountRepository.delete(mergeAccount);
+//        accountRepository.delete(mergeAccount);
     }
 
     private boolean checkNullEmptyBlank(String value){

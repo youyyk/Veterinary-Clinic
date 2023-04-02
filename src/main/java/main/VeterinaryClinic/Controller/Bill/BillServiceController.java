@@ -54,10 +54,12 @@ public class BillServiceController {
 
     @RequestMapping(path = "/delete", method = POST)
     public String deleteMedicineFromBill(@RequestParam("billID") long billID,
-                                         @RequestParam("deleteID") long deleteID){
+                                         @RequestParam("deleteID") String deleteID){
         System.out.println("----- Delete Service from Bill "+billID+" -----");
 
-        billServiceService.deleteBillServingByBill_BillIDAndServing_ServingID(billID,deleteID);
+        long itemID = Long.parseLong(deleteID.split("-")[1]);
+
+        billServiceService.deleteBillServingByBill_BillIDAndServing_ServingID(billID,itemID);
 
         return "redirect:/bill/getDetail/"+billID;
     }
