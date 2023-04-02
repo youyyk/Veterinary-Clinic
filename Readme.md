@@ -1,3 +1,1 @@
-- Edit create warehouse
-- Change title
-- Edit Landing
+- Edit merge account
