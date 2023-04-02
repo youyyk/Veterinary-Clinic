@@ -63,7 +63,7 @@
             </div>
             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="triggerId1"
                 style="position: absolute; inset: 0px 0px auto auto; margin: 0px; transform: translate(0px, 44px);">
-                <a class="dropdown-item btn" th:href="@{'account/getInfo/'+${nowAccount.accId}}">
+                <a th:if="${!nowAccount.isOnlyCustomer()}" class="dropdown-item btn" th:href="@{'account/getInfo/'+${nowAccount.accId}}">
                   <span class="material-symbols-rounded align-middle pb-1">account_circle</span> Profile
                 </a>
                 <a class="dropdown-item btn" th:href="@{/logout}">

@@ -222,9 +222,9 @@
                                                        th:attr="data-bs-target='#editAppointment'+${app.appointmentID}">
                                                         <span class="material-symbols-rounded align-middle pb-1">edit</span> Edit
                                                     </a>
-<!--                                                    <a th:if="${app.status}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#restorePopUp'+*{app.getAppointmentID()}">-->
-<!--                                                        <i class="material-symbols-rounded align-middle">settings_backup_restore</i> Restore-->
-<!--                                                    </a>-->
+                                                    <a th:if="${app.status}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#restorePopUp'+*{app.getAppointmentID()}">
+                                                        <i class="material-symbols-rounded align-middle">settings_backup_restore</i> Restore
+                                                    </a>
                                                     <a th:if="${!app.status && nowAccount.isAdmin()}" class="dropdown-item text-danger btn" data-bs-toggle="modal"
                                                        th:attr="data-bs-target='#deletePopUpA'+${app.appointmentID}">
                                                         <span class="material-symbols-rounded align-middle pb-1">delete</span> Delete
