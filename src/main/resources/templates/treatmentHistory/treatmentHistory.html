@@ -312,7 +312,7 @@
         </div>
     </div>
 
-    <div th:each="treat,i : ${treatmentHistories}">
+    <div th:if="${treatSize != 0}" th:each="treat,i : ${treatmentHistories}">
             <div class="card mb-4 container" id="tablePane">
                 <div class="pb-1">
                     <div class="m-3">
@@ -432,6 +432,9 @@
                     </div>
                 </div>
             </div>
+    </div>
+    <div th:if="${treatSize == 0}" class="card mb-4 container p-4" id="tablePane">
+        <p class="col-md-12 text-center pt-3">No entries found</p>
     </div>
 
 

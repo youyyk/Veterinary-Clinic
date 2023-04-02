@@ -188,7 +188,7 @@
                                     <td>
                                         <a th:href="@{'/account/getInfo/'+${app.pet.account.accId}}" id="owner">
                                             <p th:class="${app.status ? 'opacitySoft' : ''}" style="text-align: left">
-                                                [[${app.pet.account.getFullName()}]]
+                                                [[${app.pet.account.firstName}]]
                                                 <img th:if="${app.pet.account.lineId != null}" th:src="@{/images/line.png}" width="15" class="align-top"/>
                                             </p>
                                         </a>
@@ -274,7 +274,7 @@
                                     <td>
                                         <a th:href="@{'/account/getInfo/'+${bill.treatmentHistory.pet.account.getAccId()}}" id="owner">
                                             <p style="text-align: left">
-                                                [[${bill.treatmentHistory.pet.account.getFullName()}]]
+                                                [[${bill.treatmentHistory.pet.account.firstName}]]
                                                 <img th:if="${bill.treatmentHistory.pet.account.getLineId() != null}" th:src="@{/images/line.png}" width="15" class="align-top"/>
                                             </p>
                                         </a>
@@ -337,7 +337,7 @@
                                 <td>
                                     <a th:href="@{'/account/getInfo/'+${bill.getTreatmentHistory().getPet().getAccount().getAccId()}}" id="owner">
                                         <p th:class="${bill.queueStatus ? 'opacitySoft' : ''}" style="text-align: left">
-                                            [[${bill.getTreatmentHistory().getPet().getAccount().getFullName()}]]
+                                            [[${bill.getTreatmentHistory().getPet().getAccount().firstName}]]
                                             <img th:if="${bill.getTreatmentHistory().getPet().getAccount().lineId != null}" th:src="@{/images/line.png}" width="15" class="align-top"/>
                                         </p>
                                     </a>
@@ -350,7 +350,7 @@
                                 </td>
                                 <td>
                                     <div class="col-md-12 text-center">
-                                        <a class="btn btn-outline-primary ms-3 me-3" role="button" data-bs-toggle="modal"
+                                        <a class="btn btn-sm btn-outline-primary ms-3 me-3" role="button" data-bs-toggle="modal"
                                            th:attr="data-bs-target='#queueInPopUp'+*{bill.billID}">
                                             Get In
                                         </a>

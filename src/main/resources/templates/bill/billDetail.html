@@ -531,11 +531,13 @@
         <p style="font-size: 1.2em;">
             <b>Pet's name : </b>
             <span>
-                <a th:href="@{'/treatmentHistory/pet'+${pet.petID}}" id="owner">
+                <a th:href="@{'/treatmentHistory/pet'+${pet.petID}}" id="owner" target="_blank">
                     [[*{pet.name}]]
                 </a>
             </span>
-            <span th:if="${!#strings.isEmpty(pet.getRemark())}" class="material-symbols-rounded align-middle pb-1" style="color:#FFA600;">warning</span> [[*{pet.remark}]]</p>
+        </p>
+        <p th:if="${pet.getRemark() ne '-'}" style="font-size: 1.2em;">
+            <span class="material-symbols-rounded align-middle pb-1" style="color:#FFA600;">warning</span> [[*{pet.remark}]]</p>
         </p>
         <p style="font-size: 1.1em;">
             <b>Temp : </b><span>[[*{bill.treatmentHistory.temperature}]] °C |</span>

@@ -247,8 +247,14 @@
         console.log(fieldId + fromId);
             const editOrderForm = document.getElementById("editOrderForm"+fromId)
             const validatedList = serviceValidEditWarehouseOrder(editOrderForm, fieldId);
+            console.log("valid list")
+            console.log(validatedList)
             if (validatedList.length === 1){
                 addClassValidAndInValid(editOrderForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+            }
+            else if(validatedList.length === 2){
+                addClassValidAndInValid(editOrderForm.elements[validatedList[0].fieldId], validatedList[0].errorMessage);
+                addClassValidAndInValid(editOrderForm.elements[validatedList[1].fieldId], validatedList[1].errorMessage);
             }
         }
     }

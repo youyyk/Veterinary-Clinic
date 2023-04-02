@@ -85,7 +85,11 @@ public class Pet {
         this.sterilization = sterilization;
         this.petType = petType;
         this.breed = breed;
-        this.remark = remark;
+        if (remark.isEmpty() || remark.equals("")){
+            this.remark = "-";
+        }else {
+            this.remark = remark;
+        }
         this.softDeleted = false;
         this.softDeletedDate = null;
     }

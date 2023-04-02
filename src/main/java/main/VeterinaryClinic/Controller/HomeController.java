@@ -46,6 +46,13 @@ public class HomeController {
 
     @RequestMapping("/dashboard")
     public String getDashboard(Model model, @AuthenticationPrincipal AccountUserDetail accountUserDetail) {
+        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
+            if (!accountService.getById(accountUserDetail.getAccount().getAccId()).isRegisAccount()) {
+                return "redirect:/account/register";
+            }
+            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
+        }
+
         List<WareHouse> wareHouses = wareHouseService.getAllBySoftDeletedIsFalseOrderByExpiredDateAsc();
         List<WareHouse> needWareHouse = new ArrayList<>();
         for (WareHouse wh : wareHouses) {
@@ -57,14 +64,6 @@ public class HomeController {
             }
         }
         List<Appointment> todayAppointment = appointmentService.findByTodayDateOrderByPeriodDesc();
-
-        if (accountUserDetail != null && accountUserDetail.getAccount() != null) {
-            model.addAttribute("nowAccount", accountService.getById(accountUserDetail.getAccount().getAccId()));
-        }
-
-        if (accountUserDetail == null){
-            return "redirect:/landing";
-        }
 
         List<Bill> billsUnpaid = mainBillService.getAllFilterQueuePaidStatus(true, false);
         List<Bill> billQueueToShow = new ArrayList<>();

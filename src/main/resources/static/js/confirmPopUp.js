@@ -275,6 +275,19 @@ function clickCreateItem(wareType){
     let createConfirm = document.getElementById("create"+wareType+"Confirm");
     let createName = document.getElementById("create"+wareType+"Name");
     let chooseDropdown = document.getElementById("chooseDropdown");
+    if (wareType === "MedicineOrder"){
+        let dropdown = document.getElementById("create"+wareType+"Form").elements['medicine'];
+        console.log(dropdown)
+        createName.innerHTML = dropdown[dropdown.selectedIndex].text.split("(")[0].trim();
+    }
+    else if (wareType === "ToolOrder"){
+        let dropdown = document.getElementById("create"+wareType+"Form").elements['tool'];
+        console.log(dropdown)
+        createName.innerHTML = dropdown[dropdown.selectedIndex].text.split("(")[0].trim();
+    }
+    else{
+        createName.innerHTML = document.getElementById("create"+wareType+"Form").name.value;
+    }
 
     if (wareType.includes("Medicine")){
         header.innerHTML = "Add Medicine (Confirmation)";
@@ -282,7 +295,6 @@ function clickCreateItem(wareType){
     else if(wareType.includes("Tool")){
         header.innerHTML = "Add Tool (Confirmation)";
     }
-    createName.innerHTML = document.getElementById("create"+wareType+"Form").name.value;
     createConfirm.style.display = show;
     createPane.style.display = hide;
     chooseDropdown.style.display = hide;
@@ -482,14 +494,19 @@ function clickEditBillNo(item,id,name) {
 }
 // ------------- Edit Treat Bill --------------
 function clickEditTreatBill(detail){
-    if (!validSubmitReceiveTreatmentForm(document.getElementById('editWeightForm'),'all')){
+    if (!validSubmitReceiveTreatmentForm(document.getElementById('editWeightForm'),'all') && detail == "Weight"){
         return false;
     }
     let header = document.getElementById("edit"+detail+"Header");
     let addItemPane = document.getElementById("edit"+detail+"Pane");
     let addItemConfirm = document.getElementById("edit"+detail+"Confirm");
 
-    header.innerHTML = "Edit Temperature & Weight" + " (Confirmation)";
+    if (detail == "Weight"){
+        header.innerHTML = "Edit Temperature & Weight" + " (Confirmation)";
+    }
+    else{
+        header.innerHTML = "Edit " +detail+ " (Confirmation)";
+    }
 
     addItemConfirm.style.display = show;
     addItemPane.style.display = hide;
@@ -501,7 +518,13 @@ function clickEditTreatBillNo(detail) {
         let addItemPane = document.getElementById("edit"+detail+"Pane");
         let addItemConfirm = document.getElementById("edit"+detail+"Confirm");
 
-        header.innerHTML = "Edit Temperature & Weight";
+        if (detail == "Weight"){
+            header.innerHTML = "Edit Temperature & Weight";
+        }
+        else{
+            header.innerHTML = "Edit " +detail;
+        }
+
 
         addItemConfirm.style.display = hide;
         addItemPane.style.display = show;

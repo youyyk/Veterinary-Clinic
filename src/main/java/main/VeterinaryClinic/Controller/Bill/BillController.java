@@ -210,6 +210,8 @@ public class BillController {
         Bill bill = mainBillService.findByBillID(billID);
         if (action.toLowerCase().equals("in")){
             bill.setQueueStatus(true);
+            mainBillService.save(bill);
+            return "redirect:/bill/getDetail/"+billID;
         } else if (action.toLowerCase().equals("out")) {
             bill.setQueueStatus(false);
         }

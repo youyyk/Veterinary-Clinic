@@ -104,7 +104,11 @@ function serviceValidNewWarehouseMedicine(formNewWarehouseMedicine, option){
             validNumberInt(formNewWarehouseMedicine.elements[fields[2]].value, payload, fields[2], "Input quantityIn");
         }
         if (option === fields[3] || option === "all") { // expiredDate
-            validRegexFormat(formNewWarehouseMedicine.elements[fields[3]].value, regexDate, payload, fields[3], "Choose Date");
+            let todayOrFuture = false;
+            if (regexDate.test(formNewWarehouseMedicine.elements[fields[3]].value) && new Date(formNewWarehouseMedicine.elements[fields[3]].value).setHours(0,0,0,0) >= new Date($.now()).setHours(0,0,0,0)){
+                todayOrFuture = true;
+            }
+            validRegexFormat(formNewWarehouseMedicine.elements[fields[3]].value, todayOrFuture ? regexDate : regexPhoneNumber, payload, fields[3], errMessageCharacter);
         }
     }
     return payload;
@@ -160,7 +164,12 @@ function serviceValidNewWarehouseTool(formNewWarehouseTool, option){
             validNumberInt(formNewWarehouseTool.elements[fields[2]].value, payload, fields[2], "Input quantityIn");
         }
         if (option === fields[3] || option === "all") { // expiredDate
-            validRegexFormat(formNewWarehouseTool.elements[fields[3]].value, regexDate, payload, fields[3], "Choose Date");
+            let todayOrFuture = false;
+            if (regexDate.test(formNewWarehouseTool.elements[fields[3]].value) && new Date(formNewWarehouseTool.elements[fields[3]].value).setHours(0,0,0,0) >= new Date($.now()).setHours(0,0,0,0)){
+                todayOrFuture = true;
+            }
+            validRegexFormat(formNewWarehouseTool.elements[fields[3]].value, todayOrFuture ? regexDate : regexPhoneNumber, payload, fields[3], errMessageCharacter);
+
         }
     }
     return payload;
@@ -197,9 +206,15 @@ function serviceValidEditWarehouseOrder(formEditWarehouseOrder, option){
         if (option === fields[5] || option === "all") { // stockInDate
             validRegexFormat(formEditWarehouseOrder.elements[fields[5]].value, regexDate, payload, fields[5], "Choose Date");
         }
-        if (option === fields[6] || option === "all") { // expiredDate
-            validRegexFormat(formEditWarehouseOrder.elements[fields[6]].value, regexDate, payload, fields[6], "Choose Date");
+        if (option === fields[6] || option === "all" || option === fields[5]) { // expiredDate
+            let todayOrFuture = false;
+            if (regexDate.test(formEditWarehouseOrder.elements[fields[6]].value) && new Date(formEditWarehouseOrder.elements[fields[6]].value).setHours(0,0,0,0) >= new Date(formEditWarehouseOrder.elements[fields[5]].value).setHours(0,0,0,0)){
+                todayOrFuture = true;
+            }
+            validRegexFormat(formEditWarehouseOrder.elements[fields[6]].value, todayOrFuture ? regexDate : regexPhoneNumber, payload, fields[6], errMessageCharacter);
+
         }
+
     }
     return payload;
 }
