@@ -109,6 +109,8 @@
 
 <div th:insert="fragments/header :: header" class="sticky-top"></div>
 
+<input type="hidden" th:value="${accounts.size()}">
+
 <section class="separateContent">
     <div class="container">
 
@@ -189,7 +191,7 @@
                                         <i class="material-symbols-rounded align-middle">more_vert</i>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="triggerId1">
-                                        <a th:id="'profile-button'" class="dropdown-item" th:href="@{'account/getInfo/'+${account.accId}}">
+                                        <a th:id="'profile-button'" class="dropdown-item" th:href="'http://127.0.0.1:8090/account/getInfo/'+${account.accId}">
                                             <i class="material-symbols-rounded align-middle">account_circle</i> Profile
                                         </a>
                                         <a th:if="${nowAccount.isAdmin()}" th:id="'edit-role-button'" class="dropdown-item" href="#" th:attr="onclick='Edit_Btn_Click(\'' + ${account.accId}+  '\');'">

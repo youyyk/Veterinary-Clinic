@@ -248,7 +248,9 @@
     <div id="tablePane" class="card mb-3">
         <div class="row g-0">
             <div class="col-md-3 mb-3 mt-3 ms-5">
-                <img class="img-fluid rounded-circle w-75 shadow rounded" alt="" th:src="*{'data:image;base64,'+{pet.image}}">
+<!--                <img class="img-fluid rounded-circle w-75 shadow rounded" alt="" th:src="*{'data:image;base64,'+{pet.image}}">-->
+                <img th:if="${pet.image != null && pet.image ne ''}" th:src="*{'data:image;base64,'+{pet.image}}" class="img-fluid rounded-circle w-75 shadow rounded"/>
+                <img th:if="${pet.image == null || pet.image eq ''}" th:src="@{/images/no-image.jpg}" class="img-fluid rounded-circle w-75 shadow rounded"/>
             </div>
             <div class="col-md-8 ms-auto">
                 <div class="card-body">

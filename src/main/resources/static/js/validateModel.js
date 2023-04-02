@@ -332,7 +332,8 @@ function serviceValidAddMedToBill(formMedToBill, option){
             validRegexFormat(formMedToBill.elements[fields[0]].value, regexOnlyCharacterWithNumber, payload, fields[0], errMessageCharacter)
         }
         if (option === fields[1] || option === "all") { // Description
-            validRegexFormat(formMedToBill.elements[fields[1]].value, regexOnlyCharacterWithNumber, payload, fields[1], errMessageCharacter);
+            // validRegexFormat(formMedToBill.elements[fields[1]].value, regexOnlyCharacterWithNumber, payload, fields[1], errMessageCharacter);
+            payload.push(new payloadValid(fields[1],"valid"))
         }
         if (option === fields[2] || option === "all") { // cureAmount
             validNumberInt(formMedToBill.elements[fields[2]].value, payload, fields[2], "Input quantityIn");

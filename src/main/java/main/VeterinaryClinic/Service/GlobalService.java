@@ -106,37 +106,36 @@ public class GlobalService {
     }
 
     public void mockData() {
-        // You
-        Account account = new Account("youyyk", "Ua740d4c84ff34de6a233ae21b0db03ab", "");
+        // You for merge
+        Account account = new Account("Mr.","Yutithorn","Kiengkailoet",
+                "502 No 70 Sukhumvit 24, Khlong Tan, Khlong Toey, Bangkok,Thailand","0852221718");
+//        Account account = new Account("youyyk", "Ua740d4c84ff34de6a233ae21b0db03ab", "");
         accountService.save(account);
-        accountService.addRoleAdmin(account);
-        // Peang
-        account = new Account("Miss","Nichanan","Chatuparsutisin",
-                "112 No 70 Sukhumvit 24, Khlong Tan, Khlong Toey, Bangkok,Thailand","0853697548");
-        accountService.save(account);
-        accountService.addRoleAdmin(account);
-        Pet pet = new Pet(account,"Jummeng","male", GlobalService.convertStringToDate("2021-10-05"),
+        accountService.addRoleOfficer(account);
+        //------------- Pet --------------
+        Pet pet = new Pet(account,"Jummeng","female", GlobalService.convertStringToDate("2021-05-27"),
                 true,"Dog","Golden","");
         petService.save(pet);
 
-        account = new Account("peang", "Udfc07b467d731d48428a2bcb0167abc6", "");
+        pet = new Pet(account,"Lupin","male", GlobalService.convertStringToDate("2022-03-12"),
+                true,"Cat","Persia","Bean Allergic");
+        petService.save(pet);
+
+        // Peang
+        account = new Account("Miss","Nichanan","Chatuparsutisin",
+                "112 No 70 Sukhumvit 24, Khlong Tan, Khlong Toey, Bangkok,Thailand","0853697548");
+        account.setLineId("Udfc07b467d731d48428a2bcb0167abc6");
         accountService.save(account);
         accountService.addRoleAdmin(account);
 
-        for (int i=1; i<=10; i++){
-            accountService.create("Test"+i, "user"+i,null);
-        }
-        //------------- Pet --------------
-        pet = new Pet(accountService.getByLineId("Ua740d4c84ff34de6a233ae21b0db03ab"),"Mini","female", GlobalService.convertStringToDate("2022-05-27"),
-                true,"Dog","Pom","");
-        petService.save(pet);
 
-        pet = new Pet(accountService.getByLineId("Ua740d4c84ff34de6a233ae21b0db03ab"),"Lupin","male", GlobalService.convertStringToDate("2022-03-12"),
-                true,"Cat","Persia","");
-        petService.save(pet);
+//        for (int i=1; i<=10; i++){
+//            accountService.create("Test"+i, "user"+i,null);
+//        }
 
 
-        //        ------------- Medicine ------------
+
+        // ------------- Medicine ------------
 
         Medicine medicine = new Medicine("Previcox","tablet",75,"ครั้งละ 1 เม็ด หลังอาหารเย็น","57 mg");
         medicineService.save(medicine);
@@ -152,20 +151,17 @@ public class GlobalService {
 
         medicine = new Medicine("Toflex/Cephalexin","capsule",20,"ครั้งละ 1 เม็ด หลังอาหารเช้า เย็น","250mg");
         medicineService.save(medicine);
-        wareHouseService.save(new WareHouse(medicine, 50,500,GlobalService.convertStringToDate("2022-02-12")));
         wareHouseService.save(new WareHouse(medicine, 50,500,GlobalService.convertStringToDate("2023-04-17")));
         wareHouseService.save(new WareHouse(medicine, 100,1000,GlobalService.convertStringToDate("2023-06-11")));
         wareHouseService.save(new WareHouse(medicine, 200,2000,GlobalService.convertStringToDate("2023-09-02")));
 
         medicine = new Medicine("Defensor","dose",85,"vaccine");
         medicineService.save(medicine);
-        wareHouseService.save(new WareHouse(medicine, 100,8000,GlobalService.convertStringToDate("2022-01-22")));
         wareHouseService.save(new WareHouse(medicine, 100,8000,GlobalService.convertStringToDate("2023-05-27")));
         wareHouseService.save(new WareHouse(medicine, 100,8000,GlobalService.convertStringToDate("2023-11-07")));
 
         medicine = new Medicine("Hepato support","capsule",35,"ครั้งละ 1 เม็ด หลังอาหารเย็น");
         medicineService.save(medicine);
-        wareHouseService.save(new WareHouse(medicine, 100,8000,GlobalService.convertStringToDate("2022-01-22")));
         wareHouseService.save(new WareHouse(medicine, 100,8000,GlobalService.convertStringToDate("2023-05-27")));
 
         //        //------------- Tool ------------
@@ -187,7 +183,7 @@ public class GlobalService {
         toolData = new Tool("Glove",50,"7.5");
         toolService.save(toolData);
         wareHouseService.save(new WareHouse(toolData, 500,24000,GlobalService.convertStringToDate("2024-02-26")));
-        toolData = new Tool("ชุดผ่าตัด",300,"7.5");
+        toolData = new Tool("ชุดผ่าตัด",300,"");
         toolService.save(toolData);
         wareHouseService.save(new WareHouse(toolData, 250,6250,GlobalService.convertStringToDate("2024-12-06")));
 
@@ -201,10 +197,14 @@ public class GlobalService {
 
         //        ------------- Bill And Treatment History--------------
         TreatmentHistory treatmentHistory = new TreatmentHistory(petService.findByPetID(1), GlobalService.convertStringToDate("2023-03-03"),
-                                                        "ฉีดยาพิษสุนัขบ้า",20);
+                                                        "healthy",20);
+        treatmentHistory.setTemperature(36);
         Bill bill = new Bill();
-        bill.setStartDate(GlobalService.getCurrentTime());
+        bill.setStartDate(GlobalService.convertStringToDate("2023-03-03"));
         treatmentHistory.setBill(bill);
+        treatmentHistory.setCc("vaccine");
+        treatmentHistory.setHt("no vomit");
+
         bill.setTreatmentHistory(treatmentHistory);
         treatmentHistoryService.save(treatmentHistory);
         bill = mainBillService.findByBillID(1);
@@ -221,14 +221,17 @@ public class GlobalService {
         BillServing billServing = new BillServing(bill,serving,1);
         billServiceService.save(billServing);
         bill.setTotal(bill.getTotal()+(serving.getPrice()*1));
+        bill.setPaidStatus(true);
+        bill.setQueueStatus(true);
+        bill.setPayType("PromptPay");
         mainBillService.save(bill);
 
 //        - - - - - - - - - - - - - - - - - - - - -
 
-        treatmentHistory = new TreatmentHistory(petService.findByPetID(1), GlobalService.convertStringToDate("2023-03-14"),
-                                        "ถ่ายพยาธิ",21.7);
+        treatmentHistory = new TreatmentHistory(petService.findByPetID(1), GlobalService.convertStringToDate("2023-04-03"),21.7);
+        treatmentHistory.setTemperature(37.2);
         bill = new Bill();
-        bill.setQueueStatus(true);
+//        bill.setQueueStatus(true);
         bill.setStartDate(GlobalService.getCurrentTime());
         treatmentHistory.setBill(bill);
         bill.setTreatmentHistory(treatmentHistory);
@@ -251,18 +254,11 @@ public class GlobalService {
         mainBillService.save(bill);
 
     //        ------------- Appointment --------------
-
         pet = petService.findByPetID(1);
-        Appointment appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-04-01"),"morning","ดูแผล");
+        Appointment appointment = new Appointment(pet,GlobalService.getDefaultTodayDateZeroTime(0),"afternoon","vaccine");
         appointmentService.save(appointment);
         pet = petService.findByPetID(1);
-        appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-03-31"),"afternoon","vaccine");
-        appointmentService.save(appointment);
-        pet = petService.findByPetID(3);
-        appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-04-13"),"morning","ดูแผล");
-        appointmentService.save(appointment);
-        pet = petService.findByPetID(2);
-        appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-04-13"),"afternoon","ถ่ายพยาธิ");
+        appointment = new Appointment(pet,GlobalService.convertStringToDate("2023-04-04"),"morning","ดูแผล");
         appointmentService.save(appointment);
 
 

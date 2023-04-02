@@ -60,7 +60,7 @@ public class BillController {
 
         // step 1. update model for template
         model.addAttribute("bills", mainBillService.findByQueueStatusIsTrueOrderByBillIDDesc()); // Mean bill queued
-        model.addAttribute("unpaidSize",mainBillService.findByPaidStatusIsFalseOrderByStartDateAsc().size());
+        model.addAttribute("unpaidSize",mainBillService.getAllFilterQueuePaidStatus(true, false).size());
 
 
         // step 2. choose HTML template
@@ -77,7 +77,8 @@ public class BillController {
         }
         System.out.println("-- Unpaid Bills Page ---");
 
-        List<Bill> bills = mainBillService.findByPaidStatusIsFalseOrderByStartDateAsc();
+//        List<Bill> bills = mainBillService.findByPaidStatusIsFalseOrderByStartDateAsc();
+        List<Bill> bills = mainBillService.getAllFilterQueuePaidStatus(true, false);
 
         // step 1. update model for template
         model.addAttribute("bills", bills);
@@ -178,7 +179,7 @@ public class BillController {
         bill.setDiscount(discount);
         bill.setPaidStatus(true);
         bill.setEndDate(GlobalService.getCurrentTime());
-        bill.setCashier(accountUserDetail.getAccount().getFullName());
+        bill.setCashier(accountService.getById(accountUserDetail.getAccount().getAccId()).getFullName());
 
         mainBillService.save(bill);
 

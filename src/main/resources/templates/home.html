@@ -222,9 +222,9 @@
                                                        th:attr="data-bs-target='#editAppointment'+${app.appointmentID}">
                                                         <span class="material-symbols-rounded align-middle pb-1">edit</span> Edit
                                                     </a>
-                                                    <a th:if="${app.status}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#restorePopUp'+*{app.getAppointmentID()}">
-                                                        <i class="material-symbols-rounded align-middle">settings_backup_restore</i> Restore
-                                                    </a>
+<!--                                                    <a th:if="${app.status}" class="dropdown-item text-danger" data-bs-toggle="modal" th:attr="data-bs-target='#restorePopUp'+*{app.getAppointmentID()}">-->
+<!--                                                        <i class="material-symbols-rounded align-middle">settings_backup_restore</i> Restore-->
+<!--                                                    </a>-->
                                                     <a th:if="${!app.status && nowAccount.isAdmin()}" class="dropdown-item text-danger btn" data-bs-toggle="modal"
                                                        th:attr="data-bs-target='#deletePopUpA'+${app.appointmentID}">
                                                         <span class="material-symbols-rounded align-middle pb-1">delete</span> Delete
@@ -318,6 +318,7 @@
                     <div id="tablePane" class="col-12 rounded-2 pt-3" style="background-color: white;">
                         <h3 class="mb-0 float-start pt-2">
                             <span class="material-symbols-rounded align-middle pb-1">hourglass_top</span>Queue Now
+                            <span style="font-weight: 300;font-size: 0.75em">([[${billsQueue.size()}]] queue<span th:if="${billsQueue.size() >1}">s</span>)</span>
                         </h3>
                         <table id="queueTable" class="table">
                             <thead>
@@ -325,7 +326,6 @@
                                 <th>Bill ID</th>
                                 <th>Owner</th>
                                 <th>Pet's Name</th>
-                                <th>CC</th>
                                 <th>Status</th>
                                 <th>Actions</th>
                             </tr>
@@ -343,9 +343,8 @@
                                     </a>
                                 </td>
                                 <td th:class="${bill.queueStatus ? 'opacitySoft' : ''}" th:text="${ bill.getTreatmentHistory().getPet().getName()}"></td>
-                                <td th:class="${bill.queueStatus ? 'opacitySoft' : ''}" th:text="${ bill.getTreatmentHistory().getCc()}"></td>
                                 <td th:class="${bill.queueStatus ? 'opacitySoft' : ''}" th:switch="${bill.appointmentStatus}">
-                                    <span th:case='true' th:text="Reserve" class="badge rounded-pill bg-success" style="text-align: center"/>
+                                    <span th:case='true' th:text="Reserved" class="badge rounded-pill bg-success" style="text-align: center"/>
                                     <span th:case='false' th:text="Walk-In" class="badge rounded-pill bg-secondary" style="text-align: center"/>
                                 </td>
                                 <td>

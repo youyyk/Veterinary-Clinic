@@ -72,7 +72,7 @@ public class Account {
     }
 
     public String getFullName(){
-        String title = this.title==null?"":this.title+" ";
+        String title = this.title==null?"":this.title.trim()+" ";
         String firstname = this.firstName==null?"":this.firstName+" ";
         String lastname = this.lastName==null?"":this.lastName;
         String fullName = title+firstname+lastname;

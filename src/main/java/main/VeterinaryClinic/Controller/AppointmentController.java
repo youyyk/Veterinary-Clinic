@@ -190,7 +190,7 @@ public class AppointmentController {
                 return  "redirect:/appointment";
             }
         }
-        return  "redirect:/appointment";
+        return  "redirect:/dashboard";
     }
 
 

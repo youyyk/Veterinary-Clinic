@@ -12,10 +12,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
-
+@Transactional
 @Service
 public class AccountService {
     @Autowired
@@ -129,6 +130,9 @@ public class AccountService {
             mainAccount.setImg_path(mergeAccount.getImg_path());
         }
         for (Pet pet : petService.findByAccount(mergeAccount)){
+            System.out.println("Loop :"+pet.getName());
+            System.out.println("Main : "+mainAccount.getFirstName());
+            System.out.println("Merge : "+mergeAccount.getFirstName());
             pet.setAccount(mainAccount);
             petService.save(pet);
         }

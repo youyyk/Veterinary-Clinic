@@ -436,8 +436,8 @@
                             <div>
                                 <td>
 <!--                                    <img alt="" th:src="*{'data:image;base64,'+{pet.image}}" class="rounded-circle" style="width:80px;height:80px">-->
-                                    <img th:if="${pet.image != null}" th:src="*{'data:image;base64,'+{pet.image}}" class="rounded-circle" style="width:80px;height:80px"/>
-                                    <img th:unless="${pet.image != null}" th:src="@{/images/no-image.jpg}" class="rounded-circle" style="width:80px;height:80px"/>
+                                    <img th:if="${pet.image != null && pet.image ne ''}" th:src="*{'data:image;base64,'+{pet.image}}" class="rounded-circle" style="width:80px;height:80px"/>
+                                    <img th:if="${pet.image == null || pet.image eq ''}" th:src="@{/images/no-image.jpg}" class="rounded-circle" style="width:80px;height:80px"/>
                                 </td>
 
                                 <td>[[*{pet.name}]]</td>

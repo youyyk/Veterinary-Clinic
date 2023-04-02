@@ -32,7 +32,7 @@ public interface PetRepository extends JpaRepository<Pet, Long> {
 //    @Query("SELECT e FROM Pet e WHERE e.account='%account%' AND e.name LIKE '%search%' OR e.breed  LIKE '%search%' OR e.petType LIKE '%search%' ORDER BY e.petID")
 //    Page<Pet> findByAccountBySearching(@Param("search") String search,@Param("account") Account account,Pageable pageable);
 ////    @Query("SELECT e FROM Pet e WHERE e.account='%account%' AND e.name LIKE '%search%' OR e.breed  LIKE '%search%' OR e.petType LIKE '%search%' ORDER BY e.petID")
-    @Query("SELECT e FROM Pet as e WHERE (e.account.accId = :accId ) and lower(e.name) LIKE %:search% OR lower(e.breed)  LIKE %:search% OR lower(e.petType) LIKE %:search% ORDER BY e.petID ASC")
+    @Query("SELECT e FROM Pet as e WHERE (e.account.accId = :accId ) and (lower(e.name) LIKE %:search% OR lower(e.breed)  LIKE %:search% OR lower(e.petType) LIKE %:search%) ORDER BY e.petID ASC")
     Page<Pet> findByAccountBySearching(@Param("search") String search,@Param("accId") UUID accId, Pageable pageable);
 
 
