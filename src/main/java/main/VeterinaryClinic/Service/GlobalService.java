@@ -114,7 +114,7 @@ public class GlobalService {
         accountService.addRoleOfficer(account);
         //------------- Pet --------------
         Pet pet = new Pet(account,"Jummeng","female", GlobalService.convertStringToDate("2021-05-27"),
-                true,"Dog","Golden","");
+                true,"Dog","Golden","bean");
         petService.save(pet);
 
         pet = new Pet(account,"Lupin","male", GlobalService.convertStringToDate("2022-03-12"),

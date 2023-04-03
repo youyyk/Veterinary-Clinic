@@ -66,10 +66,10 @@ public class GenerateFileService {
             parameters.put("RECEIPT_CUSTOMER_NAME", bill.getTreatmentHistory().getPet().getAccount().getFullName());
             parameters.put("RECEIPT_CUSTOMER_ADDRESS", bill.getTreatmentHistory().getPet().getAccount().getAddress());
             parameters.put("RECEIPT_EXTRA_DISCOUNT", bill.getDiscount());
-            parameters.put("RECEIPT_NET_TOTAL", bill.getTotal());
+            parameters.put("RECEIPT_NET_TOTAL", bill.getTotal()-bill.getDiscount());
             parameters.put("RECEIPT_PAY_TYPE", bill.getPayType());
             parameters.put("RECEIPT_PAY_RECEIVE", bill.getReceive());
-            double returnValue = bill.getReceive()-bill.getTotal();
+            double returnValue = bill.getReceive()-(bill.getTotal()-bill.getDiscount());
             parameters.put("RECEIPT_PAY_RETURN", returnValue >= 0 ? returnValue : 0 );
             parameters.put("RECEIPT_WHO_RECEIVE",  bill.getCashier());
 //            parameters.put("RECEIPT_NEXT_APPOINTMENT",  "2019/12/5");
