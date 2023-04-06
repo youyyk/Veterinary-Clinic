@@ -250,14 +250,14 @@
                         <h3 class="mb-0 float-start pt-2">
                             <a th:href="@{'/bill/unpaid'}" id="owner">
                                 <span class="material-symbols-rounded align-middle pb-1">receipt_long</span>
-                                <span class="pt-3">Unpaid Bills</span>
+                                <span class="pt-3">Unpaid Billings</span>
                             </a>
                             <span style="font-weight: 300;font-size: 0.75em">([[${billsUnpaid.size()}]] bill<span th:if="${billsUnpaid.size() >1}">s</span>)</span>
                         </h3>
                         <table id="billTable" class="table">
                             <thead>
                             <tr>
-                                <th>Bill ID</th>
+                                <th>Billing ID</th>
                                 <th>Owner</th>
                                 <th>Pet's Name</th>
                                 <th>Phone no.</th>
@@ -323,7 +323,7 @@
                         <table id="queueTable" class="table">
                             <thead>
                             <tr>
-                                <th>Bill ID</th>
+                                <th>Billing ID</th>
                                 <th>Owner</th>
                                 <th>Pet's Name</th>
                                 <th>Status</th>

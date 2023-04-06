@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Bill's Detail</title>
+    <title>Billing's Detail</title>
     <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <script th:src="@{/js/bootstrap.min.js}"></script>
     <link th:rel="stylesheet" th:href="@{/css/table-warehouse.css}">
@@ -472,7 +472,7 @@
 <div th:insert="fragments/header :: header"></div>
 
 <div class="container">
-    <h1 style="display:inline-block" class="mt-2">Bill's Details <span style="font-size: 0.75em;">( [[${#dates.format(bill.startDate, 'dd/MM/yyyy')}]] )</span></h1>
+    <h1 style="display:inline-block" class="mt-2">Billing's Details <span style="font-size: 0.75em;">( [[${#dates.format(bill.startDate, 'dd/MM/yyyy')}]] )</span></h1>
     <!-- Download For Customer-->
     <a th:if="${!nowAccount.isOfficer()}" class="btn btn-primary mb-2" role="button" target="_blank" style="display:inline-block" th:href="@{/download/export/receipt/detail/{billId}(billId=${bill.getBillID()})}">
         <i class="material-symbols-rounded align-middle me-1">download</i> PDF
